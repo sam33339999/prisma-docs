@@ -1,21 +1,21 @@
 ---
-title: 'Use Prisma Postgres with Kysely'
+title: '搭配 Kysely 使用 Prisma Postgres'
 sidebar_label: 'Kysely'
-metaTitle: 'Quickstart: Kysely with Prisma Postgres (10 min)'
-metaDescription: 'Get started with Kysely and Prisma Postgres by creating a type-safe SQL query builder for your database.'
+metaTitle: '快速入門:使用 Prisma Postgres 的 Kysely(10 分鐘)'
+metaDescription: '開始使用 Kysely 和 Prisma Postgres,為您的資料庫建立型別安全的 SQL 查詢建構器。'
 ---
 
-[Kysely](https://kysely.dev) is a type-safe TypeScript SQL query builder that provides TypeScript support and a fluent API for building SQL queries. In this guide, you'll learn how to connect Kysely to [Prisma Postgres](/postgres) and start querying your database with full type safety.
+[Kysely](https://kysely.dev) 是一個型別安全的 TypeScript SQL 查詢建構器,提供 TypeScript 支援和用於建構 SQL 查詢的流暢 API。在本指南中,您將學習如何將 Kysely 連接到 [Prisma Postgres](/postgres) 並開始使用完整的型別安全查詢資料庫。
 
-## Prerequisites
+## 先決條件
 
-- Node.js version 14 or higher
-- TypeScript version 4.6 or higher (5.4+ recommended for improved type inference, 5.9+ for better compilation performance)
-- Strict mode enabled in your `tsconfig.json` for Kysely's type safety
+- Node.js 版本 14 或更高
+- TypeScript 版本 4.6 或更高(建議使用 5.4+ 以改進型別推斷,使用 5.9+ 以獲得更好的編譯效能)
+- 在 `tsconfig.json` 中啟用嚴格模式以實現 Kysely 的型別安全
 
-## 1. Create a new project
+## 1. 建立新專案
 
-Create a new directory for your project and initialize it with npm:
+為您的專案建立一個新目錄並使用 npm 初始化:
 
 ```terminal
 mkdir kysely-quickstart
@@ -23,16 +23,16 @@ cd kysely-quickstart
 npm init -y
 ```
 
-Install TypeScript and initialize it:
+安裝 TypeScript 並初始化它:
 
 ```terminal
 npm install --save-dev typescript
 npx tsc --init
 ```
 
-## 2. Configure TypeScript
+## 2. 配置 TypeScript
 
-Kysely requires TypeScript's strict mode for proper type safety. Update your `tsconfig.json` file:
+Kysely 需要 TypeScript 的嚴格模式以實現適當的型別安全。更新您的 `tsconfig.json` 檔案:
 
 ```json file=tsconfig.json
 {
@@ -52,11 +52,11 @@ Kysely requires TypeScript's strict mode for proper type safety. Update your `ts
 
 :::note
 
-The `strict: true` setting is **required** for Kysely's type safety to work correctly.
+**必須**設定 `strict: true` 才能使 Kysely 的型別安全正常運作。
 
 :::
 
-In your `package.json`, set the `type` to `module`:
+在您的 `package.json` 中,將 `type` 設定為 `module`:
 
 ```json
 {
@@ -68,15 +68,15 @@ In your `package.json`, set the `type` to `module`:
 }
 ```
 
-## 3. Create a Prisma Postgres database
+## 3. 建立 Prisma Postgres 資料庫
 
-You can create a Prisma Postgres database using the `create-db` CLI tool. Follow these steps to create your Prisma Postgres database:
+您可以使用 `create-db` CLI 工具建立 Prisma Postgres 資料庫。按照以下步驟建立您的 Prisma Postgres 資料庫:
 
 ```terminal
 npx create-db
 ```
 
-Then the CLI tool should output:
+然後 CLI 工具應該會輸出:
 
 ```terminal
 ┌  🚀 Creating a Prisma Postgres database
@@ -104,10 +104,10 @@ Then the CLI tool should output:
 │
 │    Database will be deleted on 11/18/2025, 1:55:39 AM if not claimed.
 │
-└  
+└
 ```
 
-Create a `.env` file and add the connection string from the output:
+建立一個 `.env` 檔案並新增輸出中的連接字串:
 
 ```env file=.env
 DATABASE_URL="postgresql://hostname:password@db.prisma.io:5432/postgres?sslmode=require"
@@ -115,37 +115,37 @@ DATABASE_URL="postgresql://hostname:password@db.prisma.io:5432/postgres?sslmode=
 
 :::warning
 
-**Never commit `.env` files to version control.** Add `.env` to your `.gitignore` file to keep credentials secure.
+**永遠不要將 `.env` 檔案提交到版本控制。** 將 `.env` 新增到您的 `.gitignore` 檔案以保持憑證安全。
 
 :::
 
-The database created is temporary and will be deleted in 24 hours unless claimed. Claiming moves the database into your [Prisma Data Platform](https://console.prisma.io) account. Visit the claim URL from the output to keep your database.
+建立的資料庫是臨時的,除非被認領,否則將在 24 小時內刪除。認領會將資料庫移至您的 [Prisma Data Platform](https://console.prisma.io) 帳戶。訪問輸出中的認領 URL 以保留您的資料庫。
 
 :::note
 
-To learn more about the `create-db` CLI tool, see the [create-db documentation](/postgres/introduction/npx-create-db).
+要了解更多關於 `create-db` CLI 工具的資訊,請參閱 [create-db 文件](/postgres/introduction/npx-create-db)。
 
 :::
 
-## 4. Install dependencies
+## 4. 安裝依賴項
 
-Install Kysely and the PostgreSQL driver:
+安裝 Kysely 和 PostgreSQL 驅動程式:
 
 ```terminal
 npm install kysely pg dotenv
 npm install --save-dev @types/pg tsx
 ```
 
-**Package breakdown:**
-- `kysely`: The type-safe SQL query builder
-- `pg`: PostgreSQL driver for Node.js (required by Kysely's PostgresDialect)
-- `dotenv`: Loads environment variables from `.env` file
-- `@types/pg`: TypeScript type definitions for the pg driver
-- `tsx`: TypeScript execution engine for running `.ts` files directly
+**套件說明:**
+- `kysely`: 型別安全的 SQL 查詢建構器
+- `pg`: Node.js 的 PostgreSQL 驅動程式(Kysely 的 PostgresDialect 需要)
+- `dotenv`: 從 `.env` 檔案載入環境變數
+- `@types/pg`: pg 驅動程式的 TypeScript 型別定義
+- `tsx`: 用於直接執行 `.ts` 檔案的 TypeScript 執行引擎
 
-## 5. Define database types
+## 5. 定義資料庫型別
 
-Create a `src/types.ts` file to define your database schema types:
+建立一個 `src/types.ts` 檔案來定義您的資料庫 schema 型別:
 
 ```typescript file=src/types.ts
 import type { Generated } from "kysely";
@@ -161,9 +161,9 @@ export interface UsersTable {
 }
 ```
 
-## 6. Configure database connection
+## 6. 配置資料庫連接
 
-Create a `src/database.ts` file to instantiate Kysely with your Prisma Postgres connection:
+建立一個 `src/database.ts` 檔案,使用您的 Prisma Postgres 連接實例化 Kysely:
 
 ```typescript file=src/database.ts
 import 'dotenv/config'
@@ -193,18 +193,18 @@ const dialect = new PostgresDialect({
   })
 })
 
-// Database interface is passed to Kysely's constructor, and from now on, Kysely 
+// Database interface is passed to Kysely's constructor, and from now on, Kysely
 // knows your database structure.
-// Dialect is passed to Kysely's constructor, and from now on, Kysely knows how 
+// Dialect is passed to Kysely's constructor, and from now on, Kysely knows how
 // to communicate with your database.
 export const db = new Kysely<Database>({
   dialect,
 })
 ```
 
-## 7. Run queries
+## 7. 執行查詢
 
-Create a `src/script.ts` file:
+建立一個 `src/script.ts` 檔案:
 
 ```typescript file=src/script.ts
 import { db } from './database.ts'
@@ -251,19 +251,19 @@ main()
   })
 ```
 
-Run the script:
+執行腳本:
 
 ```terminal
 npx tsx src/script.ts
 ```
 
-You should receive the following output:
+您應該會收到以下輸出:
 
 ```terminal
 Created user: { id: 1, email: 'alice@prisma.io', name: 'Alice' }
 All users: [ { id: 1, email: 'alice@prisma.io', name: 'Alice' } ]
 ```
 
-## Next steps
+## 後續步驟
 
-You've successfully connected Kysely to Prisma Postgres! For more advanced features like schemas, migrations, and complex queries, see the [Kysely documentation](https://kysely.dev/docs/intro).
+您已成功將 Kysely 連接到 Prisma Postgres!要了解更多進階功能,如 schemas、遷移和複雜查詢,請參閱 [Kysely 文件](https://kysely.dev/docs/intro)。

@@ -1,17 +1,17 @@
 ---
 title: 'MySQL/MariaDB'
-metaTitle: 'MySQL database connector'
-metaDescription: 'This page explains how Prisma can connect to a MySQL or MariaDB database using the MySQL database connector.'
+metaTitle: 'MySQL 資料庫連接器'
+metaDescription: '本頁面說明 Prisma 如何使用 MySQL 資料庫連接器連接到 MySQL 或 MariaDB 資料庫。'
 tocDepth: 3
 ---
 
-The MySQL data source connector connects Prisma ORM to a [MySQL](https://www.mysql.com/) or [MariaDB](https://mariadb.org/) database server.
+MySQL 資料來源連接器將 Prisma ORM 連接到 [MySQL](https://www.mysql.com/) 或 [MariaDB](https://mariadb.org/) 資料庫伺服器。
 
-By default, the MySQL connector contains a database driver responsible for connecting to your database. You can use a [driver adapter](/orm/overview/databases/database-drivers#driver-adapters) (Preview) to connect to your database using a JavaScript database driver from Prisma Client.
+預設情況下,MySQL 連接器包含負責連接到資料庫的資料庫驅動程式。你可以使用[驅動程式轉接器](/orm/overview/databases/database-drivers#driver-adapters)(預覽版)從 Prisma Client 使用 JavaScript 資料庫驅動程式連接到資料庫。
 
-## Example
+## 範例
 
-To connect to a MySQL database server, you need to configure a [`datasource`](/orm/prisma-schema/overview/data-sources) block in your [Prisma schema](/orm/prisma-schema):
+要連接到 MySQL 資料庫伺服器,你需要在 [Prisma schema](/orm/prisma-schema) 中設定一個 [`datasource`](/orm/prisma-schema/overview/data-sources) 區塊:
 
 ```prisma file=schema.prisma showLineNumbers
 datasource db {
@@ -19,9 +19,9 @@ datasource db {
 }
 ```
 
-The `datasource` block specifies the `mysql` data source connector, which is used for both MySQL and MariaDB.
+`datasource` 區塊指定 `mysql` 資料來源連接器,用於 MySQL 和 MariaDB。
 
-In Prisma ORM 7, the database connection URL is configured in [`prisma.config.ts`](/orm/reference/prisma-config-reference):
+在 Prisma ORM 7 中,資料庫連接 URL 在 [`prisma.config.ts`](/orm/reference/prisma-config-reference) 中設定:
 
 ```typescript file=prisma.config.ts
 import { defineConfig, env } from 'prisma/config'
@@ -35,27 +35,27 @@ export default defineConfig({
 })
 ```
 
-This configuration uses an [environment variable](/orm/prisma-schema/overview#accessing-environment-variables-from-the-schema) to provide the database connection URL.
+此設定使用[環境變數](/orm/prisma-schema/overview#accessing-environment-variables-from-the-schema)來提供資料庫連接 URL。
 
-## Using the `mariadb` driver
+## 使用 `mariadb` 驅動程式
 
-As of [`v5.4.0`](https://github.com/prisma/prisma/releases/tag/5.4.0), you can use Prisma ORM with database drivers from the JavaScript ecosystem (instead of using Prisma ORM's built-in drivers). You can do this by using a [driver adapter](/orm/overview/databases/database-drivers).
+從 [`v5.4.0`](https://github.com/prisma/prisma/releases/tag/5.4.0) 開始,你可以使用 Prisma ORM 配合 JavaScript 生態系統中的資料庫驅動程式(而不是使用 Prisma ORM 的內建驅動程式)。你可以透過使用[驅動程式轉接器](/orm/overview/databases/database-drivers)來實現這一點。
 
-For MySQL and MariaDB, [`mariadb`](https://github.com/mariadb-corporation/mariadb-connector-nodejs) is one of the most popular drivers in the JavaScript ecosystem. 
+對於 MySQL 和 MariaDB,[`mariadb`](https://github.com/mariadb-corporation/mariadb-connector-nodejs) 是 JavaScript 生態系統中最受歡迎的驅動程式之一。
 
-This section explains how you can use it with Prisma ORM and the `@prisma/adapter-mariadb` driver adapter.
+本節說明如何與 Prisma ORM 和 `@prisma/adapter-mariadb` 驅動程式轉接器一起使用。
 
-### 1. Install the dependencies
+### 1. 安裝相依性
 
-First, install Prisma ORM's driver adapter for `mariadb`:
+首先,安裝 Prisma ORM 的 `mariadb` 驅動程式轉接器:
 
 ```terminal
 npm install @prisma/adapter-mariadb
 ```
 
-### 2. Instantiate Prisma Client using the driver adapter
+### 2. 使用驅動程式轉接器實例化 Prisma Client
 
-Now, when you instantiate Prisma Client, you need to pass an instance of Prisma ORM's driver adapter to the `PrismaClient` constructor:
+現在,當你實例化 Prisma Client 時,需要將 Prisma ORM 的驅動程式轉接器實例傳遞給 `PrismaClient` 建構函式:
 
 ```ts
 import 'dotenv/config'
@@ -70,107 +70,107 @@ const adapter = new PrismaMariaDb({
 const prisma = new PrismaClient({ adapter })
 ```
 
-## Connection details
+## 連接詳情
 
-### Connection URL
+### 連接 URL
 
-Here's an overview of the components needed for a MySQL connection URL:
+以下是 MySQL 連接 URL 所需元件的概述:
 
-![Structure of the MySQL connection URL](./mysql-connection-string.png)
+![MySQL 連接 URL 的結構](./mysql-connection-string.png)
 
-#### Base URL and path
+#### 基礎 URL 和路徑
 
-Here is an example of the structure of the _base URL_ and the _path_ using placeholder values in uppercase letters:
+以下是使用大寫字母佔位符值的_基礎 URL_ 和_路徑_結構範例:
 
 ```
 mysql://USER:PASSWORD@HOST:PORT/DATABASE
 ```
 
-The following components make up the _base URL_ of your database, they are always required:
+以下元件組成了資料庫的_基礎 URL_,它們始終是必需的:
 
-| Name     | Placeholder | Description                                                                                                         |
-| :------- | :---------- | :------------------------------------------------------------------------------------------------------------------ |
-| Host     | `HOST`      | IP address/domain of your database server, e.g. `localhost`                                                         |
-| Port     | `PORT`      | Port on which your database server is running, e.g. `5432`  (default is `3306`, or no port when using Unix socket)  |
-| User     | `USER`      | Name of your database user, e.g. `janedoe`                                                                          |
-| Password | `PASSWORD`  | Password for your database user                                                                                     |
-| Database | `DATABASE`  | Name of the [database](https://dev.mysql.com/doc/refman/8.0/en/creating-database.html) you want to use, e.g. `mydb` |
+| 名稱     | 佔位符      | 描述                                                                                                                |
+| :------- | :---------- | :----------------------------------------------------------------------------------------------------------------- |
+| Host     | `HOST`      | 資料庫伺服器的 IP 位址/網域,例如 `localhost`                                                                          |
+| Port     | `PORT`      | 資料庫伺服器運行的埠號,例如 `5432` (預設為 `3306`,或使用 Unix socket 時無埠號)                                         |
+| User     | `USER`      | 資料庫使用者的名稱,例如 `janedoe`                                                                                     |
+| Password | `PASSWORD`  | 資料庫使用者的密碼                                                                                                    |
+| Database | `DATABASE`  | 你想使用的[資料庫](https://dev.mysql.com/doc/refman/8.0/en/creating-database.html)名稱,例如 `mydb`                   |
 
 :::info
 
-You must [percentage-encode special characters](/orm/reference/connection-urls#special-characters).
+你必須對[特殊字元進行百分比編碼](/orm/reference/connection-urls#special-characters)。
 
 :::
 
-#### Arguments
+#### 參數
 
-A connection URL can also take arguments. Here is the same example from above with placeholder values in uppercase letters for three _arguments_:
+連接 URL 也可以接受參數。以下是使用大寫字母佔位符值表示三個_參數_的相同範例:
 
 ```
 mysql://USER:PASSWORD@HOST:PORT/DATABASE?KEY1=VALUE&KEY2=VALUE&KEY3=VALUE
 ```
 
-The following arguments can be used:
+可以使用以下參數:
 
-| Argument name      | Required | Default                | Description                                                                                                                                                                |
-| :----------------- | :------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `connection_limit` | No       | `num_cpus * 2 + 1`     | Maximum size of the [connection pool](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool) (Prisma ORM v6 and before)                      |
-| `connect_timeout`  | No       | `5`                    | Maximum number of seconds to wait for a new connection to be opened, `0` means no timeout                                                                                  |
-| `pool_timeout`     | No       | `10`                   | Maximum number of seconds to wait for a new connection from the pool, `0` means no timeout                                                                                 |
-| `sslcert`          | No       |                        | Path to the server certificate. Certificate paths are [resolved relative to the `./prisma folder`](/orm/prisma-schema/overview/data-sources#securing-database-connections) |
-| `sslidentity`      | No       |                        | Path to the PKCS12 certificate                                                                                                                                             |
-| `sslpassword`      | No       |                        | Password that was used to secure the PKCS12 file                                                                                                                           |
-| `sslaccept`        | No       | `accept_invalid_certs` | Configures whether to check for missing values in the certificate. Possible values: `accept_invalid_certs`, `strict`                                                       |
-| `socket`           | No       |                        | Points to a directory that contains a socket to be used for the connection                                                                                                 |
-| `socket_timeout`   | No       |                        | Number of seconds to wait until a single query terminates                                                                                                                  |
+| 參數名稱            | 必需     | 預設值                  | 描述                                                                                                                                                                |
+| :----------------- | :------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `connection_limit` | 否       | `num_cpus * 2 + 1`     | [連接池](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool)的最大大小(Prisma ORM v6 及更早版本)                                    |
+| `connect_timeout`  | 否       | `5`                    | 等待新連接開啟的最大秒數,`0` 表示無逾時                                                                                                                               |
+| `pool_timeout`     | 否       | `10`                   | 等待從連接池獲取新連接的最大秒數,`0` 表示無逾時                                                                                                                        |
+| `sslcert`          | 否       |                        | 伺服器憑證的路徑。憑證路徑[相對於 `./prisma` 資料夾解析](/orm/prisma-schema/overview/data-sources#securing-database-connections)                                     |
+| `sslidentity`      | 否       |                        | PKCS12 憑證的路徑                                                                                                                                                   |
+| `sslpassword`      | 否       |                        | 用於保護 PKCS12 檔案的密碼                                                                                                                                          |
+| `sslaccept`        | 否       | `accept_invalid_certs` | 設定是否檢查憑證中缺失的值。可能的值:`accept_invalid_certs`、`strict`                                                                                                 |
+| `socket`           | 否       |                        | 指向包含用於連接的 socket 的目錄                                                                                                                                     |
+| `socket_timeout`   | 否       |                        | 等待單個查詢終止的秒數                                                                                                                                               |
 
-As an example, if you want to set the connection pool size to `5` and configure a timeout for queries of `3` seconds, you can use the following arguments:
+舉例來說,如果你想將連接池大小設定為 `5`,並為查詢設定 `3` 秒的逾時,你可以使用以下參數:
 
 ```
 mysql://USER:PASSWORD@HOST:PORT/DATABASE?connection_limit=5&socket_timeout=3
 ```
 
-:::tip[Prisma ORM v7 connection pooling]
-In Prisma ORM v7, [driver adapters](/orm/overview/databases/database-drivers) are the default for relational databases. Connection pooling is handled by the Node.js driver you provide (like `mariadb`), not by Prisma's connection URL parameters. See the [connection pool guide](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool) for v7 defaults and configuration.
+:::tip[Prisma ORM v7 連接池]
+在 Prisma ORM v7 中,[驅動程式轉接器](/orm/overview/databases/database-drivers)是關聯式資料庫的預設選項。連接池由你提供的 Node.js 驅動程式(如 `mariadb`)處理,而不是由 Prisma 的連接 URL 參數處理。請參閱[連接池指南](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool)以了解 v7 的預設值和設定。
 :::
 
-### Configuring an SSL connection
+### 設定 SSL 連接
 
-You can add various parameters to the connection URL if your database server uses SSL. Here's an overview of the possible parameters:
+如果你的資料庫伺服器使用 SSL,你可以在連接 URL 中新增各種參數。以下是可能參數的概述:
 
-- `sslcert=<PATH>`: Path to the server certificate. This is the root certificate used by the database server to sign the client certificate. You need to provide this if the certificate doesn't exist in the trusted certificate store of your system. For Google Cloud this likely is `server-ca.pem`. Certificate paths are [resolved relative to the `./prisma folder`](/orm/prisma-schema/overview/data-sources#securing-database-connections)
+- `sslcert=<PATH>`:伺服器憑證的路徑。這是資料庫伺服器用於簽署客戶端憑證的根憑證。如果憑證不存在於系統的受信任憑證儲存中,你需要提供此項。對於 Google Cloud,這可能是 `server-ca.pem`。憑證路徑[相對於 `./prisma` 資料夾解析](/orm/prisma-schema/overview/data-sources#securing-database-connections)
 
-- `sslidentity=<PATH>`: Path to the PKCS12 certificate database created from client cert and key. This is the SSL identity file in PKCS12 format which you will generate using the client key and client certificate. It combines these two files in a single file and secures them via a password (see next parameter). You can create this file using your client key and client certificate by using the following command (using `openssl`):
+- `sslidentity=<PATH>`:從客戶端憑證和金鑰建立的 PKCS12 憑證資料庫的路徑。這是 PKCS12 格式的 SSL 身份檔案,你將使用客戶端金鑰和客戶端憑證生成它。它將這兩個檔案組合成一個檔案,並透過密碼保護它們(見下一個參數)。你可以使用以下命令(使用 `openssl`)從客戶端金鑰和客戶端憑證建立此檔案:
   ```
   openssl pkcs12 -export -out client-identity.p12 -inkey client-key.pem -in client-cert.pem
   ```
-- `sslpassword=<PASSWORD>`: Password that was used to secure the PKCS12 file. The `openssl` command listed in the previous step will ask for a password while creating the PKCS12 file, you will need to provide that same exact password here.
+- `sslpassword=<PASSWORD>`:用於保護 PKCS12 檔案的密碼。在建立 PKCS12 檔案時,前一步中列出的 `openssl` 命令會要求輸入密碼,你需要在這裡提供完全相同的密碼。
 - `sslaccept=(strict|accept_invalid_certs)`:
-  - `strict`: Any missing value in the certificate will lead to an error. For Google Cloud, especially if the database doesn't have a domain name, the certificate might miss the domain/IP address, causing an error when connecting.
-  - `accept_invalid_certs` (default): Bypass this check. Be aware of the security consequences of this setting.
+  - `strict`:憑證中任何缺失的值都會導致錯誤。對於 Google Cloud,特別是如果資料庫沒有網域名稱,憑證可能會缺少網域/IP 位址,在連接時會導致錯誤。
+  - `accept_invalid_certs`(預設):繞過此檢查。請注意此設定的安全後果。
 
-Your database connection URL will look similar to this:
+你的資料庫連接 URL 將類似於:
 
 ```
 mysql://USER:PASSWORD@HOST:PORT/DATABASE?sslidentity=client-identity.p12&sslpassword=mypassword&sslcert=rootca.cert
 ```
 
-### Connecting via sockets
+### 透過 socket 連接
 
-To connect to your MySQL/MariaDB database via a socket, you must add a `socket` field as a _query parameter_ to the connection URL (instead of setting it as the `host` part of the URI).
-The value of this parameter then must point to the directory that contains the socket, e.g. on a default installation of MySQL/MariaDB on Ubuntu or Debian use: `mysql://USER:PASSWORD@HOST/DATABASE?socket=/run/mysqld/mysqld.sock`
+要透過 socket 連接到 MySQL/MariaDB 資料庫,你必須將 `socket` 欄位作為_查詢參數_新增到連接 URL 中(而不是將其設定為 URI 的 `host` 部分)。
+此參數的值必須指向包含 socket 的目錄,例如在 Ubuntu 或 Debian 上的 MySQL/MariaDB 預設安裝使用:`mysql://USER:PASSWORD@HOST/DATABASE?socket=/run/mysqld/mysqld.sock`
 
-Note that `localhost` is required, the value itself is ignored and can be anything.
+請注意,`localhost` 是必需的,值本身會被忽略,可以是任何內容。
 
-> **Note**: You can find additional context in this [GitHub issue](https://github.com/prisma/prisma-client-js/issues/437#issuecomment-592436707).
+> **注意**:你可以在這個 [GitHub issue](https://github.com/prisma/prisma-client-js/issues/437#issuecomment-592436707) 中找到更多背景資訊。
 
-## Type mapping between MySQL to Prisma schema
+## MySQL 到 Prisma schema 之間的型別映射
 
-The MySQL connector maps the [scalar types](/orm/prisma-schema/data-model/models#scalar-fields) from the Prisma ORM [data model](/orm/prisma-schema/data-model/models) as follows to native column types:
+MySQL 連接器將 Prisma ORM [資料模型](/orm/prisma-schema/data-model/models)中的[純量型別](/orm/prisma-schema/data-model/models#scalar-fields)映射到原生欄位型別,如下所示:
 
-> Alternatively, see [Prisma schema reference](/orm/reference/prisma-schema-reference#model-field-scalar-types) for type mappings organized by Prisma ORM type.
+> 或者,請參閱 [Prisma schema 參考](/orm/reference/prisma-schema-reference#model-field-scalar-types)以查看按 Prisma ORM 型別組織的型別映射。
 
-### Native type mapping from Prisma ORM to MySQL
+### 從 Prisma ORM 到 MySQL 的原生型別映射
 
 | Prisma ORM | MySQL            | Notes                                                                                 |
 | ---------- | ---------------- | ------------------------------------------------------------------------------------- |                            
@@ -184,7 +184,7 @@ The MySQL connector maps the [scalar types](/orm/prisma-schema/data-model/models
 | `Json`     | `JSON`           | Supported in MySQL 5.7+ only                                                          |
 | `Bytes`    | `LONGBLOB`       |                                                                                       |
 
-### Native type mapping from Prisma ORM to MariaDB
+### 從 Prisma ORM 到 MariaDB 的原生型別映射
 
 | Prisma ORM | MariaDB            | Notes                                            |
 | ---------- | ---------------- | -------------------------------------------------- |
@@ -198,9 +198,9 @@ The MySQL connector maps the [scalar types](/orm/prisma-schema/data-model/models
 | `Json`     | `LONGTEXT`       | See https://mariadb.com/kb/en/json-data-type/      |
 | `Bytes`    | `LONGBLOB`       |                                                    |
 
-### Native type mappings
+### 原生型別映射
 
-When introspecting a MySQL database, the database types are mapped to Prisma ORM according to the following table:
+當內省 MySQL 資料庫時,資料庫型別會根據下表映射到 Prisma ORM:
 
 | MySQL                     | Prisma ORM    | Supported | Native database type attribute                 | Notes                                                              |
 | ------------------------- | ------------- | --------- | ---------------------------------------------- | ------------------------------------------------------------------ |
@@ -250,7 +250,7 @@ When introspecting a MySQL database, the database types are mapped to Prisma ORM
 | `multipolygon`            | `Unsupported` | Not yet   |                                                |
 | `geometrycollection`      | `Unsupported` | Not yet   |                                                |
 
-[Introspection](/orm/prisma-schema/introspection) adds native database types that are **not yet supported** as [`Unsupported`](/orm/reference/prisma-schema-reference#unsupported) fields:
+[內省](/orm/prisma-schema/introspection)會將**尚未支援**的原生資料庫型別新增為 [`Unsupported`](/orm/reference/prisma-schema-reference#unsupported) 欄位:
 
 ```prisma file=schema.prisma showLineNumbers
 model Device {
@@ -260,20 +260,20 @@ model Device {
 }
 ```
 
-## Engine
+## 引擎
 
-If you are using a version of MySQL where MyISAM is the default engine, you must specify `ENGINE = InnoDB;` when you create a table. If you introspect a database that uses a different engine, relations in the Prisma Schema are not created (or lost, if the relation already existed).
+如果你使用的 MySQL 版本中 MyISAM 是預設引擎,你在建立表格時必須指定 `ENGINE = InnoDB;`。如果你內省使用不同引擎的資料庫,Prisma Schema 中的關聯將不會被建立(或如果關聯已存在則會遺失)。
 
-## Permissions
+## 權限
 
-A fresh new installation of MySQL/MariaDB has by default only a `root` database user. Do not use `root` user in your Prisma configuration, but instead create a database and database user for each application. On most Linux hosts (e.g. Ubuntu) you can simply run this as the Linux `root` user (which automatically has database `root` access as well):
+全新安裝的 MySQL/MariaDB 預設只有一個 `root` 資料庫使用者。請不要在 Prisma 設定中使用 `root` 使用者,而是為每個應用程式建立資料庫和資料庫使用者。在大多數 Linux 主機(例如 Ubuntu)上,你可以簡單地以 Linux `root` 使用者身分執行此操作(它自動也具有資料庫 `root` 存取權限):
 
 ```
 mysql -e "CREATE DATABASE IF NOT EXISTS $DB_PRISMA;"
 mysql -e "GRANT ALL PRIVILEGES ON $DB_PRISMA.* TO $DB_USER@'%' IDENTIFIED BY '$DB_PASSWORD';"
 ```
 
-The above is enough to run the `prisma db pull` and `prisma db push` commands. In order to also run `prisma migrate` commands these permissions need to be granted:
+以上足以執行 `prisma db pull` 和 `prisma db push` 命令。為了也能執行 `prisma migrate` 命令,需要授予這些權限:
 
 ```
 mysql -e "GRANT CREATE, DROP, REFERENCES, ALTER ON *.* TO $DB_USER@'%';"

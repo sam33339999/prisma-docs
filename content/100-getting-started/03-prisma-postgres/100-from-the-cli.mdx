@@ -1,22 +1,22 @@
 ---
-title: 'From the CLI'
-metaTitle: 'From the CLI'
-metaDescription: 'Start building a Prisma application with a Prisma Postgres database from the CLI'
+title: '從 CLI 開始'
+metaTitle: '從 CLI 開始'
+metaDescription: '從 CLI 使用 Prisma Postgres 資料庫開始建置 Prisma 應用程式'
 staticLink: true
 tocDepth: 3
 toc: true
 community_section: true
 ---
 
-This page provides a step-by-step guide for Prisma Postgres after setting it up with `prisma init --db`:
+此頁面提供了在使用 `prisma init --db` 設定 Prisma Postgres 後的逐步指南:
 
-1. Set up a TypeScript app with Prisma ORM
-1. Migrate the schema of your database
-1. Query your database from TypeScript
+1. 使用 Prisma ORM 設定 TypeScript 應用程式
+1. 遷移資料庫的 schema
+1. 從 TypeScript 查詢資料庫
 
-## Prerequisites
+## 先決條件
 
-This guide assumes you set up [Prisma Postgres](/postgres) instance with `prisma init --db`:
+本指南假設您已經使用 `prisma init --db` 設定了 [Prisma Postgres](/postgres) 實例:
 
 <CodeWithResult outputResultText="" expanded={false}>
 
@@ -88,25 +88,25 @@ For more info, visit the Prisma Postgres docs: https://pris.ly/ppg-docs
 
 </CodeWithResult>
 
-Once this command terminated:
+此命令執行完成後:
 
-- You're logged into Prisma Data Platform.
-- A new Prisma Postgres instance was created.
-- The `prisma/` folder was created with an empty `schema.prisma` file.
-- The `DATABASE_URL` env var was set in a  `.env` file.
-- The `prisma.config.ts` file was created with the default configuration.
+- 您已登入 Prisma Data Platform。
+- 建立了一個新的 Prisma Postgres 實例。
+- 建立了 `prisma/` 資料夾,其中包含一個空的 `schema.prisma` 檔案。
+- 在 `.env` 檔案中設定了 `DATABASE_URL` 環境變數。
+- 建立了包含預設配置的 `prisma.config.ts` 檔案。
 
-## 1. Organize your project directory
+## 1. 組織您的專案目錄
 
 :::note
 
-If you ran the `prisma init --db` command inside a folder where you want your project to live, you can skip this step and [proceed to the next section](/getting-started/prisma-postgres/from-the-cli#2-set-up-your-project).
+如果您在希望專案所在的資料夾內執行了 `prisma init --db` 命令,可以跳過此步驟並[繼續下一節](/getting-started/prisma-postgres/from-the-cli#2-set-up-your-project)。
 
 :::
 
-If you ran the command outside your intended project directory (e.g., in your home folder or another location), you need to move the generated `prisma` folder and the `.env` file into a dedicated project directory.
+如果您在預期的專案目錄之外執行了該命令(例如,在您的主資料夾或其他位置),則需要將生成的 `prisma` 資料夾和 `.env` 檔案移動到專用的專案目錄中。
 
-Create a new folder (e.g. `hello-prisma`) where you want your project to live and move the necessary files into it:
+建立一個新資料夾(例如 `hello-prisma`),您希望專案在此處存放,並將必要的檔案移動到其中:
 
 ```terminal
 mkdir hello-prisma
@@ -114,36 +114,36 @@ mv .env ./hello-prisma/
 mv prisma ./hello-prisma/
 ```
 
-Navigate into your project folder:
+導航到您的專案資料夾:
 
 ```terminal
 cd ./hello-prisma
 ```
 
-Now that your project is in the correct location, continue with the setup.
+現在您的專案已經在正確的位置,繼續進行設定。
 
-## 2. Set up your project
+## 2. 設定您的專案
 
-### 2.1. Set up TypeScript
+### 2.1. 設定 TypeScript
 
-Initialize a TypeScript project and add the Prisma CLI as a development dependency:
+初始化 TypeScript 專案並將 Prisma CLI 新增為開發依賴項:
 
 ```terminal
 npm init -y
 npm install typescript tsx @types/node @types/pg --save-dev
 ```
 
-This creates a `package.json` file with an initial setup for your TypeScript app.
+這會建立一個包含 TypeScript 應用程式初始設定的 `package.json` 檔案。
 
-Next, initialize TypeScript with a `tsconfig.json` file in the project:
+接下來,在專案中使用 `tsconfig.json` 檔案初始化 TypeScript:
 
 ```terminal
 npx tsc --init
 ```
 
-### 2.2. Configure ESM support
+### 2.2. 配置 ESM 支援
 
-Update `tsconfig.json` for ESM compatibility:
+更新 `tsconfig.json` 以支援 ESM 相容性:
 
 ```json file=tsconfig.json
 {
@@ -158,7 +158,7 @@ Update `tsconfig.json` for ESM compatibility:
 }
 ```
 
-Update `package.json` to enable ESM:
+更新 `package.json` 以啟用 ESM:
 
 ```json file=package.json
 {
@@ -168,27 +168,27 @@ Update `package.json` to enable ESM:
 }
 ```
 
-### 2.3. Set up Prisma ORM
+### 2.3. 設定 Prisma ORM
 
-Install the required dependencies to use Prisma Postgres:
+安裝使用 Prisma Postgres 所需的依賴項:
 
 ```terminal
 npm install prisma --save-dev
 npm install @prisma/client @prisma/adapter-pg pg dotenv
 ```
 
-Here's what each package does:
+以下是每個套件的功能:
 
-- **`prisma`** - The Prisma CLI for running commands like `prisma migrate` and `prisma generate`
-- **`@prisma/client`** - The Prisma Client library for querying your database
-- **`@prisma/adapter-pg`** - The [`node-postgres` driver adapter](/orm/overview/databases/postgresql#using-the-node-postgres-driver) that connects Prisma Client to your database
-- **`pg`** - The node-postgres database driver
-- **`@types/pg`** - TypeScript type definitions for node-postgres
-- **`dotenv`** - Loads environment variables from your `.env` file
+- **`prisma`** - 用於執行 `prisma migrate` 和 `prisma generate` 等命令的 Prisma CLI
+- **`@prisma/client`** - 用於查詢資料庫的 Prisma Client 函式庫
+- **`@prisma/adapter-pg`** - 將 Prisma Client 連接到資料庫的 [`node-postgres` 驅動程式適配器](/orm/overview/databases/postgresql#using-the-node-postgres-driver)
+- **`pg`** - node-postgres 資料庫驅動程式
+- **`@types/pg`** - node-postgres 的 TypeScript 型別定義
+- **`dotenv`** - 從 `.env` 檔案載入環境變數
 
-### 2.4. Review the generated prisma.config.ts
+### 2.4. 檢查生成的 prisma.config.ts
 
-The `prisma init --db` command automatically created a `prisma.config.ts` file that looks like this:
+`prisma init --db` 命令自動建立了一個如下所示的 `prisma.config.ts` 檔案:
 
 ```typescript file=prisma.config.ts
 import 'dotenv/config'
@@ -205,17 +205,17 @@ export default defineConfig({
 })
 ```
 
-### 2.5. Create a script to query the database
+### 2.5. 建立一個用於查詢資料庫的腳本
 
-Create an `index.ts` file in the root directory, this will be used to query your application with Prisma ORM: 
+在根目錄中建立一個 `index.ts` 檔案,這將用於使用 Prisma ORM 查詢您的應用程式:
 
 ```terminal
 touch index.ts
 ```
 
-## 3. Migrate the database schema
+## 3. 遷移資料庫 schema
 
-Update your `prisma/schema.prisma` file to include the `User` and `Post` models:
+更新您的 `prisma/schema.prisma` 檔案以包含 `User` 和 `Post` 模型:
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -244,25 +244,25 @@ model Post {
 }
 ```
 
-After adding the models, migrate your database using [Prisma Migrate](/orm/prisma-migrate):
+新增模型後,使用 [Prisma Migrate](/orm/prisma-migrate) 遷移資料庫:
 
 ```terminal
 npx prisma migrate dev --name init
 ```
 
-This command creates the database tables based on your schema.
+此命令根據您的 schema 建立資料庫表。
 
-Now run the following command to generate the Prisma Client:
+現在執行以下命令來生成 Prisma Client:
 
 ```terminal
 npx prisma generate
 ```
 
-## 4. Send queries with Prisma ORM
+## 4. 使用 Prisma ORM 發送查詢
 
-### 4.1. Instantiate Prisma Client
+### 4.1. 實例化 Prisma Client
 
-Create a `lib/prisma.ts` file to instantiate Prisma Client with the driver adapter:
+建立一個 `lib/prisma.ts` 檔案,使用驅動程式適配器實例化 Prisma Client:
 
 ```typescript file=lib/prisma.ts
 import "dotenv/config";
@@ -279,13 +279,13 @@ export { prisma }
 
 :::tip
 
-If you need to query your database via HTTP from an edge runtime (Cloudflare Workers, Vercel Edge Functions, etc.), use the [Prisma Postgres serverless driver](/postgres/database/serverless-driver#use-with-prisma-orm).
+如果您需要從邊緣運行時(Cloudflare Workers、Vercel Edge Functions 等)透過 HTTP 查詢資料庫,請使用 [Prisma Postgres serverless 驅動程式](/postgres/database/serverless-driver#use-with-prisma-orm)。
 
 :::
 
-### 4.2. Write your first query
+### 4.2. 撰寫您的第一個查詢
 
-Paste the following boilerplate into `index.ts`:
+將以下範本貼到 `index.ts` 中:
 
 ```ts file=index.ts
 import { prisma } from './lib/prisma'
@@ -305,11 +305,11 @@ main()
   })
 ```
 
-This code contains a `main` function that's invoked at the end of the script. It also instantiates `PrismaClient` which you'll use to send queries to your database.
+此程式碼包含一個在腳本結尾被調用的 `main` 函式。它還實例化了 `PrismaClient`,您將使用它向資料庫發送查詢。
 
-### 4.3. Create a new `User` record
+### 4.3. 建立一筆新的 `User` 記錄
 
-Let's start with a small query to create a new `User` record in the database and log the resulting object to the console. Add the following code to your `index.ts` file:
+讓我們從一個小查詢開始,在資料庫中建立一筆新的 `User` 記錄,並將結果物件記錄到控制台。將以下程式碼新增到您的 `index.ts` 檔案中:
 
 ```ts file=index.ts
 import { prisma } from './lib/prisma'
@@ -337,7 +337,7 @@ main()
   })
 ```
 
-Next, execute the script with the following command:
+接下來,使用以下命令執行腳本:
 
 <CodeWithResult expanded={true}>
 
@@ -358,13 +358,13 @@ npx tsx index.ts
 
 </CodeWithResult>
 
-Great job, you just created your first database record with Prisma Postgres! 🎉
+做得很好,您剛剛使用 Prisma Postgres 建立了您的第一筆資料庫記錄!🎉
 
-### 4.4. Retrieve all `User` records
+### 4.4. 檢索所有 `User` 記錄
 
-Prisma ORM offers various queries to read data from your database. In this section, you'll use the `findMany` query that returns _all_ the records in the database for a given model.
+Prisma ORM 提供各種查詢來從資料庫讀取資料。在本節中,您將使用 `findMany` 查詢,該查詢會返回給定模型在資料庫中的_所有_記錄。
 
-Delete the previous Prisma ORM query and add the new `findMany` query instead:
+刪除先前的 Prisma ORM 查詢,並改為新增新的 `findMany` 查詢:
 
 ```ts file=index.ts
 import { prisma } from './lib/prisma'
@@ -387,7 +387,7 @@ main()
   })
 ```
 
-Execute the script again:
+再次執行腳本:
 
 <CodeWithResult expanded={true}>
 
@@ -409,13 +409,13 @@ npx tsx index.ts
 
 </CodeWithResult>
 
-Notice how the single `User` object is now enclosed with square brackets in the console. That's because the `findMany` returned an array with a single object inside.
+請注意,單個 `User` 物件現在在控制台中用方括號括起來。這是因為 `findMany` 返回了一個內含單個物件的陣列。
 
-### 4.5. Explore relation queries
+### 4.5. 探索關聯查詢
 
-One of the main features of Prisma ORM is the ease of working with [relations](/orm/prisma-schema/data-model/relations). In this section, you'll learn how to create a `User` and a `Post` record in a nested write query. Afterwards, you'll see how you can retrieve the relation from the database using the `include` option.
+Prisma ORM 的主要功能之一是易於處理[關聯](/orm/prisma-schema/data-model/relations)。在本節中,您將學習如何在巢狀寫入查詢中建立 `User` 和 `Post` 記錄。之後,您將看到如何使用 `include` 選項從資料庫檢索關聯。
 
-First, adjust your script to include the nested query:
+首先,調整您的腳本以包含巢狀查詢:
 
 ```ts file=index.ts
 import { prisma } from './lib/prisma'
@@ -455,7 +455,7 @@ main()
   })
 ```
 
-Run the query by executing the script again:
+透過再次執行腳本來執行查詢:
 
 <CodeWithResult expanded={true}>
 
@@ -477,7 +477,7 @@ npx tsx index.ts
 
 </CodeWithResult>
 
-In order to also retrieve the `Post` records that belong to a `User`, you can use the `include` option via the `posts` relation field:
+為了同時檢索屬於 `User` 的 `Post` 記錄,您可以透過 `posts` 關聯欄位使用 `include` 選項:
 
 ```ts file=index.ts
 import { prisma } from './lib/prisma'
@@ -504,7 +504,7 @@ main()
   })
 ```
 
-Run the script again to see the results of the nested read query:
+再次執行腳本以查看巢狀讀取查詢的結果:
 
 <CodeWithResult expanded={true}>
 
@@ -549,34 +549,34 @@ npx tsx index.ts
 
 </CodeWithResult>
 
-This time, you're seeing two `User` objects being printed. Both of them have a `posts` field (which is empty for `"Alice"` and populated with two `Post` objects for `"Bob"`) that represents the `Post` records associated with them.
+這次,您會看到列印了兩個 `User` 物件。它們都有一個 `posts` 欄位(對於 `"Alice"` 是空的,對於 `"Bob"` 則填充了兩個 `Post` 物件),代表與它們關聯的 `Post` 記錄。
 
 
-## Next steps
+## 後續步驟
 
-You just got your feet wet with a basic Prisma Postgres setup. If you want to explore more complex queries, such as [adding caching functionality](/postgres/database/caching#setting-up-caching-in-prisma-postgres), check out the official [Quickstart](/getting-started/prisma-orm/quickstart/prisma-postgres).
+您剛剛初步體驗了基本的 Prisma Postgres 設定。如果您想探索更複雜的查詢,例如[新增快取功能](/postgres/database/caching#setting-up-caching-in-prisma-postgres),請查看官方的[快速入門](/getting-started/prisma-orm/quickstart/prisma-postgres)。
 
-### View and edit data in Prisma Studio
+### 在 Prisma Studio 中查看和編輯資料
 
-Prisma ORM comes with a built-in GUI to view and edit the data in your database. You can open it using the following command:
+Prisma ORM 附帶內建 GUI,用於查看和編輯資料庫中的資料。您可以使用以下命令開啟它:
 
 ```terminal
 npx prisma studio --config ./prisma.config.ts
 ```
 
-With Prisma Postgres, you can also directly use Prisma Studio inside the [Console](https://console.prisma.io) by selecting the **Studio** tab in your project. 
+使用 Prisma Postgres,您也可以在專案中選擇 **Studio** 分頁,直接在 [Console](https://console.prisma.io) 內使用 Prisma Studio。
 
 
-### Build a fullstack app with Next.js
+### 使用 Next.js 建置全端應用程式
 
-Learn how to use Prisma Postgres in a fullstack app:
+了解如何在全端應用程式中使用 Prisma Postgres:
 
-- [Build a fullstack app with Next.js 15](/guides/nextjs)
-- [Next.js 15 example app](https://github.com/prisma/nextjs-prisma-postgres-demo) (including authentication)
+- [使用 Next.js 15 建置全端應用程式](/guides/nextjs)
+- [Next.js 15 範例應用程式](https://github.com/prisma/nextjs-prisma-postgres-demo)(包含身份驗證)
 
 
-### Explore ready-to-run examples
+### 探索可直接執行的範例
 
-Check out the [`prisma-examples`](https://github.com/prisma/prisma-examples/) repository on GitHub to see how Prisma ORM can be used with your favorite library. The repo contains examples with Express, NestJS, GraphQL as well as fullstack examples with Next.js and Vue.js, and a lot more.
+查看 GitHub 上的 [`prisma-examples`](https://github.com/prisma/prisma-examples/) 儲存庫,了解如何將 Prisma ORM 與您喜愛的函式庫一起使用。該儲存庫包含 Express、NestJS、GraphQL 的範例,以及 Next.js 和 Vue.js 的全端範例等等。
 
-These examples use SQLite by default but you can follow the instructions in the project README to switch to Prisma Postgres in a few simple steps.
+這些範例預設使用 SQLite,但您可以按照專案 README 中的說明,只需幾個簡單的步驟即可切換到 Prisma Postgres。

@@ -1,20 +1,20 @@
 ---
-title: 'Use Prisma Postgres with Drizzle ORM'
+title: '搭配 Drizzle ORM 使用 Prisma Postgres'
 sidebar_label: 'Drizzle ORM'
-metaTitle: 'Quickstart: Drizzle ORM with Prisma Postgres (10 min)'
-metaDescription: 'Get started with Drizzle ORM and Prisma Postgres.'
+metaTitle: '快速入門:使用 Prisma Postgres 的 Drizzle ORM(10 分鐘)'
+metaDescription: '開始使用 Drizzle ORM 和 Prisma Postgres。'
 ---
 
-[Drizzle ORM](https://orm.drizzle.team) is a TypeScript ORM. In this guide, you'll learn how to connect Drizzle ORM to [Prisma Postgres](/postgres).
+[Drizzle ORM](https://orm.drizzle.team) 是一個 TypeScript ORM。在本指南中,您將學習如何將 Drizzle ORM 連接到 [Prisma Postgres](/postgres)。
 
-## Prerequisites
+## 先決條件
 
-- Node.js version 16 or higher
-- TypeScript version 5.0 or higher
+- Node.js 版本 16 或更高
+- TypeScript 版本 5.0 或更高
 
-## 1. Create a new project
+## 1. 建立新專案
 
-Create a new directory for your project and initialize it with npm:
+為您的專案建立一個新目錄並使用 npm 初始化:
 
 ```terminal
 mkdir drizzle-quickstart
@@ -22,14 +22,14 @@ cd drizzle-quickstart
 npm init -y
 ```
 
-Install TypeScript and initialize it:
+安裝 TypeScript 並初始化它:
 
 ```terminal
 npm install --save-dev typescript
 npx tsc --init
 ```
 
-In your `package.json`, set the `type` to `module`:
+在您的 `package.json` 中,將 `type` 設定為 `module`:
 
 ```json file=package.json
 {
@@ -41,15 +41,15 @@ In your `package.json`, set the `type` to `module`:
 }
 ```
 
-## 2. Create a Prisma Postgres database
+## 2. 建立 Prisma Postgres 資料庫
 
-You can create a Prisma Postgres database using the `create-db` CLI tool. Follow these steps to create your Prisma Postgres database:
+您可以使用 `create-db` CLI 工具建立 Prisma Postgres 資料庫。按照以下步驟建立您的 Prisma Postgres 資料庫:
 
 ```terminal
 npx create-db
 ```
 
-Then the CLI tool should output:
+然後 CLI 工具應該會輸出:
 
 ```terminal
 ┌  🚀 Creating a Prisma Postgres database
@@ -77,10 +77,10 @@ Then the CLI tool should output:
 │
 │    Database will be deleted on 11/18/2025, 1:55:39 AM if not claimed.
 │
-└  
+└
 ```
 
-Create a `.env` file and add the connection string from the output:
+建立一個 `.env` 檔案並新增輸出中的連接字串:
 
 ```env file=.env
 DATABASE_URL="postgresql://hostname:password@db.prisma.io:5432/postgres?sslmode=require"
@@ -88,38 +88,38 @@ DATABASE_URL="postgresql://hostname:password@db.prisma.io:5432/postgres?sslmode=
 
 :::warning
 
-**Never commit `.env` files to version control.** Add `.env` to your `.gitignore` file to keep credentials secure.
+**永遠不要將 `.env` 檔案提交到版本控制。** 將 `.env` 新增到您的 `.gitignore` 檔案以保持憑證安全。
 
 :::
 
-The database created is temporary and will be deleted in 24 hours unless claimed. Claiming moves the database into your [Prisma Data Platform](https://console.prisma.io) account. Visit the claim URL from the output to keep your database.
+建立的資料庫是臨時的,除非被認領,否則將在 24 小時內刪除。認領會將資料庫移至您的 [Prisma Data Platform](https://console.prisma.io) 帳戶。訪問輸出中的認領 URL 以保留您的資料庫。
 
 :::note
 
-To learn more about the `create-db` CLI tool, see the [create-db documentation](/postgres/introduction/npx-create-db).
+要了解更多關於 `create-db` CLI 工具的資訊,請參閱 [create-db 文件](/postgres/introduction/npx-create-db)。
 
 :::
 
-## 3. Install dependencies
+## 3. 安裝依賴項
 
-Install Drizzle ORM and the PostgreSQL driver:
+安裝 Drizzle ORM 和 PostgreSQL 驅動程式:
 
 ```terminal
 npm install drizzle-orm pg dotenv
 npm install --save-dev drizzle-kit @types/pg tsx
 ```
 
-**Package breakdown:**
-- `drizzle-orm`: The lightweight TypeScript ORM
-- `pg`: PostgreSQL driver for Node.js
-- `dotenv`: Loads environment variables from `.env` file
-- `drizzle-kit`: CLI tool for migrations and schema management
-- `@types/pg`: TypeScript type definitions for the pg driver
-- `tsx`: TypeScript execution engine for running `.ts` files directly
+**套件說明:**
+- `drizzle-orm`: 輕量級的 TypeScript ORM
+- `pg`: Node.js 的 PostgreSQL 驅動程式
+- `dotenv`: 從 `.env` 檔案載入環境變數
+- `drizzle-kit`: 用於遷移和 schema 管理的 CLI 工具
+- `@types/pg`: pg 驅動程式的 TypeScript 型別定義
+- `tsx`: 用於直接執行 `.ts` 檔案的 TypeScript 執行引擎
 
-## 4. Run a query
+## 4. 執行查詢
 
-Create a `src/script.ts` file:
+建立一個 `src/script.ts` 檔案:
 
 ```typescript file=src/script.ts
 import 'dotenv/config'
@@ -149,13 +149,13 @@ main()
   })
 ```
 
-Run the script:
+執行腳本:
 
 ```terminal
 npx tsx src/script.ts
 ```
 
-You should receive output similar to:
+您應該會收到類似以下的輸出:
 
 ```terminal
 Query result: Result {
@@ -183,6 +183,6 @@ Query result: Result {
 Connection closed
 ```
 
-## Next steps
+## 後續步驟
 
-You've successfully connected Drizzle ORM to Prisma Postgres! For more advanced features like schemas, migrations, and queries, see the [Drizzle ORM documentation](https://orm.drizzle.team/docs/get-started).
+您已成功將 Drizzle ORM 連接到 Prisma Postgres!要了解更多進階功能,如 schemas、遷移和查詢,請參閱 [Drizzle ORM 文件](https://orm.drizzle.team/docs/get-started)。

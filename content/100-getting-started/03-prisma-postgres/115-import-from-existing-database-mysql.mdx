@@ -1,82 +1,82 @@
 ---
-title: 'Import data from an existing MySQL database'
+title: '從現有的 MySQL 資料庫匯入資料'
 sidebar_label: 'MySQL'
-metaTitle: 'Import from existing MySQL database into Prisma Postgres'
-metaDescription: 'Learn how to import data from an existing MySQL database into Prisma Postgres.'
+metaTitle: '從現有的 MySQL 資料庫匯入到 Prisma Postgres'
+metaDescription: '了解如何從現有的 MySQL 資料庫匯入資料到 Prisma Postgres。'
 tocDepth: 3
 toc: true
 search: true
 ---
 
-This guide provides step-by-step instructions for importing data from an existing MySQL database into Prisma Postgres. 
+本指南提供了從現有 MySQL 資料庫匯入資料到 Prisma Postgres 的逐步說明。
 
-You can accomplish this migration in four steps:
+您可以透過四個步驟完成此遷移:
 
-1. Create a new Prisma Postgres database.
-1. Connect directly to a Prisma Postgres instance using a [direct connection](/postgres/database/direct-connections).
-1. Migrate your MySQL data to Prisma Postgres using [pgloader](https://pgloader.io/).
-1. Configure your Prisma project for Prisma Postgres.
+1. 建立一個新的 Prisma Postgres 資料庫。
+1. 使用[直接連接](/postgres/database/direct-connections)直接連接到 Prisma Postgres 實例。
+1. 使用 [pgloader](https://pgloader.io/) 將您的 MySQL 資料遷移到 Prisma Postgres。
+1. 為 Prisma Postgres 配置您的 Prisma 專案。
 
-## Prerequisites
+## 先決條件
 
-- The connection URL to your existing MySQL database.
-- A [Prisma Data Platform](https://console.prisma.io) account.
-- Node.js 18+ installed.
-- [pgloader](https://pgloader.io/) installed.
+- 現有 MySQL 資料庫的連接 URL。
+- [Prisma Data Platform](https://console.prisma.io) 帳戶。
+- 已安裝 Node.js 18+。
+- 已安裝 [pgloader](https://pgloader.io/)。
 
-:::info[Make sure your PostgreSQL tools match the Prisma Postgres version]
+:::info[確保您的 PostgreSQL 工具與 Prisma Postgres 版本匹配]
 
-Prisma Postgres runs PostgreSQL 17. Your `pgloader` and any other PostgreSQL tools you use need to be compatible with PostgreSQL 17.
+Prisma Postgres 執行 PostgreSQL 17。您使用的 `pgloader` 和任何其他 PostgreSQL 工具需要與 PostgreSQL 17 相容。
 
 :::
 
-We recommend attempting this migration in a separate git development branch.
+我們建議在單獨的 git 開發分支中嘗試此遷移。
 
-## 1. Create a new Prisma Postgres database
+## 1. 建立新的 Prisma Postgres 資料庫
 
-Follow these steps to create a new Prisma Postgres database:
+按照以下步驟建立新的 Prisma Postgres 資料庫:
 
-1. Log in to [Prisma Data Platform](https://console.prisma.io/) and open the Console.
-1. In a [workspace](/platform/about#workspace) of your choice, click the **New project** button.
-1. Type a name for your project in the **Name** field, e.g. **hello-ppg**.
-1. In the **Prisma Postgres** section, click the **Get started** button.
-1. In the **Region** dropdown, select the region that's closest to your current location, e.g. **US East (N. Virginia)**.
-1. Click the **Create project** button.
+1. 登入 [Prisma Data Platform](https://console.prisma.io/) 並開啟 Console。
+1. 在您選擇的[工作區](/platform/about#workspace)中,點擊 **New project** 按鈕。
+1. 在 **Name** 欄位中輸入專案名稱,例如 **hello-ppg**。
+1. 在 **Prisma Postgres** 部分,點擊 **Get started** 按鈕。
+1. 在 **Region** 下拉式選單中,選擇最接近您當前位置的地區,例如 **US East (N. Virginia)**。
+1. 點擊 **Create project** 按鈕。
 
-Once your database was provisioned, find your direct Prisma Postgres connection string:  
+資料庫佈建完成後,找到您的直接 Prisma Postgres 連接字串:
 
-1. Navigate to your active Prisma Postgres instance.
-1. Click the **API Keys** tab in the project's sidenav.
-1. Click the **Create API key** button.
-1. In the popup, provide a **Name** for the API key and click **Create**.
-1. Copy the connection string starting with `postgres://`, this is your direct connection string.
+1. 導航到您的活動 Prisma Postgres 實例。
+1. 點擊專案側邊欄中的 **API Keys** 分頁。
+1. 點擊 **Create API key** 按鈕。
+1. 在彈出視窗中,為 API 金鑰提供 **Name** 並點擊 **Create**。
+1. 複製以 `postgres://` 開頭的連接字串,這是您的直接連接字串。
 
-Save the connection string, you'll need it in the next step.
+儲存連接字串,您將在下一步中使用它。
 
-## 2. Prepare your direct connection string
+## 2. 準備您的直接連接字串
 
-In this step, you'll use the [direct connection string](/postgres/database/direct-connections) you obtained in step 1 to connect to your Prisma Postgres instance.
+在此步驟中,您將使用在步驟 1 中取得的[直接連接字串](/postgres/database/direct-connections)連接到您的 Prisma Postgres 實例。
 
-Your direct connection string should look like this:
+您的直接連接字串應該如下所示:
 
 ```no-copy
 postgres://USER:PASSWORD@db.prisma.io:5432/?sslmode=require
 ```
 
-You'll use this connection string in the next step when configuring pgloader.
+您將在下一步配置 pgloader 時使用此連接字串。
 
 
-## 3. Migrate your MySQL data to Prisma Postgres using pgloader
+## 3. 使用 pgloader 將您的 MySQL 資料遷移到 Prisma Postgres
 
-Now that you have an active connection to your Prisma Postgres instance, you'll use [pgloader](https://pgloader.io/) to export data from your MySQL database to Prisma Postgres.
+現在您已經有了到 Prisma Postgres 實例的活動連接,您將使用 [pgloader](https://pgloader.io/) 將資料從 MySQL 資料庫匯出到 Prisma Postgres。
 
-Open a separate terminal window and create a `config.load` file:
+開啟一個單獨的終端視窗並建立一個 `config.load` 檔案:
 
 ```terminal
 touch config.load
 ```
 
-Open the `config.load` file in your preferred text editor and copy-paste the following configuration:
+在您偏好的文字編輯器中開啟 `config.load` 檔案並複製貼上以下配置:
 
 ```text file=config.load
 LOAD DATABASE
@@ -92,22 +92,22 @@ WITH quote identifiers,    -- preserve table/column name case by quoting them
 ALTER SCHEMA 'database_name' RENAME TO 'public';
 ```
 
-Make sure to update the following details in the `config.load` file:
+確保在 `config.load` 檔案中更新以下詳細資訊:
 
-- `FROM` url (MySQL database URL):
-  - Replace `username`, `password`, `host`, `PORT`, and `database_name` with the actual connection details for your MySQL database.
-  - Ensure that your connection string includes `useSSL=true` if SSL is required, for example: `mysql://username:password@host:PORT/database_name?useSSL=true`. Note that when using PlanetScale, appending `sslaccept=strict` will not work.
-- `INTO` url (Postgres database URL): 
-  - Update this with your direct connection string from above, replacing the `__USER__` and `__PASSWORD__` placeholders.
-- Update the `database_name` in `ALTER SCHEMA 'database_name' RENAME TO 'public';` to exactly match the `database_name` in your MySQL connection string. 
+- `FROM` url (MySQL 資料庫 URL):
+  - 將 `username`、`password`、`host`、`PORT` 和 `database_name` 替換為您 MySQL 資料庫的實際連接詳細資訊。
+  - 確保您的連接字串包含 `useSSL=true`(如果需要 SSL),例如:`mysql://username:password@host:PORT/database_name?useSSL=true`。請注意,使用 PlanetScale 時,附加 `sslaccept=strict` 將無法運作。
+- `INTO` url (Postgres 資料庫 URL):
+  - 使用上面的直接連接字串更新此內容,替換 `__USER__` 和 `__PASSWORD__` 佔位符。
+- 更新 `ALTER SCHEMA 'database_name' RENAME TO 'public';` 中的 `database_name`,使其與您 MySQL 連接字串中的 `database_name` 完全匹配。
 
-After saving the configuration file with your updated credentials, in the same terminal window, execute the following command:
+在使用更新的憑證儲存配置檔案後,在同一個終端視窗中執行以下命令:
 
 ```terminal
 pgloader config.load
 ```
 
-You should see a log similar to this, which confirms the successful migration of your data:
+您應該會看到類似以下的日誌,確認資料遷移成功:
 
 ```terminal
 LOG report summary reset
@@ -135,51 +135,51 @@ public._prisma_migrations          0          1     0.2 kB          4.278s
         Total import time          ✓         13     0.8 kB         28.042s
 ```
 
-If you see output like this, it means your data has been successfully exported to your Prisma Postgres instance.
+如果您看到這樣的輸出,這意味著您的資料已成功匯出到您的 Prisma Postgres 實例。
 
 :::note
 
-You also can use [Prisma Studio](/postgres/integrations/viewing-data#viewing-and-editing-data-in-prisma-studio) and verify whether the migration was successful:
+您也可以使用 [Prisma Studio](/postgres/integrations/viewing-data#viewing-and-editing-data-in-prisma-studio) 來驗證遷移是否成功:
 
 ```terminal
 npx prisma studio
 ```
 :::
 
-## 4. Configure your Prisma project for Prisma Postgres
+## 4. 為 Prisma Postgres 配置您的 Prisma 專案
 
-After migrating your data, you need to set up your Prisma project to work with Prisma Postgres. The steps differ depending on whether you were already using Prisma ORM.
+遷移資料後,您需要設定 Prisma 專案以使用 Prisma Postgres。這些步驟取決於您是否已經在使用 Prisma ORM。
 
-### If you **were not** previously using Prisma ORM
+### 如果您**之前沒有**使用 Prisma ORM
 
-Initialize Prisma in your project by running `npx prisma init` in your project directory. This creates a `prisma` folder with a `schema.prisma` file and `.env` file (if not already present).
+在專案目錄中執行 `npx prisma init` 來初始化 Prisma。這會建立一個包含 `schema.prisma` 檔案的 `prisma` 資料夾和 `.env` 檔案(如果尚不存在)。
 
-In the generated `.env` file, update `DATABASE_URL` to match your Prisma Postgres direct connection string that you received in [step 1](/getting-started/prisma-postgres/import-from-existing-database-mysql#1-create-a-new-prisma-postgres-database):
+在生成的 `.env` 檔案中,更新 `DATABASE_URL` 以匹配您在[步驟 1](/getting-started/prisma-postgres/import-from-existing-database-mysql#1-create-a-new-prisma-postgres-database) 中收到的 Prisma Postgres 直接連接字串:
 
 ```terminal  file=.env no-copy
 DATABASE_URL="postgres://USER:PASSWORD@db.prisma.io:5432/?sslmode=require"
 ```
 
-[Introspect](/orm/prisma-schema/introspection) your newly migrated database by running:
+透過執行以下命令[內省](/orm/prisma-schema/introspection)您新遷移的資料庫:
 
 ```terminal
 npx prisma db pull
 ```
 
-This command updates your `schema.prisma` file with models representing your migrated tables, so you can start using [Prisma Client](/orm/prisma-client) to query your data or [Prisma Migrate](/orm/prisma-migrate/getting-started) to manage future changes.
+此命令會使用代表遷移表的模型更新您的 `schema.prisma` 檔案,這樣您就可以開始使用 [Prisma Client](/orm/prisma-client) 查詢資料或使用 [Prisma Migrate](/orm/prisma-migrate/getting-started) 管理未來的變更。
 
 
-Congratulations! You've successfully migrated your MySQL database to Prisma Postgres and configured your Prisma project. Your migration tutorial is now complete.
+恭喜!您已成功將 MySQL 資料庫遷移到 Prisma Postgres 並配置了您的 Prisma 專案。您的遷移教學現已完成。
 
 :::note
 
-For a comprehensive guide on getting started with Prisma and Prisma Postgres, see [start from scratch with Prisma and Prisma Postgres](/getting-started/prisma-orm/quickstart/prisma-postgres).
+要獲取使用 Prisma 和 Prisma Postgres 入門的綜合指南,請參閱[從頭開始使用 Prisma 和 Prisma Postgres](/getting-started/prisma-orm/quickstart/prisma-postgres)。
 
 :::
 
-### If you **were** already using Prisma ORM
+### 如果您**已經**在使用 Prisma ORM
 
-In your `schema.prisma` file, change the `provider` in the `datasource` block from `mysql` to `postgresql`:
+在您的 `schema.prisma` 檔案中,將 `datasource` 區塊中的 `provider` 從 `mysql` 更改為 `postgresql`:
 
 ```prisma file=schema.prisma
 datasource db {
@@ -192,25 +192,25 @@ datasource db {
 }
 ```
 
-In the generated `.env` file, update `DATABASE_URL` to match your Prisma Postgres direct connection string that you received in [step 1](/getting-started/prisma-postgres/import-from-existing-database-mysql#1-create-a-new-prisma-postgres-database):
+在生成的 `.env` 檔案中,更新 `DATABASE_URL` 以匹配您在[步驟 1](/getting-started/prisma-postgres/import-from-existing-database-mysql#1-create-a-new-prisma-postgres-database) 中收到的 Prisma Postgres 直接連接字串:
 
 ```terminal file=.env no-copy
 DATABASE_URL="postgres://USER:PASSWORD@db.prisma.io:5432/?sslmode=require"
 ```
 
-Introspect your newly migrated Prisma Postgres database and generate Prisma Client:
+內省您新遷移的 Prisma Postgres 資料庫並生成 Prisma Client:
 
 ```terminal
 npx prisma db pull
 ```
 
-This command refreshes your Prisma models based on the new database schema.
+此命令會根據新的資料庫 schema 刷新您的 Prisma 模型。
 
-If you were using [Prisma Migrate](/orm/prisma-migrate/getting-started) before:
+如果您之前使用 [Prisma Migrate](/orm/prisma-migrate/getting-started):
 
-- Delete your existing `migrations` folder in the `prisma` directory.
-- [Baseline your database](/orm/prisma-migrate/workflows/baselining#baselining-a-database) to begin creating new migrations.
+- 刪除 `prisma` 目錄中現有的 `migrations` 資料夾。
+- [基準化您的資料庫](/orm/prisma-migrate/workflows/baselining#baselining-a-database)以開始建立新的遷移。
 
-Congratulations! You've successfully migrated your MySQL database to Prisma Postgres and configured your Prisma project. Your migration tutorial is now complete.
+恭喜!您已成功將 MySQL 資料庫遷移到 Prisma Postgres 並配置了您的 Prisma 專案。您的遷移教學現已完成。
 
-If you encounter any issues during the migration, please don't hesitate to reach out to us on [Discord](https://pris.ly/discord?utm_source=docs&utm_medium=conclusion) or via [X](https://pris.ly/x?utm_source=docs&utm_medium=conclusion).
+如果您在遷移過程中遇到任何問題,請隨時透過 [Discord](https://pris.ly/discord?utm_source=docs&utm_medium=conclusion) 或 [X](https://pris.ly/x?utm_source=docs&utm_medium=conclusion) 與我們聯繫。

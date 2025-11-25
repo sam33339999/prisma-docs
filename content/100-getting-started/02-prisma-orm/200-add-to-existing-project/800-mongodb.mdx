@@ -1,90 +1,90 @@
 ---
-title: 'Add Prisma ORM to an existing MongoDB project'
+title: '將 Prisma ORM 加入現有的 MongoDB 專案'
 sidebar_title: 'MongoDB'
-metaTitle: 'How to add Prisma ORM to an existing project using MongoDB (15 min)'
-metaDescription: 'Add Prisma ORM to an existing TypeScript project with MongoDB and learn database introspection and querying.'
+metaTitle: '如何將 Prisma ORM 加入使用 MongoDB 的現有專案 (15 分鐘)'
+metaDescription: '將 Prisma ORM 加入現有的 TypeScript 專案並使用 MongoDB，學習資料庫自省和查詢。'
 ---
 
 import Prerequisites from '../../_components/_prerequisites.mdx'
 import ExploreData from '../../_components/_explore-data.mdx'
 import NextSteps from '../../_components/_next-steps.mdx'
 
-[MongoDB](https://www.mongodb.com/) is a popular document-based NoSQL database known for its flexibility, scalability, and developer-friendly features. In this guide, you will learn how to add Prisma ORM to an existing TypeScript project, connect it to MongoDB, introspect your existing database schema, and start querying with type-safe Prisma Client.
+[MongoDB](https://www.mongodb.com/) 是一個流行的基於文件的 NoSQL 資料庫，以其靈活性、可擴展性和開發者友善的特性而聞名。在本指南中，您將學習如何將 Prisma ORM 加入現有的 TypeScript 專案、將其連接到 MongoDB、自省現有的資料庫架構，並開始使用型別安全的 Prisma Client 進行查詢。
 
-:::warning[MongoDB support for Prisma ORM v7]
+:::warning[Prisma ORM v7 的 MongoDB 支援]
 
-**MongoDB support for Prisma ORM v7 is coming in the near future.** In the meantime, please use **Prisma ORM v6.19** (the latest v6 release) when working with MongoDB.
+**Prisma ORM v7 的 MongoDB 支援將在近期推出。** 在此期間，使用 MongoDB 時請使用 **Prisma ORM v6.19**（最新的 v6 版本）。
 
-This guide uses Prisma ORM v6.19 to ensure full compatibility with MongoDB.
+本指南使用 Prisma ORM v6.19 以確保與 MongoDB 的完全相容性。
 
 :::
 
 :::tip
 
-If you're migrating to Prisma ORM from Mongoose, see our [Migrate from Mongoose guide](/guides/migrate-from-mongoose).
+如果您正在從 Mongoose 遷移到 Prisma ORM，請參閱我們的 [Migrate from Mongoose guide](/guides/migrate-from-mongoose)。
 
 :::
 
-## Prerequisites
+## 前置需求
 
-In order to successfully complete this guide, you need:
+為了成功完成本指南，您需要：
 
-- [Node.js](https://nodejs.org/en/) installed on your machine (see [system requirements](/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-6#minimum-supported-nodejs-versions) for officially supported versions)
-- An existing TypeScript project with a `package.json` file
-- Access to a MongoDB 4.2+ server with a replica set deployment. We recommend using [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+- 在您的機器上安裝 [Node.js](https://nodejs.org/en/)（請參閱[系統需求](/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-6#minimum-supported-nodejs-versions)以了解官方支援的版本）
+- 具有 `package.json` 檔案的現有 TypeScript 專案
+- 存取具有副本集部署的 MongoDB 4.2+ 伺服器。我們建議使用 [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)。
 
 :::warning
 
-The MongoDB database connector uses transactions to support nested writes. Transactions **requires** a [replica set](https://www.mongodb.com/docs/manual/tutorial/deploy-replica-set/) deployment. The easiest way to deploy a replica set is with [Atlas](https://www.mongodb.com/docs/atlas/getting-started/). It's free to get started.
+MongoDB 資料庫連接器使用交易來支援巢狀寫入。交易**需要**[副本集](https://www.mongodb.com/docs/manual/tutorial/deploy-replica-set/)部署。最簡單的部署副本集方式是使用 [Atlas](https://www.mongodb.com/docs/atlas/getting-started/)。它可以免費開始使用。
 
 :::
 
-Make sure you have your database [connection URL](/orm/reference/connection-urls) (that includes your authentication credentials) at hand!
+確保您手邊有資料庫[連線 URL](/orm/reference/connection-urls)（包含您的身份驗證憑證）！
 
 :::note
 
-If your project contains multiple directories with `package.json` files (e.g., `frontend`, `backend`, etc.), note that Prisma ORM is specifically designed for use in the API/backend layer. To set up Prisma, navigate to the appropriate backend directory containing the relevant `package.json` file and configure Prisma there.
+如果您的專案包含多個具有 `package.json` 檔案的目錄（例如，`frontend`、`backend` 等），請注意 Prisma ORM 是專門設計用於 API/後端層。要設定 Prisma，請導航至包含相關 `package.json` 檔案的適當後端目錄，並在那裡設定 Prisma。
 
 :::
 
-## 1. Set up Prisma ORM
+## 1. 設定 Prisma ORM
 
-Navigate to your existing project directory and install the required dependencies:
+導航至您現有的專案目錄並安裝所需的相依套件：
 
 ```terminal
 npm install prisma@6.19 @types/node --save-dev
 npm install @prisma/client@6.19 dotenv
 ```
 
-Here's what each package does:
+以下是各套件的功能說明：
 
-- **`prisma`** - The Prisma CLI for running commands like `prisma init`, `prisma db pull`, and `prisma generate`
-- **`@prisma/client`** - The Prisma Client library for querying your database
-- **`dotenv`** - Loads environment variables from your `.env` file
+- **`prisma`** - Prisma CLI，用於執行 `prisma init`、`prisma db pull` 和 `prisma generate` 等指令
+- **`@prisma/client`** - Prisma Client 函式庫，用於查詢您的資料庫
+- **`dotenv`** - 從您的 `.env` 檔案載入環境變數
 
-:::info[Why Prisma v6.19?]
+:::info[為什麼使用 Prisma v6.19？]
 
-This is the latest stable version of Prisma ORM v6 that fully supports MongoDB. MongoDB support for Prisma ORM v7 is coming soon.
+這是完全支援 MongoDB 的 Prisma ORM v6 最新穩定版本。Prisma ORM v7 的 MongoDB 支援即將推出。
 
-You can also install `prisma@6` and `@prisma/client@6` to automatically get the latest v6 release.
+您也可以安裝 `prisma@6` 和 `@prisma/client@6` 以自動取得最新的 v6 版本。
 
 :::
 
-## 2. Initialize Prisma ORM
+## 2. 初始化 Prisma ORM
 
-Set up your Prisma ORM project by creating your [Prisma Schema](/orm/prisma-schema) file with the following command:
+使用以下指令建立 [Prisma Schema](/orm/prisma-schema) 檔案，設定您的 Prisma ORM 專案：
 
 ```terminal
 npx prisma init --datasource-provider mongodb --output ../generated/prisma
 ```
 
-This command does a few things:
+此指令會執行以下幾項操作：
 
-- Creates a `prisma/` directory with a `schema.prisma` file containing your database connection configuration
-- Creates a `.env` file in the root directory for environment variables
-- Creates a `prisma.config.ts` file for Prisma configuration
+- 建立包含 `schema.prisma` 檔案的 `prisma/` 目錄，其中包含您的資料庫連線設定
+- 在根目錄中建立用於環境變數的 `.env` 檔案
+- 建立用於 Prisma 設定的 `prisma.config.ts` 檔案
 
-The generated `prisma.config.ts` file looks like this:
+產生的 `prisma.config.ts` 檔案如下所示：
 
 ```typescript file=prisma.config.ts
 import { defineConfig, env } from 'prisma/config'
@@ -101,7 +101,7 @@ export default defineConfig({
 })
 ```
 
-Add `dotenv` to `prisma.config.ts` so that Prisma can load environment variables from your `.env` file:
+將 `dotenv` 加入 `prisma.config.ts`，以便 Prisma 可以從您的 `.env` 檔案載入環境變數：
 
 ```typescript file=prisma.config.ts
 // add-start
@@ -121,7 +121,7 @@ export default defineConfig({
 })
 ```
 
-The generated schema uses [the ESM-first `prisma-client` generator](/orm/prisma-schema/overview/generators#prisma-client) with a custom output path:
+產生的 schema 使用 [ESM-first `prisma-client` generator](/orm/prisma-schema/overview/generators#prisma-client) 並具有自訂輸出路徑：
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -135,88 +135,88 @@ datasource db {
 }
 ```
 
-## 3. Connect your database
+## 3. 連接您的資料庫
 
-Update the `.env` file with your MongoDB connection URL:
+使用您的 MongoDB 連線 URL 更新 `.env` 檔案：
 
 ```bash file=.env
 DATABASE_URL="mongodb+srv://username:password@cluster.mongodb.net/mydb"
 ```
 
-For MongoDB Atlas, the connection URL format is:
+對於 MongoDB Atlas，連線 URL 格式為：
 
 ```
 mongodb+srv://USERNAME:PASSWORD@CLUSTER.mongodb.net/DATABASE
 ```
 
-Self-hosted MongoDB connection URL format:
+自行託管的 MongoDB 連線 URL 格式：
 
 ```
 mongodb://USERNAME:PASSWORD@HOST:PORT/DATABASE
 ```
 
-Connection URL components:
+連線 URL 組成部分：
 
-- **`USERNAME`**: Your database user name
-- **`PASSWORD`**: Your database user password
-- **`HOST`**: The host where [`mongod`](https://www.mongodb.com/docs/manual/reference/program/mongod/#mongodb-binary-bin.mongod) or [`mongos`](https://www.mongodb.com/docs/manual/reference/program/mongos/#mongodb-binary-bin.mongos) is running
-- **`PORT`**: The port where your database server is running (typically `27017`)
-- **`DATABASE`**: The name of your database
+- **`USERNAME`**：您的資料庫使用者名稱
+- **`PASSWORD`**：您的資料庫使用者密碼
+- **`HOST`**：執行 [`mongod`](https://www.mongodb.com/docs/manual/reference/program/mongod/#mongodb-binary-bin.mongod) 或 [`mongos`](https://www.mongodb.com/docs/manual/reference/program/mongos/#mongodb-binary-bin.mongos) 的主機
+- **`PORT`**：資料庫伺服器執行的連接埠（通常為 `27017`）
+- **`DATABASE`**：您的資料庫名稱
 
 :::tip
 
-For MongoDB Atlas, you can manually append the database name to the connection URL, as Atlas doesn't include it by default.
+對於 MongoDB Atlas，您可以手動將資料庫名稱附加到連線 URL，因為 Atlas 預設不包含它。
 
 :::
 
-### Troubleshooting connection issues
+### 連線問題疑難排解
 
 #### `Error in connector: SCRAM failure: Authentication failed.`
 
-If you see the `Error in connector: SCRAM failure: Authentication failed.` error message, you can specify the source database for the authentication by [adding](https://github.com/prisma/prisma/discussions/9994#discussioncomment-1562283) `?authSource=admin` to the end of the connection string.
+如果您看到 `Error in connector: SCRAM failure: Authentication failed.` 錯誤訊息，您可以透過在連線字串末尾[加入](https://github.com/prisma/prisma/discussions/9994#discussioncomment-1562283) `?authSource=admin` 來指定身份驗證的來源資料庫。
 
 #### `Raw query failed. Error code 8000 (AtlasError): empty database name not allowed.`
 
-If you see the `Raw query failed. Code: unknown. Message: Kind: Command failed: Error code 8000 (AtlasError): empty database name not allowed.` error message, be sure to append the database name to the database URL. You can find more info in this [GitHub issue](https://github.com/prisma/docs/issues/5562).
+如果您看到 `Raw query failed. Code: unknown. Message: Kind: Command failed: Error code 8000 (AtlasError): empty database name not allowed.` 錯誤訊息，請務必將資料庫名稱附加到資料庫 URL。您可以在這個 [GitHub issue](https://github.com/prisma/docs/issues/5562) 中找到更多資訊。
 
-## 4. Introspect your database
+## 4. 自省您的資料庫
 
-Run the following command to introspect your existing database:
+執行以下指令以自省您現有的資料庫：
 
 ```terminal
 npx prisma db pull
 ```
 
-This command:
-- Reads the `DATABASE_URL` from your `.env` file
-- Connects to your MongoDB database
-- Samples documents in your collections to infer the schema
-- Generates Prisma models in your `schema.prisma` file
+此指令會：
+- 從您的 `.env` 檔案讀取 `DATABASE_URL`
+- 連接到您的 MongoDB 資料庫
+- 取樣您集合中的文件以推斷架構
+- 在您的 `schema.prisma` 檔案中產生 Prisma 模型
 
 ![Introspect your database with Prisma ORM](/img/getting-started/prisma-db-pull-generate-schema.png)
 
 :::info
 
-**MongoDB introspection limitations:** Prisma introspects MongoDB by sampling documents. You may need to manually:
-- Add relation fields using the `@relation` attribute
-- Adjust field types if the sampling didn't capture all variations
-- Add indexes and constraints not detected during introspection
+**MongoDB 自省限制：** Prisma 透過取樣文件來自省 MongoDB。您可能需要手動：
+- 使用 `@relation` 屬性加入關聯欄位
+- 如果取樣未捕捉到所有變化，調整欄位型別
+- 加入自省期間未偵測到的索引和約束
 
 :::
 
-## 5. Generate Prisma ORM types
+## 5. 產生 Prisma ORM 型別
 
-Generate Prisma Client based on your introspected schema:
+基於自省的 schema 產生 Prisma Client：
 
 ```terminal
 npx prisma generate
 ```
 
-This creates a type-safe Prisma Client tailored to your database schema in the `generated/prisma` directory.
+這會在 `generated/prisma` 目錄中建立針對您資料庫架構的型別安全 Prisma Client。
 
-## 6. Instantiate Prisma Client
+## 6. 實例化 Prisma Client
 
-Create a utility file to instantiate Prisma Client:
+建立一個工具檔案來實例化 Prisma Client：
 
 ```typescript file=lib/prisma.ts
 import "dotenv/config";
@@ -227,9 +227,9 @@ const prisma = new PrismaClient()
 export { prisma }
 ```
 
-## 7. Query your database
+## 7. 查詢您的資料庫
 
-Now you can use Prisma Client to query your database. Create a `script.ts` file:
+現在您可以使用 Prisma Client 來查詢資料庫。建立一個 `script.ts` 檔案：
 
 ```typescript file=script.ts
 import { prisma } from './lib/prisma'
@@ -252,19 +252,19 @@ main()
   })
 ```
 
-Run the script:
+執行腳本：
 
 ```terminal
 npx tsx script.ts
 ```
 
-## 8. Evolve your schema
+## 8. 演進您的 schema
 
-MongoDB doesn't support migrations like relational databases. Instead, use `db push` to sync schema changes:
+MongoDB 不像關聯式資料庫那樣支援遷移。相反地，使用 `db push` 來同步 schema 變更：
 
-### 8.1. Update your Prisma schema file
+### 8.1. 更新您的 Prisma schema 檔案
 
-Modify your Prisma schema file with the changes you want. For example, add a new model:
+使用您想要的變更修改 Prisma schema 檔案。例如，新增一個新模型：
 
 ```prisma file=prisma/schema.prisma
 // add-start
@@ -288,37 +288,37 @@ model User {
 
 :::info
 
-In MongoDB, the `id` field is mapped to `_id` and uses `@db.ObjectId` type. Relations use `String` type with `@db.ObjectId` annotation.
+在 MongoDB 中，`id` 欄位映射到 `_id` 並使用 `@db.ObjectId` 型別。關聯使用帶有 `@db.ObjectId` 註解的 `String` 型別。
 
 :::
 
-### 8.2. Push the changes to your database
+### 8.2. 將變更推送到您的資料庫
 
 ```terminal
 npx prisma db push
 ```
 
-This command:
-- Applies schema changes to your MongoDB database
-- Automatically regenerates Prisma Client
+此指令會：
+- 將 schema 變更套用到您的 MongoDB 資料庫
+- 自動重新產生 Prisma Client
 
-:::info[Why `db push` instead of migrations?]
+:::info[為什麼使用 `db push` 而不是遷移？]
 
-MongoDB uses a flexible schema model. Prisma Migrate (which creates migration files) is not supported for MongoDB. Always use `prisma db push` to sync your schema changes.
+MongoDB 使用靈活的 schema 模型。Prisma Migrate（建立遷移檔案）不支援 MongoDB。請始終使用 `prisma db push` 來同步您的 schema 變更。
 
 :::
 
-## 9. Explore your data
+## 9. 探索您的資料
 
-You can use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas), the MongoDB shell, or MongoDB Compass to view and manage your data.
+您可以使用 [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)、MongoDB shell 或 MongoDB Compass 來檢視和管理您的資料。
 
-[Prisma Studio](/orm/tools/prisma-studio) does not currently support MongoDB. Support may be added in a future release. See [Databases supported by Prisma Studio](/orm/tools/prisma-studio#databases-supported-by-prisma-studio) for more information.
+[Prisma Studio](/orm/tools/prisma-studio) 目前不支援 MongoDB。未來版本可能會加入支援。更多資訊請參閱 [Databases supported by Prisma Studio](/orm/tools/prisma-studio#databases-supported-by-prisma-studio)。
 
-## Next steps
+## 下一步
 
 <NextSteps />
 
-## More info
+## 更多資訊
 
 - [MongoDB database connector](/orm/overview/databases/mongodb)
 - [Prisma Config reference](/orm/reference/prisma-config-reference)

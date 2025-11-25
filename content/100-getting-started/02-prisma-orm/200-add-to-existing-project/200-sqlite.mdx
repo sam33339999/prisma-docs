@@ -1,52 +1,52 @@
 ---
-title: 'Add Prisma ORM to an existing SQLite project'
+title: '將 Prisma ORM 加入現有的 SQLite 專案'
 sidebar_title: 'SQLite'
-metaTitle: 'How to add Prisma ORM to an existing project using SQLite (15 min)'
-metaDescription: 'Add Prisma ORM to an existing TypeScript project with SQLite and learn database introspection, baselining, and querying.'
+metaTitle: '如何將 Prisma ORM 加入使用 SQLite 的現有專案 (15 分鐘)'
+metaDescription: '將 Prisma ORM 加入現有的 TypeScript 專案並連接 SQLite，學習資料庫內省、基準設定和查詢。'
 ---
 
 import Prerequisites from '../../_components/_prerequisites.mdx'
 import ExploreData from '../../_components/_explore-data.mdx'
 import NextSteps from '../../_components/_next-steps.mdx'
 
-[SQLite](https://sqlite.org) is a lightweight, file-based database that's perfect for development, prototyping, and small applications. It requires no setup and stores data in a local file. In this guide, you will learn how to add Prisma ORM to an existing TypeScript project, connect it to SQLite, introspect your existing database schema, and start querying with type-safe Prisma Client.
+[SQLite](https://sqlite.org) 是一個輕量級、基於檔案的資料庫，非常適合用於開發、原型設計和小型應用程式。它不需要任何設定，並將資料儲存在本地檔案中。在本指南中，你將學習如何將 Prisma ORM 加入現有的 TypeScript 專案、連接到 SQLite、內省你現有的資料庫架構，並開始使用型別安全的 Prisma Client 進行查詢。
 
-## Prerequisites
+## 前置需求
 
 <Prerequisites />
 
-## 1. Set up Prisma ORM
+## 1. 設定 Prisma ORM
 
-Navigate to your existing project directory and install the required dependencies:
+導航到你現有的專案目錄並安裝所需的相依套件：
 
 ```terminal
 npm install prisma @types/node @types/better-sqlite3 --save-dev
 npm install @prisma/client @prisma/adapter-better-sqlite3 dotenv
 ```
 
-Here's what each package does:
+以下是各個套件的功能：
 
-- **`prisma`** - The Prisma CLI for running commands like `prisma init`, `prisma db pull`, and `prisma generate`
-- **`@prisma/client`** - The Prisma Client library for querying your database
-- **`@prisma/adapter-better-sqlite3`** - The SQLite driver adapter that connects Prisma Client to your database
-- **`@types/better-sqlite3`** - TypeScript type definitions for better-sqlite3
-- **`dotenv`** - Loads environment variables from your `.env` file
+- **`prisma`** - Prisma CLI，用於執行 `prisma init`、`prisma db pull` 和 `prisma generate` 等指令
+- **`@prisma/client`** - Prisma Client 函式庫，用於查詢你的資料庫
+- **`@prisma/adapter-better-sqlite3`** - SQLite 驅動程式適配器，連接 Prisma Client 到你的資料庫
+- **`@types/better-sqlite3`** - better-sqlite3 的 TypeScript 型別定義
+- **`dotenv`** - 從你的 `.env` 檔案載入環境變數
 
-## 2. Initialize Prisma ORM
+## 2. 初始化 Prisma ORM
 
-Set up your Prisma ORM project by creating your [Prisma Schema](/orm/prisma-schema) file with the following command:
+透過以下指令建立你的 [Prisma Schema](/orm/prisma-schema) 檔案來設定 Prisma ORM 專案：
 
 ```terminal
 npx prisma init --datasource-provider sqlite --output ../generated/prisma
 ```
 
-This command does a few things:
+此指令會執行以下操作：
 
-- Creates a `prisma/` directory with a `schema.prisma` file containing your database connection configuration
-- Creates a `.env` file in the root directory for environment variables
-- Creates a `prisma.config.ts` file for Prisma configuration
+- 建立 `prisma/` 目錄，包含一個 `schema.prisma` 檔案，其中包含你的資料庫連線配置
+- 在根目錄建立 `.env` 檔案，用於環境變數
+- 建立 `prisma.config.ts` 檔案，用於 Prisma 配置
 
-The generated `prisma.config.ts` file looks like this:
+產生的 `prisma.config.ts` 檔案如下：
 
 ```typescript file=prisma.config.ts
 import 'dotenv/config'
@@ -63,7 +63,7 @@ export default defineConfig({
 })
 ```
 
-The generated schema uses [the ESM-first `prisma-client` generator](/orm/prisma-schema/overview/generators#prisma-client) with a custom output path:
+產生的 schema 使用 [ESM 優先的 `prisma-client` 產生器](/orm/prisma-schema/overview/generators#prisma-client) 並帶有自訂輸出路徑：
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -76,73 +76,73 @@ datasource db {
 }
 ```
 
-A `.env` file should be created with the following value:
+應該會建立一個 `.env` 檔案，內容如下：
 
 ```env file=.env
 DATABASE_URL="file:./dev.db"
 ```
 
-## 3. Connect your database
+## 3. 連接你的資料庫
 
-Update the `.env` file to point to your existing SQLite database file:
+更新 `.env` 檔案以指向你現有的 SQLite 資料庫檔案：
 
 ```bash file=.env
 DATABASE_URL="file:./path/to/your/database.db"
 ```
 
-## 4. Introspect your database
+## 4. 內省你的資料庫
 
-Run the following command to introspect your existing database:
+執行以下指令來內省你現有的資料庫：
 
 ```terminal
 npx prisma db pull
 ```
 
-This command reads the `DATABASE_URL` environment variable, connects to your database, and introspects the database schema. It then translates the database schema from SQL into a data model in your Prisma schema.
+此指令會讀取 `DATABASE_URL` 環境變數、連接到你的資料庫，並內省資料庫架構。然後將資料庫架構從 SQL 轉換為你 Prisma schema 中的資料模型。
 
-![Introspect your database with Prisma ORM](/img/getting-started/prisma-db-pull-generate-schema.png)
+![使用 Prisma ORM 內省你的資料庫](/img/getting-started/prisma-db-pull-generate-schema.png)
 
-After introspection, your Prisma schema will contain models that represent your existing database tables.
+內省後，你的 Prisma schema 將包含代表現有資料庫資料表的模型。
 
-## 5. Baseline your database
+## 5. 為你的資料庫建立基準
 
-To use Prisma Migrate with your existing database, you need to [baseline your database](/orm/prisma-migrate/getting-started).
+若要在現有資料庫上使用 Prisma Migrate，你需要[為資料庫建立基準](/orm/prisma-migrate/getting-started)。
 
-First, create a `migrations` directory:
+首先，建立 `migrations` 目錄：
 
 ```terminal
 mkdir -p prisma/migrations/0_init
 ```
 
-Next, generate the migration file with `prisma migrate diff`:
+接下來，使用 `prisma migrate diff` 產生遷移檔案：
 
 ```terminal
 npx prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script > prisma/migrations/0_init/migration.sql
 ```
 
-Review the generated migration file to ensure it matches your database schema.
+檢視產生的遷移檔案，確保它符合你的資料庫架構。
 
-Then, mark the migration as applied:
+然後，將遷移標記為已套用：
 
 ```terminal
 npx prisma migrate resolve --applied 0_init
 ```
 
-You now have a baseline for your current database schema.
+現在你已經為當前的資料庫架構建立了基準。
 
-## 6. Generate Prisma ORM types
+## 6. 產生 Prisma ORM 型別
 
-Generate Prisma Client based on your introspected schema:
+根據你內省的 schema 產生 Prisma Client：
 
 ```terminal
 npx prisma generate
 ```
 
-This creates a type-safe Prisma Client tailored to your database schema in the `generated/prisma` directory.
+這會在 `generated/prisma` 目錄中建立一個針對你資料庫架構客製化的型別安全 Prisma Client。
 
-## 7. Instantiate Prisma Client
+## 7. 實例化 Prisma Client
 
-Create a utility file to instantiate Prisma Client. You need to pass an instance of Prisma ORM's driver adapter to the `PrismaClient` constructor:
+建立一個工具檔案來實例化 Prisma Client。你需要將 Prisma ORM 驅動程式適配器的實例傳遞給 `PrismaClient` 建構函式：
 
 ```typescript file=lib/prisma.ts
 import "dotenv/config";
@@ -157,8 +157,8 @@ const prisma = new PrismaClient({ adapter });
 export { prisma };
 ```
 
-:::tip Using SQLite with Bun
-Bun doesn't support the native SQLite driver that `better-sqlite3` relies on (see the [`node:sqlite` reference](https://bun.com/reference/node/sqlite)). When targeting Bun, use the `@prisma/adapter-libsql` adapter instead:
+:::tip 在 Bun 中使用 SQLite
+Bun 不支援 `better-sqlite3` 所依賴的原生 SQLite 驅動程式（參見 [`node:sqlite` 參考](https://bun.com/reference/node/sqlite)）。當目標為 Bun 時，請改用 `@prisma/adapter-libsql` 適配器：
 
 ```ts
 import 'dotenv/config';
@@ -176,9 +176,9 @@ export { prisma };
 
 :::
 
-## 8. Query your database
+## 8. 查詢你的資料庫
 
-Now you can use Prisma Client to query your database. Create a `script.ts` file:
+現在你可以使用 Prisma Client 來查詢你的資料庫。建立一個 `script.ts` 檔案：
 
 ```typescript file=script.ts
 import { prisma } from './lib/prisma'
@@ -201,19 +201,19 @@ main()
   })
 ```
 
-Run the script:
+執行腳本：
 
 ```terminal
 npx tsx script.ts
 ```
 
-## 9. Evolve your schema
+## 9. 演化你的 schema
 
-To make changes to your database schema:
+若要對資料庫架構進行變更：
 
-### 9.1. Update your Prisma schema file
+### 9.1. 更新你的 Prisma schema 檔案
 
-Update your Prisma schema file to reflect the changes you want to make to your database schema. For example, add a new model:
+更新你的 Prisma schema 檔案以反映你想對資料庫架構進行的變更。例如，新增一個新模型：
 
 ```prisma file=prisma/schema.prisma
 // add-start
@@ -235,53 +235,53 @@ model User {
 // add-end
 ```
 
-### 9.2. Create and apply a migration:
+### 9.2. 建立並套用遷移：
 
 ```terminal
 npx prisma migrate dev --name your_migration_name
 ```
 
-This command will:
-- Create a new SQL migration file
-- Apply the migration to your database
-- Regenerate Prisma Client
+此指令將：
+- 建立一個新的 SQL 遷移檔案
+- 將遷移套用到你的資料庫
+- 重新產生 Prisma Client
 
-## 10. Explore your data with Prisma Studio
+## 10. 使用 Prisma Studio 探索你的資料
 
 <ExploreData />
 
-:::note[SQLite requirements for Prisma Studio]
+:::note[Prisma Studio 的 SQLite 需求]
 
-- File paths must have a `file:` protocol right now in the database url for SQLite
-- **Node.js 22.5+**: Works out of the box with the built-in `node:sqlite` module
-  - May require `NODE_OPTIONS=--experimental-sqlite` environment variable
-- **Node.js 20**: Requires installing `better-sqlite3` as a dependency
-  - If using pnpm 10+ with `pnpx`, you'll need the [`--allow-build=better-sqlite3`](https://pnpm.io/cli/dlx#--allow-build) flag
-- **Deno >= 2.2**: Supported via [built-in SQLite module](https://docs.deno.com/api/node/sqlite/)
-- **Bun**: Support for Prisma Studio with SQLite is coming soon and is not available yet
+- 目前 SQLite 的資料庫 URL 中的檔案路徑必須包含 `file:` 協定
+- **Node.js 22.5+**：可直接使用內建的 `node:sqlite` 模組
+  - 可能需要 `NODE_OPTIONS=--experimental-sqlite` 環境變數
+- **Node.js 20**：需要安裝 `better-sqlite3` 作為相依套件
+  - 如果使用 pnpm 10+ 搭配 `pnpx`，你需要加上 [`--allow-build=better-sqlite3`](https://pnpm.io/cli/dlx#--allow-build) 旗標
+- **Deno >= 2.2**：透過[內建的 SQLite 模組](https://docs.deno.com/api/node/sqlite/)支援
+- **Bun**：即將支援在 Bun 中使用 Prisma Studio 與 SQLite，目前尚未提供
 
-:::tip[Using `npx` with `better-sqlite3`]
+:::tip[搭配 `better-sqlite3` 使用 `npx`]
 
-If you don't have `node:sqlite` available in your runtime or prefer not to install `better-sqlite3` as a hard dependency (it adds ~10MB), you can use `npx` to temporarily install the required packages:
+如果你的運行環境中沒有 `node:sqlite`，或不想將 `better-sqlite3` 安裝為硬相依套件（它會增加約 10MB 大小），你可以使用 `npx` 臨時安裝所需的套件：
 
 ```terminal
 npx -p better-sqlite3 -p prisma prisma studio --url file:./path/to/your/database.db
 ```
 
-This command:
-- Temporarily installs `better-sqlite3` without adding it to your project dependencies
-- Runs Prisma Studio with the specified SQLite database file
-- Avoids the 10MB overhead of `better-sqlite3` in your project
+此指令會：
+- 臨時安裝 `better-sqlite3`，而不將其加入你的專案相依套件
+- 使用指定的 SQLite 資料庫檔案執行 Prisma Studio
+- 避免在你的專案中增加 10MB 的 `better-sqlite3` 負擔
 
 :::
 
-## Next steps
+## 下一步
 
 <NextSteps />
 
-## More info
+## 更多資訊
 
-- [SQLite database connector](/orm/overview/databases/sqlite)
-- [Prisma Config reference](/orm/reference/prisma-config-reference)
-- [Database introspection](/orm/prisma-schema/introspection)
+- [SQLite 資料庫連接器](/orm/overview/databases/sqlite)
+- [Prisma Config 參考](/orm/reference/prisma-config-reference)
+- [資料庫內省](/orm/prisma-schema/introspection)
 - [Prisma Migrate](/orm/prisma-migrate)

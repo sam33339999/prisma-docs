@@ -1,53 +1,53 @@
 ---
-title: 'Add Prisma ORM to an existing CockroachDB project'
+title: '將 Prisma ORM 加入現有的 CockroachDB 專案'
 sidebar_title: 'CockroachDB'
-metaTitle: 'How to add Prisma ORM to an existing project using CockroachDB (15 min)'
-metaDescription: 'Add Prisma ORM to an existing TypeScript project with CockroachDB and learn database introspection, baselining, and querying.'
+metaTitle: '如何將 Prisma ORM 加入使用 CockroachDB 的現有專案 (15 分鐘)'
+metaDescription: '將 Prisma ORM 加入現有的 TypeScript 專案並使用 CockroachDB，學習資料庫自省、基準設定和查詢。'
 ---
 
 import Prerequisites from '../../_components/_prerequisites.mdx'
 import ExploreData from '../../_components/_explore-data.mdx'
 import NextSteps from '../../_components/_next-steps.mdx'
 
-[CockroachDB](https://www.cockroachlabs.com/) is a distributed SQL database designed for cloud applications, offering horizontal scalability, strong consistency, and high availability. In this guide, you will learn how to add Prisma ORM to an existing TypeScript project, connect it to CockroachDB, introspect your existing database schema, and start querying with type-safe Prisma Client.
+[CockroachDB](https://www.cockroachlabs.com/) 是一個專為雲端應用程式設計的分散式 SQL 資料庫，提供水平擴展性、強一致性和高可用性。在本指南中，您將學習如何將 Prisma ORM 加入現有的 TypeScript 專案、將其連接到 CockroachDB、自省現有的資料庫架構，並開始使用型別安全的 Prisma Client 進行查詢。
 
-## Prerequisites
+## 前置需求
 
 <Prerequisites />
 
-## 1. Set up Prisma ORM
+## 1. 設定 Prisma ORM
 
-Navigate to your existing project directory and install the required dependencies:
+導航至您現有的專案目錄並安裝所需的相依套件：
 
 ```terminal
 npm install prisma @types/node @types/pg --save-dev
 npm install @prisma/client @prisma/adapter-pg pg dotenv
 ```
 
-Here's what each package does:
+以下是各套件的功能說明：
 
-- **`prisma`** - The Prisma CLI for running commands like `prisma init`, `prisma db pull`, and `prisma generate`
-- **`@prisma/client`** - The Prisma Client library for querying your database
-- **`@prisma/adapter-pg`** - The [`node-postgres` driver adapter](/orm/overview/databases/postgresql#using-the-node-postgres-driver) that connects Prisma Client to your database (CockroachDB is PostgreSQL-compatible)
-- **`pg`** - The node-postgres database driver
-- **`@types/pg`** - TypeScript type definitions for node-postgres
-- **`dotenv`** - Loads environment variables from your `.env` file
+- **`prisma`** - Prisma CLI，用於執行 `prisma init`、`prisma db pull` 和 `prisma generate` 等指令
+- **`@prisma/client`** - Prisma Client 函式庫，用於查詢您的資料庫
+- **`@prisma/adapter-pg`** - [`node-postgres` driver adapter](/orm/overview/databases/postgresql#using-the-node-postgres-driver)，將 Prisma Client 連接到您的資料庫（CockroachDB 與 PostgreSQL 相容）
+- **`pg`** - node-postgres 資料庫驅動程式
+- **`@types/pg`** - node-postgres 的 TypeScript 型別定義
+- **`dotenv`** - 從您的 `.env` 檔案載入環境變數
 
-## 2. Initialize Prisma ORM
+## 2. 初始化 Prisma ORM
 
-Set up your Prisma ORM project by creating your [Prisma Schema](/orm/prisma-schema) file with the following command:
+使用以下指令建立 [Prisma Schema](/orm/prisma-schema) 檔案，設定您的 Prisma ORM 專案：
 
 ```terminal
 npx prisma init --datasource-provider cockroachdb --output ../generated/prisma
 ```
 
-This command does a few things:
+此指令會執行以下幾項操作：
 
-- Creates a `prisma/` directory with a `schema.prisma` file containing your database connection configuration
-- Creates a `.env` file in the root directory for environment variables
-- Creates a `prisma.config.ts` file for Prisma configuration
+- 建立包含 `schema.prisma` 檔案的 `prisma/` 目錄，其中包含您的資料庫連線設定
+- 在根目錄中建立用於環境變數的 `.env` 檔案
+- 建立用於 Prisma 設定的 `prisma.config.ts` 檔案
 
-The generated `prisma.config.ts` file looks like this:
+產生的 `prisma.config.ts` 檔案如下所示：
 
 ```typescript file=prisma.config.ts
 import 'dotenv/config'
@@ -64,7 +64,7 @@ export default defineConfig({
 })
 ```
 
-The generated schema uses [the ESM-first `prisma-client` generator](/orm/prisma-schema/overview/generators#prisma-client) with a custom output path:
+產生的 schema 使用 [ESM-first `prisma-client` generator](/orm/prisma-schema/overview/generators#prisma-client) 並具有自訂輸出路徑：
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -77,73 +77,73 @@ datasource db {
 }
 ```
 
-## 3. Connect your database
+## 3. 連接您的資料庫
 
-Update the `.env` file with your CockroachDB connection URL:
+使用您的 CockroachDB 連線 URL 更新 `.env` 檔案：
 
 ```bash file=.env
 DATABASE_URL="postgresql://user:password@host:26257/mydb?sslmode=require"
 ```
 
-The [format of the connection URL](/orm/reference/connection-urls) for CockroachDB looks as follows:
+CockroachDB 的[連線 URL 格式](/orm/reference/connection-urls)如下：
 
 ```
 postgresql://USER:PASSWORD@HOST:PORT/DATABASE?sslmode=require
 ```
 
-## 4. Introspect your database
+## 4. 自省您的資料庫
 
-Run the following command to introspect your existing database:
+執行以下指令以自省您現有的資料庫：
 
 ```terminal
 npx prisma db pull
 ```
 
-This command reads the `DATABASE_URL` environment variable, connects to your database, and introspects the database schema. It then translates the database schema from SQL into a data model in your Prisma schema.
+此指令會讀取 `DATABASE_URL` 環境變數，連接到您的資料庫，並自省資料庫架構。然後將資料庫架構從 SQL 轉譯為 Prisma schema 中的資料模型。
 
 ![Introspect your database with Prisma ORM](/img/getting-started/prisma-db-pull-generate-schema.png)
 
-After introspection, your Prisma schema will contain models that represent your existing database tables.
+自省完成後，您的 Prisma schema 將包含代表現有資料庫表格的模型。
 
-## 5. Baseline your database
+## 5. 為您的資料庫建立基準
 
-To use Prisma Migrate with your existing database, you need to [baseline your database](/orm/prisma-migrate/getting-started).
+要在現有資料庫中使用 Prisma Migrate，您需要[為資料庫建立基準](/orm/prisma-migrate/getting-started)。
 
-First, create a `migrations` directory:
+首先，建立 `migrations` 目錄：
 
 ```terminal
 mkdir -p prisma/migrations/0_init
 ```
 
-Next, generate the migration file with `prisma migrate diff`:
+接下來，使用 `prisma migrate diff` 產生遷移檔案：
 
 ```terminal
 npx prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script > prisma/migrations/0_init/migration.sql
 ```
 
-Review the generated migration file to ensure it matches your database schema.
+檢查產生的遷移檔案，確保它與您的資料庫架構相符。
 
-Then, mark the migration as applied:
+然後，將遷移標記為已套用：
 
 ```terminal
 npx prisma migrate resolve --applied 0_init
 ```
 
-You now have a baseline for your current database schema.
+您現在已為目前的資料庫架構建立了基準。
 
-## 6. Generate Prisma ORM types
+## 6. 產生 Prisma ORM 型別
 
-Generate Prisma Client based on your introspected schema:
+基於自省的 schema 產生 Prisma Client：
 
 ```terminal
 npx prisma generate
 ```
 
-This creates a type-safe Prisma Client tailored to your database schema in the `generated/prisma` directory.
+這會在 `generated/prisma` 目錄中建立針對您資料庫架構的型別安全 Prisma Client。
 
-## 7. Instantiate Prisma Client
+## 7. 實例化 Prisma Client
 
-Create a utility file to instantiate Prisma Client. You need to pass an instance of Prisma ORM's driver adapter to the `PrismaClient` constructor:
+建立一個工具檔案來實例化 Prisma Client。您需要將 Prisma ORM 的 driver adapter 實例傳遞給 `PrismaClient` 建構函式：
 
 ```typescript file=lib/prisma.ts
 import "dotenv/config";
@@ -158,9 +158,9 @@ const prisma = new PrismaClient({ adapter })
 export { prisma }
 ```
 
-## 8. Query your database
+## 8. 查詢您的資料庫
 
-Now you can use Prisma Client to query your database. Create a `script.ts` file:
+現在您可以使用 Prisma Client 來查詢資料庫。建立一個 `script.ts` 檔案：
 
 ```typescript file=script.ts
 import { prisma } from './lib/prisma'
@@ -183,19 +183,19 @@ main()
   })
 ```
 
-Run the script:
+執行腳本：
 
 ```terminal
 npx tsx script.ts
 ```
 
-## 9. Evolve your schema
+## 9. 演進您的 schema
 
-To make changes to your database schema:
+要對資料庫架構進行變更：
 
-### 9.1. Update your Prisma schema file
+### 9.1. 更新您的 Prisma schema 檔案
 
-Update your Prisma schema file to reflect the changes you want to make to your database schema. For example, add a new model:
+更新您的 Prisma schema 檔案以反映您想對資料庫架構進行的變更。例如，新增一個新模型：
 
 ```prisma file=prisma/schema.prisma
 // add-start
@@ -217,28 +217,28 @@ model User {
 // add-end
 ```
 
-### 9.2. Create and apply a migration:
+### 9.2. 建立並套用遷移：
 
 ```terminal
 npx prisma migrate dev --name your_migration_name
 ```
 
-This command will:
-- Create a new SQL migration file
-- Apply the migration to your database
-- Regenerate Prisma Client
+此指令將會：
+- 建立新的 SQL 遷移檔案
+- 將遷移套用至您的資料庫
+- 重新產生 Prisma Client
 
-## 10. Explore your data
+## 10. 探索您的資料
 
-Explore the options suggested by [CockroachDB](https://www.cockroachlabs.com/blog/cockroachdb-gui-options/) to view and manage your data.
+探索 [CockroachDB](https://www.cockroachlabs.com/blog/cockroachdb-gui-options/) 建議的選項來檢視和管理您的資料。
 
-[Prisma Studio](/orm/tools/prisma-studio) does not currently support CockroachDB. Support may be added in a future release. See [Databases supported by Prisma Studio](/orm/tools/prisma-studio#databases-supported-by-prisma-studio) for more information.
+[Prisma Studio](/orm/tools/prisma-studio) 目前不支援 CockroachDB。未來版本可能會加入支援。更多資訊請參閱 [Databases supported by Prisma Studio](/orm/tools/prisma-studio#databases-supported-by-prisma-studio)。
 
-## Next steps
+## 下一步
 
 <NextSteps />
 
-## More info
+## 更多資訊
 
 - [CockroachDB database connector](/orm/overview/databases/cockroachdb)
 - [Prisma Config reference](/orm/reference/prisma-config-reference)

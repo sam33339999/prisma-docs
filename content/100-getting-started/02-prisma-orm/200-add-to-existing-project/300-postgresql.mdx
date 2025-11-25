@@ -1,53 +1,53 @@
 ---
-title: 'Add Prisma ORM to an existing PostgreSQL project'
+title: '將 Prisma ORM 加入現有的 PostgreSQL 專案'
 sidebar_title: 'PostgreSQL'
-metaTitle: 'How to add Prisma ORM to an existing project using PostgreSQL (15 min)'
-metaDescription: 'Add Prisma ORM to an existing TypeScript project with PostgreSQL and learn database introspection, baselining, and querying.'
+metaTitle: '如何將 Prisma ORM 加入使用 PostgreSQL 的現有專案 (15 分鐘)'
+metaDescription: '將 Prisma ORM 加入現有的 TypeScript 專案並連接 PostgreSQL，學習資料庫內省、基準設定和查詢。'
 ---
 
 import Prerequisites from '../../_components/_prerequisites.mdx'
 import ExploreData from '../../_components/_explore-data.mdx'
 import NextSteps from '../../_components/_next-steps.mdx'
 
-[PostgreSQL](https://www.postgresql.org/) is a popular open-source relational database known for its reliability, feature robustness, and performance. In this guide, you will learn how to add Prisma ORM to an existing TypeScript project, connect it to PostgreSQL, introspect your existing database schema, and start querying with type-safe Prisma Client.
+[PostgreSQL](https://www.postgresql.org/) 是一個受歡迎的開源關聯式資料庫，以其可靠性、功能豐富和效能著稱。在本指南中，你將學習如何將 Prisma ORM 加入現有的 TypeScript 專案、連接到 PostgreSQL、內省你現有的資料庫架構，並開始使用型別安全的 Prisma Client 進行查詢。
 
-## Prerequisites
+## 前置需求
 
 <Prerequisites />
 
-## 1. Set up Prisma ORM
+## 1. 設定 Prisma ORM
 
-Navigate to your existing project directory and install the required dependencies:
+導航到你現有的專案目錄並安裝所需的相依套件：
 
 ```terminal
 npm install prisma @types/node @types/pg --save-dev
 npm install @prisma/client @prisma/adapter-pg pg dotenv
 ```
 
-Here's what each package does:
+以下是各個套件的功能：
 
-- **`prisma`** - The Prisma CLI for running commands like `prisma init`, `prisma db pull`, and `prisma generate`
-- **`@prisma/client`** - The Prisma Client library for querying your database
-- **`@prisma/adapter-pg`** - The [`node-postgres` driver adapter](/orm/overview/databases/postgresql#using-the-node-postgres-driver) that connects Prisma Client to your database
-- **`pg`** - The node-postgres database driver
-- **`@types/pg`** - TypeScript type definitions for node-postgres
-- **`dotenv`** - Loads environment variables from your `.env` file
+- **`prisma`** - Prisma CLI，用於執行 `prisma init`、`prisma db pull` 和 `prisma generate` 等指令
+- **`@prisma/client`** - Prisma Client 函式庫，用於查詢你的資料庫
+- **`@prisma/adapter-pg`** - [`node-postgres` 驅動程式適配器](/orm/overview/databases/postgresql#using-the-node-postgres-driver)，連接 Prisma Client 到你的資料庫
+- **`pg`** - node-postgres 資料庫驅動程式
+- **`@types/pg`** - node-postgres 的 TypeScript 型別定義
+- **`dotenv`** - 從你的 `.env` 檔案載入環境變數
 
-## 2. Initialize Prisma ORM
+## 2. 初始化 Prisma ORM
 
-Set up your Prisma ORM project by creating your [Prisma Schema](/orm/prisma-schema) file with the following command:
+透過以下指令建立你的 [Prisma Schema](/orm/prisma-schema) 檔案來設定 Prisma ORM 專案：
 
 ```terminal
 npx prisma init --datasource-provider postgresql --output ../generated/prisma
 ```
 
-This command does a few things:
+此指令會執行以下操作：
 
-- Creates a `prisma/` directory with a `schema.prisma` file containing your database connection configuration
-- Creates a `.env` file in the root directory for environment variables
-- Creates a `prisma.config.ts` file for Prisma configuration
+- 建立 `prisma/` 目錄，包含一個 `schema.prisma` 檔案，其中包含你的資料庫連線配置
+- 在根目錄建立 `.env` 檔案，用於環境變數
+- 建立 `prisma.config.ts` 檔案，用於 Prisma 配置
 
-The generated `prisma.config.ts` file looks like this:
+產生的 `prisma.config.ts` 檔案如下：
 
 ```typescript file=prisma.config.ts
 import 'dotenv/config'
@@ -64,7 +64,7 @@ export default defineConfig({
 })
 ```
 
-The generated schema uses [the ESM-first `prisma-client` generator](/orm/prisma-schema/overview/generators#prisma-client) with a custom output path:
+產生的 schema 使用 [ESM 優先的 `prisma-client` 產生器](/orm/prisma-schema/overview/generators#prisma-client) 並帶有自訂輸出路徑：
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -77,73 +77,73 @@ datasource db {
 }
 ```
 
-## 3. Connect your database
+## 3. 連接你的資料庫
 
-Update the `.env` file with your PostgreSQL connection URL:
+使用你的 PostgreSQL 連線 URL 更新 `.env` 檔案：
 
 ```bash file=.env
 DATABASE_URL="postgresql://user:password@localhost:5432/mydb?schema=public"
 ```
 
-The [format of the connection URL](/orm/reference/connection-urls) for PostgreSQL looks as follows:
+PostgreSQL 的[連線 URL 格式](/orm/reference/connection-urls)如下：
 
 ```
 postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA
 ```
 
-## 4. Introspect your database
+## 4. 內省你的資料庫
 
-Run the following command to introspect your existing database:
+執行以下指令來內省你現有的資料庫：
 
 ```terminal
 npx prisma db pull
 ```
 
-This command reads the `DATABASE_URL` environment variable, connects to your database, and introspects the database schema. It then translates the database schema from SQL into a data model in your Prisma schema.
+此指令會讀取 `DATABASE_URL` 環境變數、連接到你的資料庫，並內省資料庫架構。然後將資料庫架構從 SQL 轉換為你 Prisma schema 中的資料模型。
 
-![Introspect your database with Prisma ORM](/img/getting-started/prisma-db-pull-generate-schema.png)
+![使用 Prisma ORM 內省你的資料庫](/img/getting-started/prisma-db-pull-generate-schema.png)
 
-After introspection, your Prisma schema will contain models that represent your existing database tables.
+內省後，你的 Prisma schema 將包含代表現有資料庫資料表的模型。
 
-## 5. Baseline your database
+## 5. 為你的資料庫建立基準
 
-To use Prisma Migrate with your existing database, you need to [baseline your database](/orm/prisma-migrate/getting-started).
+若要在現有資料庫上使用 Prisma Migrate，你需要[為資料庫建立基準](/orm/prisma-migrate/getting-started)。
 
-First, create a `migrations` directory:
+首先，建立 `migrations` 目錄：
 
 ```terminal
 mkdir -p prisma/migrations/0_init
 ```
 
-Next, generate the migration file with `prisma migrate diff`:
+接下來，使用 `prisma migrate diff` 產生遷移檔案：
 
 ```terminal
 npx prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script > prisma/migrations/0_init/migration.sql
 ```
 
-Review the generated migration file to ensure it matches your database schema.
+檢視產生的遷移檔案，確保它符合你的資料庫架構。
 
-Then, mark the migration as applied:
+然後，將遷移標記為已套用：
 
 ```terminal
 npx prisma migrate resolve --applied 0_init
 ```
 
-You now have a baseline for your current database schema.
+現在你已經為當前的資料庫架構建立了基準。
 
-## 6. Generate Prisma ORM types
+## 6. 產生 Prisma ORM 型別
 
-Generate Prisma Client based on your introspected schema:
+根據你內省的 schema 產生 Prisma Client：
 
 ```terminal
 npx prisma generate
 ```
 
-This creates a type-safe Prisma Client tailored to your database schema in the `generated/prisma` directory.
+這會在 `generated/prisma` 目錄中建立一個針對你資料庫架構客製化的型別安全 Prisma Client。
 
-## 7. Instantiate Prisma Client
+## 7. 實例化 Prisma Client
 
-Create a utility file to instantiate Prisma Client. You need to pass an instance of Prisma ORM's driver adapter to the `PrismaClient` constructor:
+建立一個工具檔案來實例化 Prisma Client。你需要將 Prisma ORM 驅動程式適配器的實例傳遞給 `PrismaClient` 建構函式：
 
 ```typescript file=lib/prisma.ts
 import "dotenv/config";
@@ -158,9 +158,9 @@ const prisma = new PrismaClient({ adapter })
 export { prisma }
 ```
 
-## 8. Query your database
+## 8. 查詢你的資料庫
 
-Now you can use Prisma Client to query your database. Create a `script.ts` file:
+現在你可以使用 Prisma Client 來查詢你的資料庫。建立一個 `script.ts` 檔案：
 
 ```typescript file=script.ts
 import { prisma } from './lib/prisma'
@@ -183,19 +183,19 @@ main()
   })
 ```
 
-Run the script:
+執行腳本：
 
 ```terminal
 npx tsx script.ts
 ```
 
-## 9. Evolve your schema
+## 9. 演化你的 schema
 
-To make changes to your database schema:
+若要對資料庫架構進行變更：
 
-### 9.1. Update your Prisma schema file
+### 9.1. 更新你的 Prisma schema 檔案
 
-Update your Prisma schema file to reflect the changes you want to make to your database schema. For example, add a new model:
+更新你的 Prisma schema 檔案以反映你想對資料庫架構進行的變更。例如，新增一個新模型：
 
 ```prisma file=prisma/schema.prisma
 // add-start
@@ -217,28 +217,28 @@ model User {
 // add-end
 ```
 
-### 9.2. Create and apply a migration:
+### 9.2. 建立並套用遷移：
 
 ```terminal
 npx prisma migrate dev --name your_migration_name
 ```
 
-This command will:
-- Create a new SQL migration file
-- Apply the migration to your database
-- Regenerate Prisma Client
+此指令將：
+- 建立一個新的 SQL 遷移檔案
+- 將遷移套用到你的資料庫
+- 重新產生 Prisma Client
 
-## 10. Explore your data with Prisma Studio
+## 10. 使用 Prisma Studio 探索你的資料
 
 <ExploreData />
 
-## Next steps
+## 下一步
 
 <NextSteps />
 
-## More info
+## 更多資訊
 
-- [PostgreSQL database connector](/orm/overview/databases/postgresql)
-- [Prisma Config reference](/orm/reference/prisma-config-reference)
-- [Database introspection](/orm/prisma-schema/introspection)
+- [PostgreSQL 資料庫連接器](/orm/overview/databases/postgresql)
+- [Prisma Config 參考](/orm/reference/prisma-config-reference)
+- [資料庫內省](/orm/prisma-schema/introspection)
 - [Prisma Migrate](/orm/prisma-migrate)

@@ -1,20 +1,20 @@
 ---
-title: 'Fullstack'
-metaTitle: 'Building fullstack applications with Prisma ORM'
-metaDescription: 'This page gives explains how to build fullstack applications with Prisma. It shows how Prisma fits in with fullstack frameworks and provides practical examples'
+title: '全端'
+metaTitle: '使用 Prisma ORM 建立全端應用程式'
+metaDescription: '本頁面說明如何使用 Prisma 建立全端應用程式。它展示了 Prisma 如何與全端框架配合使用並提供實用範例'
 ---
 
 <TopBlock>
 
-Fullstack frameworks, such as Next.js, Remix or SvelteKit, blur the lines between the server and the client. These frameworks also provide different patterns for fetching and mutating data on the server.
+全端框架,例如 Next.js、Remix 或 SvelteKit,模糊了伺服器和客戶端之間的界線。這些框架還提供了不同的模式來在伺服器上獲取和變更資料。
 
-You can query your database using Prisma Client, using your framework of choice, from the server-side part of your application.
+你可以使用你選擇的框架,從應用程式的伺服器端部分使用 Prisma Client 查詢你的資料庫。
 
 </TopBlock>
 
-## Supported frameworks
+## 支援的框架
 
-Here's a non-exhaustive list of frameworks and libraries you can use with Prisma ORM:
+以下是可與 Prisma ORM 一起使用的框架和函式庫的非詳盡清單:
 
 - [Next.js](https://nextjs.org/)
 - [Remix](https://remix.run)
@@ -24,15 +24,15 @@ Here's a non-exhaustive list of frameworks and libraries you can use with Prisma
 - [t3 stack — using tRPC](https://create.t3.gg/)
 - [Wasp](https://wasp-lang.dev/)
 
-## Fullstack app example (e.g. Next.js)
+## 全端應用程式範例(例如 Next.js)
 
 :::tip
 
-If you want to learn how to build an app with Next.js and Prisma ORM, check out this comprehensive [video tutorial](https://www.youtube.com/watch?v=QXxy8Uv1LnQ&ab_channel=ByteGrad).
+如果你想學習如何使用 Next.js 和 Prisma ORM 建立應用程式,請查看這個全面的[影片教學](https://www.youtube.com/watch?v=QXxy8Uv1LnQ&ab_channel=ByteGrad)。
 
 :::
 
-Assume you have a Prisma schema that looks similar to this:
+假設你有一個類似於以下的 Prisma schema:
 
 ```prisma
 datasource db {
@@ -62,7 +62,7 @@ model User {
 }
 ```
 
-You can now implement the logic for querying your database using [Prisma Client API](/orm/prisma-client) inside `getServerSideProps`, `getStaticProps`, API routes, or using API libraries such as [tRPC](https://trpc.io/) and [GraphQL](https://graphql.org/).
+你現在可以在 `getServerSideProps`、`getStaticProps`、API 路由中,或使用 API 函式庫(例如 [tRPC](https://trpc.io/) 和 [GraphQL](https://graphql.org/))來實作使用 [Prisma Client API](/orm/prisma-client) 查詢資料庫的邏輯。
 
 ### `getServerSideProps`
 
@@ -81,9 +81,9 @@ export const getServerSideProps = async () => {
 }
 ```
 
-Next.js will pass the props to your React component where you can display the data from your database.
+Next.js 會將 props 傳遞給你的 React 元件,你可以在其中顯示來自資料庫的資料。
 
-### API Routes
+### API 路由
 
 ```ts
 // Fetch all posts (in /pages/api/posts.ts)
@@ -99,18 +99,18 @@ export default async function handle(req, res) {
 }
 ```
 
-Note that you can use Prisma ORM inside of Next.js API routes to send queries to your database – with REST, GraphQL, and tRPC.
+請注意,你可以在 Next.js API 路由內使用 Prisma ORM 向資料庫發送查詢 - 支援 REST、GraphQL 和 tRPC。
 
-You can then fetch data and display it in your frontend.
+然後你可以獲取資料並在前端中顯示它。
 
-## Ready-to-run fullstack example projects
+## 立即可執行的全端範例專案
 
-You can find several ready-to-run examples that show how to fullstack apps with Prisma Client in the [`prisma-examples`](https://github.com/prisma/prisma-examples/) repository.
+你可以在 [`prisma-examples`](https://github.com/prisma/prisma-examples/) 儲存庫中找到多個立即可執行的範例,展示如何使用 Prisma Client 建立全端應用程式。
 
-| **Example**                                                                                                                    | **Description**                                                                                       |
+| **範例**                                                                                                                    | **說明**                                                                                       |
 | :----------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------- |
-| [Next.js](https://pris.ly/e/orm/nextjs)                | Fullstack Next.js 15 app                                                                               |
-| [Next.js (GraphQL)](https://pris.ly/e/ts/graphql-nextjs)                           | Fullstack Next.js app using GraphQL Yoga, Pothos, & Apollo Client                                     |
-| [Remix](https://pris.ly/e/ts/remix)                                                | Fullstack Remix app using actions and loaders                                                         |
-| [SvelteKit](https://pris.ly/e/ts/sveltekit)                                        | Fullstack Sveltekit app using actions and loaders                                                     |
-| [Nuxt](https://pris.ly/e/ts/rest-nuxtjs)                                | Fullstack Nuxt app using API routes                                                                   |
+| [Next.js](https://pris.ly/e/orm/nextjs)                | 全端 Next.js 15 應用程式                                                                               |
+| [Next.js (GraphQL)](https://pris.ly/e/ts/graphql-nextjs)                           | 使用 GraphQL Yoga、Pothos 和 Apollo Client 的全端 Next.js 應用程式                                     |
+| [Remix](https://pris.ly/e/ts/remix)                                                | 使用 actions 和 loaders 的全端 Remix 應用程式                                                         |
+| [SvelteKit](https://pris.ly/e/ts/sveltekit)                                        | 使用 actions 和 loaders 的全端 Sveltekit 應用程式                                                     |
+| [Nuxt](https://pris.ly/e/ts/rest-nuxtjs)                                | 使用 API 路由的全端 Nuxt 應用程式                                                                   |

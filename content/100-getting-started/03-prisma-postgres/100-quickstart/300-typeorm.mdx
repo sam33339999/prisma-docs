@@ -1,26 +1,26 @@
 ---
-title: 'Use Prisma Postgres with TypeORM'
+title: '搭配 TypeORM 使用 Prisma Postgres'
 sidebar_label: 'TypeORM'
-metaTitle: 'Quickstart: TypeORM with Prisma Postgres (10 min)'
-metaDescription: 'Get started with TypeORM and Prisma Postgres by connecting your TypeScript ORM to a managed PostgreSQL database.'
+metaTitle: '快速入門:使用 Prisma Postgres 的 TypeORM(10 分鐘)'
+metaDescription: '開始使用 TypeORM 和 Prisma Postgres,將您的 TypeScript ORM 連接到託管的 PostgreSQL 資料庫。'
 ---
 
-[TypeORM](https://typeorm.io) is a TypeScript ORM. In this guide, you'll learn how to connect TypeORM to [Prisma Postgres](/postgres).
+[TypeORM](https://typeorm.io) 是一個 TypeScript ORM。在本指南中,您將學習如何將 TypeORM 連接到 [Prisma Postgres](/postgres)。
 
-## Prerequisites
+## 先決條件
 
-- Node.js version 16 or higher
-- TypeScript version 4.5 or higher
+- Node.js 版本 16 或更高
+- TypeScript 版本 4.5 或更高
 
-## 1. Generate a TypeORM project
+## 1. 生成 TypeORM 專案
 
-Use the TypeORM CLI to generate a starter project:
+使用 TypeORM CLI 生成一個入門專案:
 
 ```terminal
 npx typeorm init --name typeorm-quickstart --database postgres
 ```
 
-This command will generate a new project with the following structure:
+此命令將生成一個具有以下結構的新專案:
 
 ```
 typeorm-quickstart
@@ -36,30 +36,30 @@ typeorm-quickstart
 └── tsconfig.json
 ```
 
-## 2. Install dependencies
+## 2. 安裝依賴項
 
-Navigate to the project directory and install dependencies:
+導航到專案目錄並安裝依賴項:
 
 ```terminal
 cd typeorm-quickstart
 npm install
 ```
 
-Install dotenv to load environment variables:
+安裝 dotenv 以載入環境變數:
 
 ```terminal
 npm install dotenv
 ```
 
-## 3. Create a Prisma Postgres database
+## 3. 建立 Prisma Postgres 資料庫
 
-You can create a Prisma Postgres database using the `create-db` CLI tool. Follow these steps to create your Prisma Postgres database:
+您可以使用 `create-db` CLI 工具建立 Prisma Postgres 資料庫。按照以下步驟建立您的 Prisma Postgres 資料庫:
 
 ```terminal
 npx create-db
 ```
 
-Then the CLI tool should output:
+然後 CLI 工具應該會輸出:
 
 ```terminal
 ┌  🚀 Creating a Prisma Postgres database
@@ -87,10 +87,10 @@ Then the CLI tool should output:
 │
 │    Database will be deleted on 11/18/2025, 1:55:39 AM if not claimed.
 │
-└  
+└
 ```
 
-Create a `.env` file and add the connection string from the output:
+建立一個 `.env` 檔案並新增輸出中的連接字串:
 
 ```env file=.env
 DATABASE_URL="postgresql://hostname:password@db.prisma.io:5432/postgres?sslmode=require"
@@ -98,21 +98,21 @@ DATABASE_URL="postgresql://hostname:password@db.prisma.io:5432/postgres?sslmode=
 
 :::warning
 
-**Never commit `.env` files to version control.** Add `.env` to your `.gitignore` file to keep credentials secure.
+**永遠不要將 `.env` 檔案提交到版本控制。** 將 `.env` 新增到您的 `.gitignore` 檔案以保持憑證安全。
 
 :::
 
-The database created is temporary and will be deleted in 24 hours unless claimed. Claiming moves the database into your [Prisma Data Platform](https://console.prisma.io) account. Visit the claim URL from the output to keep your database.
+建立的資料庫是臨時的,除非被認領,否則將在 24 小時內刪除。認領會將資料庫移至您的 [Prisma Data Platform](https://console.prisma.io) 帳戶。訪問輸出中的認領 URL 以保留您的資料庫。
 
 :::note
 
-To learn more about the `create-db` CLI tool, see the [create-db documentation](/postgres/introduction/npx-create-db).
+要了解更多關於 `create-db` CLI 工具的資訊,請參閱 [create-db 文件](/postgres/introduction/npx-create-db)。
 
 :::
 
-## 4. Configure database connection
+## 4. 配置資料庫連接
 
-Update the `src/data-source.ts` file to use your Prisma Postgres connection:
+更新 `src/data-source.ts` 檔案以使用您的 Prisma Postgres 連接:
 
 ```typescript file=src/data-source.ts
 import "reflect-metadata"
@@ -159,15 +159,15 @@ export const AppDataSource = new DataSource({
 })
 ```
 
-## 5. Run the application
+## 5. 執行應用程式
 
-Start the application:
+啟動應用程式:
 
 ```terminal
 npm start
 ```
 
-You should see output indicating the connection was successful and a new user was inserted into the database:
+您應該會看到輸出指示連接成功,並且新使用者已插入到資料庫中:
 
 ```terminal
 Inserting a new user into the database...
@@ -176,6 +176,6 @@ Loading users from the database...
 Loaded users:  [ User { id: 1, firstName: 'Timber', lastName: 'Saw', age: 25 } ]
 ```
 
-## Next steps
+## 後續步驟
 
-You've successfully connected TypeORM to Prisma Postgres! For more advanced features like entities, migrations, and queries, see the [TypeORM documentation](https://typeorm.io/docs/getting-started).
+您已成功將 TypeORM 連接到 Prisma Postgres!要了解更多進階功能,如實體、遷移和查詢,請參閱 [TypeORM 文件](https://typeorm.io/docs/getting-started)。

@@ -1,20 +1,20 @@
 ---
-title: 'Database drivers'
-metaTitle: 'Database drivers'
-metaDescription: 'Learn how Prisma connects to your database using the built-in drivers and how you can use Prisma along with other JavaScript database drivers using driver adapters (Preview)'
+title: '資料庫驅動程式'
+metaTitle: '資料庫驅動程式'
+metaDescription: '了解 Prisma 如何使用內建驅動程式連接到你的資料庫,以及如何使用驅動程式轉接器(預覽版)配合其他 JavaScript 資料庫驅動程式使用 Prisma'
 tocDepth: 4
 toc_max_heading_level: 4
 ---
 
-## Default built-in drivers
+## 預設內建驅動程式
 
-One of Prisma Client's components is the [Query Engine](/orm/more/under-the-hood/engines) (which is implemented in Rust). The Query Engine is responsible for transforming Prisma Client queries into SQL statements. It connects to your database via TCP using built-in drivers that don't require additional setup.
+Prisma Client 的元件之一是[查詢引擎](/orm/more/under-the-hood/engines)(使用 Rust 實作)。查詢引擎負責將 Prisma Client 查詢轉換為 SQL 語句。它使用內建驅動程式透過 TCP 連接到你的資料庫,無需額外設定。
 
 :::note
 
-As of Prisma ORM 7, the query compiler (client engine) is the default, which means Prisma Client is generated without a Rust-based query engine binary. This provides better performance and developer experience. Learn more [here](/orm/prisma-client/setup-and-configuration/no-rust-engine).
+從 Prisma ORM 7 開始,查詢編譯器(客戶端引擎)成為預設選項,這意味著 Prisma Client 生成時不包含基於 Rust 的查詢引擎二進位檔。這提供了更好的效能和開發者體驗。在[此處](/orm/prisma-client/setup-and-configuration/no-rust-engine)了解更多。
 
-In Prisma ORM 7, the default generator configuration is:
+在 Prisma ORM 7 中,預設的生成器設定為:
 
 ```prisma
 generator client {
@@ -23,32 +23,32 @@ generator client {
 }
 ```
 
-Note that [driver adapters](/orm/overview/databases/database-drivers#driver-adapters) are required when using the query compiler.
+請注意,使用查詢編譯器時需要[驅動程式轉接器](/orm/overview/databases/database-drivers#driver-adapters)。
 
-You can [read about the performance and DX improvements](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks) of this change on our blog.
+你可以在我們的部落格上[閱讀關於此變更的效能和開發體驗改善](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks)。
 
 :::
 
 
-![Query flow from the user application to the database with Prisma Client](./images/drivers/qe-query-execution-flow.png)
+![使用 Prisma Client 從使用者應用程式到資料庫的查詢流程](./images/drivers/qe-query-execution-flow.png)
 
-## Driver adapters
+## 驅動程式轉接器
 
-Prisma Client can connect and run queries against your database using JavaScript database drivers using **driver adapters**. Adapters act as _translators_ between Prisma Client and the JavaScript database driver.
+Prisma Client 可以使用 **驅動程式轉接器**透過 JavaScript 資料庫驅動程式連接並執行查詢。轉接器在 Prisma Client 和 JavaScript 資料庫驅動程式之間充當_轉譯器_。
 
-Prisma Client will use the Query Engine to transform the Prisma Client query to SQL and run the generated SQL queries via the JavaScript database driver.
+Prisma Client 將使用查詢引擎將 Prisma Client 查詢轉換為 SQL,並透過 JavaScript 資料庫驅動程式執行生成的 SQL 查詢。
 
-![Query flow from the user application to the database using Prisma Client and driver adapters](./images/drivers/qe-query-engine-adapter.png)
+![使用 Prisma Client 和驅動程式轉接器從使用者應用程式到資料庫的查詢流程](./images/drivers/qe-query-engine-adapter.png)
 
-There are two different types of driver adapters:
-- [Database driver adapters](#database-driver-adapters)
-- [Serverless driver adapters](#serverless-driver-adapters)
+有兩種不同類型的驅動程式轉接器:
+- [資料庫驅動程式轉接器](#database-driver-adapters)
+- [無伺服器驅動程式轉接器](#serverless-driver-adapters)
 
-> **Note**: Driver adapters enable [edge deployments](/orm/prisma-client/deployment/edge/overview) of applications that use Prisma ORM.
+> **注意**:驅動程式轉接器可以實現使用 Prisma ORM 的應用程式的[邊緣部署](/orm/prisma-client/deployment/edge/overview)。
 
-### Database driver adapters
+### 資料庫驅動程式轉接器
 
-You can connect to your database using a Node.js-based driver from Prisma Client using a database driver adapter. Prisma maintains the adapters for the following drivers:
+你可以使用資料庫驅動程式轉接器,從 Prisma Client 使用基於 Node.js 的驅動程式連接到你的資料庫。Prisma 維護以下驅動程式的轉接器:
 
 - PostgreSQL
   - [`pg`](/orm/overview/databases/postgresql#using-the-node-postgres-driver)
@@ -62,25 +62,25 @@ You can connect to your database using a Node.js-based driver from Prisma Client
 - MS SQL Server
   - [`node-mssql`](/orm/overview/databases/sql-server#using-the-node-mssql-driver)
 
-### Serverless driver adapters
+### 無伺服器驅動程式轉接器
 
-Database providers, such as Neon and PlanetScale, allow you to connect to your database using other protocols besides TCP, such as HTTP and WebSockets. These database drivers are optimized for connecting to your database in serverless and edge environments.
+資料庫提供商,例如 Neon 和 PlanetScale,允許你使用 TCP 以外的其他協定(例如 HTTP 和 WebSockets)連接到資料庫。這些資料庫驅動程式針對在無伺服器和邊緣環境中連接到資料庫進行了最佳化。
 
-Prisma ORM maintains the following serverless driver adapters:
+Prisma ORM 維護以下無伺服器驅動程式轉接器:
 - [Prisma Postgres](/postgres/database/serverless-driver#use-with-prisma-orm)
-- [Neon](/orm/overview/databases/neon#how-to-use-neons-serverless-driver-with-prisma-orm) (and Vercel Postgres)
+- [Neon](/orm/overview/databases/neon#how-to-use-neons-serverless-driver-with-prisma-orm) (和 Vercel Postgres)
 - [PlanetScale](/orm/overview/databases/planetscale#how-to-use-the-planetscale-serverless-driver-with-prisma-orm-preview)
 - [Cloudflare D1](/orm/overview/databases/cloudflare-d1)
 
-### Community-maintained database driver adapters
+### 社群維護的資料庫驅動程式轉接器
 
-You can also build your own driver adapter for the database you're using. The following is a list of community-maintained driver adapters:
+你也可以為正在使用的資料庫建立自己的驅動程式轉接器。以下是社群維護的驅動程式轉接器清單:
 - [TiDB Cloud Serverless Driver](https://github.com/tidbcloud/prisma-adapter)
 - [PGlite - Postgres in WASM](https://github.com/lucasthevenet/pglite-utils/tree/main/packages/prisma-adapter)
 
-## How to use driver adapters
+## 如何使用驅動程式轉接器
 
-Refer to the following pages to learn more about how to use the specific driver adapters with the specific database providers:
+請參考以下頁面,了解更多關於如何在特定資料庫提供商中使用特定驅動程式轉接器的資訊:
 - [PostgreSQL](/orm/overview/databases/postgresql#using-the-node-postgres-driver)
 - [Prisma Postgres](/postgres/database/serverless-driver#use-with-prisma-orm)
 - [MySQL/MariaDB](/orm/overview/databases/mysql#using-the-mariadb-driver)
@@ -90,24 +90,24 @@ Refer to the following pages to learn more about how to use the specific driver 
 - [Turso](/orm/overview/databases/turso#how-to-connect-and-query-a-turso-database)
 - [Cloudflare D1](/orm/overview/databases/cloudflare-d1)
 
-## Notes about using driver adapters
+## 使用驅動程式轉接器的注意事項
 
-### New driver adapters API in v6.6.0
+### v6.6.0 中的新驅動程式轉接器 API
 
-In [v6.6.0](https://github.com/prisma/prisma/releases/tag/6.6.0), we introduced a simplified version for instantiating Prisma Client when using driver adapters. You now don't need to create an instance of the driver/client to pass to a driver adapter, instead you can just create the driver adapter directly (and pass the driver's options to it if needed).
+在 [v6.6.0](https://github.com/prisma/prisma/releases/tag/6.6.0) 中,我們引入了一個簡化版本,用於在使用驅動程式轉接器時實例化 Prisma Client。現在你不需要建立驅動程式/客戶端的實例來傳遞給驅動程式轉接器,相反,你可以直接建立驅動程式轉接器(並在需要時向其傳遞驅動程式的選項)。
 
-Here is an example using the `@prisma/adapter-libsql` adapter:
+以下是使用 `@prisma/adapter-libsql` 轉接器的範例:
 
-#### Before 6.6.0
+#### 6.6.0 之前
 
-Earlier versions of Prisma ORM required you to first instantiate the driver itself, and then use that instance to create the Prisma driver adapter. Here is an example using the `@libsql/client` driver for LibSQL:
+早期版本的 Prisma ORM 要求你先實例化驅動程式本身,然後使用該實例建立 Prisma 驅動程式轉接器。以下是使用 `@libsql/client` 驅動程式用於 LibSQL 的範例:
 
 ```typescript
 import { createClient } from '@libsql/client'
 import { PrismaLibSQL } from '@prisma/adapter-libsql'
 import { PrismaClient } from '../prisma/generated/client'
 
-// Old way of using driver adapters (before 6.6.0)
+// 使用驅動程式轉接器的舊方式(6.6.0 之前)
 const driver = createClient({
   url: env.LIBSQL_DATABASE_URL,
   authToken: env.LIBSQL_DATABASE_TOKEN,
@@ -117,9 +117,9 @@ const adapter = new PrismaLibSQL(driver)
 const prisma = new PrismaClient({ adapter })
 ```
 
-#### 6.6.0 and later
+#### 6.6.0 及更新版本
 
-As of the 6.6.0 release, you instantiate the driver adapter _directly_ with the options of your preferred JS-native driver.:
+從 6.6.0 版本開始,你可以_直接_使用你偏好的 JS 原生驅動程式的選項來實例化驅動程式轉接器:
 
 ```typescript
 import { PrismaLibSQL } from '@prisma/adapter-libsql'
@@ -133,11 +133,11 @@ const adapter = new PrismaLibSQL({
 const prisma = new PrismaClient({ adapter })
 ```
 
-### Driver adapters and database connection configuration
+### 驅動程式轉接器和資料庫連接設定
 
-In Prisma ORM 7, the database connection URL is configured in [`prisma.config.ts`](/orm/reference/prisma-config-reference). However, when using a driver adapter, the connection string needs to be provided in your _application code_ when the driver adapter is set up initially.
+在 Prisma ORM 7 中,資料庫連接 URL 在 [`prisma.config.ts`](/orm/reference/prisma-config-reference) 中設定。然而,在使用驅動程式轉接器時,連接字串需要在驅動程式轉接器初始設定時於你的_應用程式程式碼_中提供。
 
-Here is how this is done for the `pg` driver and the `@prisma/adapter-pg` adapter:
+以下是 `pg` 驅動程式和 `@prisma/adapter-pg` 轉接器的做法:
 
 ```ts
 import 'dotenv/config'
@@ -148,26 +148,26 @@ const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
 const prisma = new PrismaClient({ adapter })
 ```
 
-See the docs for the driver adapter you're using for concrete setup instructions.
+請查看你正在使用的驅動程式轉接器的文件以獲取具體的設定說明。
 
-:::tip[Tuning pool sizes, timeouts, or other connection parameters] 
+:::tip[調整連接池大小、逾時或其他連接參數]
 
-See the [connection pool guide](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool) for the Prisma ORM v7 driver adapter defaults and how they map from Prisma ORM v6 URL parameters. 
-
-:::
-
-:::tip[Prisma timeouts]
-
-Prisma ORM also has its own configurable timeouts that are separate from the database driver timeouts. If you see a timeout error and are unsure whether it comes from the driver or from Prisma Client, see the [Prisma Client timeouts and transaction options documentation](/orm/prisma-client/queries/transactions#transaction-options).
+請參閱[連接池指南](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool),了解 Prisma ORM v7 驅動程式轉接器的預設值以及它們如何從 Prisma ORM v6 URL 參數對應過來。
 
 :::
 
+:::tip[Prisma 逾時]
 
-### Driver adapters and custom output paths
+Prisma ORM 也有自己的可設定逾時,與資料庫驅動程式逾時是分開的。如果你看到逾時錯誤並且不確定它是來自驅動程式還是來自 Prisma Client,請參閱 [Prisma Client 逾時和交易選項文件](/orm/prisma-client/queries/transactions#transaction-options)。
 
-In Prisma ORM 7, the recommended approach is to use a custom output path for Prisma Client. The default output path is `../generated/prisma`.
+:::
 
-Let's assume you have `output` in your Prisma schema set to `../generated/prisma`:
+
+### 驅動程式轉接器和自訂輸出路徑
+
+在 Prisma ORM 7 中,建議的方法是為 Prisma Client 使用自訂輸出路徑。預設輸出路徑為 `../generated/prisma`。
+
+假設你在 Prisma schema 中將 `output` 設定為 `../generated/prisma`:
 
 ```prisma
 generator client {
@@ -176,7 +176,7 @@ generator client {
 }
 ```
 
-You can reference Prisma Client using a relative path from your application code:
+你可以從應用程式程式碼中使用相對路徑引用 Prisma Client:
 
 ```ts
 import { PrismaClient } from '../generated/prisma/client'
@@ -184,7 +184,7 @@ import { PrismaClient } from '../generated/prisma/client'
 const client = new PrismaClient()
 ```
 
-Alternatively, you can use a linked dependency for cleaner imports.
+或者,你可以使用連結相依性來獲得更簡潔的匯入。
 
 <TabbedContent code>
 
@@ -214,7 +214,7 @@ yarn add db@link:./generated/prisma
 
 </TabbedContent>
 
-Now, you should be able to reference your generated client using `db`!
+現在,你應該能夠使用 `db` 引用你生成的客戶端了!
 
 ```ts
 import { PrismaClient } from 'db'
@@ -222,11 +222,11 @@ import { PrismaClient } from 'db'
 const client = new PrismaClient()
 ```
 
-### Driver adapters and specific frameworks
+### 驅動程式轉接器和特定框架
 
 #### Nuxt
 
-Using a driver adapter with [Nuxt](https://nuxt.com/) to deploy to an edge function environment does not work out of the box, but adding the `nitro.experimental.wasm` configuration option fixes that:
+使用驅動程式轉接器配合 [Nuxt](https://nuxt.com/) 部署到邊緣函數環境無法直接運作,但新增 `nitro.experimental.wasm` 設定選項可以解決這個問題:
 
 ```ts
 export default defineNuxtConfig({
@@ -241,8 +241,8 @@ export default defineNuxtConfig({
 })
 ```
 
-### Driver adapters and TypedSQL
+### 驅動程式轉接器和 TypedSQL
 
-[TypedSQL](/orm/prisma-client/using-raw-sql/typedsql) lets you write fully type-safe SQL queries that integrate directly with Prisma Client. This feature is useful if you want the flexibility of writing SQL while still benefiting from Prisma's type-safety.
+[TypedSQL](/orm/prisma-client/using-raw-sql/typedsql) 讓你編寫完全型別安全的 SQL 查詢,直接與 Prisma Client 整合。如果你想要編寫 SQL 的靈活性,同時仍然受益於 Prisma 的型別安全性,這個功能非常有用。
 
-You can also use driver adapters together with TypedSQL to connect through JavaScript database drivers. TypedSQL works with all supported driver adapters except `@prisma/adapter-better-sqlite3`. For SQLite support, use [`@prisma/adapter-libsql`](https://www.npmjs.com/package/@prisma/adapter-libsql) instead.
+你也可以將驅動程式轉接器與 TypedSQL 一起使用,透過 JavaScript 資料庫驅動程式進行連接。TypedSQL 適用於所有支援的驅動程式轉接器,除了 `@prisma/adapter-better-sqlite3`。如需 SQLite 支援,請改用 [`@prisma/adapter-libsql`](https://www.npmjs.com/package/@prisma/adapter-libsql)。

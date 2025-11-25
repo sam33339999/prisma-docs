@@ -1,21 +1,21 @@
 ---
-title: 'Data modeling'
-metaTitle: 'Data modeling with Prisma'
-metaDescription: 'Learn how data modeling with Prisma differs from data modeling with SQL or ORMs. Prisma uses a declarative data modeling language to describe a database schema.'
+title: '資料建模'
+metaTitle: '使用 Prisma 進行資料建模'
+metaDescription: '了解使用 Prisma 進行資料建模與使用 SQL 或 ORM 進行資料建模的差異。Prisma 使用宣告式資料建模語言來描述資料庫 schema。'
 ---
 
-## What is data modeling?
+## 什麼是資料建模？
 
-The term _data modeling_ refers to the **process of defining the shape and structure of the objects in an application**, these objects are often called "application models". In relational databases (like PostgreSQL), they are stored in _tables_ . When using document databases (like MongoDB), they are stored in _collections_.
+術語 _資料建模_ 指的是**定義應用程式中物件的形狀和結構的過程**，這些物件通常被稱為「應用程式模型」。在關聯式資料庫（如 PostgreSQL）中，它們儲存在 _表格_ 中。使用文件資料庫（如 MongoDB）時，它們儲存在 _集合_ 中。
 
-Depending on the domain of your application, the models will be different. For example, if you're writing a blogging application, you might have models such as _blog_, _author_, _article_. When writing a car-sharing app, you probably have models like _driver_, _car_, _route_. Application models enable you to represent these different entities in your code by creating respective _data structures_.
+根據您應用程式的領域，模型會有所不同。例如，如果您正在編寫部落格應用程式，您可能會有 _部落格_、_作者_、_文章_ 等模型。編寫汽車共享應用程式時，您可能會有 _司機_、_汽車_、_路線_ 等模型。應用程式模型讓您能夠透過建立相應的 _資料結構_ 在程式碼中表示這些不同的實體。
 
-When modeling data, you typically ask questions like:
+在建模資料時，您通常會問以下問題：
 
-- What are the main entities/concepts in my application?
-- How do they relate to each other?
-- What are their main characteristics/properties?
-- How can they be represented with my technology stack?
+- 我的應用程式中的主要實體/概念是什麼？
+- 它們如何彼此關聯？
+- 它們的主要特徵/屬性是什麼？
+- 如何使用我的技術堆疊表示它們？
 
 ## Data modeling without Prisma ORM
 

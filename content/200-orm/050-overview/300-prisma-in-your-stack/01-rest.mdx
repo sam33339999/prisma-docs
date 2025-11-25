@@ -1,22 +1,22 @@
 ---
 title: 'REST'
-metaTitle: 'Building REST APIs with Prisma ORM'
-metaDescription: 'This page gives an overview of the most important things when building REST APIs with Prisma. It shows practical examples and the supported libraries.'
+metaTitle: '使用 Prisma ORM 建立 REST API'
+metaDescription: '本頁面概述了使用 Prisma 建立 REST API 時最重要的事項。它展示了實用範例和支援的函式庫。'
 ---
 
 <TopBlock>
 
-When building REST APIs, Prisma Client can be used inside your _route controllers_ to send databases queries.
+在建立 REST API 時,Prisma Client 可以在你的_路由控制器_內部使用來發送資料庫查詢。
 
 ![REST APIs with Prisma Client](../100-introduction/prisma-rest-apis.png)
 
 </TopBlock>
 
-## Supported libraries
+## 支援的函式庫
 
-As Prisma Client is "only" responsible for sending queries to your database, it can be combined with any HTTP server library or web framework of your choice.
+由於 Prisma Client「只」負責向你的資料庫發送查詢,它可以與你選擇的任何 HTTP 伺服器函式庫或網頁框架結合使用。
 
-Here's a non-exhaustive list of libraries and frameworks you can use with Prisma ORM:
+以下是可與 Prisma ORM 一起使用的函式庫和框架的非詳盡清單:
 
 - [Express](https://expressjs.com/)
 - [koa](https://koajs.com/)
@@ -32,9 +32,9 @@ Here's a non-exhaustive list of libraries and frameworks you can use with Prisma
 - [Feathers](https://feathersjs.com/)
 - [Remix](https://remix.run/)
 
-## REST API server example
+## REST API 伺服器範例
 
-Assume you have a Prisma schema that looks similar to this:
+假設你有一個類似於以下的 Prisma schema:
 
 ```prisma
 datasource db {
@@ -64,7 +64,7 @@ model User {
 }
 ```
 
-You can now implement route controller (e.g. using Express) that use the generated [Prisma Client API](/orm/prisma-client) to perform a database operation when an incoming HTTP request arrives. This page only shows few sample code snippets; if you want to run these code snippets, you can use a [REST API example](https://pris.ly/e/ts/rest-express).
+你現在可以實作路由控制器(例如使用 Express),在收到傳入的 HTTP 請求時使用生成的 [Prisma Client API](/orm/prisma-client) 來執行資料庫操作。本頁面只展示了幾個範例程式碼片段;如果你想執行這些程式碼片段,可以使用 [REST API 範例](https://pris.ly/e/ts/rest-express)。
 
 #### `GET`
 
@@ -78,7 +78,7 @@ app.get('/feed', async (req, res) => {
 })
 ```
 
-Note that the `feed` endpoint in this case returns a nested JSON response of `Post` objects that _include_ an `author` object. Here's a sample response:
+請注意,在此情況下,`feed` 端點返回一個巢狀的 JSON 回應,其中的 `Post` 物件_包含_一個 `author` 物件。以下是範例回應:
 
 ```json
 [
@@ -141,14 +141,14 @@ app.delete(`/post/:id`, async (req, res) => {
 })
 ```
 
-## Ready-to-run example projects
+## 立即可執行的範例專案
 
-You can find several ready-to-run examples that show how to implement a REST API with Prisma Client, as well as build full applications, in the [`prisma-examples`](https://github.com/prisma/prisma-examples/) repository.
+你可以在 [`prisma-examples`](https://github.com/prisma/prisma-examples/) 儲存庫中找到多個立即可執行的範例,展示如何使用 Prisma Client 實作 REST API,以及建立完整的應用程式。
 
-| **Example**                                                                                                                   | **Stack**    | **Description**                                |
+| **範例**                                                                                                                   | **技術堆疊**    | **說明**                                |
 | ----------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------------------------------------------- |
-| [`express`](https://pris.ly/e/ts/rest-express)                               | Backend only | REST API with Express for TypeScript           |
-| [`fastify`](https://pris.ly/e/ts/rest-fastify)                               | Backend only | REST API using Fastify and Prisma Client.      |
-| [`hapi`](https://pris.ly/e/ts/rest-hapi)                                     | Backend only | REST API using hapi and Prisma Client          |
-| [`nestjs`](https://pris.ly/e/ts/rest-nestjs)                                 | Backend only | Nest.js app (Express) with a REST API          |
-| [`nextjs`](https://pris.ly/e/orm/nextjs)                                     | Fullstack    | Next.js app (React) with a REST API            |
+| [`express`](https://pris.ly/e/ts/rest-express)                               | 僅後端 | 使用 Express 的 TypeScript REST API           |
+| [`fastify`](https://pris.ly/e/ts/rest-fastify)                               | 僅後端 | 使用 Fastify 和 Prisma Client 的 REST API      |
+| [`hapi`](https://pris.ly/e/ts/rest-hapi)                                     | 僅後端 | 使用 hapi 和 Prisma Client 的 REST API          |
+| [`nestjs`](https://pris.ly/e/ts/rest-nestjs)                                 | 僅後端 | 具有 REST API 的 Nest.js 應用程式 (Express)          |
+| [`nextjs`](https://pris.ly/e/orm/nextjs)                                     | 全端    | 具有 REST API 的 Next.js 應用程式 (React)            |

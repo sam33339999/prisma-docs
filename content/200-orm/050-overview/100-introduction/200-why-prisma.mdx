@@ -1,95 +1,95 @@
 ---
-title: 'Why Prisma ORM?'
-metaTitle: 'Why Prisma ORM? Comparison with SQL query builders & ORMs'
-metaDescription: 'Learn about the motivation for Prisma ORM and how it compares to other Node.js and TypeScript database tools like ORMs and SQL query builders.'
+title: '為什麼選擇 Prisma ORM？'
+metaTitle: '為什麼選擇 Prisma ORM？與 SQL 查詢建構器和 ORM 的比較'
+metaDescription: '了解 Prisma ORM 的動機，以及它與其他 Node.js 和 TypeScript 資料庫工具（如 ORM 和 SQL 查詢建構器）的比較。'
 ---
 
 <TopBlock>
 
-On this page, you'll learn about the motivation for Prisma ORM and how it compares to other database tools like traditional ORMs and SQL query builders.
+在本頁面中，您將了解 Prisma ORM 的動機，以及它與其他資料庫工具（如傳統 ORM 和 SQL 查詢建構器）的比較。
 
-Working with relational databases is a major bottleneck in application development. Debugging SQL queries or complex ORM objects often consume hours of development time.
+使用關聯式資料庫是應用程式開發的主要瓶頸。除錯 SQL 查詢或複雜的 ORM 物件經常會消耗數小時的開發時間。
 
-Prisma ORM makes it easy for developers to reason about their database queries by providing a clean and type-safe API for submitting database queries which returns _plain old JavaScript objects_.
+Prisma ORM 透過提供乾淨且型別安全的 API 來提交資料庫查詢，使開發者能夠輕鬆理解他們的資料庫查詢，並回傳 _純 JavaScript 物件_。
 
 </TopBlock>
 
-## TLDR
+## 摘要
 
-Prisma ORM's main goal is to make application developers more productive when working with databases. Here are a few examples of how Prisma ORM achieves this:
+Prisma ORM 的主要目標是讓應用程式開發者在處理資料庫時更有生產力。以下是 Prisma ORM 如何實現這一目標的一些範例：
 
-- **Thinking in objects** instead of mapping relational data
-- **Queries not classes** to avoid complex model objects
-- **Single source of truth** for database and application models
-- **Healthy constraints** that prevent common pitfalls and anti-patterns
-- **An abstraction that makes the right thing easy** ("pit of success")
-- **Type-safe database queries** that can be validated at compile time
-- **Less boilerplate** so developers can focus on the important parts of their app
-- **Auto-completion in code editors** instead of needing to look up documentation
+- **以物件思考** 而不是對應關聯式資料
+- **查詢而非類別** 以避免複雜的模型物件
+- **單一事實來源** 用於資料庫和應用程式模型
+- **健康的限制** 防止常見陷阱和反模式
+- **讓正確的事情變得容易的抽象** （「成功之坑」）
+- **型別安全的資料庫查詢** 可在編譯時驗證
+- **更少的樣板程式碼** 讓開發者可以專注於應用程式的重要部分
+- **程式碼編輯器中的自動完成** 而不需要查閱文件
 
-The remaining parts of this page discuss how Prisma ORM compares to existing database tools.
+本頁面的其餘部分討論 Prisma ORM 與現有資料庫工具的比較。
 
-## Problems with SQL, traditional ORMs and other database tools
+## SQL、傳統 ORM 和其他資料庫工具的問題
 
-The main problem with the database tools that currently exist in the Node.js and TypeScript ecosystem is that they require a major tradeoff between _productivity_ and _control_.
+目前存在於 Node.js 和 TypeScript 生態系統中的資料庫工具的主要問題是，它們需要在 _生產力_ 和 _控制力_ 之間進行重大權衡。
 
-![Productivity vs Control in ORMs, SQL query builders, and SQL](./node-js-db-tools-tradeoffs.png)
+![ORM、SQL 查詢建構器和 SQL 中的生產力與控制力](./node-js-db-tools-tradeoffs.png)
 
-### Raw SQL: Full control, low productivity
+### 原始 SQL：完全控制，低生產力
 
-With raw SQL (e.g. using the native [`pg`](https://node-postgres.com/) or [`mysql`](https://github.com/mysqljs/mysql) Node.js database drivers) you have full control over your database operations. However, productivity suffers as sending plain SQL strings to the database is cumbersome and comes with a lot of overhead (manual connection handling, repetitive boilerplate, ...).
+使用原始 SQL（例如使用原生的 [`pg`](https://node-postgres.com/) 或 [`mysql`](https://github.com/mysqljs/mysql) Node.js 資料庫驅動程式），您可以完全控制資料庫操作。然而，生產力會受到影響，因為向資料庫傳送純 SQL 字串很繁瑣，並且伴隨著大量開銷（手動連接處理、重複的樣板程式碼等）。
 
-Another major issue with this approach is that you don't get any type safety for your query results. Of course, you can type the results manually but this is a huge amount of work and requires major refactorings each time you change your database schema or queries to keep the typings in sync.
+這種方法的另一個主要問題是，您的查詢結果不會獲得任何型別安全。當然，您可以手動為結果加上型別，但這需要大量工作，並且每次變更資料庫 schema 或查詢時都需要進行重大重構以保持型別同步。
 
-Furthermore, submitting SQL queries as plain strings means you don't get any autocompletion in your editors.
+此外，以純字串提交 SQL 查詢意味著您在編輯器中不會獲得任何自動完成。
 
-### SQL query builders: High control, medium productivity
+### SQL 查詢建構器：高控制力，中等生產力
 
-A common solution that retains a high level of control and provides better productivity is to use a SQL query builder (e.g. [knex.js](https://knexjs.org/)). These sort of tools provide a programmatic abstraction to construct SQL queries.
+一個常見的解決方案是使用 SQL 查詢建構器（例如 [knex.js](https://knexjs.org/)），它保留了高度的控制力並提供更好的生產力。這類工具提供程式化的抽象來構建 SQL 查詢。
 
-The biggest drawback with SQL query builders is that application developers still need to think about their data in terms of SQL. This incurs a cognitive and practical cost of translating relational data into objects. Another issue is that it's too easy to shoot yourself in the foot if you don't know exactly what you're doing in your SQL queries.
+SQL 查詢建構器最大的缺點是，應用程式開發者仍然需要以 SQL 的角度思考他們的資料。這會產生將關聯式資料轉換為物件的認知和實際成本。另一個問題是，如果您不確切知道在 SQL 查詢中在做什麼，很容易搬石頭砸自己的腳。
 
-### Traditional ORMs: Less control, better productivity
+### 傳統 ORM：較少控制，更好的生產力
 
-Traditional ORMs abstract away from SQL by letting you _define your application models as classes_, these classes are mapped to tables in the database.
+傳統 ORM 透過讓您 _將應用程式模型定義為類別_ 來抽象化 SQL，這些類別被對應到資料庫中的表格。
 
-> "Object relational mappers" (ORMs) exist to bridge the gap between the programmers' friend (the object), and the database's primitive (the relation). The reasons for these differing models are as much cultural as functional: programmers like objects because they encapsulate the state of a single thing in a running program. Databases like relations because they better suit whole-dataset constraints and efficient access patterns for the entire dataset.
+> 「物件關聯對應器」（ORM）的存在是為了彌合程式設計師的朋友（物件）和資料庫的原始型態（關聯）之間的差距。這些不同模型的原因既有文化上的也有功能上的：程式設計師喜歡物件，因為它們封裝了執行中程式單一事物的狀態。資料庫喜歡關聯，因為它們更適合整個資料集的約束和有效的存取模式。
 >
 > [The Troublesome Active Record Pattern, Cal Paterson (2020)](https://calpaterson.com/activerecord.html)
 
-You can then read and write data by calling methods on the instances of your model classes.
+然後您可以透過呼叫模型類別實例上的方法來讀取和寫入資料。
 
-This is way more convenient and comes closer to the mental model developers have when thinking about their data. So, what's the catch?
+這要方便得多，並且更接近開發者思考資料時的心智模型。那麼，問題在哪裡呢？
 
-> ORM represents a quagmire which starts well, gets more complicated as time passes, and before long entraps its users in a commitment that has no clear demarcation point, no clear win conditions, and no clear exit strategy.
+> ORM 代表了一個泥淖，它開始得很好，隨著時間的推移變得更加複雜，不久之後就讓使用者陷入一個沒有明確界限、沒有明確勝利條件、也沒有明確退出策略的承諾中。
 >
 > [The Vietnam of Computer Science, Ted Neward (2006)](https://blog.codinghorror.com/object-relational-mapping-is-the-vietnam-of-computer-science/)
 
-As an application developer, the mental model you have for your data is that of an _object_. The mental model for data in SQL on the other hand are _tables_.
+作為應用程式開發者，您對資料的心智模型是 _物件_。另一方面，SQL 中資料的心智模型是 _表格_。
 
-The divide between these two different representations of data is often referred to as the [object-relational impedance mismatch](https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch). The object-relational impedance mismatch also is a major reason why many developers don't like working with traditional ORMs.
+這兩種不同資料表示之間的差異通常被稱為[物件關聯阻抗不匹配](https://en.wikipedia.org/wiki/Object-relational_impedance_mismatch)。物件關聯阻抗不匹配也是許多開發者不喜歡使用傳統 ORM 的主要原因。
 
-As an example, consider how data is organized and relationships are handled with each approach:
+舉例來說，考慮每種方法如何組織資料和處理關聯：
 
-- **Relational databases**: Data is typically normalized (flat) and uses foreign keys to link across entities. The entities then need to be JOINed to manifest the actual relationships.
-- **Object-oriented**: Objects can be deeply nested structures where you can traverse relationships simply by using dot notation.
+- **關聯式資料庫**：資料通常是正規化的（扁平的），並使用外鍵來連結實體。然後需要 JOIN 實體來顯現實際的關聯。
+- **物件導向**：物件可以是深度巢狀的結構，您可以透過使用點記法來遍歷關聯。
 
-This alludes to one of the major pitfalls with traditional ORMs: While they make it _seem_ that you can simply traverse relationships using familiar dot notation, under the hood the ORM generates SQL JOINs which are expensive and have the potential to drastically slow down your application (one symptom of this is the [n+1 problem](https://stackoverflow.com/questions/97197/what-is-the-n1-selects-problem-in-orm-object-relational-mapping)).
+這暗示了傳統 ORM 的一個主要陷阱：雖然它們讓您 _看起來_ 可以簡單地使用熟悉的點記法來遍歷關聯，但在底層，ORM 會生成 SQL JOIN，這些 JOIN 是昂貴的，並且有可能大幅降低應用程式的速度（其中一個症狀是 [n+1 問題](https://stackoverflow.com/questions/97197/what-is-the-n1-selects-problem-in-orm-object-relational-mapping)）。
 
-To conclude: The appeal of traditional ORMs is the premise of abstracting away the relational model and thinking about your data purely in terms of objects. While the premise is great, it's based on the wrong assumption that relational data can easily be mapped to objects which leads to lots of complications and pitfalls.
+總結：傳統 ORM 的吸引力在於抽象化關聯式模型，並純粹以物件的角度思考資料。雖然這個前提很棒，但它基於錯誤的假設，即關聯式資料可以輕鬆對應到物件，這導致了許多複雜性和陷阱。
 
-## Application developers should care about data – not SQL
+## 應用程式開發者應該關心資料 - 而非 SQL
 
-Despite being developed in the 1970s(!), SQL has stood the test of time in an impressive manner. However, with the advancement and modernization of developers tools, it's worth asking if SQL really is the best abstraction for application developers to work with?
+儘管 SQL 是在 1970 年代開發的（！），但它以令人印象深刻的方式經受住了時間的考驗。然而，隨著開發者工具的進步和現代化，值得問的是，SQL 真的是應用程式開發者最好的抽象嗎？
 
-After all, **developers should only care about the _data_ they need to implement a feature** and not spend time figuring out complicated SQL queries or massaging query results to fit their needs.
+畢竟，**開發者應該只關心實現功能所需的 _資料_**，而不是花時間弄清楚複雜的 SQL 查詢或調整查詢結果以符合他們的需求。
 
-There's another argument to be made against SQL in application development. The power of SQL can be a blessing if you know exactly what you're doing, but its complexity can be a curse. There are a lot of [anti-patterns](https://www.slideshare.net/billkarwin/sql-antipatterns-strike-back) and pitfalls that even experienced SQL users struggle to anticipate, often at the cost of performance and hours of debugging time.
+關於在應用程式開發中使用 SQL 還有另一個論點。如果您確切知道自己在做什麼，SQL 的強大功能可能是一種祝福，但它的複雜性可能是一種詛咒。有很多[反模式](https://www.slideshare.net/billkarwin/sql-antipatterns-strike-back)和陷阱，即使是經驗豐富的 SQL 使用者也難以預料，通常以效能和數小時的除錯時間為代價。
 
-Developers should be able to ask for the data they need instead of having to worry about "doing the right thing" in their SQL queries. They should be using an abstraction that makes the right decisions for them. This can mean that the abstraction imposes certain "healthy" constraints that prevent developers from making mistakes.
+開發者應該能夠請求他們需要的資料，而不必擔心在 SQL 查詢中「做正確的事」。他們應該使用為他們做出正確決策的抽象。這可能意味著抽象施加某些「健康」的限制，以防止開發者犯錯。
 
-## Prisma ORM makes developers productive
+## Prisma ORM 讓開發者更有生產力
 
-Prisma ORM's main goal is to make application developers more productive when working with databases. Considering the tradeoff between productivity and control again, this is how Prisma ORM fits in:
+Prisma ORM 的主要目標是讓應用程式開發者在處理資料庫時更有生產力。再次考慮生產力和控制力之間的權衡，Prisma ORM 的定位如下：
 
-![Prisma ORM makes developers productive](./prisma-makes-devs-productive.png)
+![Prisma ORM 讓開發者更有生產力](./prisma-makes-devs-productive.png)

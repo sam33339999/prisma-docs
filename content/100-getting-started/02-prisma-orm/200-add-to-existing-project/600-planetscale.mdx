@@ -1,58 +1,58 @@
 ---
-title: 'Add Prisma ORM to an existing PlanetScale project'
+title: '將 Prisma ORM 加入現有的 PlanetScale 專案'
 sidebar_title: 'PlanetScale'
-metaTitle: 'How to add Prisma ORM to an existing project using PlanetScale MySQL (15 min)'
-metaDescription: 'Add Prisma ORM to an existing TypeScript project with PlanetScale MySQL and learn database introspection and querying.'
+metaTitle: '如何將 Prisma ORM 加入使用 PlanetScale MySQL 的現有專案 (15 分鐘)'
+metaDescription: '將 Prisma ORM 加入現有的 TypeScript 專案與 PlanetScale MySQL,並學習資料庫自檢和查詢。'
 ---
 
 import Prerequisites from '../../_components/_prerequisites.mdx'
 import ExploreData from '../../_components/_explore-data.mdx'
 import NextSteps from '../../_components/_next-steps.mdx'
 
-[PlanetScale](https://planetscale.com) is a serverless database platform. This guide covers **PlanetScale MySQL**, which is built on Vitess and offers database branching, non-blocking schema changes, and automatic backups. In this guide, you will learn how to add Prisma ORM to an existing TypeScript project, connect it to PlanetScale MySQL, introspect your existing database schema, and start querying with type-safe Prisma Client.
+[PlanetScale](https://planetscale.com) 是一個 serverless 資料庫平台。本指南涵蓋 **PlanetScale MySQL**,它建立在 Vitess 之上,提供資料庫分支、非阻塞的結構變更和自動備份。在本指南中,您將學習如何將 Prisma ORM 加入現有的 TypeScript 專案、將其連接至 PlanetScale MySQL、自檢現有的資料庫結構,並開始使用型別安全的 Prisma Client 進行查詢。
 
 :::note
 
-PlanetScale also offers PostgreSQL databases. If you're using **PlanetScale PostgreSQL**, follow the [Add to existing PostgreSQL project guide](/getting-started/prisma-orm/add-to-existing-project/postgresql) instead.
+PlanetScale 也提供 PostgreSQL 資料庫。如果您使用的是 **PlanetScale PostgreSQL**,請改用[加入現有 PostgreSQL 專案指南](/getting-started/prisma-orm/add-to-existing-project/postgresql)。
 
 :::
 
-## Prerequisites
+## 先決條件
 
 <Prerequisites />
 
-## 1. Set up Prisma ORM
+## 1. 設定 Prisma ORM
 
-Navigate to your existing project directory and install the required dependencies:
+導航至您現有的專案目錄並安裝所需的相依套件:
 
 ```terminal
 npm install prisma @types/node --save-dev
 npm install @prisma/client @prisma/adapter-planetscale undici dotenv
 ```
 
-Here's what each package does:
+以下是各個套件的功能:
 
-- **`prisma`** - The Prisma CLI for running commands like `prisma init`, `prisma db pull`, and `prisma generate`
-- **`@prisma/client`** - The Prisma Client library for querying your database
-- **`@prisma/adapter-planetscale`** - The PlanetScale driver adapter that connects Prisma Client to your database
-- **`undici`** - A fast HTTP/1.1 client required by the PlanetScale adapter
-- **`dotenv`** - Loads environment variables from your `.env` file
+- **`prisma`** - 用於執行 `prisma init`、`prisma db pull` 和 `prisma generate` 等指令的 Prisma CLI
+- **`@prisma/client`** - 用於查詢資料庫的 Prisma Client 函式庫
+- **`@prisma/adapter-planetscale`** - 將 Prisma Client 連接至資料庫的 PlanetScale 驅動程式適配器
+- **`undici`** - PlanetScale 適配器所需的快速 HTTP/1.1 客戶端
+- **`dotenv`** - 從 `.env` 檔案載入環境變數
 
-## 2. Initialize Prisma ORM
+## 2. 初始化 Prisma ORM
 
-Set up your Prisma ORM project by creating your [Prisma Schema](/orm/prisma-schema) file with the following command:
+使用以下指令建立 [Prisma Schema](/orm/prisma-schema) 檔案來設定您的 Prisma ORM 專案:
 
 ```terminal
 npx prisma init --datasource-provider mysql --output ../generated/prisma
 ```
 
-This command does a few things:
+此指令會執行以下幾項操作:
 
-- Creates a `prisma/` directory with a `schema.prisma` file containing your database connection configuration
-- Creates a `.env` file in the root directory for environment variables
-- Creates a `prisma.config.ts` file for Prisma configuration
+- 建立包含 `schema.prisma` 檔案的 `prisma/` 目錄,其中包含您的資料庫連線設定
+- 在根目錄中建立用於環境變數的 `.env` 檔案
+- 建立用於 Prisma 設定的 `prisma.config.ts` 檔案
 
-The generated `prisma.config.ts` file looks like this:
+生成的 `prisma.config.ts` 檔案如下所示:
 
 ```typescript file=prisma.config.ts
 import 'dotenv/config'
@@ -69,7 +69,7 @@ export default defineConfig({
 })
 ```
 
-The generated schema uses [the ESM-first `prisma-client` generator](/orm/prisma-schema/overview/generators#prisma-client) with a custom output path:
+生成的 schema 使用[優先支援 ESM 的 `prisma-client` 生成器](/orm/prisma-schema/overview/generators#prisma-client)以及自訂輸出路徑:
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -85,47 +85,47 @@ datasource db {
 
 :::info
 
-PlanetScale requires `relationMode = "prisma"` because it doesn't support foreign key constraints.
+PlanetScale 需要 `relationMode = "prisma"`,因為它不支援外鍵約束。
 
 :::
 
-## 3. Connect your database
+## 3. 連接您的資料庫
 
-Update the `.env` file with your PlanetScale connection URL:
+使用您的 PlanetScale 連線 URL 更新 `.env` 檔案:
 
 ```bash file=.env
 DATABASE_URL="mysql://username:password@host.connect.psdb.cloud/mydb?sslaccept=strict"
 ```
 
-You can find your connection string in the PlanetScale dashboard.
+您可以在 PlanetScale 儀表板中找到您的連線字串。
 
-## 4. Introspect your database
+## 4. 自檢您的資料庫
 
-Run the following command to introspect your existing database:
+執行以下指令來自檢您現有的資料庫:
 
 ```terminal
 npx prisma db pull
 ```
 
-This command reads the `DATABASE_URL` environment variable, connects to your database, and introspects the database schema. It then translates the database schema from SQL into a data model in your Prisma schema.
+此指令會讀取 `DATABASE_URL` 環境變數,連接至您的資料庫,並自檢資料庫結構。然後將資料庫結構從 SQL 轉換為 Prisma schema 中的資料模型。
 
-![Introspect your database with Prisma ORM](/img/getting-started/prisma-db-pull-generate-schema.png)
+![使用 Prisma ORM 自檢您的資料庫](/img/getting-started/prisma-db-pull-generate-schema.png)
 
-After introspection, your Prisma schema will contain models that represent your existing database tables.
+自檢後,您的 Prisma schema 將包含代表現有資料庫資料表的模型。
 
-## 5. Generate Prisma ORM types
+## 5. 生成 Prisma ORM 型別
 
-Generate Prisma Client based on your introspected schema:
+根據您自檢的 schema 生成 Prisma Client:
 
 ```terminal
 npx prisma generate
 ```
 
-This creates a type-safe Prisma Client tailored to your database schema in the `generated/prisma` directory.
+這會在 `generated/prisma` 目錄中建立針對您資料庫結構量身打造的型別安全 Prisma Client。
 
-## 6. Instantiate Prisma Client
+## 6. 實例化 Prisma Client
 
-Create a utility file to instantiate Prisma Client. You need to pass an instance of Prisma ORM's driver adapter to the `PrismaClient` constructor:
+建立一個工具檔案來實例化 Prisma Client。您需要將 Prisma ORM 的驅動程式適配器實例傳遞給 `PrismaClient` 建構函式:
 
 ```typescript file=lib/prisma.ts
 import "dotenv/config";
@@ -139,9 +139,9 @@ const prisma = new PrismaClient({ adapter })
 export { prisma }
 ```
 
-## 7. Query your database
+## 7. 查詢您的資料庫
 
-Now you can use Prisma Client to query your database. Create a `script.ts` file:
+現在您可以使用 Prisma Client 來查詢資料庫。建立一個 `script.ts` 檔案:
 
 ```typescript file=script.ts
 import { prisma } from './lib/prisma'
@@ -164,19 +164,19 @@ main()
   })
 ```
 
-Run the script:
+執行腳本:
 
 ```terminal
 npx tsx script.ts
 ```
 
-## 8. Evolve your schema
+## 8. 演進您的 schema
 
-PlanetScale uses a branching workflow instead of traditional migrations. To make changes to your database schema:
+PlanetScale 使用分支工作流程而非傳統的遷移。要對資料庫結構進行變更:
 
-### 8.1. Update your Prisma schema file
+### 8.1. 更新您的 Prisma schema 檔案
 
-Update your Prisma schema file to reflect the changes you want to make to your database schema. For example, add a new model:
+更新您的 Prisma schema 檔案以反映您想對資料庫結構進行的變更。例如,新增一個新模型:
 
 ```prisma file=prisma/schema.prisma
 // add-start
@@ -198,33 +198,33 @@ model User {
 // add-end
 ```
 
-### 8.2. Push the changes to your development branch:
+### 8.2. 將變更推送至您的開發分支:
 
 ```terminal
 npx prisma db push
 ```
 
-This command will:
-- Apply the schema changes to your PlanetScale database
-- Regenerate Prisma Client
+此指令將:
+- 將 schema 變更套用至您的 PlanetScale 資料庫
+- 重新生成 Prisma Client
 
 :::info
 
-For production deployments, use PlanetScale's [branching workflow](https://planetscale.com/docs/concepts/branching) to create deploy requests.
+對於正式環境部署,請使用 PlanetScale 的[分支工作流程](https://planetscale.com/docs/concepts/branching)來建立部署請求。
 
 :::
 
-## 9. Explore your data with Prisma Studio
+## 9. 使用 Prisma Studio 探索您的資料
 
 <ExploreData />
 
-## Next steps
+## 後續步驟
 
 <NextSteps />
 
-## More info
+## 更多資訊
 
-- [PlanetScale database connector](/orm/overview/databases/planetscale)
-- [Prisma Config reference](/orm/reference/prisma-config-reference)
-- [Database introspection](/orm/prisma-schema/introspection)
-- [PlanetScale branching workflow](https://planetscale.com/docs/concepts/branching)
+- [PlanetScale 資料庫連接器](/orm/overview/databases/planetscale)
+- [Prisma Config 參考](/orm/reference/prisma-config-reference)
+- [資料庫自檢](/orm/prisma-schema/introspection)
+- [PlanetScale 分支工作流程](https://planetscale.com/docs/concepts/branching)

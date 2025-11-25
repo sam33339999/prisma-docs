@@ -1,106 +1,106 @@
 ---
-title: 'Should you use Prisma ORM?'
-metaTitle: 'Should you use Prisma ORM as a Node.js/TypeScript ORM?'
-metaDescription: 'Prisma ORM is a new kind of ORM. This page explains when Prisma ORM would be a good fit, and provides alternatives for other scenarios.'
+title: '您應該使用 Prisma ORM 嗎？'
+metaTitle: '您應該使用 Prisma ORM 作為 Node.js/TypeScript ORM 嗎？'
+metaDescription: 'Prisma ORM 是一種新型的 ORM。本頁面解釋何時 Prisma ORM 會是一個好的選擇，並為其他情境提供替代方案。'
 tocDepth: 3
 toc: true
 ---
 
 <TopBlock>
 
-Prisma ORM is a new kind of ORM that - like any other tool - comes with its own tradeoffs. This page explains when Prisma ORM would be a good fit, and provides alternatives for other scenarios.
+Prisma ORM 是一種新型的 ORM，與任何其他工具一樣，它有自己的權衡。本頁面解釋何時 Prisma ORM 會是一個好的選擇，並為其他情境提供替代方案。
 
 </TopBlock>
 
-## Prisma ORM likely _is_ a good fit for you if ...
+## Prisma ORM 可能 _適合_ 您，如果...
 
-### ... you are building a server-side application that talks to a database
+### ... 您正在建構與資料庫溝通的伺服器端應用程式
 
-This is the main use case for Prisma ORM. Server-side applications typically are API servers that expose data operations via technologies like REST, GraphQL or gRPC. They are commonly built as microservices or monolithic apps and deployed via long-running servers or serverless functions. Prisma ORM is a great fit for all of these application and deployment models.
+這是 Prisma ORM 的主要使用場景。伺服器端應用程式通常是透過 REST、GraphQL 或 gRPC 等技術公開資料操作的 API 伺服器。它們通常建構為微服務或單體應用程式，並透過長期執行的伺服器或無伺服器函式部署。Prisma ORM 非常適合所有這些應用程式和部署模型。
 
-Refer to the full list of databases (relational, NoSQL, and NewSQL) that Prisma ORM [supports](/orm/reference/supported-databases).
+請參閱 Prisma ORM [支援](/orm/reference/supported-databases)的資料庫（關聯式、NoSQL 和 NewSQL）的完整清單。
 
-### ... you care about productivity and developer experience
+### ... 您關心生產力和開發者體驗
 
-Productivity and developer experience are core to how we're building our tools. We're looking to build developer-friendly abstractions for tasks that are complex, error-prone and time-consuming when performed manually.
+生產力和開發者體驗是我們建構工具的核心。我們致力於為手動執行時複雜、容易出錯且耗時的任務建構開發者友善的抽象。
 
-No matter if you're a SQL newcomer or veteran, Prisma ORM will give you a significant productivity boost for the most common database workflows.
+無論您是 SQL 新手還是老手，Prisma ORM 都會為最常見的資料庫工作流程帶來顯著的生產力提升。
 
-Here are a couple of the guiding principles and general practices we apply when designing and building our tools:
+以下是我們在設計和建構工具時應用的一些指導原則和通用實踐：
 
-- [make the right thing easy](https://jason.energy/right-thing-easy-thing/)
-- [pit of success](https://blog.codinghorror.com/falling-into-the-pit-of-success/)
-- offer intelligent autocompletion where possible
-- build powerful editor extensions (e.g. for [VS Code](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma))
-- go the extra mile to achieve full type-safety
+- [讓正確的事情變得容易](https://jason.energy/right-thing-easy-thing/)
+- [成功之坑](https://blog.codinghorror.com/falling-into-the-pit-of-success/)
+- 在可能的地方提供智慧自動完成
+- 建構強大的編輯器擴充功能（例如用於 [VS Code](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma)）
+- 不遺餘力地實現完整的型別安全
 
-### ... you are working in a team
+### ... 您在團隊中工作
 
-Prisma ORM shines especially when used in collaborative environments.
+Prisma ORM 在協作環境中使用時特別出色。
 
-The declarative [Prisma schema](/orm/prisma-schema) provides an overview of the current state of the database that's easy to understand for everyone. This is a major improvement to traditional workflows where developers have to dig through migration files to understand the current table structure.
+宣告式的 [Prisma schema](/orm/prisma-schema) 提供了資料庫當前狀態的概覽，讓每個人都容易理解。這是對傳統工作流程的重大改進，在傳統工作流程中，開發者必須翻閱遷移檔案才能理解當前的表格結構。
 
-[Prisma Client](/orm/prisma-client)'s minimal API surface enables developers to pick it up quickly without much learning overhead, so onboarding new developers to a team becomes a lot smoother.
+[Prisma Client](/orm/prisma-client) 的極簡 API 表面讓開發者可以快速掌握，學習成本不高，因此讓新開發者加入團隊變得更加順利。
 
-The [Prisma Migrate](/orm/prisma-migrate) workflows are designed in a way to cover database schema changes in collaborative environments. From the initial schema creation up to the point of deploying schema changes to production and resolving conflicts that were introduced by parallel modifications, Prisma Migrate has you covered.
+[Prisma Migrate](/orm/prisma-migrate) 工作流程的設計方式涵蓋了協作環境中的資料庫 schema 變更。從初始 schema 建立到將 schema 變更部署到生產環境，以及解決並行修改引入的衝突，Prisma Migrate 都能為您處理。
 
-### ... you want a tool that holistically covers your database workflows
+### ... 您想要一個全面涵蓋資料庫工作流程的工具
 
-Prisma ORM is a lot more than "just another ORM". We are building a database toolkit that covers the daily workflows of application developers that interact with databases. A few examples are:
+Prisma ORM 不僅僅是「另一個 ORM」。我們正在建構一個資料庫工具包，涵蓋與資料庫互動的應用程式開發者的日常工作流程。一些範例包括：
 
-- querying (with [Prisma Client](/orm/prisma-client))
-- data modeling (in the [Prisma schema](/orm/prisma-schema))
-- migrations (with [Prisma Migrate](/orm/prisma-migrate))
-- prototyping (via [`prisma db push`](/orm/reference/prisma-cli-reference#db-push))
-- seeding (via [`prisma db seed`](/orm/reference/prisma-cli-reference#db-seed))
-- visual viewing and editing (with [Prisma Studio](https://www.prisma.io/studio))
+- 查詢（使用 [Prisma Client](/orm/prisma-client)）
+- 資料建模（在 [Prisma schema](/orm/prisma-schema) 中）
+- 遷移（使用 [Prisma Migrate](/orm/prisma-migrate)）
+- 原型製作（透過 [`prisma db push`](/orm/reference/prisma-cli-reference#db-push)）
+- 資料植入（透過 [`prisma db seed`](/orm/reference/prisma-cli-reference#db-seed)）
+- 視覺化檢視和編輯（使用 [Prisma Studio](https://www.prisma.io/studio)）
 
-### ... you value type-safety
+### ... 您重視型別安全
 
-Prisma ORM is the only _fully_ type-safe ORM in the TypeScript ecosystem. The generated Prisma Client ensures typed query results even for partial queries and relations. You can learn more about this in the [type-safety comparison with TypeORM](/orm/more/comparisons/prisma-and-typeorm#type-safety).
+Prisma ORM 是 TypeScript 生態系統中唯一 _完全_ 型別安全的 ORM。生成的 Prisma Client 確保即使對於部分查詢和關聯，查詢結果也是有型別的。您可以在[與 TypeORM 的型別安全比較](/orm/more/comparisons/prisma-and-typeorm#type-safety)中了解更多相關資訊。
 
-### ... you want to write raw, type-safe SQL
+### ... 您想要編寫原始的、型別安全的 SQL
 
-In addition to the intuitive, higher-level query API, Prisma ORM also offers a way for you to [write raw SQL with full type safety](https://www.prisma.io/blog/announcing-typedsql-make-your-raw-sql-queries-type-safe-with-prisma-orm). 
+除了直觀的高階查詢 API 外，Prisma ORM 還為您提供了一種[使用完整型別安全編寫原始 SQL](https://www.prisma.io/blog/announcing-typedsql-make-your-raw-sql-queries-type-safe-with-prisma-orm) 的方法。
 
-### ... you want an ORM with a transparent development process, proper maintenance & support
+### ... 您想要一個具有透明開發流程、適當維護和支援的 ORM
 
-Development of Prisma ORM's open source tools is happening in the open. Most of it happens directly on GitHub in the main [`prisma/prisma`](https://github.com/prisma/prisma) repo:
+Prisma ORM 的開源工具開發是公開進行的。大部分工作直接在 GitHub 的主要 [`prisma/prisma`](https://github.com/prisma/prisma) 儲存庫中進行：
 
-- issues and PRs in our repos are triaged and prioritized (usually within 1-2 days)
-- new [releases](https://github.com/prisma/prisma/releases) with new features and improvements are issued every three weeks
-- we have a dedicated support team that responds to questions in [GitHub Discussions](https://github.com/prisma/prisma/discussions)
+- 我們儲存庫中的問題和 PR 會被分類和優先排序（通常在 1-2 天內）
+- 每三週會發布帶有新功能和改進的新[版本](https://github.com/prisma/prisma/releases)
+- 我們有一個專門的支援團隊在 [GitHub Discussions](https://github.com/prisma/prisma/discussions) 中回答問題
 
-### ... you want to be part of an awesome community
+### ... 您想要成為一個很棒的社群的一份子
 
-Prisma has a lively [community](https://www.prisma.io/community) that you can find on [Discord](https://pris.ly/discord?utm_source=docs&utm_medium=inline_text). We also regularly host Meetups, conferences and other developer-focused events. Join us!
+Prisma 有一個活躍的[社群](https://www.prisma.io/community)，您可以在 [Discord](https://pris.ly/discord?utm_source=docs&utm_medium=inline_text) 上找到。我們還定期舉辦 Meetup、會議和其他以開發者為中心的活動。加入我們吧！
 
-## Prisma ORM likely is _not_ a good fit for you if ...
+## Prisma ORM 可能 _不適合_ 您，如果...
 
-### ... you need _full_ control over all database queries
+### ... 您需要對所有資料庫查詢擁有 _完全_ 控制
 
-Prisma ORM is an abstraction. As such, an inherent tradeoff of Prisma ORM is a reduced amount of control in exchange for higher productivity. This means, the [Prisma Client API](/orm/prisma-client) might have less capabilities in some scenarios than you get with plain SQL.
+Prisma ORM 是一個抽象。因此，Prisma ORM 的固有權衡是減少控制量以換取更高的生產力。這意味著，在某些情境下，[Prisma Client API](/orm/prisma-client) 可能比使用純 SQL 的功能更少。
 
-If your application has requirements for database queries that Prisma ORM does not provide and the workarounds are too costly, you might be better off with a tool that allows you to exercise full control over your database operations using plain SQL.
+如果您的應用程式對資料庫查詢有 Prisma ORM 無法提供的需求，並且替代方案成本太高，那麼使用允許您使用純 SQL 對資料庫操作進行完全控制的工具可能更適合您。
 
-> **Note**: If you can work around a certain limitation but still would like to see an improvement in the way how Prisma ORM handles the situation, we encourage you to create a [feature request](https://github.com/prisma/prisma/issues/new?assignees=&labels=&template=feature_request.md&title=) on GitHub so that our Product and Engineering teams can look into it.
+> **注意**：如果您可以解決某個限制，但仍希望看到 Prisma ORM 處理情況的方式有所改進，我們鼓勵您在 GitHub 上建立[功能請求](https://github.com/prisma/prisma/issues/new?assignees=&labels=&template=feature_request.md&title=)，以便我們的產品和工程團隊可以調查。
 
-_Alternatives_: SQL drivers (e.g. [`node-postgres`](https://node-postgres.com/), [`mysql`](https://github.com/mysqljs/mysql), [`sqlite3`](https://github.com/TryGhost/node-sqlite3), ...)
+_替代方案_：SQL 驅動程式（例如 [`node-postgres`](https://node-postgres.com/)、[`mysql`](https://github.com/mysqljs/mysql)、[`sqlite3`](https://github.com/TryGhost/node-sqlite3) 等）
 
-### ... you do not want to write any code for your backend
+### ... 您不想為後端編寫任何程式碼
 
-If you don't want to write any code for your backend and just be able to generate your API server and the database out-of-the-box, you might rather choose a Backend-as-a-Service (BaaS) for your project.
+如果您不想為後端編寫任何程式碼，只想能夠直接生成 API 伺服器和資料庫，您可能會選擇後端即服務（BaaS）用於您的專案。
 
-With a BaaS, you can typically configure your data model via a high-level API (e.g. [GraphQL SDL](https://www.prisma.io/blog/graphql-sdl-schema-definition-language-6755bcb9ce51)) or a visual editor. Based on this data model, the BaaS generates a CRUD API and provisions a database for you. With this setup, you typically don't have control over the infrastructure the API server and database are running on.
+使用 BaaS，您通常可以透過高階 API（例如 [GraphQL SDL](https://www.prisma.io/blog/graphql-sdl-schema-definition-language-6755bcb9ce51)）或視覺化編輯器配置資料模型。基於此資料模型，BaaS 會為您生成 CRUD API 並佈建資料庫。使用這種設定，您通常無法控制 API 伺服器和資料庫執行的基礎設施。
 
-With Prisma ORM, you are building the backend yourself using Node.js or TypeScript. This means you'll have to do a lot more coding work compared to using a BaaS. The benefit of this approach is that you have full flexibility for building, deploying, scaling and maintaining your backend and are not dependent on 3rd party software for a crucial part of your stack.
+使用 Prisma ORM，您使用 Node.js 或 TypeScript 自己建構後端。這意味著與使用 BaaS 相比，您必須做更多的編碼工作。這種方法的好處是，您在建構、部署、擴展和維護後端方面擁有完全的靈活性，並且不依賴第三方軟體來處理堆疊的關鍵部分。
 
-_Alternatives_: [AWS AppSync](https://aws.amazon.com/appsync/), [8base](https://www.8base.com/), [Nhost](https://nhost.io/), [Supabase](https://supabase.com/), [Firebase](https://firebase.google.com/), [Amplication](https://amplication.com/)
+_替代方案_：[AWS AppSync](https://aws.amazon.com/appsync/)、[8base](https://www.8base.com/)、[Nhost](https://nhost.io/)、[Supabase](https://supabase.com/)、[Firebase](https://firebase.google.com/)、[Amplication](https://amplication.com/)
 
-### ... you want a CRUD GraphQL API without writing any code
+### ... 您想要不編寫任何程式碼就擁有 CRUD GraphQL API
 
-While tools like the [`nexus-plugin-prisma`](https://nexusjs.org/docs/plugins/prisma/overview) and [`typegraphql-prisma`](https://github.com/MichalLytek/typegraphql-prisma#readme) allow you to quickly generate CRUD operations for your Prisma ORM models in a GraphQL API, these approaches still require you to set up your GraphQL server manually and do some work to expose GraphQL queries and mutations for the models defined in your Prisma schema.
+雖然像 [`nexus-plugin-prisma`](https://nexusjs.org/docs/plugins/prisma/overview) 和 [`typegraphql-prisma`](https://github.com/MichalLytek/typegraphql-prisma#readme) 這樣的工具允許您快速為 GraphQL API 中的 Prisma ORM 模型生成 CRUD 操作，但這些方法仍然需要您手動設定 GraphQL 伺服器，並做一些工作來為 Prisma schema 中定義的模型公開 GraphQL 查詢和變更。
 
-If you want to get a GraphQL endpoint for your database out-of-the box, other tools might be better suited for your use case.
+如果您想要直接獲得資料庫的 GraphQL 端點，其他工具可能更適合您的使用案例。
 
-_Alternatives_: [Hasura](https://hasura.io/), [Postgraphile](https://www.graphile.org/postgraphile/)
+_替代方案_：[Hasura](https://hasura.io/)、[Postgraphile](https://www.graphile.org/postgraphile/)

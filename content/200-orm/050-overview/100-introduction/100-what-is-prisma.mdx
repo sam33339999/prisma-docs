@@ -1,22 +1,22 @@
 ---
-title: 'What is Prisma ORM?'
-metaTitle: 'What is Prisma ORM? (Overview)'
-metaDescription: "This page gives a high-level overview of what Prisma ORM is and how it works. It's a great starting point for Prisma newcomers!"
+title: '什麼是 Prisma ORM？'
+metaTitle: '什麼是 Prisma ORM？(總覽)'
+metaDescription: "本頁面提供 Prisma ORM 的高階概觀以及其運作方式。這是 Prisma 新手的絕佳起點！"
 ---
 
-Prisma ORM is an [open-source](https://github.com/prisma/prisma) next-generation ORM. It consists of the following parts:
+Prisma ORM 是一個[開源](https://github.com/prisma/prisma)的下一代 ORM。它由以下部分組成：
 
-- **Prisma Client**: Auto-generated and type-safe query builder for Node.js & TypeScript
-- **Prisma Migrate**: Migration system
-- **Prisma Studio**: GUI to view and edit data in your database.
+- **Prisma Client**：為 Node.js 和 TypeScript 自動生成的型別安全查詢建構器
+- **Prisma Migrate**：遷移系統
+- **Prisma Studio**：用於檢視和編輯資料庫資料的圖形介面。
 
   :::info
 
-  **Prisma Studio** is the only part of Prisma ORM that is not open source. You can only run Prisma Studio locally.
+  **Prisma Studio** 是 Prisma ORM 中唯一不開源的部分。您只能在本地執行 Prisma Studio。
 
   :::
 
-Prisma Client can be used in _any_ Node.js (supported versions) or TypeScript backend application (including serverless applications and microservices). This can be a [REST API](/orm/overview/prisma-in-your-stack/rest), a [GraphQL API](/orm/overview/prisma-in-your-stack/graphql), a gRPC API, or anything else that needs a database.
+Prisma Client 可以在 _任何_ Node.js（支援的版本）或 TypeScript 後端應用程式中使用（包括無伺服器應用程式和微服務）。這可以是 [REST API](/orm/overview/prisma-in-your-stack/rest)、[GraphQL API](/orm/overview/prisma-in-your-stack/graphql)、gRPC API，或任何其他需要資料庫的應用程式。
 
 <div style={{ textAlign: 'center', margin: '2em auto' }} class="videoWrapper">
   <iframe
@@ -30,11 +30,11 @@ Prisma Client can be used in _any_ Node.js (supported versions) or TypeScript ba
   ></iframe>
 </div>
 
-## How does Prisma ORM work?
+## Prisma ORM 如何運作？
 
-### The Prisma schema
+### Prisma schema
 
-Every project that uses a tool from the Prisma ORM toolkit starts with a [Prisma schema](/orm/prisma-schema). The Prisma schema allows developers to define their _application models_ in an intuitive data modeling language. It also contains the connection to a database and defines a _generator_:
+每個使用 Prisma ORM 工具包中工具的專案都從 [Prisma schema](/orm/prisma-schema) 開始。Prisma schema 允許開發者以直觀的資料建模語言定義他們的 _應用程式模型_。它還包含資料庫連接並定義一個 _產生器_：
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -97,17 +97,17 @@ model User {
 </TabItem>
 </TabbedContent>
 
-> **Note**: The Prisma schema has powerful data modeling features. For example, it allows you to define "Prisma-level" [relation fields](/orm/prisma-schema/data-model/relations) which will make it easier to work with [relations in the Prisma Client API](/orm/prisma-client/queries/relation-queries). In the case above, the `posts` field on `User` is defined only on "Prisma-level", meaning it does not manifest as a foreign key in the underlying database.
+> **注意**：Prisma schema 擁有強大的資料建模功能。例如，它允許您定義「Prisma 層級」的[關聯欄位](/orm/prisma-schema/data-model/relations)，這將使得在 [Prisma Client API 中處理關聯](/orm/prisma-client/queries/relation-queries)變得更容易。在上面的案例中，`User` 上的 `posts` 欄位僅定義在「Prisma 層級」，意味著它不會在底層資料庫中表現為外鍵。
 
-In this schema, you configure three things:
+在此 schema 中，您需要配置三件事：
 
-- **Data source**: Specifies your database connection. Database connection URLs are configured in `prisma.config.ts`.
-- **Generator**: Indicates that you want to generate Prisma Client
-- **Data model**: Defines your application models
+- **資料來源**：指定您的資料庫連接。資料庫連接 URL 在 `prisma.config.ts` 中配置。
+- **產生器**：表示您想要生成 Prisma Client
+- **資料模型**：定義您的應用程式模型
 
-### Configuring database connections
+### 配置資料庫連接
 
-Database connection URLs are configured in a `prisma.config.ts` file. Create a `prisma.config.ts` file in your project root:
+資料庫連接 URL 在 `prisma.config.ts` 檔案中配置。在您的專案根目錄建立一個 `prisma.config.ts` 檔案：
 
 ```ts file=prisma.config.ts
 import 'dotenv/config'
@@ -127,56 +127,56 @@ export default defineConfig({
 
 :::info
 
-When using Prisma CLI commands, environment variables are not automatically loaded. You'll need to use a package like `dotenv` to load environment variables from a `.env` file, or ensure your environment variables are set in your shell.
+當使用 Prisma CLI 指令時，環境變數不會自動載入。您需要使用像 `dotenv` 這樣的套件來從 `.env` 檔案載入環境變數，或確保您的環境變數已在 shell 中設定。
 
 :::
 
-### The Prisma schema data model
+### Prisma schema 資料模型
 
-On this page, the focus is on the data model. You can learn more about [Data sources](/orm/prisma-schema/overview/data-sources) and [Generators](/orm/prisma-schema/overview/generators) on the respective docs pages.
+在本頁面中，重點在於資料模型。您可以在相應的文件頁面上了解更多關於[資料來源](/orm/prisma-schema/overview/data-sources)和[產生器](/orm/prisma-schema/overview/generators)的資訊。
 
-#### Functions of Prisma schema data models
+#### Prisma schema 資料模型的功能
 
-The data model is a collection of [models](/orm/prisma-schema/data-model/models#defining-models). A model has two major functions:
+資料模型是[模型](/orm/prisma-schema/data-model/models#defining-models)的集合。一個模型有兩個主要功能：
 
-- Represent a table in relational databases or a collection in MongoDB
-- Provide the foundation for the queries in the Prisma Client API
+- 代表關聯式資料庫中的表格或 MongoDB 中的集合
+- 為 Prisma Client API 中的查詢提供基礎
 
-#### Getting a data model
+#### 取得資料模型
 
-There are two major workflows for "getting" a data model into your Prisma schema:
+將資料模型「放入」Prisma schema 有兩種主要工作流程：
 
-- Manually writing the data model and mapping it to the database with [Prisma Migrate](/orm/prisma-migrate)
-- Generating the data model by [introspecting](/orm/prisma-schema/introspection) a database
+- 手動編寫資料模型並使用 [Prisma Migrate](/orm/prisma-migrate) 將其對應到資料庫
+- 透過[內省](/orm/prisma-schema/introspection)資料庫來生成資料模型
 
-Once the data model is defined, you can [generate Prisma Client](/orm/prisma-client/setup-and-configuration/generating-prisma-client) which will expose CRUD and more queries for the defined models. If you're using TypeScript, you'll get full type-safety for all queries (even when only retrieving the subsets of a model's fields).
+一旦定義了資料模型，您可以[生成 Prisma Client](/orm/prisma-client/setup-and-configuration/generating-prisma-client)，它將為定義的模型公開 CRUD 和更多查詢。如果您使用 TypeScript，您將獲得所有查詢的完整型別安全（即使只檢索模型欄位的子集）。
 
-### Accessing your database with Prisma Client
+### 使用 Prisma Client 存取您的資料庫
 
-#### Generating Prisma Client
+#### 生成 Prisma Client
 
-The first step when using Prisma Client is installing the `@prisma/client` and `prisma` npm packages:
+使用 Prisma Client 的第一步是安裝 `@prisma/client` 和 `prisma` npm 套件：
 
 ```terminal
 npm install prisma --save-dev
 npm install @prisma/client
 ```
 
-Then, you can run `prisma generate`:
+然後，您可以執行 `prisma generate`：
 
 ```terminal
 npx prisma generate
 ```
 
-The `prisma generate` command reads your Prisma schema and _generates_ Prisma Client code. The code is generated into the path specified in the `output` field of your generator block (e.g., `./generated` as shown in the schema example above).
+`prisma generate` 指令會讀取您的 Prisma schema 並 _生成_ Prisma Client 程式碼。程式碼會生成到您的產生器區塊中 `output` 欄位指定的路徑（例如，如上面 schema 範例所示的 `./generated`）。
 
-After you change your data model, you'll need to manually re-generate Prisma Client by running `prisma generate` to ensure the generated code gets updated.
+在您變更資料模型後，您需要透過執行 `prisma generate` 來手動重新生成 Prisma Client，以確保生成的程式碼得到更新。
 
-#### Using Prisma Client to send queries to your database
+#### 使用 Prisma Client 向您的資料庫傳送查詢
 
-Once Prisma Client has been generated, you can import it in your code and send queries to your database. This is what the setup code looks like.
+一旦生成了 Prisma Client，您就可以在程式碼中匯入它並向資料庫傳送查詢。以下是設定程式碼的範例。
 
-##### Import and instantiate Prisma Client
+##### 匯入並實例化 Prisma Client
 
 <TabbedContent code>
 <TabItem value="import">
@@ -199,30 +199,30 @@ const prisma = new PrismaClient()
 </TabItem>
 </TabbedContent>
 
-Now you can start sending queries via the generated Prisma Client API, here are a few sample queries. Note that all Prisma Client queries return _plain old JavaScript objects_.
+現在您可以開始透過生成的 Prisma Client API 傳送查詢，以下是一些查詢範例。請注意，所有 Prisma Client 查詢都會回傳 _純 JavaScript 物件_。
 
-Learn more about the available operations in the [Prisma Client API reference](/orm/prisma-client).
+在 [Prisma Client API 參考](/orm/prisma-client)中了解更多可用的操作。
 
-##### Retrieve all `User` records from the database
+##### 從資料庫檢索所有 `User` 記錄
 
 ```ts
-// Run inside `async` function
+// 在 `async` 函式內執行
 const allUsers = await prisma.user.findMany()
 ```
 
-##### Include the `posts` relation on each returned `User` object
+##### 在每個回傳的 `User` 物件上包含 `posts` 關聯
 
 ```ts
-// Run inside `async` function
+// 在 `async` 函式內執行
 const allUsers = await prisma.user.findMany({
   include: { posts: true },
 })
 ```
 
-##### Filter all `Post` records that contain `"prisma"`
+##### 篩選包含 `"prisma"` 的所有 `Post` 記錄
 
 ```ts
-// Run inside `async` function
+// 在 `async` 函式內執行
 const filteredPosts = await prisma.post.findMany({
   where: {
     OR: [
@@ -233,10 +233,10 @@ const filteredPosts = await prisma.post.findMany({
 })
 ```
 
-##### Create a new `User` and a new `Post` record in the same query
+##### 在同一個查詢中建立新的 `User` 和新的 `Post` 記錄
 
 ```ts
-// Run inside `async` function
+// 在 `async` 函式內執行
 const user = await prisma.user.create({
   data: {
     name: 'Alice',
@@ -248,51 +248,51 @@ const user = await prisma.user.create({
 })
 ```
 
-##### Update an existing `Post` record
+##### 更新現有的 `Post` 記錄
 
 ```ts
-// Run inside `async` function
+// 在 `async` 函式內執行
 const post = await prisma.post.update({
   where: { id: 42 },
   data: { published: true },
 })
 ```
 
-#### Usage with TypeScript
+#### 與 TypeScript 一起使用
 
-Note that when using TypeScript, the result of this query will be _statically typed_ so that you can't accidentally access a property that doesn't exist (and any typos are caught at compile-time). Learn more about leveraging Prisma Client's generated types on the [Advanced usage of generated types](/orm/prisma-client/type-safety/operating-against-partial-structures-of-model-types) page in the docs.
+請注意，當使用 TypeScript 時，此查詢的結果將是 _靜態型別_，因此您不會意外存取不存在的屬性（並且任何拼寫錯誤都會在編譯時被捕獲）。在文件的[生成型別的進階用法](/orm/prisma-client/type-safety/operating-against-partial-structures-of-model-types)頁面上了解更多關於利用 Prisma Client 生成型別的資訊。
 
-## Typical Prisma ORM workflows
+## 典型的 Prisma ORM 工作流程
 
-As mentioned above, there are two ways for "getting" your data model into the Prisma schema. Depending on which approach you choose, your main Prisma ORM workflow might look different.
+如上所述，將資料模型「放入」Prisma schema 有兩種方式。根據您選擇的方法，您的主要 Prisma ORM 工作流程可能會有所不同。
 
 ### Prisma Migrate
 
-With **Prisma Migrate**, Prisma ORM's integrated database migration tool, the workflow looks as follows:
+使用 **Prisma Migrate**（Prisma ORM 的整合資料庫遷移工具），工作流程如下：
 
-1. Manually adjust your [Prisma schema data model](/orm/prisma-schema/data-model/models)
-1. Migrate your development database using the `prisma migrate dev` CLI command
-1. Use Prisma Client in your application code to access your database
+1. 手動調整您的 [Prisma schema 資料模型](/orm/prisma-schema/data-model/models)
+1. 使用 `prisma migrate dev` CLI 指令遷移您的開發資料庫
+1. 在應用程式程式碼中使用 Prisma Client 來存取您的資料庫
 
-![Typical workflow with Prisma Migrate](/img/orm/prisma-migrate-development-workflow.png)
+![使用 Prisma Migrate 的典型工作流程](/img/orm/prisma-migrate-development-workflow.png)
 
-To learn more about the Prisma Migrate workflow, see:
+要了解更多關於 Prisma Migrate 工作流程的資訊，請參閱：
 
-- [Deploying database changes with Prisma Migrate](/orm/prisma-client/deployment/deploy-database-changes-with-prisma-migrate)
+- [使用 Prisma Migrate 部署資料庫變更](/orm/prisma-client/deployment/deploy-database-changes-with-prisma-migrate)
 
-* [Developing with Prisma Migrate](/orm/prisma-migrate)
+* [使用 Prisma Migrate 進行開發](/orm/prisma-migrate)
 
-### SQL migrations and introspection
+### SQL 遷移和內省
 
-If for some reason, you can not or do not want to use Prisma Migrate, you can still use introspection to update your Prisma schema from your database schema.
-The typical workflow when using **SQL migrations and introspection** is slightly different:
+如果由於某種原因，您不能或不想使用 Prisma Migrate，您仍然可以使用內省來從資料庫 schema 更新您的 Prisma schema。
+使用 **SQL 遷移和內省**時的典型工作流程略有不同：
 
-1. Manually adjust your database schema using SQL or a third-party migration tool
-1. (Re-)introspect your database
-1. Optionally [(re-)configure your Prisma Client API](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names)
-1. (Re-)generate Prisma Client
-1. Use Prisma Client in your application code to access your database
+1. 使用 SQL 或第三方遷移工具手動調整您的資料庫 schema
+1. （重新）內省您的資料庫
+1. 可選擇[（重新）配置您的 Prisma Client API](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names)
+1. （重新）生成 Prisma Client
+1. 在應用程式程式碼中使用 Prisma Client 來存取您的資料庫
 
-![Introspect workflow](/img/orm/prisma-evolve-app-workflow.png)
+![內省工作流程](/img/orm/prisma-evolve-app-workflow.png)
 
-To learn more about the introspection workflow, please refer the [introspection section](/orm/prisma-schema/introspection).
+要了解更多關於內省工作流程的資訊，請參閱[內省章節](/orm/prisma-schema/introspection)。

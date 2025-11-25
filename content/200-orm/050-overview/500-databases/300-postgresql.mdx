@@ -1,26 +1,26 @@
 ---
 title: 'PostgreSQL'
-metaTitle: 'PostgreSQL database connector'
-metaDescription: 'This page explains how Prisma can connect to a PostgreSQL database using the PostgreSQL database connector.'
+metaTitle: 'PostgreSQL 資料庫連接器'
+metaDescription: '本頁面說明 Prisma 如何使用 PostgreSQL 資料庫連接器連接到 PostgreSQL 資料庫。'
 ---
 
-The PostgreSQL data source connector connects Prisma ORM to a [PostgreSQL](https://www.postgresql.org/) database server.
+PostgreSQL 資料來源連接器將 Prisma ORM 連接到 [PostgreSQL](https://www.postgresql.org/) 資料庫伺服器。
 
-By default, the PostgreSQL connector contains a database driver responsible for connecting to your database. You can use a [driver adapter](/orm/overview/databases/database-drivers#driver-adapters) (Preview) to connect to your database using a JavaScript database driver from Prisma Client.
+預設情況下,PostgreSQL 連接器包含負責連接到資料庫的資料庫驅動程式。你可以使用[驅動程式轉接器](/orm/overview/databases/database-drivers#driver-adapters)(預覽版)從 Prisma Client 使用 JavaScript 資料庫驅動程式連接到資料庫。
 
 :::info
 
-Need a Postgres instance yesterday? 
+需要立即取得 Postgres 實例?
 
-With [Prisma Postgres](https://www.prisma.io/postgres?utm_source=docs&utm_campaign=postgresql) you can get a database running on bare-metal in three clicks. Connection pooling, query caching, and automated backups are all included. [Visit the Console](https://console.prisma.io?utm_source=docs&utm_campaign=postgresql) to get started today.
+使用 [Prisma Postgres](https://www.prisma.io/postgres?utm_source=docs&utm_campaign=postgresql),你可以在三次點擊內在裸機上運行資料庫。連接池、查詢快取和自動備份全部包含在內。[造訪控制台](https://console.prisma.io?utm_source=docs&utm_campaign=postgresql)立即開始。
 
-Want any even faster way to get started with Prisma Postgres? Just run `npx prisma init --db` in your terminal. 🚀
+想要更快速地開始使用 Prisma Postgres?只需在終端機中執行 `npx prisma init --db`。🚀
 
 :::
 
-## Example
+## 範例
 
-To connect to a PostgreSQL database server, you need to configure a [`datasource`](/orm/prisma-schema/overview/data-sources) block in your [Prisma schema](/orm/prisma-schema):
+要連接到 PostgreSQL 資料庫伺服器,你需要在 [Prisma schema](/orm/prisma-schema) 中設定一個 [`datasource`](/orm/prisma-schema/overview/data-sources) 區塊:
 
 ```prisma file=schema.prisma
 datasource db {
@@ -28,9 +28,9 @@ datasource db {
 }
 ```
 
-The `datasource` block specifies the `postgresql` data source connector.
+`datasource` 區塊指定 `postgresql` 資料來源連接器。
 
-In Prisma ORM 7, the database connection URL is configured in [`prisma.config.ts`](/orm/reference/prisma-config-reference):
+在 Prisma ORM 7 中,資料庫連接 URL 在 [`prisma.config.ts`](/orm/reference/prisma-config-reference) 中設定:
 
 ```typescript file=prisma.config.ts
 import { defineConfig, env } from 'prisma/config'
@@ -44,27 +44,27 @@ export default defineConfig({
 })
 ```
 
-This configuration uses an [environment variable](/orm/prisma-schema/overview#accessing-environment-variables-from-the-schema) to provide the database connection URL.
+此設定使用[環境變數](/orm/prisma-schema/overview#accessing-environment-variables-from-the-schema)來提供資料庫連接 URL。
 
-## Using the `node-postgres` driver
+## 使用 `node-postgres` 驅動程式
 
-As of [`v5.4.0`](https://github.com/prisma/prisma/releases/tag/5.4.0), you can use Prisma ORM with database drivers from the JavaScript ecosystem (instead of using Prisma ORM's built-in drivers). You can do this by using a [driver adapter](/orm/overview/databases/database-drivers).
+從 [`v5.4.0`](https://github.com/prisma/prisma/releases/tag/5.4.0) 開始,你可以使用 Prisma ORM 配合 JavaScript 生態系統中的資料庫驅動程式(而不是使用 Prisma ORM 的內建驅動程式)。你可以透過使用[驅動程式轉接器](/orm/overview/databases/database-drivers)來實現這一點。
 
-For PostgreSQL, [`node-postgres`](https://node-postgres.com) (`pg`) is one of the most popular drivers in the JavaScript ecosystem. It can be used with any PostgreSQL database that's accessed via TCP.
+對於 PostgreSQL,[`node-postgres`](https://node-postgres.com) (`pg`) 是 JavaScript 生態系統中最受歡迎的驅動程式之一。它可以與任何透過 TCP 存取的 PostgreSQL 資料庫一起使用。
 
-This section explains how you can use it with Prisma ORM and the `@prisma/adapter-pg` driver adapter.
+本節說明如何與 Prisma ORM 和 `@prisma/adapter-pg` 驅動程式轉接器一起使用。
 
-### 1. Install the dependencies
+### 1. 安裝相依性
 
-First, install Prisma ORM's driver adapter for `pg`:
+首先,安裝 Prisma ORM 的 `pg` 驅動程式轉接器:
 
 ```terminal
 npm install @prisma/adapter-pg
 ```
 
-### 2. Instantiate Prisma Client using the driver adapter
+### 2. 使用驅動程式轉接器實例化 Prisma Client
 
-Now, when you instantiate Prisma Client, you need to pass an instance of Prisma ORM's driver adapter to the `PrismaClient` constructor:
+現在,當你實例化 Prisma Client 時,需要將 Prisma ORM 的驅動程式轉接器實例傳遞給 `PrismaClient` 建構函式:
 
 ```ts
 import 'dotenv/config'
@@ -77,13 +77,13 @@ const adapter = new PrismaPg({ connectionString })
 const prisma = new PrismaClient({ adapter })
 ```
 
-Notice that this code requires the `DATABASE_URL` environment variable to be set to your PostgreSQL connection string. You can learn more about the connection string below.
+請注意,此程式碼需要將 `DATABASE_URL` 環境變數設定為你的 PostgreSQL 連接字串。你可以在下面了解更多關於連接字串的資訊。
 
-### Notes
+### 注意事項
 
-#### Specifying a PostgreSQL schema
+#### 指定 PostgreSQL schema
 
-You can specify a [PostgreSQL schema](https://www.postgresql.org/docs/current/ddl-schemas.html) by passing in the `schema` option when instantiating `PrismaPg`:
+你可以在實例化 `PrismaPg` 時傳入 `schema` 選項來指定 [PostgreSQL schema](https://www.postgresql.org/docs/current/ddl-schemas.html):
 
 ```ts
 const adapter = new PrismaPg(
@@ -92,120 +92,120 @@ const adapter = new PrismaPg(
 )
 ```
 
-## Connection details
+## 連接詳情
 
-### Connection URL
+### 連接 URL
 
-Prisma ORM follows the connection URL format specified by [PostgreSQL's official guidelines](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING), but does not support all arguments and includes additional arguments such as `schema`. Here's an overview of the components needed for a PostgreSQL connection URL:
+Prisma ORM 遵循 [PostgreSQL 官方指南](https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING)指定的連接 URL 格式,但不支援所有參數,並包含額外的參數,例如 `schema`。以下是 PostgreSQL 連接 URL 所需元件的概述:
 
-![Structure of the PostgreSQL connection URL](./postgresql-connection-string.png)
+![PostgreSQL 連接 URL 的結構](./postgresql-connection-string.png)
 
-#### Base URL and path
+#### 基礎 URL 和路徑
 
-Here is an example of the structure of the _base URL_ and the _path_ using placeholder values in uppercase letters:
+以下是使用大寫字母佔位符值的_基礎 URL_ 和_路徑_結構範例:
 
 ```
 postgresql://USER:PASSWORD@HOST:PORT/DATABASE
 ```
 
-The following components make up the _base URL_ of your database, they are always required:
+以下元件組成了資料庫的_基礎 URL_,它們始終是必需的:
 
-| Name     | Placeholder | Description                                                                                                     |
-| :------- | :---------- | :-------------------------------------------------------------------------------------------------------------- |
-| Host     | `HOST`      | IP address/domain of your database server, e.g. `localhost`                                                     |
-| Port     | `PORT`      | Port on which your database server is running, e.g. `5432`                                                      |
-| User     | `USER`      | Name of your database user, e.g. `janedoe`                                                                      |
-| Password | `PASSWORD`  | Password for your database user                                                                                 |
-| Database | `DATABASE`  | Name of the [database](https://www.postgresql.org/docs/12/manage-ag-overview.html) you want to use, e.g. `mydb` |
+| 名稱     | 佔位符      | 描述                                                                                                     |
+| :------- | :---------- | :------------------------------------------------------------------------------------------------------ |
+| Host     | `HOST`      | 資料庫伺服器的 IP 位址/網域,例如 `localhost`                                                              |
+| Port     | `PORT`      | 資料庫伺服器運行的埠號,例如 `5432`                                                                        |
+| User     | `USER`      | 資料庫使用者的名稱,例如 `janedoe`                                                                         |
+| Password | `PASSWORD`  | 資料庫使用者的密碼                                                                                        |
+| Database | `DATABASE`  | 你想使用的[資料庫](https://www.postgresql.org/docs/12/manage-ag-overview.html)名稱,例如 `mydb`           |
 
 :::info
 
-You must [percentage-encode special characters](/orm/reference/connection-urls#special-characters).
+你必須對[特殊字元進行百分比編碼](/orm/reference/connection-urls#special-characters)。
 
 :::
 
-#### Arguments
+#### 參數
 
-A connection URL can also take arguments. Here is the same example from above with placeholder values in uppercase letters for three _arguments_:
+連接 URL 也可以接受參數。以下是使用大寫字母佔位符值表示三個_參數_的相同範例:
 
 ```
 postgresql://USER:PASSWORD@HOST:PORT/DATABASE?KEY1=VALUE&KEY2=VALUE&KEY3=VALUE
 ```
 
-The following arguments can be used:
+可以使用以下參數:
 
-| Argument name          | Required | Default                | Description                                                                                                                                                                |
-| :--------------------- | :------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `schema`               | **Yes**  | `public`               | Name of the [schema](https://www.postgresql.org/docs/12/ddl-schemas.html) you want to use, e.g. `myschema`                                                                 |
-| `connection_limit`     | No       | `num_cpus * 2 + 1`     | Maximum size of the [connection pool](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool) (Prisma ORM v6 and before)                      |
-| `connect_timeout`      | No       | `5`                    | Maximum number of seconds to wait for a new connection to be opened, `0` means no timeout                                                                                  |
-| `pool_timeout`         | No       | `10`                   | Maximum number of seconds to wait for a new connection from the pool, `0` means no timeout                                                                                 |
-| `sslmode`              | No       | `prefer`               | Configures whether to use TLS. Possible values: `prefer`, `disable`, `require`                                                                                             |
-| `sslcert`              | No       |                        | Path of the server certificate. Certificate paths are [resolved relative to the `./prisma folder`](/orm/prisma-schema/overview/data-sources#securing-database-connections) |
-| `sslrootcert`      | No       |                        | Path of the root certificate. Certificate paths are [resolved relative to the `./prisma folder`](/orm/prisma-schema/overview/data-sources#securing-database-connections)   |
-| `sslidentity`          | No       |                        | Path to the PKCS12 certificate                                                                                                                                             |
-| `sslpassword`          | No       |                        | Password that was used to secure the PKCS12 file                                                                                                                           |
-| `sslaccept`            | No       | `accept_invalid_certs` | Configures whether to check for missing values in the certificate. Possible values: `accept_invalid_certs`, `strict`                                                       |
-| `host`                 | No       |                        | Points to a directory that contains a socket to be used for the connection                                                                                                 |
-| `socket_timeout`       | No       |                        | Maximum number of seconds to wait until a single query terminates                                                                                                          |
-| `pgbouncer`            | No       | `false`                | Configure the Engine to [enable PgBouncer compatibility mode](/orm/prisma-client/setup-and-configuration/databases-connections/pgbouncer)                                  |
-| `statement_cache_size` | No       | `100`                  | Since 2.1.0: Specifies the number of [prepared statements](#prepared-statement-caching) cached per connection                                                              |
-| `application_name`     | No       |                        | Since 3.3.0: Specifies a value for the application_name configuration parameter                                                                                            |
-| `channel_binding`      | No       | `prefer`               | Since 4.8.0: Specifies a value for the channel_binding configuration parameter                                                                                             |
-| `options`              | No       |                        | Since 3.8.0: Specifies command line options to send to the server at connection start                                                                                      |
+| 參數名稱                | 必需     | 預設值                  | 描述                                                                                                                                                                |
+| :--------------------- | :------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `schema`               | **是**   | `public`               | 你想使用的 [schema](https://www.postgresql.org/docs/12/ddl-schemas.html) 名稱,例如 `myschema`                                                                       |
+| `connection_limit`     | 否       | `num_cpus * 2 + 1`     | [連接池](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool)的最大大小(Prisma ORM v6 及更早版本)                                    |
+| `connect_timeout`      | 否       | `5`                    | 等待新連接開啟的最大秒數,`0` 表示無逾時                                                                                                                               |
+| `pool_timeout`         | 否       | `10`                   | 等待從連接池獲取新連接的最大秒數,`0` 表示無逾時                                                                                                                        |
+| `sslmode`              | 否       | `prefer`               | 設定是否使用 TLS。可能的值:`prefer`、`disable`、`require`                                                                                                            |
+| `sslcert`              | 否       |                        | 伺服器憑證的路徑。憑證路徑[相對於 `./prisma` 資料夾解析](/orm/prisma-schema/overview/data-sources#securing-database-connections)                                     |
+| `sslrootcert`          | 否       |                        | 根憑證的路徑。憑證路徑[相對於 `./prisma` 資料夾解析](/orm/prisma-schema/overview/data-sources#securing-database-connections)                                        |
+| `sslidentity`          | 否       |                        | PKCS12 憑證的路徑                                                                                                                                                   |
+| `sslpassword`          | 否       |                        | 用於保護 PKCS12 檔案的密碼                                                                                                                                          |
+| `sslaccept`            | 否       | `accept_invalid_certs` | 設定是否檢查憑證中缺失的值。可能的值:`accept_invalid_certs`、`strict`                                                                                                 |
+| `host`                 | 否       |                        | 指向包含用於連接的 socket 的目錄                                                                                                                                     |
+| `socket_timeout`       | 否       |                        | 等待單個查詢終止的最大秒數                                                                                                                                           |
+| `pgbouncer`            | 否       | `false`                | 設定引擎以[啟用 PgBouncer 相容模式](/orm/prisma-client/setup-and-configuration/databases-connections/pgbouncer)                                                     |
+| `statement_cache_size` | 否       | `100`                  | 自 2.1.0 起:指定每個連接快取的[預編譯語句](#prepared-statement-caching)數量                                                                                           |
+| `application_name`     | 否       |                        | 自 3.3.0 起:為 application_name 設定參數指定一個值                                                                                                                  |
+| `channel_binding`      | 否       | `prefer`               | 自 4.8.0 起:為 channel_binding 設定參數指定一個值                                                                                                                   |
+| `options`              | 否       |                        | 自 3.8.0 起:指定在連接啟動時發送到伺服器的命令行選項                                                                                                                   |
 
-As an example, if you want to connect to a schema called `myschema`, set the connection pool size to `5` and configure a timeout for queries of `3` seconds. You can use the following arguments:
+舉例來說,如果你想連接到名為 `myschema` 的 schema,將連接池大小設定為 `5`,並為查詢設定 `3` 秒的逾時。你可以使用以下參數:
 
 ```
 postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=myschema&connection_limit=5&socket_timeout=3
 ```
 
-:::tip[Prisma ORM v7 connection pooling]
-In Prisma ORM v7, [driver adapters](/orm/overview/databases/database-drivers) are the default for relational databases. Connection pooling is handled by the Node.js driver you provide (like `pg`), not by Prisma's connection URL parameters. See the [connection pool guide](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool) for v7 defaults and configuration.
+:::tip[Prisma ORM v7 連接池]
+在 Prisma ORM v7 中,[驅動程式轉接器](/orm/overview/databases/database-drivers)是關聯式資料庫的預設選項。連接池由你提供的 Node.js 驅動程式(如 `pg`)處理,而不是由 Prisma 的連接 URL 參數處理。請參閱[連接池指南](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool)以了解 v7 的預設值和設定。
 :::
 
-### Configuring an SSL connection
+### 設定 SSL 連接
 
-You can add various parameters to the connection URL if your database server uses SSL. Here's an overview of the possible parameters:
+如果你的資料庫伺服器使用 SSL,你可以在連接 URL 中新增各種參數。以下是可能參數的概述:
 
 - `sslmode=(disable|prefer|require)`:
-  - `prefer` (default): Prefer TLS if possible, accept plain text connections.
-  - `disable`: Do not use TLS.
-  - `require`: Require TLS or fail if not possible.
-- `sslcert=<PATH>`: Path to the server certificate. This is the root certificate used by the database server to sign the client certificate. You need to provide this if the certificate doesn't exist in the trusted certificate store of your system. For Google Cloud this likely is `server-ca.pem`. Certificate paths are [resolved relative to the `./prisma folder`](/orm/prisma-schema/overview/data-sources#securing-database-connections)
-- `sslidentity=<PATH>`: Path to the PKCS12 certificate database created from client cert and key. This is the SSL identity file in PKCS12 format which you will generate using the client key and client certificate. It combines these two files in a single file and secures them via a password (see next parameter). You can create this file using your client key and client certificate by using the following command (using `openssl`):
+  - `prefer`(預設):如果可能,優先使用 TLS,接受純文字連接。
+  - `disable`:不使用 TLS。
+  - `require`:需要 TLS,如果不可能則失敗。
+- `sslcert=<PATH>`:伺服器憑證的路徑。這是資料庫伺服器用於簽署客戶端憑證的根憑證。如果憑證不存在於系統的受信任憑證儲存中,你需要提供此項。對於 Google Cloud,這可能是 `server-ca.pem`。憑證路徑[相對於 `./prisma` 資料夾解析](/orm/prisma-schema/overview/data-sources#securing-database-connections)
+- `sslidentity=<PATH>`:從客戶端憑證和金鑰建立的 PKCS12 憑證資料庫的路徑。這是 PKCS12 格式的 SSL 身份檔案,你將使用客戶端金鑰和客戶端憑證生成它。它將這兩個檔案組合成一個檔案,並透過密碼保護它們(見下一個參數)。你可以使用以下命令(使用 `openssl`)從客戶端金鑰和客戶端憑證建立此檔案:
   ```
   openssl pkcs12 -export -out client-identity.p12 -inkey client-key.pem -in client-cert.pem
   ```
-- `sslpassword=<PASSWORD>`: Password that was used to secure the PKCS12 file. The `openssl` command listed in the previous step will ask for a password while creating the PKCS12 file, you will need to provide that same exact password here.
+- `sslpassword=<PASSWORD>`:用於保護 PKCS12 檔案的密碼。在建立 PKCS12 檔案時,前一步中列出的 `openssl` 命令會要求輸入密碼,你需要在這裡提供完全相同的密碼。
 - `sslaccept=(strict|accept_invalid_certs)`:
-  - `strict`: Any missing value in the certificate will lead to an error. For Google Cloud, especially if the database doesn't have a domain name, the certificate might miss the domain/IP address, causing an error when connecting.
-  - `accept_invalid_certs` (default): Bypass this check. Be aware of the security consequences of this setting.
+  - `strict`:憑證中任何缺失的值都會導致錯誤。對於 Google Cloud,特別是如果資料庫沒有網域名稱,憑證可能會缺少網域/IP 位址,在連接時會導致錯誤。
+  - `accept_invalid_certs`(預設):繞過此檢查。請注意此設定的安全後果。
 
-Your database connection URL will look similar to this:
+你的資料庫連接 URL 將類似於:
 
 ```
 postgresql://USER:PASSWORD@HOST:PORT/DATABASE?sslidentity=client-identity.p12&sslpassword=mypassword&sslcert=rootca.cert
 ```
 
-### Connecting via sockets
+### 透過 socket 連接
 
-To connect to your PostgreSQL database via sockets, you must add a `host` field as a _query parameter_ to the connection URL (instead of setting it as the `host` part of the URI).
-The value of this parameter then must point to the directory that contains the socket, e.g.: `postgresql://USER:PASSWORD@localhost/database?host=/var/run/postgresql/`
+要透過 socket 連接到 PostgreSQL 資料庫,你必須將 `host` 欄位作為_查詢參數_新增到連接 URL 中(而不是將其設定為 URI 的 `host` 部分)。
+此參數的值必須指向包含 socket 的目錄,例如:`postgresql://USER:PASSWORD@localhost/database?host=/var/run/postgresql/`
 
-Note that `localhost` is required, the value itself is ignored and can be anything.
+請注意,`localhost` 是必需的,值本身會被忽略,可以是任何內容。
 
-> **Note**: You can find additional context in this [GitHub issue](https://github.com/prisma/prisma-client-js/issues/437#issuecomment-592436707).
+> **注意**:你可以在這個 [GitHub issue](https://github.com/prisma/prisma-client-js/issues/437#issuecomment-592436707) 中找到更多背景資訊。
 
-## Type mapping between PostgreSQL and Prisma schema
+## PostgreSQL 和 Prisma schema 之間的型別映射
 
-These two tables show the type mapping between PostgreSQL and Prisma schema. First [how Prisma ORM scalar types are translated into PostgreSQL database column types](#mapping-between-prisma-orm-scalar-types-and-postgresql-database-column-types), and then [how PostgreSQL database column types relate to Prisma ORM scalar and native types](#mapping-between-postgresql-database-column-types-to-prisma-orm-scalar-and-native-types).
+這兩個表格顯示了 PostgreSQL 和 Prisma schema 之間的型別映射。首先是 [Prisma ORM 純量型別如何轉換為 PostgreSQL 資料庫欄位型別](#mapping-between-prisma-orm-scalar-types-and-postgresql-database-column-types),然後是 [PostgreSQL 資料庫欄位型別如何關聯到 Prisma ORM 純量和原生型別](#mapping-between-postgresql-database-column-types-to-prisma-orm-scalar-and-native-types)。
 
-> Alternatively, see [Prisma schema reference](/orm/reference/prisma-schema-reference#model-field-scalar-types) for type mappings organized by Prisma type.
+> 或者,請參閱 [Prisma schema 參考](/orm/reference/prisma-schema-reference#model-field-scalar-types)以查看按 Prisma 型別組織的型別映射。
 
-### Mapping between Prisma ORM scalar types and PostgreSQL database column types
+### Prisma ORM 純量型別和 PostgreSQL 資料庫欄位型別之間的映射
 
-The PostgreSQL connector maps the [scalar types](/orm/prisma-schema/data-model/models#scalar-fields) from the Prisma ORM [data model](/orm/prisma-schema/data-model/models) as follows to database column types:
+PostgreSQL 連接器將 Prisma ORM [資料模型](/orm/prisma-schema/data-model/models)中的[純量型別](/orm/prisma-schema/data-model/models#scalar-fields)映射到資料庫欄位型別,如下所示:
 
 | Prisma ORM | PostgreSQL         |
 | ---------- | ------------------ |
@@ -219,10 +219,10 @@ The PostgreSQL connector maps the [scalar types](/orm/prisma-schema/data-model/m
 | `Json`     | `jsonb`            |
 | `Bytes`    | `bytea`            |
 
-### Mapping between PostgreSQL database column types to Prisma ORM scalar and native types
+### PostgreSQL 資料庫欄位型別到 Prisma ORM 純量和原生型別之間的映射
 
-- When [introspecting](/orm/prisma-schema/introspection) a PostgreSQL database, the database types are mapped to Prisma ORM types according to the following table.
-- When [creating a migration](/orm/prisma-migrate) or [prototyping your schema](/orm/prisma-migrate/workflows/prototyping-your-schema) the table is also used - in the other direction.
+- 當[內省](/orm/prisma-schema/introspection) PostgreSQL 資料庫時,資料庫型別會根據下表映射到 Prisma ORM 型別。
+- 當[建立遷移](/orm/prisma-migrate)或[原型化你的 schema](/orm/prisma-migrate/workflows/prototyping-your-schema) 時,此表格也會以相反的方向使用。
 
 | PostgreSQL (Type \| Aliases)                | Supported | Prisma ORM    | Native database type attribute           | Notes                                                                                                                                                                       |
 | ------------------------------------------- | :-------: | ------------- | :--------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -278,7 +278,7 @@ The PostgreSQL connector maps the [scalar types](/orm/prisma-schema/data-model/m
 | Composite types                             |  Not yet  | n/a           |                                          |                                                                                                                                                                             |
 | Domain types                                |  Not yet  | n/a           |                                          |                                                                                                                                                                             |
 
-[Introspection](/orm/prisma-schema/introspection) adds native database types that are **not yet supported** as [`Unsupported`](/orm/reference/prisma-schema-reference#unsupported) fields:
+[內省](/orm/prisma-schema/introspection)會將**尚未支援**的原生資料庫型別新增為 [`Unsupported`](/orm/reference/prisma-schema-reference#unsupported) 欄位:
 
 ```prisma file=schema.prisma
 model Device {
@@ -288,25 +288,25 @@ model Device {
 }
 ```
 
-## Prepared statement caching
+## 預編譯語句快取
 
-A [prepared statement](https://www.postgresql.org/docs/current/sql-prepare.html) is a feature that can be used to optimize performance. A prepared statement is parsed, compiled, and optimized only once and then can be executed directly multiple times without the overhead of parsing the query again.
+[預編譯語句](https://www.postgresql.org/docs/current/sql-prepare.html)是一個可用於最佳化效能的功能。預編譯語句只解析、編譯和最佳化一次,然後可以直接執行多次,而無需再次解析查詢的開銷。
 
-By caching prepared statements, Prisma Client's [query engine](/orm/more/under-the-hood/engines) does not repeatedly compile the same query which reduces database CPU usage and query latency.
+透過快取預編譯語句,Prisma Client 的[查詢引擎](/orm/more/under-the-hood/engines)不會重複編譯相同的查詢,從而減少資料庫 CPU 使用率和查詢延遲。
 
-For example, here is the generated SQL for two different queries made by Prisma Client:
+例如,以下是 Prisma Client 執行兩個不同查詢時生成的 SQL:
 
 ```sql
 SELECT * FROM user WHERE name = "John";
 SELECT * FROM user WHERE name = "Brenda";
 ```
 
-The two queries after parameterization will be the same, and the second query can skip the preparing step, saving database CPU and one extra roundtrip to the database. Query after parameterization:
+參數化後的兩個查詢將相同,第二個查詢可以跳過準備步驟,節省資料庫 CPU 和一次額外的資料庫往返。參數化後的查詢:
 
 ```sql
 SELECT * FROM user WHERE name = $1
 ```
 
-Every database connection maintained by Prisma Client has a separate cache for storing prepared statements. The size of this cache can be tweaked with the `statement_cache_size` parameter in the connection string. By default, Prisma Client caches `100` statements per connection.
+Prisma Client 維護的每個資料庫連接都有一個單獨的快取用於儲存預編譯語句。可以使用連接字串中的 `statement_cache_size` 參數調整此快取的大小。預設情況下,Prisma Client 每個連接快取 `100` 個語句。
 
-Due to the nature of pgBouncer, if the `pgbouncer` parameter is set to `true`, the prepared statement cache is automatically disabled for that connection.
+由於 pgBouncer 的特性,如果 `pgbouncer` 參數設定為 `true`,則該連接的預編譯語句快取會自動停用。
