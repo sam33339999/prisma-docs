@@ -1,36 +1,36 @@
 ---
 title: Beyond Prisma ORM
 sidebar_label: Beyond Prisma ORM
-description: Prisma ORM addresses many development needs, but Prisma's additional products like Prisma Postgres, Accelerate and Optimize can further enhance scalability and performance for your applications.
+description: Prisma ORM 滿足了許多開發需求，但 Prisma 的其他產品如 Prisma Postgres、Accelerate 和 Optimize 可以進一步增強您應用程式的可擴展性和效能。
 ---
 
-As a Prisma ORM user, you're already experiencing the power of type-safe database queries and intuitive data modeling. When scaling production applications, however, new challenges emerge. As an app matures it’s a given that you’ll begin to experience connection pooling complexities or find ways to effectively cache common queries.
+作為 Prisma ORM 使用者，您已經體驗到型別安全的資料庫查詢和直觀的資料建模的強大功能。然而，在擴展正式環境應用程式時，會出現新的挑戰。隨著應用程式的成熟，您將開始遇到連線池的複雜性，或需要找到有效快取常見查詢的方法。
 
-Instead of spending your valuable time overcoming these challenges, let’s explore how Prisma can help by extending the capabilities of the ORM as your application grows.
+與其花費寶貴的時間克服這些挑戰，不如讓我們探索 Prisma 如何透過擴展 ORM 的功能來幫助您的應用程式成長。
 
-## Boost application performance with Prisma Accelerate
+## 使用 Prisma Accelerate 提升應用程式效能
 
-As your application scales, you'll likely need tools to handle increased traffic efficiently. This often involves implementing connection pooling to manage database connections and caching strategies to reduce database load and improve response times. Prisma Accelerate addresses these needs in a single solution, eliminating the need to set up and manage separate infrastructure.
+隨著應用程式的擴展，您可能需要工具來有效處理增加的流量。這通常涉及實作連線池來管理資料庫連線，以及快取策略來減少資料庫負載並改善回應時間。Prisma Accelerate 在單一解決方案中滿足這些需求，無需設定和管理單獨的基礎設施。
 
-Prisma Accelerate is particularly useful for applications deployed to serverless and edge environments (also know as Function-as-a-Service) because these deployments lend themselves towards many orders of magnitude more connections being created than a traditional, long-lived application. For these apps, Prisma Accelerate has the added benefit of protecting your database from day one and keeping your app online [regardless of traffic you experience](https://www.prisma.io/blog/saving-black-friday-with-connection-pooling).
+Prisma Accelerate 對於部署到無伺服器和邊緣環境（也稱為 Function-as-a-Service）的應用程式特別有用，因為這些部署方式會導致建立的連線數比傳統長期執行的應用程式多出數個數量級。對於這些應用程式，Prisma Accelerate 還有一個額外的好處，就是從第一天起就保護您的資料庫，並讓您的應用程式在線上運行，[無論您遇到多大的流量](https://www.prisma.io/blog/saving-black-friday-with-connection-pooling)。
 
-Try out the [Accelerate speed test](https://accelerate-speed-test.prisma.io/) to see what’s possible.
+試試看 [Accelerate 速度測試](https://accelerate-speed-test.prisma.io/)，了解可能的效果。
 
-### Improve query performance with connection pooling
+### 使用連線池改善查詢效能
 
-Place your connection pooler in one of 15+ global regions, minimizing latency for database operations. Enable high-performance distributed workloads across serverless and edge environments.
+將您的連線池放置在 15 個以上的全球區域之一，最小化資料庫操作的延遲。啟用跨無伺服器和邊緣環境的高效能分散式工作負載。
 
-### Reduce query latency and database load with caching
+### 使用快取減少查詢延遲和資料庫負載
 
-Cache query results across 300+ global points of presence. Accelerate extends your Prisma Client, offering intuitive, granular control over caching patterns such as `ttl` and `swr` on a per-query basis.
+在 300 多個全球存在點快取查詢結果。Accelerate 擴展了您的 Prisma Client，在每個查詢的基礎上提供直觀、精細的快取模式控制，例如 `ttl` 和 `swr`。
 
-### Handle scaling traffic with managed infrastructure
+### 使用受管理的基礎設施處理擴展流量
 
-Scale to millions of queries per day without infrastructure changes. Efficiently manage database connections and serve more users with fewer resources.
+擴展到每天數百萬次查詢，無需更改基礎設施。有效管理資料庫連線，並以更少的資源服務更多使用者。
 
-### Get started with Accelerate today
+### 立即開始使用 Accelerate
 
-Accelerate integrates seamlessly with your Prisma ORM project through the `@prisma/extension-accelerate`  client extension. Get started quickly with our [setup guide](/accelerate/getting-started) and instantly access full edge environment support, connection pooling, and global caching.
+Accelerate 透過 `@prisma/extension-accelerate` 客戶端擴充功能與您的 Prisma ORM 專案無縫整合。透過我們的[設定指南](/accelerate/getting-started)快速開始，並立即存取完整的邊緣環境支援、連線池和全球快取。
 
 ```tsx
 import { PrismaClient } from '../prisma/generated/client'
@@ -41,30 +41,30 @@ const prisma = new PrismaClient().$extends(withAccelerate())
 
 // 2. (Optionally) add cache to your Prisma queries
 const users = await prisma.user.findMany({
-  cacheStrategy: { 
+  cacheStrategy: {
     ttl: 30, // Consider data fresh for 30 seconds
     swr: 60  // Serve stale data for up to 60 seconds while fetching fresh data
   }
 })
 ```
 
-To see more examples, visit our [examples repo](https://github.com/prisma/prisma-examples) or try them out yourself with `npx try-prisma`.
+要查看更多範例，請造訪我們的[範例儲存庫](https://github.com/prisma/prisma-examples)，或使用 `npx try-prisma` 自己試試。
 
-[Sign up for Accelerate](https://console.prisma.io/login)
+[註冊 Accelerate](https://console.prisma.io/login)
 
-## Grow with Prisma
+## 與 Prisma 一起成長
 
-Prisma Accelerate take features built into Prisma ORM and build upon them by adding additional capabilities like globally-optimized caching and connection pooling. Get started for free the [Prisma Data Platform](https://console.prisma.io/login) and explore how Accelerate can help you build scalable, high-performance applications!
+Prisma Accelerate 採用 Prisma ORM 中內建的功能，並透過新增全球最佳化快取和連線池等額外功能來增強它們。免費開始使用 [Prisma Data Platform](https://console.prisma.io/login)，探索 Accelerate 如何幫助您建構可擴展、高效能的應用程式！
 
-Improving developer experience doesn’t stop at Accelerate. Prisma is building and expanding our products, such as [Prisma Optimize](https://www.prisma.io/optimize) and [Prisma Postgres](https://www.prisma.io/postgres), to improve every aspect of Data DX and we’d love to hear what you think. Join our community and learn more about our products below.
+改善開發者體驗不止於 Accelerate。Prisma 正在建構和擴展我們的產品，例如 [Prisma Optimize](https://www.prisma.io/optimize) 和 [Prisma Postgres](https://www.prisma.io/postgres)，以改善 Data DX 的各個方面，我們很想聽聽您的想法。加入我們的社群，了解更多關於我們產品的資訊，詳情如下。
 
-Accelerate and Optimize build on Prisma ORM through [Prisma Client Extensions](/orm/prisma-client/client-extensions). This opens up features that we couldn’t include in the ORM like globally-optimized caching and connection pooling. Create a free [Prisma Data Platform](https://console.prisma.io/login) account and explore how Accelerate can help you build scalable, high-performance applications!
+Accelerate 和 Optimize 透過 [Prisma Client 擴充功能](/orm/prisma-client/client-extensions)建立在 Prisma ORM 之上。這開啟了我們無法包含在 ORM 中的功能，例如全球最佳化快取和連線池。建立一個免費的 [Prisma Data Platform](https://console.prisma.io/login) 帳號，探索 Accelerate 如何幫助您建構可擴展、高效能的應用程式！
 
-Improving developer experience doesn’t stop at Prisma Postgres, Accelerate and Optimize. Prisma is building and expanding our products to improve every aspect of Data DX and we’d love to hear what you think. Join our community and learn more about our products below
+改善開發者體驗不止於 Prisma Postgres、Accelerate 和 Optimize。Prisma 正在建構和擴展我們的產品以改善 Data DX 的各個方面，我們很想聽聽您的想法。加入我們的社群，了解更多關於我們產品的資訊，詳情如下
 
 
 <div className="container">
-  <div className="row"> 
+  <div className="row">
     <div className="col col--4">
       [Accelerate](https://www.prisma.io/accelerate?utm_source=docs&utm_medium=orm-docs)
     </div>

@@ -6,60 +6,60 @@ tocDepth: 3
 preview: true
 ---
 
-This page discusses the concepts behind using Prisma ORM and Cloudflare D1, explains the commonalities and differences between Cloudflare D1 and other database providers, and leads you through the process for configuring your application to integrate with Cloudflare D1.
+本頁探討使用 Prisma ORM 和 Cloudflare D1 的相關概念,說明 Cloudflare D1 與其他資料庫提供者之間的共通性和差異,並引導您完成配置應用程式以整合 Cloudflare D1 的過程。
 
-Prisma ORM support for Cloudflare D1 is currently in [Preview](/orm/more/releases#preview). We would appreciate your feedback [on GitHub](https://github.com/prisma/prisma/discussions/23646).
+Prisma ORM 對 Cloudflare D1 的支援目前處於[預覽](/orm/more/releases#preview)階段。我們非常感謝您[在 GitHub 上](https://github.com/prisma/prisma/discussions/23646)的反饋。
 
-If you want to deploy a Cloudflare Worker with D1 and Prisma ORM, follow this [tutorial](/guides/cloudflare-d1).
+如果您想使用 D1 和 Prisma ORM 部署 Cloudflare Worker,請遵循此[教學](/guides/cloudflare-d1)。
 
-## What is Cloudflare D1?
+## 什麼是 Cloudflare D1?
 
-D1 is Cloudflare's native serverless database and was initially [launched in 2022](https://blog.cloudflare.com/introducing-d1/). It's based on SQLite and can be used when deploying applications with Cloudflare Workers.
+D1 是 Cloudflare 的原生無伺服器資料庫,最初於 [2022 年推出](https://blog.cloudflare.com/introducing-d1/)。它基於 SQLite,可以在使用 Cloudflare Workers 部署應用程式時使用。
 
-Following Cloudflare's principles of geographic distribution and bringing compute and data closer to application users, D1 supports automatic read-replication. It dynamically manages the number of database instances and locations of read-only replicas based on how many queries a database is getting, and from where.
+遵循 Cloudflare 的地理分佈原則並將運算和資料靠近應用程式使用者,D1 支援自動讀取複製。它根據資料庫獲得的查詢數量以及來自何處,動態管理資料庫實例的數量和唯讀副本的位置。
 
-For write-operations, queries travel to a single primary instance in order to propagate the changes to all read-replicas and ensure data consistency.
+對於寫入操作,查詢會傳送到單個主實例,以將變更傳播到所有讀取副本並確保資料一致性。
 
-## Commonalities with other database providers
+## 與其他資料庫提供者的共通性
 
-D1 is based on SQLite.
+D1 基於 SQLite。
 
-Many aspects of using Prisma ORM with D1 are just like using Prisma ORM with any other relational database. You can still:
+使用 Prisma ORM 與 D1 的許多方面就像使用 Prisma ORM 與任何其他關聯式資料庫一樣。您仍然可以:
 
-- model your database with the [Prisma Schema Language](/orm/prisma-schema)
-- use Prisma ORM's existing [`sqlite` database connector](/orm/overview/databases/sqlite) in your schema
-- use [Prisma Client](/orm/prisma-client) in your application to talk to the database server at D1
+- 使用 [Prisma Schema Language](/orm/prisma-schema) 建模您的資料庫
+- 在 schema 中使用 Prisma ORM 現有的 [`sqlite` 資料庫連接器](/orm/overview/databases/sqlite)
+- 在應用程式中使用 [Prisma Client](/orm/prisma-client) 與 D1 的資料庫伺服器通訊
 
-## Differences to consider
+## 需要考慮的差異
 
-There are a number of differences between D1 and SQLite to consider. You should be aware of the following when deciding to use D1 and Prisma ORM:
+在決定使用 D1 和 Prisma ORM 時,D1 與 SQLite 之間有一些差異需要考慮。您應該注意以下幾點:
 
-- **Making schema changes**. With Prisma ORM 7, you need to use D1's [migration system](https://developers.cloudflare.com/d1/reference/migrations/) via the Wrangler CLI combined with the [`prisma migrate diff`](/orm/reference/prisma-cli-reference#migrate-diff) command for your migration workflows. See the [Schema migrations with Prisma ORM on D1](#schema-migrations-with-prisma-orm-on-d1) section below for more information.
-- **Local and remote D1 (SQLite) databases**. Cloudflare provides local and remote versions of D1. The [local](https://developers.cloudflare.com/d1/build-with-d1/local-development/) version is managed using the `--local` option of the `wrangler d1` CLI and is located in `.wrangler/state`. The [remote](https://developers.cloudflare.com/d1/build-with-d1/remote-development/) version is managed by Cloudflare and is accessed via HTTP.
+- **進行架構變更**。使用 Prisma ORM 7,您需要透過 Wrangler CLI 使用 D1 的[遷移系統](https://developers.cloudflare.com/d1/reference/migrations/)結合 [`prisma migrate diff`](/orm/reference/prisma-cli-reference#migrate-diff) 命令進行遷移工作流程。有關更多資訊,請參閱下面的 [在 D1 上使用 Prisma ORM 進行架構遷移](#schema-migrations-with-prisma-orm-on-d1)部分。
+- **本地和遠端 D1 (SQLite) 資料庫**。Cloudflare 提供本地和遠端版本的 D1。[本地](https://developers.cloudflare.com/d1/build-with-d1/local-development/)版本使用 `wrangler d1` CLI 的 `--local` 選項管理,位於 `.wrangler/state`。[遠端](https://developers.cloudflare.com/d1/build-with-d1/remote-development/)版本由 Cloudflare 管理,透過 HTTP 存取。
 
-## How to connect to D1 in Cloudflare Workers or Cloudflare Pages
+## 如何在 Cloudflare Workers 或 Cloudflare Pages 中連接到 D1
 
-When using Prisma ORM with D1, you need to use the `sqlite` database provider and the `@prisma/adapter-d1` [driver adapter](/orm/overview/databases/database-drivers#driver-adapters).
+在 Prisma ORM 中使用 D1 時,您需要使用 `sqlite` 資料庫提供者和 `@prisma/adapter-d1` [驅動程式適配器](/orm/overview/databases/database-drivers#driver-adapters)。
 
-If you want to deploy a Cloudflare Worker with D1 and Prisma ORM, follow these [step-by-step instructions](/guides/cloudflare-d1).
+如果您想使用 D1 和 Prisma ORM 部署 Cloudflare Worker,請遵循這些[逐步說明](/guides/cloudflare-d1)。
 
-## Schema migrations with Prisma ORM on D1
+## 在 D1 上使用 Prisma ORM 進行架構遷移
 
-With Prisma ORM 7, the recommended approach for managing database schema migrations with Cloudflare D1 is to use the Wrangler CLI combined with `prisma migrate diff`.
+使用 Prisma ORM 7,在 Cloudflare D1 中管理資料庫架構遷移的建議方法是使用 Wrangler CLI 結合 `prisma migrate diff`。
 
-### Using the Wrangler CLI with `prisma migrate diff`
+### 使用 Wrangler CLI 與 `prisma migrate diff`
 
-Cloudflare D1 comes with its own [migration system](https://developers.cloudflare.com/d1/reference/migrations/) that works via the `wrangler d1` CLI commands.
+Cloudflare D1 自帶的[遷移系統](https://developers.cloudflare.com/d1/reference/migrations/)透過 `wrangler d1` CLI 命令運作。
 
-The Wrangler CLI provides the structure for migrations, but you need to generate the SQL statements from your Prisma schema. This is where [`prisma migrate diff`](/orm/reference/prisma-cli-reference#migrate-diff) comes in - it generates SQL statements based on your Prisma schema that you can then apply using Wrangler.
+Wrangler CLI 提供遷移的結構,但您需要從 Prisma schema 生成 SQL 語句。這就是 [`prisma migrate diff`](/orm/reference/prisma-cli-reference#migrate-diff) 的用武之地 - 它根據您的 Prisma schema 生成 SQL 語句,然後您可以使用 Wrangler 套用這些語句。
 
-#### Creating an initial migration
+#### 建立初始遷移
 
-The workflow for creating an initial migration looks as follows. Assume you have a fresh D1 instance without any tables.
+建立初始遷移的工作流程如下。假設您有一個沒有任何表的全新 D1 實例。
 
-##### 1. Update your Prisma data model
+##### 1. 更新您的 Prisma 資料模型
 
-This is your initial version of the Prisma schema that you want to map to your D1 instance:
+這是您想要對應到 D1 實例的 Prisma schema 的初始版本:
 
 ```prisma
 model User {
@@ -69,30 +69,30 @@ model User {
 }
 ```
 
-##### 2. Create migration file using `wrangler` CLI
+##### 2. 使用 `wrangler` CLI 建立遷移檔案
 
-Next, you need to create the migration file using the [`wrangler d1 migrations create`](https://developers.cloudflare.com/workers/wrangler/commands/#migrations-create) command:
+接下來,您需要使用 [`wrangler d1 migrations create`](https://developers.cloudflare.com/workers/wrangler/commands/#migrations-create) 命令建立遷移檔案:
 
 ```terminal
 npx wrangler d1 migrations create __YOUR_DATABASE_NAME__ create_user_table
 ```
 
-Since this is the very first migration, this command will prompt you to also create a `migrations` folder. Note that if you want your migration files to be stored in a different location, you can [customize it using Wrangler](https://developers.cloudflare.com/d1/reference/migrations/#wrangler-customizations).
+由於這是第一次遷移,此命令將提示您建立 `migrations` 資料夾。請注意,如果您想將遷移檔案儲存在不同的位置,可以[使用 Wrangler 自訂它](https://developers.cloudflare.com/d1/reference/migrations/#wrangler-customizations)。
 
-Once the command has executed and assuming you have chosen the default `migrations` name for the location of your migration files, the command has created the following folder and file for you:
+命令執行後,假設您為遷移檔案的位置選擇了預設的 `migrations` 名稱,該命令已為您建立了以下資料夾和檔案:
 
 ```no-copy
 migrations/
 └── 0001_create_user_table.sql
 ```
 
-However, before you can apply the migration to your D1 instance, you actually need to put a SQL statement into the currently empty `0001_create_user_table.sql` file.
+但是,在您可以將遷移套用到 D1 實例之前,您實際上需要將 SQL 語句放入目前為空的 `0001_create_user_table.sql` 檔案中。
 
-##### 3. Generate SQL statements using `prisma migrate diff`
+##### 3. 使用 `prisma migrate diff` 生成 SQL 語句
 
-To generate the initial SQL statement, you can use the `prisma migrate diff` command which compares to _schemas_ (via its `--to-X` and `--from-X` options) and generates the steps that are needed to "evolve" from one to the other. These schemas can be either Prisma or SQL schemas.
+要生成初始 SQL 語句,您可以使用 `prisma migrate diff` 命令,它比較兩個_架構_(透過其 `--to-X` 和 `--from-X` 選項)並生成從一個「演化」到另一個所需的步驟。這些架構可以是 Prisma 或 SQL 架構。
 
-For the initial migration, you can use the special `--from-empty` option though:
+對於初始遷移,您可以使用特殊的 `--from-empty` 選項:
 
 ```terminal
 npx prisma migrate diff \
@@ -102,14 +102,14 @@ npx prisma migrate diff \
   --output migrations/0001_create_user_table.sql
 ```
 
-The command above uses the following options:
+上述命令使用以下選項:
 
-- `--from-empty`: The source for the SQL statement is an empty schema.
-- `--to-schema ./prisma/schema.prisma`: The target for the SQL statement is the schema in `./prisma/schema.prisma`.
-- `--script`: Output the result as SQL. If you omit this option, the "migration steps" will be generated in plain English.
-- `--output migrations/0001_create_user_table.sql`: Store the result in `migrations/0001_create_user_table.sql`.
+- `--from-empty`: SQL 語句的來源是空架構。
+- `--to-schema ./prisma/schema.prisma`: SQL 語句的目標是 `./prisma/schema.prisma` 中的架構。
+- `--script`: 將結果輸出為 SQL。如果省略此選項,「遷移步驟」將以純英文生成。
+- `--output migrations/0001_create_user_table.sql`: 將結果儲存在 `migrations/0001_create_user_table.sql` 中。
 
-After running this command, `migrations/0001_create_user_table.sql` will have the following contents:
+執行此命令後,`migrations/0001_create_user_table.sql` 將具有以下內容:
 
 ```sql file=migrations/0001_create_user_table.sql no-copy
 -- CreateTable
@@ -123,29 +123,29 @@ CREATE TABLE "User" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 ```
 
-##### 4. Execute the migration using `wrangler d1 migrations apply`
+##### 4. 使用 `wrangler d1 migrations apply` 執行遷移
 
-Finally, you can apply the migration against your D1 instances.
+最後,您可以對 D1 實例套用遷移。
 
-For the **local** instance, run:
+對於**本地**實例,執行:
 
 ```terminal
 npx wrangler d1 migrations apply __YOUR_DATABASE_NAME__ --local
 ```
 
-For the **remote** instance, run:
+對於**遠端**實例,執行:
 
 ```terminal
 npx wrangler d1 migrations apply __YOUR_DATABASE_NAME__ --remote
 ```
 
-#### Evolve your schema with further migrations
+#### 使用進一步的遷移演化您的架構
 
-For any further migrations, you can use the same workflow but instead of using `--from-empty`, you'll need to use `--from-local-d1` because your source schema for the `prisma migrate diff` command now is the current schema of that local D1 instance, while the target remains your (then updated) Prisma schema.
+對於任何進一步的遷移,您可以使用相同的工作流程,但不是使用 `--from-empty`,您需要使用 `--from-local-d1`,因為 `prisma migrate diff` 命令的來源架構現在是該本地 D1 實例的當前架構,而目標仍然是您的(然後更新的)Prisma schema。
 
-##### 1. Update your Prisma data model
+##### 1. 更新您的 Prisma 資料模型
 
-Assume you have updated your Prisma schema with another model:
+假設您已使用另一個模型更新了 Prisma schema:
 
 ```prisma
 model User {
@@ -163,15 +163,15 @@ model Post {
 }
 ```
 
-##### 2. Create migration file using `wrangler` CLI
+##### 2. 使用 `wrangler` CLI 建立遷移檔案
 
-Like before, you first need to create the migration file:
+像以前一樣,您首先需要建立遷移檔案:
 
 ```terminal
 npx wrangler d1 migrations create __YOUR_DATABASE_NAME__ create_post_table
 ```
 
-Once the command has executed (again assuming you have chosen the default `migrations` name for the location of your migration files), the command has created a new file inside of the `migrations` folder:
+命令執行後(再次假設您為遷移檔案的位置選擇了預設的 `migrations` 名稱),該命令已在 `migrations` 資料夾中建立了一個新檔案:
 
 ```no-copy
 migrations/
@@ -179,11 +179,11 @@ migrations/
 └── 0002_create_post_table.sql
 ```
 
-As before, you now need to put a SQL statement into the currently empty `0002_create_post_table.sql` file.
+如之前所述,您現在需要將 SQL 語句放入目前為空的 `0002_create_post_table.sql` 檔案中。
 
-##### 3. Generate SQL statements using `prisma migrate diff`
+##### 3. 使用 `prisma migrate diff` 生成 SQL 語句
 
-As explained above, you now need to use `--from-local-d1` instead of `--from-empty` to specify a source schema:
+如上所述,您現在需要使用 `--from-local-d1` 而不是 `--from-empty` 來指定來源架構:
 
 ```terminal
 npx prisma migrate diff \
@@ -193,14 +193,14 @@ npx prisma migrate diff \
   --output migrations/0002_create_post_table.sql
 ```
 
-The command above uses the following options:
+上述命令使用以下選項:
 
-- `--from-local-d1`: The source for the SQL statement is the local D1 database file.
-- `--to-schema ./prisma/schema.prisma`: The target for the SQL statement is the schema in `./prisma/schema.prisma`.
-- `--script`: Output the result as SQL. If you omit this option, the "migration steps" will be generated in plain English.
-- `--output migrations/0002_create_post_table.sql`: Store the result in `migrations/0002_create_post_table.sql`.
+- `--from-local-d1`: SQL 語句的來源是本地 D1 資料庫檔案。
+- `--to-schema ./prisma/schema.prisma`: SQL 語句的目標是 `./prisma/schema.prisma` 中的架構。
+- `--script`: 將結果輸出為 SQL。如果省略此選項,「遷移步驟」將以純英文生成。
+- `--output migrations/0002_create_post_table.sql`: 將結果儲存在 `migrations/0002_create_post_table.sql` 中。
 
-After running this command, `migrations/0002_create_post_table.sql` will have the following contents:
+執行此命令後,`migrations/0002_create_post_table.sql` 將具有以下內容:
 
 ```sql file=migrations/0002_create_post_table.sql no-copy
 -- CreateTable
@@ -212,24 +212,24 @@ CREATE TABLE "Post" (
 );
 ```
 
-##### 4. Execute the migration using `wrangler d1 migrations apply`
+##### 4. 使用 `wrangler d1 migrations apply` 執行遷移
 
-Finally, you can apply the migration against your D1 instances.
+最後,您可以對 D1 實例套用遷移。
 
-For the **local** instance, run:
+對於**本地**實例,執行:
 
 ```terminal
 npx wrangler d1 migrations apply __YOUR_DATABASE_NAME__ --local
 ```
 
-For the **remote** instance, run:
+對於**遠端**實例,執行:
 
 ```terminal
 npx wrangler d1 migrations apply __YOUR_DATABASE_NAME__ --remote
 ```
 
-## Limitations
+## 限制
 
-### Transactions not supported
+### 不支援交易
 
-Cloudflare D1 currently does not support transactions (see the [open feature request](https://github.com/cloudflare/workers-sdk/issues/2733)). As a result, Prisma ORM does not support transactions for Cloudflare D1. When using Prisma's D1 adapter, implicit & explicit transactions will be ignored and run as individual queries, which breaks the guarantees of the ACID properties of transactions.
+Cloudflare D1 目前不支援交易(請參閱[開放功能請求](https://github.com/cloudflare/workers-sdk/issues/2733))。因此,Prisma ORM 不支援 Cloudflare D1 的交易。使用 Prisma 的 D1 適配器時,隱式和顯式交易將被忽略並作為單獨的查詢執行,這破壞了交易 ACID 屬性的保證。

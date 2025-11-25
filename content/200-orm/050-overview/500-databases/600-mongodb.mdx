@@ -1,8 +1,8 @@
 ---
-title: 'Prisma ORM MongoDB database connector'
+title: 'Prisma ORM MongoDB 資料庫連接器'
 sidebar_label: 'MongoDB'
-metaTitle: 'MongoDB database connector'
-metaDescription: 'How Prisma can connect to a MongoDB database using the MongoDB database connector.'
+metaTitle: 'MongoDB 資料庫連接器'
+metaDescription: 'Prisma 如何使用 MongoDB 資料庫連接器連接到 MongoDB 資料庫。'
 hidePage: false
 tocDepth: 3
 codeStyle: false
@@ -10,79 +10,79 @@ codeStyle: false
 
 <TopBlock>
 
-This guide discusses the concepts behind using Prisma ORM and MongoDB, explains the commonalities and differences between MongoDB and other database providers, and leads you through the process for configuring your application to integrate with MongoDB using Prisma ORM.
+本指南討論使用 Prisma ORM 和 MongoDB 背後的概念，解釋 MongoDB 與其他資料庫提供商之間的共同點和差異，並引導您完成使用 Prisma ORM 配置應用程式以與 MongoDB 整合的過程。
 
-:::warning[MongoDB support for Prisma ORM v7]
+:::warning[Prisma ORM v7 對 MongoDB 的支援]
 
-**MongoDB support for Prisma ORM v7 is coming in the near future.** In the meantime, please use **Prisma ORM v6.19** (the latest v6 release) when working with MongoDB.
+**Prisma ORM v7 對 MongoDB 的支援即將在不久的將來推出。** 在此期間，在使用 MongoDB 時請使用 **Prisma ORM v6.19**(最新的 v6 版本)。
 
-For getting started guides using Prisma ORM v6.19 with MongoDB, see:
-- [Quickstart with MongoDB](/getting-started/prisma-orm/quickstart/mongodb)
-- [Add to existing MongoDB project](/getting-started/prisma-orm/add-to-existing-project/mongodb)
+有關使用 Prisma ORM v6.19 與 MongoDB 的入門指南，請參閱：
+- [MongoDB 快速入門](/getting-started/prisma-orm/quickstart/mongodb)
+- [新增到現有 MongoDB 專案](/getting-started/prisma-orm/add-to-existing-project/mongodb)
 
 :::
 
 </TopBlock>
 
-## What is MongoDB?
+## 什麼是 MongoDB？
 
-[MongoDB](https://www.mongodb.com/) is a NoSQL database that stores data in [BSON](https://bsonspec.org/) format, a JSON-like document format designed for storing data in key-value pairs. It is commonly used in JavaScript application development because the document model maps easily to objects in application code, and there is built in support for high availability and horizontal scaling.
+[MongoDB](https://www.mongodb.com/) 是一個 NoSQL 資料庫，以 [BSON](https://bsonspec.org/) 格式儲存資料，這是一種類似 JSON 的文件格式，專為以鍵值對儲存資料而設計。它通常用於 JavaScript 應用程式開發，因為文件模型很容易映射到應用程式程式碼中的物件，並且內建支援高可用性和水平擴展。
 
-MongoDB stores data in collections that do not need a schema to be defined in advance, as you would need to do with tables in a relational database. The structure of each collection can also be changed over time. This flexibility can allow rapid iteration of your data model, but it does mean that there are a number of differences when using Prisma ORM to work with your MongoDB database.
+MongoDB 將資料儲存在不需要預先定義架構的集合中，就像您在關聯式資料庫中處理表格時需要做的那樣。每個集合的結構也可以隨時間變化。這種靈活性可以讓您的資料模型快速迭代，但這確實意味著在使用 Prisma ORM 處理 MongoDB 資料庫時存在許多差異。
 
-## Commonalities with other database providers
+## 與其他資料庫提供商的共同點
 
-Some aspects of using Prisma ORM with MongoDB are the same as when using Prisma ORM with a relational database. You can still:
+使用 Prisma ORM 與 MongoDB 的某些方面與使用 Prisma ORM 與關聯式資料庫相同。您仍然可以：
 
-- model your database with the [Prisma Schema Language](/orm/prisma-schema)
-- connect to your database, using the [`mongodb` database connector](/orm/overview/databases)
-- use [Introspection](/orm/prisma-schema/introspection) for existing projects if you already have a MongoDB database
-- use [`db push`](/orm/prisma-migrate/workflows/prototyping-your-schema) to push changes in your schema to the database
-- use [Prisma Client](/orm/prisma-client) in your application to query your database in a type safe way based on your Prisma Schema
+- 使用 [Prisma Schema Language](/orm/prisma-schema) 建模您的資料庫
+- 使用 [`mongodb` 資料庫連接器](/orm/overview/databases)連接到您的資料庫
+- 如果您已經有 MongoDB 資料庫，可以為現有專案使用[自省](/orm/prisma-schema/introspection)
+- 使用 [`db push`](/orm/prisma-migrate/workflows/prototyping-your-schema) 將架構中的變更推送到資料庫
+- 在您的應用程式中使用 [Prisma Client](/orm/prisma-client)，根據您的 Prisma Schema 以型別安全的方式查詢您的資料庫
 
-## Differences to consider
+## 需要考慮的差異
 
-MongoDB's document-based structure and flexible schema means that using Prisma ORM with MongoDB differs from using it with a relational database in a number of ways. These are some areas where there are differences that you need to be aware of:
+MongoDB 的基於文件的結構和靈活的架構意味著，使用 Prisma ORM 與 MongoDB 在許多方面與使用它與關聯式資料庫不同。以下是一些您需要注意的差異領域：
 
-- **Defining IDs**: MongoDB documents have an `_id` field (that often contains an [ObjectID](https://www.mongodb.com/docs/manual/reference/bson-types/#std-label-objectid)). Prisma ORM does not support fields starting with `_`, so this needs to be mapped to a Prisma ORM field using the `@map` attribute. For more information, see [Defining IDs in MongoDB](/orm/prisma-schema/data-model/models#defining-ids-in-mongodb).
+- **定義 ID**：MongoDB 文件有一個 `_id` 欄位(通常包含 [ObjectID](https://www.mongodb.com/docs/manual/reference/bson-types/#std-label-objectid))。Prisma ORM 不支援以 `_` 開頭的欄位，因此需要使用 `@map` 屬性將其映射到 Prisma ORM 欄位。有關更多資訊，請參閱[在 MongoDB 中定義 ID](/orm/prisma-schema/data-model/models#defining-ids-in-mongodb)。
 
-- **Migrating existing data to match your Prisma schema**: In relational databases, all your data must match your schema. If you change the type of a particular field in your schema when you migrate, all the data must also be updated to match. In contrast, MongoDB does not enforce any particular schema, so you need to take care when migrating. For more information, see [How to migrate old data to new schemas](#how-to-migrate-existing-data-to-match-your-prisma-schema).
+- **遷移現有資料以符合您的 Prisma schema**：在關聯式資料庫中，所有資料都必須符合您的架構。如果您在遷移時變更架構中特定欄位的型別，所有資料也必須更新以符合。相反，MongoDB 不強制執行任何特定架構，因此您在遷移時需要小心。有關更多資訊，請參閱[如何遷移舊資料以符合您的 Prisma schema](#how-to-migrate-existing-data-to-match-your-prisma-schema)。
 
-- **Introspection and Prisma ORM relations**: When you introspect an existing MongoDB database, you will get a schema with no relations and will need to add the missing relations in manually. For more information, see [How to add in missing relations after Introspection](#how-to-add-in-missing-relations-after-introspection).
+- **自省和 Prisma ORM 關聯**：當您自省現有的 MongoDB 資料庫時，您將獲得一個沒有關聯的架構，並且需要手動新增缺少的關聯。有關更多資訊，請參閱[如何在自省後新增缺少的關聯](#how-to-add-in-missing-relations-after-introspection)。
 
-- **Filtering for `null` and missing fields**: MongoDB makes a distinction between setting a field to `null` and not setting it at all, which is not present in relational databases. Prisma ORM currently does not express this distinction, which means that you need to be careful when filtering for `null` and missing fields. For more information, see [How to filter for `null` and missing fields](#how-to-filter-for-null-and-missing-fields)
+- **過濾 `null` 和缺少的欄位**：MongoDB 區分將欄位設為 `null` 和根本不設定它，這在關聯式資料庫中是不存在的。Prisma ORM 目前沒有表達 MongoDB 中這種區別，這意味著您在過濾 `null` 和缺少的欄位時需要小心。有關更多資訊，請參閱[如何過濾 `null` 和缺少的欄位](#how-to-filter-for-null-and-missing-fields)
 
-- **Enabling replication**: Prisma ORM uses [MongoDB transactions](https://www.mongodb.com/docs/manual/core/transactions/) internally to avoid partial writes on nested queries. When using transactions, MongoDB requires replication of your data set to be enabled. To do this, you will need to configure a [replica set](https://www.mongodb.com/docs/manual/replication/) — this is a group of MongoDB processes that maintain the same data set. Note that it is still possible to use a single database, by creating a replica set with only one node in it. If you use MongoDB's [Atlas](https://www.mongodb.com/atlas/database) hosting service, the replica set is configured for you, but if you are running MongoDB locally you will need to set up a replica set yourself. For more information, see MongoDB's [guide to deploying a replica set](https://www.mongodb.com/docs/manual/tutorial/deploy-replica-set/).
+- **啟用複製**：Prisma ORM 在內部使用 [MongoDB 交易](https://www.mongodb.com/docs/manual/core/transactions/)來避免巢狀查詢的部分寫入。使用交易時，MongoDB 要求啟用資料集的複製。要做到這一點，您需要配置[副本集](https://www.mongodb.com/docs/manual/replication/) — 這是一組維護相同資料集的 MongoDB 進程。請注意，仍然可以使用單一資料庫，只需在其中建立一個只有一個節點的副本集。如果您使用 MongoDB 的 [Atlas](https://www.mongodb.com/atlas/database) 託管服務，副本集已為您配置好，但如果您在本地執行 MongoDB，則需要自己設定副本集。有關更多資訊，請參閱 MongoDB 的[部署副本集指南](https://www.mongodb.com/docs/manual/tutorial/deploy-replica-set/)。
 
-### Performance considerations for large collections
-#### Problem 
-When working with large MongoDB collections through Prisma, certain operations can become slow and resource-intensive. In particular, operations that require scanning the entire collection, such as `count()`, can hit query execution time limits and significantly impact performance as your dataset grows.
+### 大型集合的效能考慮
+#### 問題
+透過 Prisma 處理大型 MongoDB 集合時，某些操作可能會變得緩慢且消耗大量資源。特別是，需要掃描整個集合的操作(例如 `count()`)可能會達到查詢執行時間限制，並且隨著資料集的增長而顯著影響效能。
 
-#### Solution
-To address performance issues with large MongoDB collections, consider the following approaches:
+#### 解決方案
+要解決大型 MongoDB 集合的效能問題，請考慮以下方法：
 
-1. For large collections, consider using MongoDB's `estimatedDocumentCount()` instead of `count()`. This method is much faster as it uses metadata about the collection. You can use Prisma's `runCommandRaw` method to execute this command.
+1. 對於大型集合，請考慮使用 MongoDB 的 `estimatedDocumentCount()` 而不是 `count()`。此方法速度更快，因為它使用有關集合的元資料。您可以使用 Prisma 的 `runCommandRaw` 方法來執行此命令。
 
-2. For frequently accessed counts, consider implementing a counter cache. This involves maintaining a separate document with pre-calculated counts that you update whenever documents are added or removed.
+2. 對於經常存取的計數，請考慮實作計數器快取。這涉及維護一個包含預先計算的計數的單獨文件，您可以在新增或移除文件時更新該文件。
 
 
-## How to use Prisma ORM with MongoDB
+## 如何使用 Prisma ORM 與 MongoDB
 
-This section provides instructions for how to carry out tasks that require steps specific to MongoDB.
+本節提供有關如何執行需要 MongoDB 特定步驟的任務的說明。
 
-### How to migrate existing data to match your Prisma schema
+### 如何遷移現有資料以符合您的 Prisma schema
 
-Migrating your database over time is an important part of the development cycle. During development, you will need to update your Prisma schema (for example, to add new fields), then update the data in your development environment’s database, and eventually push both the updated schema and the new data to the production database.
+隨著時間的推移遷移您的資料庫是開發週期的重要組成部分。在開發期間，您需要更新您的 Prisma schema(例如，新增新欄位)，然後更新開發環境資料庫中的資料，並最終將更新的架構和新資料推送到生產資料庫。
 
 :::info
 
-When using MongoDB, be aware that the “coupling” between your schema and the database is purposefully designed to be less rigid than with SQL databases; MongoDB will not enforce the schema, so you have to verify data integrity.
+使用 MongoDB 時，請注意，您的架構和資料庫之間的「耦合」被刻意設計為不如 SQL 資料庫那麼嚴格；MongoDB 不會強制執行架構，因此您必須驗證資料完整性。
 
 :::
 
-These iterative tasks of updating the schema and the database can result in inconsistencies between your schema and the actual data in the database. Let’s look at one scenario where this can happen, and then examine several strategies for you and your team to consider for handling these inconsistencies.
+這些更新架構和資料庫的迭代任務可能會導致您的架構和資料庫中的實際資料之間出現不一致。讓我們看一個可能發生這種情況的場景，然後檢查您和您的團隊可以考慮用於處理這些不一致的幾種策略。
 
-**Scenario**: you need to include a phone number for users, as well as an email. You currently have the following `User` model in your `schema.prisma` file:
+**場景**：您需要為使用者包含電話號碼以及電子郵件。您目前在 `schema.prisma` 檔案中有以下 `User` 模型：
 
 ```prisma file=prisma/schema.prisma showLineNumbers
 model User {
@@ -91,11 +91,11 @@ model User {
 }
 ```
 
-There are a number of strategies you could use for migrating this schema:
+您可以使用多種策略來遷移此架構：
 
-- **"On-demand" updates**: with this strategy, you and your team have agreed that updates can be made to the schema as needed. However, in order to avoid migration failures due to inconsistencies between the data and schema, there is agreement in the team that any new fields added are explicitly defined as optional.
+- **「按需」更新**：使用這種策略，您和您的團隊同意可以根據需要對架構進行更新。但是，為了避免由於資料和架構之間的不一致而導致遷移失敗，團隊達成一致，新增的任何新欄位都明確定義為可選的。
 
-  In our scenario above, you can add an optional `phoneNumber` field to the `User` model in your Prisma schema:
+  在上面的場景中，您可以將可選的 `phoneNumber` 欄位新增到 Prisma schema 中的 `User` 模型：
 
   ```prisma file=prisma/schema.prisma highlight=4;add showLineNumbers
   model User {
@@ -106,13 +106,13 @@ There are a number of strategies you could use for migrating this schema:
   }
   ```
 
-  Then regenerate your Prisma Client using the `npx prisma generate` command. 
-  
-  Next, update your application to reflect the new field, and redeploy your app.
+  然後使用 `npx prisma generate` 命令重新產生您的 Prisma Client。
 
-  As the `phoneNumber` field is optional, you can still query the old users where the phone number has not been defined. The records in the database will be updated "on demand" as the application's users begin to enter their phone number in the new field.
+  接下來，更新您的應用程式以反映新欄位，並重新部署您的應用程式。
 
-  Another option is to add a default value on a required field, for example:
+  由於 `phoneNumber` 欄位是可選的，您仍然可以查詢尚未定義電話號碼的舊使用者。資料庫中的記錄將在應用程式的使用者開始在新欄位中輸入他們的電話號碼時「按需」更新。
+
+  另一個選項是在必需欄位上新增預設值，例如：
 
   ```prisma file=prisma/schema.prisma highlight=4;add showLineNumbers
   model User {
@@ -123,30 +123,30 @@ There are a number of strategies you could use for migrating this schema:
   }
   ```
 
-  Then when you encounter a missing `phoneNumber`, the value will be coerced into `000-000-0000`.
+  然後當您遇到缺少的 `phoneNumber` 時，該值將被強制轉換為 `000-000-0000`。
 
-- **"No breaking changes" updates**: this strategy builds on the first one, with further consensus amongst your team that you don't rename or delete fields, only add new fields, and always define the new fields as optional. This policy can be reinforced by adding checks in the CI/CD process to verify that there are no backwards-incompatible changes to the schema.
+- **「無破壞性變更」更新**：此策略建立在第一個策略的基礎上，您的團隊進一步達成共識，您不重新命名或刪除欄位，只新增新欄位，並始終將新欄位定義為可選的。可以透過在 CI/CD 流程中新增檢查來驗證架構沒有向後不相容的變更，從而強制執行此策略。
 
-- **"All-at-once" updates**: this strategy is similar to traditional migrations in relational databases, where all data is updated to reflect the new schema. In the scenario above, you would create a script to add a value for the phone number field to all existing users in your database. You can then make the field a required field in the application because the schema and the data are consistent.
+- **「一次性」更新**：此策略類似於關聯式資料庫中的傳統遷移，其中所有資料都更新以反映新架構。在上述場景中，您將建立一個腳本，為資料庫中的所有現有使用者新增電話號碼欄位的值。然後，您可以在應用程式中將該欄位設為必需欄位，因為架構和資料是一致的。
 
-### How to add in missing relations after Introspection
+### 如何在自省後新增缺少的關聯
 
-After introspecting an existing MongoDB database, you will need to manually add in relations between models. MongoDB does not have the concept of defining relations via foreign keys, as you would in a relational database. However, if you have a collection in MongoDB with a "foreign-key-like" field that matches the ID field of another collection, Prisma ORM will allow you to emulate relations between the collections.
+自省現有的 MongoDB 資料庫後，您需要手動新增模型之間的關聯。MongoDB 沒有透過外鍵定義關聯的概念，就像您在關聯式資料庫中那樣。但是，如果您在 MongoDB 中有一個集合，其中有一個「類似外鍵」的欄位與另一個集合的 ID 欄位相符，Prisma ORM 將允許您在集合之間模擬關聯。
 
-As an example, take a MongoDB database with two collections, `User` and `Post`. The data in these collections has the following format, with a `userId` field linking users to posts:
+例如，採用具有兩個集合 `User` 和 `Post` 的 MongoDB 資料庫。這些集合中的資料具有以下格式，其中 `userId` 欄位將使用者連結到貼文：
 
-`User` collection:
+`User` 集合：
 
-- `_id` field with a type of `objectId`
-- `email` field with a type of `string`
+- `_id` 欄位，型別為 `objectId`
+- `email` 欄位，型別為 `string`
 
-`Post` collection:
+`Post` 集合：
 
-- `_id` field with a type of `objectId`
-- `title` field with a type of `string`
-- `userId` with a type of `objectID`
+- `_id` 欄位，型別為 `objectId`
+- `title` 欄位，型別為 `string`
+- `userId` 欄位，型別為 `objectID`
 
-On introspection with `db pull`, this is pulled in to the Prisma Schema as follows:
+使用 `db pull` 自省時，這會被拉入 Prisma Schema，如下所示：
 
 ```prisma file=prisma/schema.prisma showLineNumbers
 model Post {
@@ -161,7 +161,7 @@ model User {
 }
 ```
 
-This is missing the relation between the `User` and `Post` models. To fix this, manually add a `user` field to the `Post` model with a `@relation` attribute using `userId` as the `fields` value, linking it to the `User` model, and a `posts` field to the `User` model as the back relation:
+這缺少 `User` 和 `Post` 模型之間的關聯。要解決此問題，請手動將 `user` 欄位新增到 `Post` 模型，並使用 `userId` 作為 `fields` 值的 `@relation` 屬性，將其連結到 `User` 模型，並將 `posts` 欄位新增到 `User` 模型作為反向關聯：
 
 ```prisma file=prisma/schema.prisma highlight=5;add|11;add showLineNumbers
 model Post {
@@ -180,11 +180,11 @@ model User {
 }
 ```
 
-For more information on how to use relations in Prisma ORM, see [our documentation](/orm/prisma-schema/data-model/relations).
+有關如何在 Prisma ORM 中使用關聯的更多資訊，請參閱[我們的文件](/orm/prisma-schema/data-model/relations)。
 
-### How to filter for `null` and missing fields
+### 如何過濾 `null` 和缺少的欄位
 
-To understand how MongoDB distinguishes between `null` and missing fields, consider the example of a `User` model with an optional `name` field:
+要了解 MongoDB 如何區分 `null` 和缺少的欄位，請考慮具有可選 `name` 欄位的 `User` 模型範例：
 
 ```ts
 model User {
@@ -194,7 +194,7 @@ model User {
 }
 ```
 
-First, try creating a record with the `name` field explicitly set to `null`. Prisma ORM will return `name: null` as expected:
+首先，嘗試建立一個將 `name` 欄位明確設為 `null` 的記錄。Prisma ORM 將按預期返回 `name: null`：
 
 <CodeWithResult expanded={true}>
 
@@ -226,7 +226,7 @@ console.log(createNull)
 
 </CodeWithResult>
 
-If you check your MongoDB database directly, you will also see a new record with `name` set to `null`:
+如果您直接檢查 MongoDB 資料庫，您還將看到一條新記錄，其中 `name` 設為 `null`：
 
 ```json
 {
@@ -236,7 +236,7 @@ If you check your MongoDB database directly, you will also see a new record with
 }
 ```
 
-Next, try creating a record without explicitly setting the `name` field:
+接下來，嘗試建立一個記錄而不明確設定 `name` 欄位：
 
 <CodeWithResult expanded={true}>
 
@@ -267,7 +267,7 @@ console.log(createMissing)
 
 </CodeWithResult>
 
-Prisma ORM still returns `name: null`, but if you look in the database directly you will see that the record has no `name` field defined at all:
+Prisma ORM 仍然返回 `name: null`，但如果您直接在資料庫中查看，您會發現該記錄根本沒有定義 `name` 欄位：
 
 ```json
 {
@@ -276,9 +276,9 @@ Prisma ORM still returns `name: null`, but if you look in the database directly 
 }
 ```
 
-Prisma ORM returns the same result in both cases, because we currently don't have a way to specify this difference in MongoDB between fields that are `null` in the underlying database, and fields that are not defined at all — see [this Github issue](https://github.com/prisma/prisma/issues/12555) for more information.
+Prisma ORM 在兩種情況下都返回相同的結果，因為我們目前沒有辦法在 MongoDB 中指定欄位在底層資料庫中為 `null` 和根本未定義的欄位之間的這種差異 — 有關更多資訊，請參閱[此 Github 問題](https://github.com/prisma/prisma/issues/12555)。
 
-This means that you currently have to be careful when filtering for `null` and missing fields. Filtering for records with `name: null` will only return the first record, with the `name` explicitly set to `null`:
+這意味著您目前在過濾 `null` 和缺少的欄位時必須小心。過濾具有 `name: null` 的記錄將只返回第一條記錄，其中 `name` 明確設為 `null`：
 
 <CodeWithResult expanded={true}>
 
@@ -311,9 +311,9 @@ console.log(findNulls)
 
 </CodeWithResult>
 
-This is because `name: null` is checking for equality, and a non-existing field isn't equal to `null`.
+這是因為 `name: null` 正在檢查相等性，而不存在的欄位不等於 `null`。
 
-To include missing fields as well, use the [`isSet` filter](/orm/reference/prisma-client-reference#isset) to explicitly search for fields which are either `null` or not set. This will return both records:
+要同時包含缺少的欄位，請使用 [`isSet` 篩選器](/orm/reference/prisma-client-reference#isset)明確搜尋為 `null` 或未設定的欄位。這將返回兩條記錄：
 
 <CodeWithResult expanded={true}>
 
@@ -360,22 +360,22 @@ console.log(findNullOrMissing)
 
 </CodeWithResult>
 
-## More on using MongoDB with Prisma ORM
+## 更多關於使用 MongoDB 與 Prisma ORM
 
-The fastest way to start using MongoDB with Prisma ORM is to refer to our Getting Started documentation:
+開始使用 MongoDB 與 Prisma ORM 的最快方法是參考我們的入門文件：
 
-- [Start from scratch](/getting-started/prisma-orm/quickstart/mongodb)
-- [Add to existing project](/getting-started/prisma-orm/add-to-existing-project/mongodb)
+- [從頭開始](/getting-started/prisma-orm/quickstart/mongodb)
+- [新增到現有專案](/getting-started/prisma-orm/add-to-existing-project/mongodb)
 
-These tutorials will take you through the process of connecting to MongoDB, pushing schema changes, and using Prisma Client.
+這些教學將帶您完成連接到 MongoDB、推送架構變更和使用 Prisma Client 的過程。
 
-Further reference information is available in the [MongoDB connector documentation](/orm/overview/databases/mongodb).
+[MongoDB 連接器文件](/orm/overview/databases/mongodb)中提供了更多參考資訊。
 
-For more information on how to set up and manage a MongoDB database, see the [Prisma Data Guide](https://www.prisma.io/dataguide#mongodb).
+有關如何設定和管理 MongoDB 資料庫的更多資訊，請參閱 [Prisma Data Guide](https://www.prisma.io/dataguide#mongodb)。
 
-## Example
+## 範例
 
-To connect to a MongoDB server, configure the [`datasource`](/orm/prisma-schema/overview/data-sources) block in your [Prisma Schema](/orm/prisma-schema):
+要連接到 MongoDB 伺服器，請在 [Prisma Schema](/orm/prisma-schema) 中配置 [`datasource`](/orm/prisma-schema/overview/data-sources) 區塊：
 
 ```prisma file=schema.prisma showLineNumbers
 datasource db {
@@ -384,66 +384,66 @@ datasource db {
 }
 ```
 
-The fields passed to the `datasource` block are:
+傳遞給 `datasource` 區塊的欄位為：
 
-- `provider`: Specifies the `mongodb` data source connector.
-- `url`: Specifies the [connection URL](#connection-url) for the MongoDB server. In this case, an [environment variable is used](/orm/more/development-environment/environment-variables) to provide the connection URL.
+- `provider`：指定 `mongodb` 資料來源連接器。
+- `url`：指定 MongoDB 伺服器的[連接 URL](#connection-url)。在這種情況下，使用[環境變數](/orm/more/development-environment/environment-variables)來提供連接 URL。
 
 :::warning
 
-The MongoDB database connector uses transactions to support nested writes. Transactions **require** a [replica set](https://www.mongodb.com/docs/manual/tutorial/deploy-replica-set/) deployment. The easiest way to deploy a replica set is with [Atlas](https://www.mongodb.com/docs/atlas/getting-started/). It's free to get started.
+MongoDB 資料庫連接器使用交易來支援巢狀寫入。交易**需要**[副本集](https://www.mongodb.com/docs/manual/tutorial/deploy-replica-set/)部署。部署副本集最簡單的方法是使用 [Atlas](https://www.mongodb.com/docs/atlas/getting-started/)。免費開始使用。
 
 :::
 
-## Connection details
+## 連接詳情
 
-### Connection URL
+### 連接 URL
 
-The MongoDB connection URL can be configured in different ways depending on how you are hosting your database. The standard configuration is made up of the following components:
+MongoDB 連接 URL 可以根據您如何託管資料庫以不同方式配置。標準配置由以下元件組成：
 
-![Structure of the MongoDB connection URL](./mongodb.png)
+![MongoDB 連接 URL 的結構](./mongodb.png)
 
-#### Base URL and path
+#### 基礎 URL 和路徑
 
-The base URL and path sections of the connection URL are made up of your authentication credentials followed by the host (and optionally, a port number) and database.
+連接 URL 的基礎 URL 和路徑部分由您的驗證憑證、主機(以及可選的埠號)和資料庫組成。
 
 ```
 mongodb://USERNAME:PASSWORD@HOST/DATABASE
 ```
 
-The following components make up the _base URL_ of your database:
+以下元件構成資料庫的 _基礎 URL_：
 
-| Name     | Placeholder | Description                                                                                                                                                                                                                                                                                                                                                |
+| 名稱     | 佔位符 | 描述                                                                                                                                                                                                                                                                                                                                                |
 | :------- | :---------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| User     | `USERNAME`  | Name of your database user, e.g. `janedoe`                                                                                                                                                                                                                                                                                                                 |
-| Password | `PASSWORD`  | Password for your database user                                                                                                                                                                                                                                                                                                                            |
-| Host     | `HOST`      | The host where a [`mongod`](https://www.mongodb.com/docs/manual/reference/program/mongod/#mongodb-binary-bin.mongod) instance is running. If you are running a sharded cluster this will a [`mongos`](https://www.mongodb.com/docs/manual/reference/program/mongos/#mongodb-binary-bin.mongos) instance. This can be a hostname, IP address or UNIX domain socket. |
-| Port     | `PORT`      | Port on which your database server is running, e.g. `1234`. If none is provided the default `27017` is used.                                                                                                                                                                                                                                               |
-| Database | `DATABASE`  | Name of the database to use. If none is specified but the `authSource` option is set then the `authSource` database name is used. If neither the database in the connection string nor the `authSource` option is specified then it defaults to `admin`                                                                                                    |
+| 使用者     | `USERNAME`  | 資料庫使用者名稱，例如 `janedoe`                                                                                                                                                                                                                                                                                                                                 |
+| 密碼 | `PASSWORD`  | 資料庫使用者密碼                                                                                                                                                                                                                                                                            |
+| 主機     | `HOST`      | [`mongod`](https://www.mongodb.com/docs/manual/reference/program/mongod/#mongodb-binary-bin.mongod) 實例正在執行的主機。如果您正在執行分片叢集，這將是 [`mongos`](https://www.mongodb.com/docs/manual/reference/program/mongos/#mongodb-binary-bin.mongos) 實例。這可以是主機名稱、IP 位址或 UNIX 域套接字。 |
+| 埠     | `PORT`      | 資料庫伺服器正在執行的埠，例如 `1234`。如果沒有提供，則使用預設的 `27017`。                                                                                                                                                                                                                                                               |
+| 資料庫 | `DATABASE`  | 要使用的資料庫名稱。如果未指定但設定了 `authSource` 選項，則使用 `authSource` 資料庫名稱。如果連接字串中的資料庫和 `authSource` 選項都未指定，則預設為 `admin`                                                                                                    |
 
 :::info
 
-You must [percentage-encode special characters](/orm/reference/connection-urls#special-characters).
+您必須對特殊字元進行[百分比編碼](/orm/reference/connection-urls#special-characters)。
 
 :::
 
-#### Arguments
+#### 參數
 
-A connection URL can also take arguments. The following example sets three arguments:
+連接 URL 還可以接受參數。以下範例設定了三個參數：
 
-- An `ssl` connection
-- A `connectTimeoutMS`
-- And the `maxPoolSize`
+- 一個 `ssl` 連接
+- 一個 `connectTimeoutMS`
+- 和 `maxPoolSize`
 
 ```
 mongodb://USERNAME:PASSWORD@HOST/DATABASE?ssl=true&connectTimeoutMS=5000&maxPoolSize=50
 ```
 
-Refer to the [MongoDB connection string documentation](https://www.mongodb.com/docs/manual/reference/connection-string/) for a complete list of connection string arguments. There are no Prisma ORM-specific arguments.
+請參閱 [MongoDB 連接字串文件](https://www.mongodb.com/docs/manual/reference/connection-string/)以獲取完整的連接字串參數列表。沒有 Prisma ORM 特定的參數。
 
-## Using `ObjectId`
+## 使用 `ObjectId`
 
-It is common practice for the `_id` field of a MongoDB document to contain an [ObjectId](https://www.mongodb.com/docs/manual/reference/bson-types/#std-label-objectid):
+MongoDB 文件的 `_id` 欄位通常包含 [ObjectId](https://www.mongodb.com/docs/manual/reference/bson-types/#std-label-objectid)：
 
 ```json
 {
@@ -455,35 +455,35 @@ It is common practice for the `_id` field of a MongoDB document to contain an [O
 }
 ```
 
-Any field (most commonly IDs and relation scalar fields) that maps to an `ObjectId` in the underlying database:
+任何映射到底層資料庫中的 `ObjectId` 的欄位(最常見的是 ID 和關聯純量欄位)：
 
-- Must be of type `String` or `Bytes`
-- Must include the `@db.ObjectId` attribute
-- Can optionally use `@default(auto())` to auto-generate a valid `ObjectId` on document creation
+- 必須是 `String` 或 `Bytes` 型別
+- 必須包含 `@db.ObjectId` 屬性
+- 可以選擇性地使用 `@default(auto())` 在文件建立時自動產生有效的 `ObjectId`
 
-Here is an example that uses `String`:
+以下是使用 `String` 的範例：
 
 ```prisma
 model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  // Other fields
+  // 其他欄位
 }
 ```
 
-And here is another example that uses `Bytes`:
+以下是使用 `Bytes` 的另一個範例：
 
 ```prisma
 model User {
   id Bytes @id @default(auto()) @map("_id") @db.ObjectId
-  // Other fields
+  // 其他欄位
 }
 ```
 
-See also: [Defining ID fields in MongoDB](/orm/prisma-schema/data-model/models#defining-ids-in-mongodb)
+另請參閱：[在 MongoDB 中定義 ID 欄位](/orm/prisma-schema/data-model/models#defining-ids-in-mongodb)
 
-### Generating `ObjectId`
+### 產生 `ObjectId`
 
-To generate a valid `ObjectId` (for testing purposes or to manually set an ID field value) in your application, use the [`bson`](https://www.npmjs.com/package/bson) package.
+要在您的應用程式中產生有效的 `ObjectId`(用於測試目的或手動設定 ID 欄位值)，請使用 [`bson`](https://www.npmjs.com/package/bson) 套件。
 
 ```
 npm install --save bson
@@ -495,31 +495,31 @@ import { ObjectId } from 'bson'
 const id = new ObjectId()
 ```
 
-## Differences to connectors for relational databases
+## 與關聯式資料庫連接器的差異
 
-This section covers ways in which the MongoDB connector differs from Prisma ORM connectors for relational databases.
+本節涵蓋 MongoDB 連接器與 Prisma ORM 的關聯式資料庫連接器不同的方式。
 
-### No support for Prisma Migrate
+### 不支援 Prisma Migrate
 
-Currently, there are no plans to add support for [Prisma Migrate](/orm/prisma-migrate) as MongoDB projects do not rely on internal schemas where changes need to be managed with an extra tool. Management of `@unique` indexes is realized through `db push`.
+目前，沒有計劃新增對 [Prisma Migrate](/orm/prisma-migrate) 的支援，因為 MongoDB 專案不依賴內部架構，其中需要使用額外的工具來管理變更。`@unique` 索引的管理透過 `db push` 實現。
 
-### No support for `@@id` and `autoincrement()`
+### 不支援 `@@id` 和 `autoincrement()`
 
-The [`@@id`](/orm/reference/prisma-schema-reference#id-1) attribute (an ID for multiple fields) is not supported because primary keys in MongoDB are always on the `_id` field of a model.
+[`@@id`](/orm/reference/prisma-schema-reference#id-1) 屬性(多個欄位的 ID)不受支援，因為 MongoDB 中的主鍵始終位於模型的 `_id` 欄位上。
 
-The [`autoincrement()`](/orm/reference/prisma-schema-reference#generate-autoincrementing-integers-as-ids-relational-databases-only) function (which creates incrementing `@id` values) is not supported because `autoincrement()` does not work with the `ObjectID` type that the `_id` field has in MongoDB.
+[`autoincrement()`](/orm/reference/prisma-schema-reference#generate-autoincrementing-integers-as-ids-relational-databases-only) 函式(建立遞增的 `@id` 值)不受支援，因為 `autoincrement()` 不適用於 MongoDB 中 `_id` 欄位具有的 `ObjectID` 型別。
 
-### Cyclic references and referential actions
+### 循環引用和引用動作
 
-If you have cyclic references in your models, either from self-relations or a cycle of relations between models, and you use [referential actions](/orm/prisma-schema/data-model/relations/referential-actions), you must set a referential action of `NoAction` to prevent an infinite loop of actions.
+如果您的模型中有循環引用，無論是來自自我關聯還是模型之間的關聯循環，並且您使用[引用動作](/orm/prisma-schema/data-model/relations/referential-actions)，您必須將引用動作設為 `NoAction` 以防止無限循環的動作。
 
-See [Special rules for referential actions](/orm/prisma-schema/data-model/relations/referential-actions/special-rules-for-referential-actions) for more details.
+有關更多詳細資訊，請參閱[引用動作的特殊規則](/orm/prisma-schema/data-model/relations/referential-actions/special-rules-for-referential-actions)。
 
-### Replica set configuration
+### 副本集配置
 
-MongoDB only allows you to start a transaction on a replica set. Prisma ORM uses transactions internally to avoid partial writes on nested queries. This means we inherit the requirement of needing a replica set configured.
+MongoDB 只允許您在副本集上啟動交易。Prisma ORM 在內部使用交易來避免巢狀查詢的部分寫入。這意味著我們繼承了需要配置副本集的要求。
 
-When you try to use Prisma ORM's MongoDB connector on a deployment that has no replica set configured, Prisma ORM shows the message `Error: Transactions are not supported by this deployment`. The full text of the error message is the following:
+當您嘗試在沒有配置副本集的部署上使用 Prisma ORM 的 MongoDB 連接器時，Prisma ORM 會顯示訊息 `Error: Transactions are not supported by this deployment`。錯誤訊息的完整文字如下：
 
 ```
 PrismaClientUnknownRequestError2 [PrismaClientUnknownRequestError]:
@@ -537,19 +537,19 @@ Invalid `prisma.post.create()` invocation in
 }
 ```
 
-To resolve this, we suggest you change your deployment to one with a replica set configured.
+要解決此問題，我們建議您將部署變更為已配置副本集的部署。
 
-One simple way for this is to use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) to launch a free instance that has replica set support out of the box.
+一個簡單的方法是使用 [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) 啟動一個免費實例，該實例開箱即支援副本集。
 
-There's also an option to run the replica set locally with this guide: https://www.mongodb.com/docs/manual/tutorial/convert-standalone-to-replica-set
+也可以選擇使用此指南在本地執行副本集：https://www.mongodb.com/docs/manual/tutorial/convert-standalone-to-replica-set
 
-## Type mapping between MongoDB and the Prisma schema
+## MongoDB 與 Prisma schema 之間的型別映射
 
-The MongoDB connector maps the [scalar types](/orm/prisma-schema/data-model/models#scalar-fields) from the Prisma ORM [data model](/orm/prisma-schema/data-model/models) to MongoDB's native column types as follows:
+MongoDB 連接器將 Prisma ORM [資料模型](/orm/prisma-schema/data-model/models)中的[純量型別](/orm/prisma-schema/data-model/models#scalar-fields)映射到 MongoDB 的原生欄位型別，如下所示：
 
-> Alternatively, see [Prisma schema reference](/orm/reference/prisma-schema-reference#model-field-scalar-types) for type mappings organized by Prisma type.
+> 或者，請參閱 [Prisma schema 參考](/orm/reference/prisma-schema-reference#model-field-scalar-types)以獲取按 Prisma 型別組織的型別映射。
 
-### Native type mapping from Prisma ORM to MongoDB
+### 從 Prisma ORM 到 MongoDB 的原生型別映射
 
 | Prisma ORM | MongoDB                                                                |
 | ---------- | ---------------------------------------------------------------------- |
@@ -558,12 +558,12 @@ The MongoDB connector maps the [scalar types](/orm/prisma-schema/data-model/mode
 | `Int`      | `int`                                                                  |
 | `BigInt`   | `long`                                                                 |
 | `Float`    | `double`                                                               |
-| `Decimal`  | [Currently unsupported](https://github.com/prisma/prisma/issues/12637) |
+| `Decimal`  | [目前不支援](https://github.com/prisma/prisma/issues/12637) |
 | `DateTime` | `timestamp`                                                            |
 | `Bytes`    | `binData`                                                              |
 | `Json`     |                                                                        |
 
-MongoDB types that are currently unsupported:
+MongoDB 目前不支援的型別：
 
 - `Decimal128`
 - `Undefined`
@@ -577,15 +577,15 @@ MongoDB types that are currently unsupported:
 - `JavascriptWithScope`
 - `Regex`
 
-### Mapping from MongoDB to Prisma ORM types on Introspection
+### 在自省時從 MongoDB 映射到 Prisma ORM 型別
 
-When introspecting a MongoDB database, Prisma ORM uses the relevant [scalar types](/orm/prisma-schema/data-model/models#scalar-fields). Some special types also get additional native type annotations:
+在自省 MongoDB 資料庫時，Prisma ORM 使用相關的[純量型別](/orm/prisma-schema/data-model/models#scalar-fields)。某些特殊型別還會獲得額外的原生型別註釋：
 
-| MongoDB (Type \| Aliases) | Prisma ORM | Supported | Native database type attribute | Notes |
+| MongoDB (型別 \| 別名) | Prisma ORM | 支援 | 原生資料庫型別屬性 | 備註 |
 | ------------------------- | ---------- | :-------: | :----------------------------- | :---- |
 | `objectId`                | `String`   |    ✔️     | `@db.ObjectId`                 |       |
 
-[Introspection](/orm/prisma-schema/introspection) adds native database types that are **not yet supported** as [`Unsupported`](/orm/reference/prisma-schema-reference#unsupported) fields:
+[自省](/orm/prisma-schema/introspection)將**尚未支援**的原生資料庫型別新增為 [`Unsupported`](/orm/reference/prisma-schema-reference#unsupported) 欄位：
 
 ```prisma file=schema.prisma showLineNumbers
 model Example {

@@ -1,16 +1,16 @@
 ---
 title: 'Microsoft SQL Server'
 metaTitle: 'Microsoft SQL Server'
-metaDescription: 'This page explains how Prisma can connect to a Microsoft SQL Server database using the Microsoft SQL Server database connector.'
+metaDescription: '本頁說明 Prisma 如何使用 Microsoft SQL Server 資料庫連接器連接到 Microsoft SQL Server 資料庫。'
 tocDepth: 4
 toc_max_heading_level: 4
 ---
 
-The Microsoft SQL Server data source connector connects Prisma ORM to a [Microsoft SQL Server](https://learn.microsoft.com/en-us/sql/sql-server/?view=sql-server-ver15) database server.
+Microsoft SQL Server 資料來源連接器將 Prisma ORM 連接到 [Microsoft SQL Server](https://learn.microsoft.com/en-us/sql/sql-server/?view=sql-server-ver15) 資料庫伺服器。
 
-## Example
+## 範例
 
-To connect to a Microsoft SQL Server database, you need to configure a [`datasource`](/orm/prisma-schema/overview/data-sources) block in your [Prisma schema](/orm/prisma-schema):
+要連接到 Microsoft SQL Server 資料庫,您需要在 [Prisma schema](/orm/prisma-schema) 中配置一個 [`datasource`](/orm/prisma-schema/overview/data-sources) 區塊:
 
 ```prisma file=schema.prisma showLineNumbers
 datasource db {
@@ -18,7 +18,7 @@ datasource db {
 }
 ```
 
-The database connection URL is configured in `prisma.config.ts`:
+資料庫連接 URL 在 `prisma.config.ts` 中配置:
 
 ```ts file=prisma.config.ts
 import 'dotenv/config'
@@ -34,35 +34,35 @@ export default defineConfig({
 
 :::info
 
-When using Prisma CLI commands, environment variables are not automatically loaded. You'll need to use a package like `dotenv` to load environment variables from a `.env` file, or ensure your environment variables are set in your shell.
+使用 Prisma CLI 命令時,環境變數不會自動載入。您需要使用像 `dotenv` 這樣的套件從 `.env` 檔案載入環境變數,或確保在您的 shell 中設置了環境變數。
 
 :::
 
-The fields passed to the `datasource` block are:
+傳遞給 `datasource` 區塊的欄位有:
 
-- `provider`: Specifies the `sqlserver` data source connector.
-- The `url` field is configured in `prisma.config.ts` and specifies the [connection URL](#connection-details) for the Microsoft SQL Server database.
+- `provider`: 指定 `sqlserver` 資料來源連接器。
+- `url` 欄位在 `prisma.config.ts` 中配置,並指定 Microsoft SQL Server 資料庫的[連接 URL](#connection-details)。
 
 
-## Using the `node-mssql` driver
+## 使用 `node-mssql` 驅動程式
 
-As of [`v5.4.0`](https://github.com/prisma/prisma/releases/tag/5.4.0), you can use Prisma ORM with database drivers from the JavaScript ecosystem (instead of using Prisma ORM's built-in drivers). You can do this by using a [driver adapter](/orm/overview/databases/database-drivers).
+從 [`v5.4.0`](https://github.com/prisma/prisma/releases/tag/5.4.0) 開始,您可以使用 Prisma ORM 搭配 JavaScript 生態系統中的資料庫驅動程式(而不是使用 Prisma ORM 的內建驅動程式)。您可以透過使用[驅動程式適配器](/orm/overview/databases/database-drivers)來實現。
 
-For SQLite, [`node-mssql`](https://github.com/tediousjs/node-mssql) is one of the most popular drivers in the JavaScript ecosystem. 
+對於 SQLite,[`node-mssql`](https://github.com/tediousjs/node-mssql) 是 JavaScript 生態系統中最受歡迎的驅動程式之一。
 
-This section explains how you can use it with Prisma ORM and the `@prisma/adapter-mssql` driver adapter.
+本節說明如何將它與 Prisma ORM 和 `@prisma/adapter-mssql` 驅動程式適配器一起使用。
 
-### 1. Install the dependencies
+### 1. 安裝依賴項
 
-First, install Prisma ORM's driver adapter for `node-mssql`:
+首先,安裝 Prisma ORM 的 `node-mssql` 驅動程式適配器:
 
 ```terminal
 npm install @prisma/adapter-mssql
 ```
 
-### 2. Instantiate Prisma Client using the driver adapter
+### 2. 使用驅動程式適配器實例化 Prisma Client
 
-Now, when you instantiate Prisma Client, you need to pass an instance of Prisma ORM's driver adapter to the `PrismaClient` constructor:
+現在,當您實例化 Prisma Client 時,需要將 Prisma ORM 的驅動程式適配器實例傳遞給 `PrismaClient` 建構函式:
 
 ```ts
 import 'dotenv/config'
@@ -85,11 +85,11 @@ const adapter = new PrismaMssql(config)
 const prisma = new PrismaClient({ adapter })
 ```
 
-## Connection details
+## 連接詳細資訊
 
-The connection URL used to connect to an Microsoft SQL Server database follows the [JDBC standard](https://learn.microsoft.com/en-us/sql/connect/jdbc/building-the-connection-url?view=sql-server-ver15).
+用於連接到 Microsoft SQL Server 資料庫的連接 URL 遵循 [JDBC 標準](https://learn.microsoft.com/en-us/sql/connect/jdbc/building-the-connection-url?view=sql-server-ver15)。
 
-The following example uses SQL authentication (username and password) with an enabled TLS encrypted connection:
+以下範例使用 SQL 身份驗證(使用者名稱和密碼)並啟用 TLS 加密連接:
 
 ```
 sqlserver://HOST[:PORT];database=DATABASE;user=USER;password=PASSWORD;encrypt=true
@@ -97,13 +97,13 @@ sqlserver://HOST[:PORT];database=DATABASE;user=USER;password=PASSWORD;encrypt=tr
 
 :::warning
 
-Note: If you are using any of the following characters in your connection string, [you will need to escape them](https://learn.microsoft.com/en-us/sql/connect/jdbc/building-the-connection-url?view=sql-server-ver16#escaping-values-in-the-connection-url).
+注意: 如果您在連接字串中使用以下任何字元,[您將需要轉義它們](https://learn.microsoft.com/en-us/sql/connect/jdbc/building-the-connection-url?view=sql-server-ver16#escaping-values-in-the-connection-url)。
 
 ```terminal
 :\=;/[]{}  # these are characters that will need to be escaped
 ```
 
-To escape these characters, use curly braces `{}` around values that contain special characters. As an example:
+要轉義這些字元,請在包含特殊字元的值周圍使用大括號 `{}`。例如:
 
 ```terminal
 sqlserver://HOST[:PORT];database=DATABASE;user={MyServer/MyUser};password={ThisIsA:SecurePassword;};encrypt=true
@@ -111,86 +111,86 @@ sqlserver://HOST[:PORT];database=DATABASE;user={MyServer/MyUser};password={ThisI
 
 :::
 
-### Arguments
+### 參數
 
-| Argument name                                                                         | Required          | Default            | Comments                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 參數名稱                                                                         | 必填              | 預設值            | 說明                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | :------------------------------------------------------------------------------------ | :---------------- | :----------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <ul><li>`database`</li><li>`initial catalog`</li></ul>                                | No                | `master`           | The database to connect to.                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| <ul><li>`username`</li><li>`user`</li><li>`uid`</li><li>`userid`</li></ul>            | No - see Comments |                    | SQL Server login (such as `sa`) _or_ a valid Windows (Active Directory) username if `integratedSecurity` is set to `true` (Windows only).                                                                                                                                                                                                                                                                                                                  |
-| <ul><li>`password`</li><li>`pwd`</li></ul>                                            | No - see Comments |                    | Password for SQL Server login _or_ Windows (Active Directory) username if `integratedSecurity` is set to `true` (Windows only).                                                                                                                                                                                                                                                                                                                            |
-| `encrypt`                                                                             | No                | `true`             | Configures whether to use TLS all the time, or only for the login procedure, possible values: `true` (use always), `false` (only for login credentials).                                                                                                                                                                                                                                                                                                   |
-| `integratedSecurity`                                                                  | No                |                    | Enables [Windows authentication (integrated security)](https://learn.microsoft.com/en-us/previous-versions/dotnet/framework/data/adonet/sql/authentication-in-sql-server), possible values: `true`, `false`, `yes`, `no`. If set to `true` or `yes` and `username` and `password` are present, login is performed through Windows Active Directory. If login details are not given via separate arguments, the current logged in Windows user is used to login to the server. |
-| `connectionLimit`                                                                     | No                | `num_cpus * 2 + 1` | Maximum size of the [connection pool](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool) (Prisma ORM v6 and before)                                                                                                                                                                                                                                                                                                    |
-| `connectTimeout`                                                                      | No                | `5`                | Maximum number of seconds to wait for a new connection                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `schema`                                                                              | No                | `dbo`              | Added as a prefix to all the queries if schema name is not the default.                                                                                                                                                                                                                                                                                                                                                                                    |
-| <ul><li>`loginTimeout`</li><li>`connectTimeout`</li><li>`connectionTimeout`</li></ul> | No                |                    | Number of seconds to wait for login to succeed.                                                                                                                                                                                                                                                                                                                                                                                                            |
-| `socketTimeout`                                                                       | No                |                    | Number of seconds to wait for each query to succeed.                                                                                                                                                                                                                                                                                                                                                                                                       |
-| `isolationLevel`                                                                      | No                |                    | Sets [transaction isolation level](https://learn.microsoft.com/en-us/sql/t-sql/statements/set-transaction-isolation-level-transact-sql?view=sql-server-ver15).                                                                                                                                                                                                                                                                                              |
-| `poolTimeout`                                                                         | No                | `10`               | Maximum number of seconds to wait for a new connection from the pool. If all connections are in use, the database will return a `PoolTimeout` error after waiting for the given time.                                                                                                                                                                                                                                                                      |
-| <ul><li>`ApplicationName`</li><li>`Application Name`</li></ul>(case insensitive)      | No                |                    | Sets the application name for the connection. Since version 2.28.0.                                                                                                                                                                                                                                                                                                                                                                                        |
-| `trustServerCertificate`                                                              | No                | `false`            | Configures whether to trust the server certificate.                                                                                                                                                                                                                                                                                                                                                                                                        |
-| `trustServerCertificateCA`                                                            | No                |                    | A path to a certificate authority file to be used instead of the system certificates to authorize the server certificate. Must be either in `pem`, `crt` or `der` format. Cannot be used together with `trustServerCertificate` parameter.                                                                                                                                                                                                                 |
+| <ul><li>`database`</li><li>`initial catalog`</li></ul>                                | 否                | `master`           | 要連接的資料庫。                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <ul><li>`username`</li><li>`user`</li><li>`uid`</li><li>`userid`</li></ul>            | 否 - 見說明 |                    | SQL Server 登入名稱(例如 `sa`)_或_當 `integratedSecurity` 設為 `true` 時的有效 Windows (Active Directory) 使用者名稱(僅限 Windows)。                                                                                                                                                                                                                                                                                  |
+| <ul><li>`password`</li><li>`pwd`</li></ul>                                            | 否 - 見說明 |                    | SQL Server 登入的密碼_或_當 `integratedSecurity` 設為 `true` 時的 Windows (Active Directory) 使用者名稱密碼(僅限 Windows)。                                                                                                                                                                                                                                                                                            |
+| `encrypt`                                                                             | 否                | `true`             | 配置是否始終使用 TLS,或僅在登入過程中使用,可能的值: `true`(始終使用),`false`(僅用於登入憑證)。                                                                                                                                                                                                                                                                                                                   |
+| `integratedSecurity`                                                                  | 否                |                    | 啟用 [Windows 身份驗證(整合安全性)](https://learn.microsoft.com/en-us/previous-versions/dotnet/framework/data/adonet/sql/authentication-in-sql-server),可能的值: `true`、`false`、`yes`、`no`。如果設為 `true` 或 `yes` 且存在 `username` 和 `password`,則透過 Windows Active Directory 執行登入。如果未透過單獨的參數提供登入詳細資訊,則使用目前登入的 Windows 使用者登入伺服器。 |
+| `connectionLimit`                                                                     | 否                | `num_cpus * 2 + 1` | [連接池](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool)的最大大小(Prisma ORM v6 及更早版本)                                                                                                                                                                                                                                                                                                    |
+| `connectTimeout`                                                                      | 否                | `5`                | 等待新連接的最大秒數                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `schema`                                                                              | 否                | `dbo`              | 如果 schema 名稱不是預設值,則會新增為所有查詢的前綴。                                                                                                                                                                                                                                                                                                                                                                                                    |
+| <ul><li>`loginTimeout`</li><li>`connectTimeout`</li><li>`connectionTimeout`</li></ul> | 否                |                    | 等待登入成功的秒數。                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `socketTimeout`                                                                       | 否                |                    | 等待每個查詢成功的秒數。                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `isolationLevel`                                                                      | 否                |                    | 設定[交易隔離等級](https://learn.microsoft.com/en-us/sql/t-sql/statements/set-transaction-isolation-level-transact-sql?view=sql-server-ver15)。                                                                                                                                                                                                                                                                                              |
+| `poolTimeout`                                                                         | 否                | `10`               | 從連接池等待新連接的最大秒數。如果所有連接都在使用中,資料庫將在等待指定時間後回傳 `PoolTimeout` 錯誤。                                                                                                                                                                                                                                                                                                                                                      |
+| <ul><li>`ApplicationName`</li><li>`Application Name`</li></ul>(不區分大小寫)      | 否                |                    | 設定連接的應用程式名稱。自版本 2.28.0 起。                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `trustServerCertificate`                                                              | 否                | `false`            | 配置是否信任伺服器憑證。                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `trustServerCertificateCA`                                                            | 否                |                    | 用於授權伺服器憑證的憑證授權機構檔案的路徑,用於替代系統憑證。必須是 `pem`、`crt` 或 `der` 格式。不能與 `trustServerCertificate` 參數一起使用。                                                                                                                                                                                                 |
 
-:::tip[Prisma ORM v7 connection pooling]
-In Prisma ORM v7, [driver adapters](/orm/overview/databases/database-drivers) are the default for relational databases. Connection pooling is handled by the Node.js driver you provide (like `mssql`), not by Prisma's connection URL parameters. See the [connection pool guide](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool) for v7 defaults and configuration.
+:::tip[Prisma ORM v7 連接池]
+在 Prisma ORM v7 中,[驅動程式適配器](/orm/overview/databases/database-drivers)是關聯式資料庫的預設選項。連接池由您提供的 Node.js 驅動程式(如 `mssql`)處理,而不是由 Prisma 的連接 URL 參數處理。有關 v7 預設值和配置,請參閱[連接池指南](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool)。
 :::
 
-### Using [integrated security](https://learn.microsoft.com/en-us/previous-versions/dotnet/framework/data/adonet/sql/authentication-in-sql-server) (Windows only)
+### 使用[整合安全性](https://learn.microsoft.com/en-us/previous-versions/dotnet/framework/data/adonet/sql/authentication-in-sql-server)(僅限 Windows)
 
-The following example uses the currently logged in Windows user to log in to Microsoft SQL Server:
+以下範例使用目前登入的 Windows 使用者登入到 Microsoft SQL Server:
 
 ```
 sqlserver://localhost:1433;database=sample;integratedSecurity=true;trustServerCertificate=true;
 ```
 
-The following example uses a specific Active Directory user to log in to Microsoft SQL Server:
+以下範例使用特定的 Active Directory 使用者登入到 Microsoft SQL Server:
 
 ```
 sqlserver://localhost:1433;database=sample;integratedSecurity=true;username=prisma;password=aBcD1234;trustServerCertificate=true;
 ```
 
-#### Connect to a named instance
+#### 連接到命名實例
 
-The following example connects to a named instance of Microsoft SQL Server (`mycomputer\sql2019`) using integrated security:
+以下範例使用整合安全性連接到 Microsoft SQL Server 的命名實例 (`mycomputer\sql2019`):
 
 ```
 sqlserver://mycomputer\sql2019;database=sample;integratedSecurity=true;trustServerCertificate=true;
 ```
 
-## Type mapping between Microsoft SQL Server to Prisma schema
+## Microsoft SQL Server 到 Prisma schema 之間的類型映射
 
-For type mappings organized by Prisma ORM type, refer to the [Prisma schema reference](/orm/reference/prisma-schema-reference#model-field-scalar-types) documentation.
+有關按 Prisma ORM 類型組織的類型映射,請參閱 [Prisma schema 參考](/orm/reference/prisma-schema-reference#model-field-scalar-types)文件。
 
-## Supported versions
+## 支援的版本
 
-See [Supported databases](/orm/reference/supported-databases).
+請參閱[支援的資料庫](/orm/reference/supported-databases)。
 
-## Limitations and known issues
+## 限制和已知問題
 
-### Prisma Migrate caveats
+### Prisma Migrate 注意事項
 
-Prisma Migrate is supported in [2.13.0](https://github.com/prisma/prisma/releases/tag/2.13.0) and later with the following caveats:
+Prisma Migrate 在 [2.13.0](https://github.com/prisma/prisma/releases/tag/2.13.0) 及更高版本中支援,但有以下注意事項:
 
-#### Database schema names
+#### 資料庫 schema 名稱
 
-SQL Server does not have an equivalent to the PostgreSQL `SET search_path` command familiar from PostgreSQL. This means that when you create migrations, you must define the same schema name in the connection URL that is used by the production database. For most of the users this is `dbo` (the default value). However, if the production database uses another schema name, all the migration SQL must be either edited by hand to reflect the production _or_ the connection URL must be changed before creating migrations (for example: `schema=name`).
+SQL Server 沒有類似 PostgreSQL 的 `SET search_path` 命令。這意味著當您建立遷移時,必須在連接 URL 中定義與生產資料庫所使用的相同 schema 名稱。對於大多數使用者來說,這是 `dbo`(預設值)。但是,如果生產資料庫使用另一個 schema 名稱,則必須手動編輯所有遷移 SQL 以反映生產環境_或_在建立遷移之前更改連接 URL(例如: `schema=name`)。
 
-#### Cyclic references
+#### 循環引用
 
-Circular references can occur between models when each model references another, creating a closed loop. When using a Microsoft SQL Server database, Prisma ORM will show a validation error if the [referential action](/orm/prisma-schema/data-model/relations/referential-actions) on a relation is set to something other than [`NoAction`](/orm/prisma-schema/data-model/relations/referential-actions#noaction).
+當每個模型互相引用時,模型之間可能會發生循環引用,形成一個閉環。使用 Microsoft SQL Server 資料庫時,如果關係上的[參照動作](/orm/prisma-schema/data-model/relations/referential-actions)設定為除 [`NoAction`](/orm/prisma-schema/data-model/relations/referential-actions#noaction) 以外的其他值,Prisma ORM 將顯示驗證錯誤。
 
-See [Special rules for referential actions in SQL Server](/orm/prisma-schema/data-model/relations/referential-actions/special-rules-for-referential-actions) for more information.
+有關更多資訊,請參閱 [SQL Server 中參照動作的特殊規則](/orm/prisma-schema/data-model/relations/referential-actions/special-rules-for-referential-actions)。
 
-#### Destructive changes
+#### 破壞性變更
 
-Certain migrations will cause more changes than you might expect. For example:
+某些遷移將導致比您預期更多的變更。例如:
 
-- Adding or removing `autoincrement()`. This cannot be achieved by modifying the column, but requires recreating the table (including all constraints, indices, and foreign keys) and moving all data between the tables.
-- Additionally, it is not possible to delete all the columns from a table (possible with PostgreSQL or MySQL). If a migration needs to recreate all table columns, it will also re-create the table.
+- 新增或移除 `autoincrement()`。這無法透過修改欄位來實現,而是需要重新建立表格(包括所有約束、索引和外鍵)並在表格之間移動所有資料。
+- 此外,無法從表格中刪除所有欄位(PostgreSQL 或 MySQL 可以)。如果遷移需要重新建立所有表格欄位,它也將重新建立表格。
 
-#### Shared default values are not supported
+#### 不支援共享預設值
 
-In some cases, user might want to define default values as shared objects:
+在某些情況下,使用者可能希望將預設值定義為共享物件:
 
 ```sql file=default_objects.sql
 CREATE DEFAULT catcat AS 'musti';
@@ -203,7 +203,7 @@ CREATE TABLE cats (
 sp_bindefault 'catcat', 'dbo.cats.name';
 ```
 
-Using the stored procedure `sp_bindefault`, the default value `catcat` can be used in more than one table. The way Prisma ORM manages default values is per table:
+使用儲存程序 `sp_bindefault`,預設值 `catcat` 可以在多個表格中使用。Prisma ORM 管理預設值的方式是按表格:
 
 ```sql file=default_per_table.sql showLineNumbers
 CREATE TABLE cats (
@@ -212,7 +212,7 @@ CREATE TABLE cats (
 );
 ```
 
-The last example, when introspected, leads to the following model:
+最後一個範例在進行內省時,會產生以下模型:
 
 ```prisma file=schema.prisma showLineNumbers
 model cats {
@@ -221,7 +221,7 @@ model cats {
 }
 ```
 
-And the first doesn't get the default value introspected:
+而第一個範例不會內省出預設值:
 
 ```prisma file=schema.prisma showLineNumbers
 model cats {
@@ -230,42 +230,42 @@ model cats {
 }
 ```
 
-If using Prisma Migrate together with shared default objects, changes to them must be done manually to the SQL.
+如果將 Prisma Migrate 與共享預設物件一起使用,則必須手動對 SQL 進行變更。
 
-### Data model limitations
+### 資料模型限制
 
-#### Cannot use column with `UNIQUE` constraint and filtered index as foreign key
+#### 無法使用具有 `UNIQUE` 約束和篩選索引的欄位作為外鍵
 
-Microsoft SQL Server [only allows one `NULL` value in a column that has a `UNIQUE` constraint](https://learn.microsoft.com/en-us/sql/relational-databases/tables/unique-constraints-and-check-constraints?view=sql-server-ver15). For example:
+Microsoft SQL Server [只允許在具有 `UNIQUE` 約束的欄位中有一個 `NULL` 值](https://learn.microsoft.com/en-us/sql/relational-databases/tables/unique-constraints-and-check-constraints?view=sql-server-ver15)。例如:
 
-- A table of users has a column named `license_number`
-- The `license_number` field has a `UNIQUE` constraint
-- The `license_number` field only allows **one** `NULL` value
+- 使用者表格有一個名為 `license_number` 的欄位
+- `license_number` 欄位具有 `UNIQUE` 約束
+- `license_number` 欄位只允許**一個** `NULL` 值
 
-The standard way to get around this issue is to create a filtered unique index that excludes `NULL` values. This allows you to insert multiple `NULL` values. If you do not create an index in the database, you will get an error if you try to insert more than one `null` value into a column with Prisma Client.
+解決此問題的標準方法是建立一個排除 `NULL` 值的篩選唯一索引。這允許您插入多個 `NULL` 值。如果您沒有在資料庫中建立索引,嘗試使用 Prisma Client 將多個 `null` 值插入欄位時將會出錯。
 
-_However_, creating an index makes it impossible to use `license_number` as a foreign key in the database (or a relation scalar field in corresponding Prisma Schema)
+_然而_,建立索引使得無法在資料庫中將 `license_number` 用作外鍵(或在對應的 Prisma Schema 中用作關係純量欄位)
 
-### Raw query considerations
+### 原始查詢注意事項
 
-#### Raw queries with `String @db.VarChar(n)` fields / `VARCHAR(N)` columns
+#### 使用 `String @db.VarChar(n)` 欄位 / `VARCHAR(N)` 欄位的原始查詢
 
-`String` query parameters in [raw queries](/orm/prisma-client/using-raw-sql/raw-queries) are always encoded to SQL Server as `NVARCHAR(4000)` (if your `String` length is \<= 4000) or `NVARCHAR(MAX)`. If you compare a `String` query parameter to a column of type `String @db.VarChar(N)`/`VARCHAR(N)`, this can lead to implicit conversion on SQL Server which affects your index performance and can lead to high CPU usage. 
+[原始查詢](/orm/prisma-client/using-raw-sql/raw-queries)中的 `String` 查詢參數始終編碼為 SQL Server 的 `NVARCHAR(4000)`(如果您的 `String` 長度 \<= 4000)或 `NVARCHAR(MAX)`。如果您將 `String` 查詢參數與類型為 `String @db.VarChar(N)`/`VARCHAR(N)` 的欄位進行比較,這可能會導致 SQL Server 上的隱式轉換,影響索引效能並可能導致高 CPU 使用率。
 
-Here is an example:
+以下是一個範例:
 ```prisma
 model user {
   id Int @id
   name String @db.VarChar(40)
 }
 ```
-This query would be affected:
+此查詢會受到影響:
 ```ts
 await prisma.$queryRaw`SELECT * FROM user WHERE name = ${"John"}`
 ```
 
-To avoid the problem, we recommend you always manually cast your `String` query parameters to `VARCHAR(N)` in the raw query:
+為了避免此問題,我們建議您始終在原始查詢中手動將 `String` 查詢參數轉換為 `VARCHAR(N)`:
 ```ts
 await prisma.$queryRaw`SELECT * FROM user WHERE name = CAST(${"John"} AS VARCHAR(40))`
 ```
-This enables SQL Server to perform a Clustered Index Seek instead of a Clustered Index Scan.
+這使 SQL Server 能夠執行叢集索引搜尋而不是叢集索引掃描。

@@ -1,41 +1,41 @@
 ---
-title: 'SQL Server on Docker'
-metaTitle: 'SQL Server  on Docker'
-metaDescription: 'Download and use the Microsoft SQL Server Docker image.'
+title: 'Docker 上的 SQL Server'
+metaTitle: 'Docker 上的 SQL Server'
+metaDescription: '下載並使用 Microsoft SQL Server Docker 映像。'
 ---
 
-:::info Quick summary
-This guide provides a quick overview on setting up and running Microsoft SQL Server in a Docker container, including pulling the image, starting the server, connecting, and creating a test database.
+:::info 快速摘要
+本指南提供了在 Docker 容器中設定和執行 Microsoft SQL Server 的快速概覽,包括拉取映像、啟動伺服器、連接和建立測試資料庫。
 :::
 
 
 <TopBlock>
 
-To run a Microsoft SQL Server container image with Docker:
+要使用 Docker 執行 Microsoft SQL Server 容器映像:
 
-1. Install and set up [Docker](https://docs.docker.com/get-started/get-docker/)
-1. Run the following command in your terminal to download the Microsoft SQL Server 2019 image:
+1. 安裝並設定 [Docker](https://docs.docker.com/get-started/get-docker/)
+1. 在終端機中執行以下命令以下載 Microsoft SQL Server 2019 映像:
 
    ```terminal
    docker pull mcr.microsoft.com/mssql/server:2019-latest
    ```
 
-1. Create an instance of the container image, replacing the value of `SA_PASSWORD` with a password of your choice:
+1. 建立容器映像的實例,將 `SA_PASSWORD` 的值替換為您選擇的密碼:
 
    ```terminal wrap
    docker run --name sql_container -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=myPassword' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
    ```
 
-1. [Follow Microsoft's instructions to connect to SQL Server and use the `sqlcmd` tool](https://learn.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-ver15&pivots=cs1-cmd&tabs=cli#connect-to-sql-server), replacing the image name and password with your own.
+1. [遵循 Microsoft 的說明連接到 SQL Server 並使用 `sqlcmd` 工具](https://learn.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-ver15&pivots=cs1-cmd&tabs=cli#connect-to-sql-server),將映像名稱和密碼替換為您自己的。
 
-1. From the `sqlcmd` command prompt, create a new database:
+1. 從 `sqlcmd` 命令提示字元建立新資料庫:
 
    ```terminal
    CREATE DATABASE quickstart
    GO
    ```
 
-1. Run the following command to check that your database was created successfully:
+1. 執行以下命令檢查資料庫是否成功建立:
 
    ```terminal
    sp_databases
@@ -44,11 +44,11 @@ To run a Microsoft SQL Server container image with Docker:
 
 </TopBlock>
 
-## Connection URL credentials
+## 連接 URL 憑證
 
-Based on this example, your credentials are:
+根據此範例,您的憑證是:
 
-- **Username**: sa
-- **Password**: myPassword
-- **Database**: quickstart
-- **Port**: 1433
+- **使用者名稱**: sa
+- **密碼**: myPassword
+- **資料庫**: quickstart
+- **連接埠**: 1433

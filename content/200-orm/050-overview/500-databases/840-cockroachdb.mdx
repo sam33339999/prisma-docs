@@ -8,50 +8,50 @@ toc: true
 
 <TopBlock>
 
-This guide discusses the concepts behind using Prisma ORM and CockroachDB, explains the commonalities and differences between CockroachDB and other database providers, and leads you through the process for configuring your application to integrate with CockroachDB.
+本指南探討使用 Prisma ORM 和 CockroachDB 的相關概念,說明 CockroachDB 與其他資料庫提供者之間的共通性和差異,並引導您完成配置應用程式以整合 CockroachDB 的過程。
 
 </TopBlock>
 
 :::info
 
-The CockroachDB connector is generally available in versions `3.14.0` and later. It was first added as a [Preview feature](/orm/reference/preview-features) in version [`3.9.0`](https://github.com/prisma/prisma/releases/tag/3.9.0) with support for Introspection, and Prisma Migrate support was added in [`3.11.0`](https://github.com/prisma/prisma/releases/tag/3.11.0).
+CockroachDB 連接器在 `3.14.0` 及更高版本中正式可用。它首次作為[預覽功能](/orm/reference/preview-features)添加於版本 [`3.9.0`](https://github.com/prisma/prisma/releases/tag/3.9.0),支援 Introspection,而 Prisma Migrate 支援則在 [`3.11.0`](https://github.com/prisma/prisma/releases/tag/3.11.0) 中添加。
 
 :::
 
-## What is CockroachDB?
+## 什麼是 CockroachDB?
 
-CockroachDB is a distributed database that is designed for scalability and high availability. Features include:
+CockroachDB 是一個為可擴展性和高可用性設計的分散式資料庫。功能包括:
 
-- **Compatibility with PostgreSQL:** CockroachDB is compatible with PostgreSQL, allowing interoperability with a large ecosystem of existing products
-- **Built-in scaling:** CockroachDB comes with automated replication, failover and repair capabilities to allow easy horizontal scaling of your application
+- **與 PostgreSQL 相容:** CockroachDB 與 PostgreSQL 相容,允許與大量現有產品生態系統互通
+- **內建擴展:** CockroachDB 具備自動複製、故障轉移和修復功能,可輕鬆進行應用程式的水平擴展
 
-## Commonalities with other database providers
+## 與其他資料庫提供者的共通性
 
-CockroachDB is largely compatible with PostgreSQL, and can mostly be used with Prisma ORM in the same way. You can still:
+CockroachDB 與 PostgreSQL 高度相容,大部分情況下可以用與 Prisma ORM 相同的方式使用。您仍然可以:
 
-- model your database with the [Prisma Schema Language](/orm/prisma-schema)
-- connect to your database, using Prisma ORM's [`cockroachdb` database connector](/orm/overview/databases/cockroachdb)
-- use [Introspection](/orm/prisma-schema/introspection) for existing projects if you already have a CockroachDB database
-- use [Prisma Migrate](/orm/prisma-migrate) to migrate your database schema to a new version
-- use [Prisma Client](/orm/prisma-client) in your application to query your database in a type safe way based on your Prisma Schema
+- 使用 [Prisma Schema Language](/orm/prisma-schema) 建模您的資料庫
+- 使用 Prisma ORM 的 [`cockroachdb` 資料庫連接器](/orm/overview/databases/cockroachdb)連接到您的資料庫
+- 如果您已有 CockroachDB 資料庫,可在現有專案中使用 [Introspection](/orm/prisma-schema/introspection)
+- 使用 [Prisma Migrate](/orm/prisma-migrate) 將資料庫架構遷移到新版本
+- 在應用程式中使用 [Prisma Client](/orm/prisma-client),根據您的 Prisma Schema 以類型安全的方式查詢資料庫
 
-## Differences to consider
+## 需要考慮的差異
 
-There are some CockroachDB-specific differences to be aware of when working with Prisma ORM's `cockroachdb` connector:
+在使用 Prisma ORM 的 `cockroachdb` 連接器時,需要注意一些 CockroachDB 特定的差異:
 
-- **Cockroach-specific native types:** Prisma ORM's `cockroachdb` database connector provides support for CockroachDB's native data types. To learn more, see [How to use CockroachDB's native types](#how-to-use-cockroachdbs-native-types).
+- **Cockroach 特定的原生類型:** Prisma ORM 的 `cockroachdb` 資料庫連接器提供對 CockroachDB 原生資料類型的支援。要了解更多,請參閱 [如何使用 CockroachDB 的原生類型](#how-to-use-cockroachdbs-native-types)。
 
-- **Creating database keys:** Prisma ORM allows you to generate a unique identifier for each record using the [`autoincrement()`](/orm/reference/prisma-schema-reference#autoincrement) function. For more information, see [How to use database keys with CockroachDB](#how-to-use-database-keys-with-cockroachdb).
+- **建立資料庫鍵:** Prisma ORM 允許您使用 [`autoincrement()`](/orm/reference/prisma-schema-reference#autoincrement) 函式為每筆記錄生成唯一識別碼。更多資訊請參閱 [如何在 CockroachDB 中使用資料庫鍵](#how-to-use-database-keys-with-cockroachdb)。
 
-## How to use Prisma ORM with CockroachDB
+## 如何在 CockroachDB 中使用 Prisma ORM
 
-This section provides more details on how to use CockroachDB-specific features.
+本節提供如何使用 CockroachDB 特定功能的更多詳細資訊。
 
-### How to use CockroachDB's native types
+### 如何使用 CockroachDB 的原生類型
 
-CockroachDB has its own set of native [data types](https://www.cockroachlabs.com/docs/stable/data-types.html) which are supported in Prisma ORM. For example, CockroachDB uses the `STRING` data type instead of PostgreSQL's `VARCHAR`.
+CockroachDB 有自己的一套原生[資料類型](https://www.cockroachlabs.com/docs/stable/data-types.html),這些類型在 Prisma ORM 中受支援。例如,CockroachDB 使用 `STRING` 資料類型,而不是 PostgreSQL 的 `VARCHAR`。
 
-As a demonstration of this, say you create a `User` table in your CockroachDB database using the following SQL command:
+作為示範,假設您使用以下 SQL 命令在 CockroachDB 資料庫中建立 `User` 表:
 
 ```sql
 CREATE TABLE public."Post" (
@@ -62,7 +62,7 @@ CREATE TABLE public."Post" (
 );
 ```
 
-After introspecting your database with `npx prisma db pull`, you will have a new `Post` model in your Prisma Schema:
+使用 `npx prisma db pull` 內省資料庫後,您的 Prisma Schema 中將會有一個新的 `Post` 模型:
 
 ```prisma file=schema.prisma showLineNumbers
 model Post {
@@ -71,15 +71,15 @@ model Post {
 }
 ```
 
-Notice that the `title` field has been annotated with `@db.String(200)` — this differs from PostgreSQL where the annotation would be `@db.VarChar(200)`.
+請注意,`title` 欄位已被標註為 `@db.String(200)` — 這與 PostgreSQL 不同,在 PostgreSQL 中標註會是 `@db.VarChar(200)`。
 
-For a full list of type mappings, see our [connector documentation](/orm/overview/databases/cockroachdb#type-mapping-between-cockroachdb-and-the-prisma-schema).
+有關類型對應的完整列表,請參閱我們的[連接器文件](/orm/overview/databases/cockroachdb#type-mapping-between-cockroachdb-and-the-prisma-schema)。
 
-### How to use database keys with CockroachDB
+### 如何在 CockroachDB 中使用資料庫鍵
 
-When generating unique identifiers for records in a distributed database like CockroachDB, it is best to avoid using sequential IDs – for more information on this, see CockroachDB's [blog post on choosing index keys](https://www.cockroachlabs.com/blog/how-to-choose-db-index-keys/).
+在像 CockroachDB 這樣的分散式資料庫中為記錄生成唯一識別碼時,最好避免使用連續 ID — 有關此主題的更多資訊,請參閱 CockroachDB 關於[選擇索引鍵的部落格文章](https://www.cockroachlabs.com/blog/how-to-choose-db-index-keys/)。
 
-Instead, Prisma ORM provides the [`autoincrement()`](/orm/reference/prisma-schema-reference#autoincrement) attribute function, which uses CockroachDB's [`unique_rowid()` function](https://www.cockroachlabs.com/docs/stable/serial.html) for generating unique identifiers. For example, the following `User` model has an `id` primary key, generated using the `autoincrement()` function:
+相反,Prisma ORM 提供 [`autoincrement()`](/orm/reference/prisma-schema-reference#autoincrement) 屬性函式,它使用 CockroachDB 的 [`unique_rowid()` 函式](https://www.cockroachlabs.com/docs/stable/serial.html)來生成唯一識別碼。例如,以下 `User` 模型具有使用 `autoincrement()` 函式生成的 `id` 主鍵:
 
 ```prisma file=schema.prisma showLineNumbers
 model User {
@@ -88,13 +88,13 @@ model User {
 }
 ```
 
-For compatibility with existing databases, you may sometimes still need to generate a fixed sequence of integer key values. In these cases, you can use Prisma ORM's inbuilt [`sequence()`](/orm/reference/prisma-schema-reference#sequence) function for CockroachDB. For a list of available options for the `sequence()` function, see our [reference documentation](/orm/reference/prisma-schema-reference#sequence).
+為了與現有資料庫相容,有時您仍然需要生成固定序列的整數鍵值。在這些情況下,您可以使用 Prisma ORM 為 CockroachDB 內建的 [`sequence()`](/orm/reference/prisma-schema-reference#sequence) 函式。有關 `sequence()` 函式可用選項的列表,請參閱我們的[參考文件](/orm/reference/prisma-schema-reference#sequence)。
 
-For more information on generating database keys, see CockroachDB's [Primary key best practices](https://www.cockroachlabs.com/docs/v21.2/schema-design-table#primary-key-best-practices) guide.
+有關生成資料庫鍵的更多資訊,請參閱 CockroachDB 的[主鍵最佳實踐](https://www.cockroachlabs.com/docs/v21.2/schema-design-table#primary-key-best-practices)指南。
 
-## Example
+## 範例
 
-To connect to a CockroachDB database server, you need to configure a [`datasource`](/orm/prisma-schema/overview/data-sources) block in your [Prisma schema](/orm/prisma-schema):
+要連接到 CockroachDB 資料庫伺服器,您需要在 [Prisma schema](/orm/prisma-schema) 中配置一個 [`datasource`](/orm/prisma-schema/overview/data-sources) 區塊:
 
 ```prisma file=schema.prisma showLineNumbers
 datasource db {
@@ -102,7 +102,7 @@ datasource db {
 }
 ```
 
-The database connection URL is configured in `prisma.config.ts`:
+資料庫連接 URL 在 `prisma.config.ts` 中配置:
 
 ```ts file=prisma.config.ts
 import 'dotenv/config'
@@ -118,64 +118,64 @@ export default defineConfig({
 
 :::info
 
-When using Prisma CLI commands, environment variables are not automatically loaded. You'll need to use a package like `dotenv` to load environment variables from a `.env` file, or ensure your environment variables are set in your shell.
+使用 Prisma CLI 命令時,環境變數不會自動載入。您需要使用像 `dotenv` 這樣的套件從 `.env` 檔案載入環境變數,或確保在您的 shell 中設定環境變數。
 
 :::
 
-The fields passed to the `datasource` block are:
+傳遞給 `datasource` 區塊的欄位有:
 
-- `provider`: Specifies the `cockroachdb` data source connector.
-- The `url` field is configured in `prisma.config.ts` and specifies the [connection URL](#connection-details) for the CockroachDB database server.
+- `provider`: 指定 `cockroachdb` 資料來源連接器。
+- `url` 欄位在 `prisma.config.ts` 中配置,並指定 CockroachDB 資料庫伺服器的[連接 URL](#connection-details)。
 
 :::info
 
-While `cockroachdb` and `postgresql` connectors are similar, it is mandatory to use the `cockroachdb` connector instead of `postgresql` when connecting to a CockroachDB database from version 5.0.0.
+雖然 `cockroachdb` 和 `postgresql` 連接器相似,但從版本 5.0.0 開始連接 CockroachDB 資料庫時,必須使用 `cockroachdb` 連接器而不是 `postgresql`。
 
 :::
 
-## Connection details
+## 連接詳細資訊
 
-CockroachDB uses the PostgreSQL format for its connection URL. See the [PostgreSQL connector documentation](/orm/overview/databases/postgresql#connection-details) for details of this format, and the optional arguments it takes.
+CockroachDB 的連接 URL 使用 PostgreSQL 格式。有關此格式的詳細資訊以及它接受的可選參數,請參閱 [PostgreSQL 連接器文件](/orm/overview/databases/postgresql#connection-details)。
 
-## Differences between CockroachDB and PostgreSQL
+## CockroachDB 與 PostgreSQL 的差異
 
-The following table lists differences between CockroachDB and PostgreSQL:
+下表列出了 CockroachDB 與 PostgreSQL 之間的差異:
 
-| Issue                                                                                                                                                                                                                                                                           | Area   | Notes                                                                                                                                                                                      |
+| 問題                                                                                                                                                                                                                                                                           | 區域   | 備註                                                                                                                                                                                      |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| By default, the `INT` type is an alias for `INT8` in CockroachDB, whereas in PostgreSQL it is an alias for `INT4`. This means that Prisma ORM will introspect an `INT` column in CockroachDB as `BigInt`, whereas in PostgreSQL Prisma ORM will introspect it as `Int`.         | Schema | For more information on the `INT` type, see the [CockroachDB documentation](https://www.cockroachlabs.com/docs/stable/int.html#considerations-for-64-bit-signed-integers)                  |
-| When using `@default(autoincrement())` on a field, CockroachDB will automatically generate 64-bit integers for the row IDs. These integers will be increasing but not consecutive. This is in contrast to PostgreSQL, where generated row IDs are consecutive and start from 1. | Schema | For more information on generated values, see the [CockroachDB documentation](https://www.cockroachlabs.com/docs/stable/serial.html#generated-values-for-modes-rowid-and-virtual_sequence) |
-| The `@default(autoincrement())` attribute can only be used together with the `BigInt` field type.                                                                                                                                                                               | Schema | For more information on generated values, see the [CockroachDB documentation](https://www.cockroachlabs.com/docs/stable/serial.html#generated-values-for-modes-rowid-and-virtual_sequence) |
+| 預設情況下,在 CockroachDB 中 `INT` 類型是 `INT8` 的別名,而在 PostgreSQL 中它是 `INT4` 的別名。這意味著 Prisma ORM 在 CockroachDB 中會將 `INT` 欄位內省為 `BigInt`,而在 PostgreSQL 中 Prisma ORM 會將其內省為 `Int`。         | Schema | 有關 `INT` 類型的更多資訊,請參閱 [CockroachDB 文件](https://www.cockroachlabs.com/docs/stable/int.html#considerations-for-64-bit-signed-integers)                  |
+| 在欄位上使用 `@default(autoincrement())` 時,CockroachDB 會自動為行 ID 生成 64 位元整數。這些整數是遞增的但不是連續的。這與 PostgreSQL 不同,在 PostgreSQL 中生成的行 ID 是連續的且從 1 開始。 | Schema | 有關生成值的更多資訊,請參閱 [CockroachDB 文件](https://www.cockroachlabs.com/docs/stable/serial.html#generated-values-for-modes-rowid-and-virtual_sequence) |
+| `@default(autoincrement())` 屬性只能與 `BigInt` 欄位類型一起使用。                                                                                                                                                                               | Schema | 有關生成值的更多資訊,請參閱 [CockroachDB 文件](https://www.cockroachlabs.com/docs/stable/serial.html#generated-values-for-modes-rowid-and-virtual_sequence) |
 
-## Type mapping limitations in CockroachDB
+## CockroachDB 的類型對應限制
 
-The CockroachDB connector maps the [scalar types](/orm/prisma-schema/data-model/models#scalar-fields) from the Prisma ORM [data model](/orm/prisma-schema/data-model/models) to native column types. These native types are mostly the same as for PostgreSQL — see the [Native type mapping from Prisma ORM to CockroachDB](#native-type-mapping-from-prisma-orm-to-cockroachdb) for details. However, there are some limitations:
+CockroachDB 連接器將 Prisma ORM [資料模型](/orm/prisma-schema/data-model/models)中的[純量類型](/orm/prisma-schema/data-model/models#scalar-fields)對應到原生欄位類型。這些原生類型大部分與 PostgreSQL 相同 — 詳情請參閱 [從 Prisma ORM 到 CockroachDB 的原生類型對應](#native-type-mapping-from-prisma-orm-to-cockroachdb)。然而,有一些限制:
 
-| CockroachDB (Type \| Aliases) | Prisma ORM | Supported | Native database type attribute | Notes                                                                                                                      |
+| CockroachDB (類型 \| 別名) | Prisma ORM | 支援 | 原生資料庫類型屬性 | 備註                                                                                                                      |
 | ----------------------------- | ---------- | :-------: | :----------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
-| `money`                       | `Decimal`  |  Not yet  | `@db.Money`                    | Supported in PostgreSQL but [not currently in CockroachDB](https://github.com/cockroachdb/cockroach/issues/41578)          |
-| `xml`                         | `String`   |  Not yet  | `@db.Xml`                      | Supported in PostgreSQL but [not currently in CockroachDB](https://github.com/cockroachdb/cockroach/issues/43355)          |
-| `jsonb` arrays                | `Json[]`   |  Not yet  | N/A                            | `Json[]` supported in PostgreSQL but [not currently in CockroachDB](https://github.com/cockroachdb/cockroach/issues/23468) |
+| `money`                       | `Decimal`  |  尚未支援  | `@db.Money`                    | PostgreSQL 支援,但 [CockroachDB 目前不支援](https://github.com/cockroachdb/cockroach/issues/41578)          |
+| `xml`                         | `String`   |  尚未支援  | `@db.Xml`                      | PostgreSQL 支援,但 [CockroachDB 目前不支援](https://github.com/cockroachdb/cockroach/issues/43355)          |
+| `jsonb` 陣列                | `Json[]`   |  尚未支援  | N/A                            | PostgreSQL 支援 `Json[]`,但 [CockroachDB 目前不支援](https://github.com/cockroachdb/cockroach/issues/23468) |
 
-## Other limitations
+## 其他限制
 
-The following table lists any other current known limitations of CockroachDB compared to PostgreSQL:
+下表列出了 CockroachDB 與 PostgreSQL 相比目前已知的其他限制:
 
-| Issue                                                                                                | Area          | Notes                                                                                                                                                                                                                                                           |
+| 問題                                                                                                | 區域          | 備註                                                                                                                                                                                                                                                           |
 | ---------------------------------------------------------------------------------------------------- | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Index types `Hash`, `Gist`, `SpGist` or `Brin` are not supported.                                    | Schema        | In PostgreSQL, Prisma ORM allows [configuration of indexes](/orm/prisma-schema/data-model/indexes#configuring-the-access-type-of-indexes-with-type-postgresql) to use the different index access method. CockroachDB only currently supports `BTree` and `Gin`. |
-| Pushing to `Enum` types not supported                                                                | Client        | Pushing to `Enum` types (e.g. `data: { enum { push: "A" }, }`) is currently [not supported in CockroachDB](https://github.com/cockroachdb/cockroach/issues/71388)                                                                                               |
-| Searching on `String` fields without a full text index not supported                                 | Client        | Searching on `String` fields without a full text index (e.g. `where: { text: { search: "cat & dog", }, },`) is currently [not supported in CockroachDB](https://github.com/cockroachdb/cockroach/issues/7821)                                                   |
-| Integer division not supported                                                                       | Client        | Integer division (e.g. `data: { int: { divide: 10, }, }`) is currently [not supported in CockroachDB](https://github.com/cockroachdb/cockroach/issues/41448)                                                                                                    |
-| Limited filtering on `Json` fields                                                                   | Client        | Currently CockroachDB [only supports](https://github.com/cockroachdb/cockroach/issues/49144) `equals` and `not` filtering on `Json` fields                                                                                                                      |
+| 不支援 `Hash`、`Gist`、`SpGist` 或 `Brin` 索引類型。                                    | Schema        | 在 PostgreSQL 中,Prisma ORM 允許[配置索引](/orm/prisma-schema/data-model/indexes#configuring-the-access-type-of-indexes-with-type-postgresql)以使用不同的索引存取方法。CockroachDB 目前僅支援 `BTree` 和 `Gin`。 |
+| 不支援對 `Enum` 類型的推送                                                                | Client        | 對 `Enum` 類型的推送(例如 `data: { enum { push: "A" }, }`)目前 [CockroachDB 不支援](https://github.com/cockroachdb/cockroach/issues/71388)                                                                                               |
+| 不支援在沒有全文索引的 `String` 欄位上搜尋                                 | Client        | 在沒有全文索引的 `String` 欄位上搜尋(例如 `where: { text: { search: "cat & dog", }, },`)目前 [CockroachDB 不支援](https://github.com/cockroachdb/cockroach/issues/7821)                                                   |
+| 不支援整數除法                                                                       | Client        | 整數除法(例如 `data: { int: { divide: 10, }, }`)目前 [CockroachDB 不支援](https://github.com/cockroachdb/cockroach/issues/41448)                                                                                                    |
+| 對 `Json` 欄位的過濾有限                                                                   | Client        | 目前 CockroachDB [僅支援](https://github.com/cockroachdb/cockroach/issues/49144)對 `Json` 欄位的 `equals` 和 `not` 過濾                                                                                                                      |
 
-## Type mapping between CockroachDB and the Prisma schema
+## CockroachDB 與 Prisma schema 之間的類型對應
 
-The CockroachDB connector maps the [scalar types](/orm/prisma-schema/data-model/models#scalar-fields) from the Prisma ORM [data model](/orm/prisma-schema/data-model/models) as follows to native column types:
+CockroachDB 連接器將 Prisma ORM [資料模型](/orm/prisma-schema/data-model/models)中的[純量類型](/orm/prisma-schema/data-model/models#scalar-fields)對應到原生欄位類型如下:
 
-> Alternatively, see the [Prisma schema reference](/orm/reference/prisma-schema-reference#model-field-scalar-types) for type mappings organized by Prisma ORM type.
+> 或者,查看 [Prisma schema 參考文件](/orm/reference/prisma-schema-reference#model-field-scalar-types)以了解按 Prisma ORM 類型組織的類型對應。
 
-### Native type mapping from Prisma ORM to CockroachDB
+### 從 Prisma ORM 到 CockroachDB 的原生類型對應
 
 | Prisma ORM | CockroachDB      |
 | ---------- | ---------------- |
@@ -189,11 +189,11 @@ The CockroachDB connector maps the [scalar types](/orm/prisma-schema/data-model/
 | `Json`     | `JSONB`          |
 | `Bytes`    | `BYTES`          |
 
-### Mapping from CockroachDB to Prisma ORM types on Introspection
+### 內省時從 CockroachDB 到 Prisma ORM 類型的對應
 
-When introspecting a CockroachDB database, the database types are mapped to Prisma ORM according to the following table:
+內省 CockroachDB 資料庫時,資料庫類型會根據下表對應到 Prisma ORM:
 
-| CockroachDB (Type \| Aliases)                | Prisma ORM | Supported | Native database type attribute | Notes                                                                  |
+| CockroachDB (類型 \| 別名)                | Prisma ORM | 支援 | 原生資料庫類型屬性 | 備註                                                                  |
 | -------------------------------------------- | ---------- | :-------: | :----------------------------- | :--------------------------------------------------------------------- |
 | `INT` \| `BIGINT`, `INTEGER`                 | `BigInt`   |    ✔️     | `@db.Int8`                     |                                                                        |
 | `BOOL` \| `BOOLEAN`                          | `Bool`     |    ✔️     | `@db.Bool`\*                   |                                                                        |
@@ -207,7 +207,7 @@ When introspecting a CockroachDB database, the database types are mapped to Pris
 | `INT2` \| `SMALLINT`                         | `Int`      |    ✔️     | `@db.Int2`                     |                                                                        |
 | `INT4`                                       | `Int`      |    ✔️     | `@db.Int4`                     |                                                                        |
 | `CHAR(n)` \| `CHARACTER(n)`                  | `String`   |    ✔️     | `@db.Char(x)`                  |                                                                        |
-| `"char"`                                     | `String`   |    ✔️     | `@db.CatalogSingleChar`        | Internal type for CockroachDB catalog tables, not meant for end users. |
+| `"char"`                                     | `String`   |    ✔️     | `@db.CatalogSingleChar`        | CockroachDB 目錄表的內部類型,不適合終端使用者使用。 |
 | `STRING` \| `TEXT`, `VARCHAR`                | `String`   |    ✔️     | `@db.String`                   |                                                                        |
 | `DATE`                                       | `DateTime` |    ✔️     | `@db.Date`                     |                                                                        |
 | `ENUM`                                       | `enum`     |    ✔️     | N/A                            |                                                                        |
@@ -217,9 +217,9 @@ When introspecting a CockroachDB database, the database types are mapped to Pris
 | `OID`                                        | `Int`      |    ✔️     | `@db.Oid`                      |                                                                        |
 | `UUID`                                       | `String`   |    ✔️     | `@db.Uuid`                     |                                                                        |
 | `JSONB` \| `JSON`                            | `Json`     |    ✔️     | `@db.JsonB`                    |                                                                        |
-| Array types                                  | `[]`       |    ✔️     |                                |                                                                        |
+| 陣列類型                                  | `[]`       |    ✔️     |                                |                                                                        |
 
-[Introspection](/orm/prisma-schema/introspection) adds native database types that are **not yet supported** as [`Unsupported`](/orm/reference/prisma-schema-reference#unsupported) fields:
+[Introspection](/orm/prisma-schema/introspection) 會將**尚未支援**的原生資料庫類型添加為 [`Unsupported`](/orm/reference/prisma-schema-reference#unsupported) 欄位:
 
 ```prisma file=schema.prisma showLineNumbers
 model Device {
@@ -228,13 +228,13 @@ model Device {
 }
 ```
 
-## More on using CockroachDB with Prisma ORM
+## 更多關於在 Prisma ORM 中使用 CockroachDB
 
-The fastest way to start using CockroachDB with Prisma ORM is to refer to our Getting Started documentation:
+開始使用 CockroachDB 與 Prisma ORM 最快的方式是參考我們的入門文件:
 
-- [Start from scratch](/getting-started/prisma-orm/quickstart/cockroachdb)
-- [Add to existing project](/getting-started/prisma-orm/add-to-existing-project/cockroachdb)
+- [從頭開始](/getting-started/prisma-orm/quickstart/cockroachdb)
+- [新增到現有專案](/getting-started/prisma-orm/add-to-existing-project/cockroachdb)
 
-These tutorials will take you through the process of connecting to CockroachDB, migrating your schema, and using Prisma Client.
+這些教學將引導您完成連接到 CockroachDB、遷移 schema 和使用 Prisma Client 的過程。
 
-Further reference information is available in the [CockroachDB connector documentation](/orm/overview/databases/cockroachdb).
+更多參考資訊可在 [CockroachDB 連接器文件](/orm/overview/databases/cockroachdb)中找到。

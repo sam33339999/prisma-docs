@@ -6,66 +6,66 @@ tocDepth: 3
 toc: true
 ---
 
-Prisma and [PlanetScale](https://planetscale.com/) together provide a development arena that optimizes rapid, type-safe development of data access applications, using Prisma's ORM and PlanetScale's highly scalable MySQL-based platform.
+Prisma 和 [PlanetScale](https://planetscale.com/) 結合,提供一個開發環境,利用 Prisma 的 ORM 和 PlanetScale 的高度可擴展 MySQL 平台,優化資料存取應用程式的快速、類型安全開發。
 
-This document discusses the concepts behind using Prisma ORM and PlanetScale, explains the commonalities and differences between PlanetScale and other database providers, and leads you through the process for configuring your application to integrate with PlanetScale.
+本文件探討使用 Prisma ORM 和 PlanetScale 的相關概念,說明 PlanetScale 與其他資料庫提供者之間的共通性和差異,並引導您完成配置應用程式以整合 PlanetScale 的過程。
 
-## What is PlanetScale?
+## 什麼是 PlanetScale?
 
-PlanetScale uses the [Vitess](https://vitess.io/) database clustering system to provide a MySQL-compatible database platform. Features include:
+PlanetScale 使用 [Vitess](https://vitess.io/) 資料庫叢集系統來提供與 MySQL 相容的資料庫平台。功能包括:
 
-- **Enterprise scalability.** PlanetScale provides a highly available production database cluster that supports scaling across multiple database servers. This is particularly useful in a serverless context, as it avoids the problem of having to [manage connection limits](/orm/prisma-client/setup-and-configuration/databases-connections#serverless-environments-faas).
-- **Database branches.** PlanetScale allows you to create [branches of your database schema](https://planetscale.com/docs/concepts/branching), so that you can test changes on a development branch before applying them to your production database.
-- **Support for [non-blocking schema changes](https://planetscale.com/docs/concepts/nonblocking-schema-changes).** PlanetScale provides a workflow that allows users to update database schemas without locking the database or causing downtime.
+- **企業級可擴展性。** PlanetScale 提供高可用的生產資料庫叢集,支援跨多個資料庫伺服器的擴展。這在無伺服器環境中特別有用,因為它避免了必須[管理連接限制](/orm/prisma-client/setup-and-configuration/databases-connections#serverless-environments-faas)的問題。
+- **資料庫分支。** PlanetScale 允許您建立[資料庫架構的分支](https://planetscale.com/docs/concepts/branching),以便您可以在開發分支上測試變更,然後再套用到生產資料庫。
+- **支援[非阻塞架構變更](https://planetscale.com/docs/concepts/nonblocking-schema-changes)。** PlanetScale 提供一個工作流程,允許使用者更新資料庫架構而不鎖定資料庫或造成停機。
 
-## Commonalities with other database providers
+## 與其他資料庫提供者的共通性
 
-Many aspects of using Prisma ORM with PlanetScale are just like using Prisma ORM with any other relational database. You can still:
+使用 Prisma ORM 與 PlanetScale 的許多方面就像使用 Prisma ORM 與任何其他關聯式資料庫一樣。您仍然可以:
 
-- model your database with the [Prisma Schema Language](/orm/prisma-schema)
-- use Prisma ORM's existing [`mysql` database connector](/orm/overview/databases/mysql) in your schema, along with the [connection string PlanetScale provides you](https://planetscale.com/docs/concepts/connection-strings)
-- use [Introspection](/orm/prisma-schema/introspection) for existing projects if you already have a database schema in PlanetScale
-- use [`db push`](/orm/prisma-migrate/workflows/prototyping-your-schema) to push changes in your schema to the database
-- use [Prisma Client](/orm/prisma-client) in your application to talk to the database server at PlanetScale
+- 使用 [Prisma Schema Language](/orm/prisma-schema) 建模您的資料庫
+- 在 schema 中使用 Prisma ORM 現有的 [`mysql` 資料庫連接器](/orm/overview/databases/mysql),以及 [PlanetScale 提供給您的連接字串](https://planetscale.com/docs/concepts/connection-strings)
+- 如果您在 PlanetScale 中已有資料庫架構,可在現有專案中使用 [Introspection](/orm/prisma-schema/introspection)
+- 使用 [`db push`](/orm/prisma-migrate/workflows/prototyping-your-schema) 將 schema 的變更推送到資料庫
+- 在應用程式中使用 [Prisma Client](/orm/prisma-client) 與 PlanetScale 的資料庫伺服器通訊
 
-## Differences to consider
+## 需要考慮的差異
 
-PlanetScale's branching model and design for scalability means that there are also a number of differences to consider. You should be aware of the following points when deciding to use PlanetScale with Prisma ORM:
+PlanetScale 的分支模型和可擴展性設計意味著也有一些差異需要考慮。決定使用 PlanetScale 與 Prisma ORM 時,您應該注意以下幾點:
 
-- **Branching and deploy requests.** PlanetScale provides two types of database branches: _development branches_, which allow you to test out schema changes, and _production branches_, which are protected from direct schema changes. Instead, changes must be first created on a development branch and then deployed to production using a deploy request. Production branches are highly available and include automated daily backups. To learn more, see [How to use branches and deploy requests](#how-to-use-branches-and-deploy-requests).
-- **Referential actions and integrity.** To support scaling across multiple database servers, PlanetScale [by default does not use foreign key constraints](https://planetscale.com/docs/learn/operating-without-foreign-key-constraints), which are normally used in relational databases to enforce relationships between data in different tables, and asks users to handle this manually in their applications. However, you can explicitly [enable them in the PlanetScale database settings](https://planetscale.com/docs/concepts/foreign-key-constraints). If you don't enable these explicitly, you can still maintain these relationships in your data and allow the use of [referential actions](/orm/prisma-schema/data-model/relations/referential-actions) by using Prisma ORM's ability to [emulate relations in Prisma Client](/orm/prisma-schema/data-model/relations/relation-mode#emulate-relations-in-prisma-orm-with-the-prisma-relation-mode) with the `prisma` relation mode. For more information, see [How to emulate relations in Prisma Client](#option-1-emulate-relations-in-prisma-client).
-- **Creating indexes on foreign keys.** When [emulating relations in Prisma ORM](#option-1-emulate-relations-in-prisma-client) (i.e. when _not_ using foreign key constraints on the database-level), you will need to create dedicated indexes on foreign keys. In a standard MySQL database, if a table has a column with a foreign key constraint, an index is automatically created on that column. When PlanetScale is configured to not use foreign key constraints, these indexes are [currently](https://github.com/prisma/prisma/issues/10611) not created when Prisma Client emulates relations, which can lead to issues with queries not being well optimized. To avoid this, you can create indexes in Prisma ORM. For more information, see [How to create indexes on foreign keys](#2-create-indexes-on-foreign-keys).
-- **Making schema changes with `db push`.** When you merge a development branch into your production branch, PlanetScale will automatically compare the two schemas and generate its own schema diff. This means that Prisma ORM's [`prisma migrate`](/orm/prisma-migrate) workflow, which generates its own history of migration files, is not a natural fit when working with PlanetScale. These migration files may not reflect the actual schema changes run by PlanetScale when the branch is merged.
+- **分支和部署請求。** PlanetScale 提供兩種類型的資料庫分支:_開發分支_,允許您測試架構變更,以及_生產分支_,受保護不受直接架構變更影響。相反,變更必須首先在開發分支上建立,然後使用部署請求部署到生產環境。生產分支具有高可用性並包含自動每日備份。要了解更多,請參閱 [如何使用分支和部署請求](#how-to-use-branches-and-deploy-requests)。
+- **參照動作和完整性。** 為了支援跨多個資料庫伺服器的擴展,PlanetScale [預設不使用外鍵約束](https://planetscale.com/docs/learn/operating-without-foreign-key-constraints),外鍵約束通常用於關聯式資料庫中強制執行不同表之間資料的關係,並要求使用者在應用程式中手動處理。然而,您可以在 [PlanetScale 資料庫設定中明確啟用它們](https://planetscale.com/docs/concepts/foreign-key-constraints)。如果您不明確啟用這些,您仍然可以維護資料中的這些關係,並透過使用 Prisma ORM 的 `prisma` 關聯模式在 [Prisma Client 中模擬關聯](/orm/prisma-schema/data-model/relations/relation-mode#emulate-relations-in-prisma-orm-with-the-prisma-relation-mode)的能力,允許使用[參照動作](/orm/prisma-schema/data-model/relations/referential-actions)。更多資訊請參閱 [如何在 Prisma Client 中模擬關聯](#option-1-emulate-relations-in-prisma-client)。
+- **在外鍵上建立索引。** 當[在 Prisma ORM 中模擬關聯](#option-1-emulate-relations-in-prisma-client)時(即當_不_在資料庫層級使用外鍵約束時),您需要在外鍵上建立專用索引。在標準 MySQL 資料庫中,如果表有帶外鍵約束的欄位,該欄位會自動建立索引。當 PlanetScale 配置為不使用外鍵約束時,當 Prisma Client 模擬關聯時,[目前](https://github.com/prisma/prisma/issues/10611)不會建立這些索引,這可能導致查詢未能很好地優化。為避免這種情況,您可以在 Prisma ORM 中建立索引。更多資訊請參閱 [如何在外鍵上建立索引](#2-create-indexes-on-foreign-keys)。
+- **使用 `db push` 進行架構變更。** 當您將開發分支合併到生產分支時,PlanetScale 會自動比較兩個架構並生成自己的架構差異。這意味著 Prisma ORM 的 [`prisma migrate`](/orm/prisma-migrate) 工作流程(生成自己的遷移檔案歷史)在使用 PlanetScale 時並不自然契合。這些遷移檔案可能無法反映 PlanetScale 在分支合併時執行的實際架構變更。
 
   :::warning
 
-  We recommend not using `prisma migrate` when making schema changes with PlanetScale. Instead, we recommend that you use the `prisma db push` command.
+  我們建議在使用 PlanetScale 進行架構變更時不要使用 `prisma migrate`。相反,我們建議您使用 `prisma db push` 命令。
 
   :::
 
-  For an example of how this works, see [How to make schema changes with `db push`](#how-to-make-schema-changes-with-db-push)
+  有關其運作方式的範例,請參閱 [如何使用 `db push` 進行架構變更](#how-to-make-schema-changes-with-db-push)
 
-- **Introspection**. When you introspect on an existing database and you have _not_ enabled [foreign key constraints in your PlanetScale database](#option-2-enable-foreign-key-constraints-in-the-planetscale-database-settings), you will get a schema with no relations, as they are usually defined based on foreign keys that connect tables. In that case, you will need to add the missing relations in manually. For more information, see [How to add in missing relations after Introspection](#how-to-add-in-missing-relations-after-introspection).
+- **Introspection**。當您對現有資料庫進行內省且_未_在 [PlanetScale 資料庫中啟用外鍵約束](#option-2-enable-foreign-key-constraints-in-the-planetscale-database-settings)時,您將獲得一個沒有關聯的架構,因為它們通常基於連接表的外鍵來定義。在這種情況下,您需要手動添加缺少的關聯。更多資訊請參閱 [如何在 Introspection 後添加缺少的關聯](#how-to-add-in-missing-relations-after-introspection)。
 
-## How to use branches and deploy requests
+## 如何使用分支和部署請求
 
-When connecting to PlanetScale with Prisma ORM, you will need to use the correct connection string for your branch. The connection URL for a given database branch can be found from your PlanetScale account by going to the overview page for the branch and selecting the 'Connect' dropdown. In the 'Passwords' section, generate a new password and select 'Prisma' from the dropdown to get the Prisma format for the connection URL. See Prisma ORM's [Getting started guide](/getting-started/prisma-orm/quickstart/planetscale) for more details of how to connect to a PlanetScale database.
+使用 Prisma ORM 連接到 PlanetScale 時,您需要為分支使用正確的連接字串。可以從您的 PlanetScale 帳戶找到給定資料庫分支的連接 URL,方法是前往分支的概覽頁面並選擇「Connect」下拉式選單。在「Passwords」部分,生成新密碼並從下拉式選單中選擇「Prisma」以獲取 Prisma 格式的連接 URL。有關如何連接到 PlanetScale 資料庫的更多詳細資訊,請參閱 Prisma ORM 的[入門指南](/getting-started/prisma-orm/quickstart/planetscale)。
 
-Every PlanetScale database is created with a branch called `main`, which is initially a development branch that you can use to test schema changes on. Once you are happy with the changes you make there, you can [promote it](https://planetscale.com/docs/concepts/branching#promote-a-branch-to-production) to become a production branch. Note that you can only push new changes to a development branch, so further changes will need to be created on a separate development branch and then later deployed to production using a [deploy request](https://planetscale.com/docs/concepts/branching#promote-a-branch-to-production).
+每個 PlanetScale 資料庫都會建立一個名為 `main` 的分支,它最初是一個開發分支,您可以用來測試架構變更。一旦您對所做的變更感到滿意,就可以[將其升級](https://planetscale.com/docs/concepts/branching#promote-a-branch-to-production)為生產分支。請注意,您只能將新變更推送到開發分支,因此後續變更需要在單獨的開發分支上建立,然後使用[部署請求](https://planetscale.com/docs/concepts/branching#promote-a-branch-to-production)部署到生產環境。
 
-If you try to push to a production branch, you will get the [error message](/orm/reference/error-reference#p3022) `Direct execution of DDL (Data Definition Language) SQL statements is disabled on this database.`
+如果您嘗試推送到生產分支,您將收到[錯誤訊息](/orm/reference/error-reference#p3022) `Direct execution of DDL (Data Definition Language) SQL statements is disabled on this database.`
 
-## How to use relations (and enable referential integrity) with PlanetScale
+## 如何在 PlanetScale 中使用關聯(並啟用參照完整性)
 
-### Option 1: Emulate relations in Prisma Client
+### 選項 1: 在 Prisma Client 中模擬關聯
 
-#### 1. Set `relationMode = "prisma"`
+#### 1. 設定 `relationMode = "prisma"`
 
-PlanetScale does not use foreign key constraints in its database schema by default. However, Prisma ORM relies on foreign key constraints in the underlying database to enforce referential integrity between models in your Prisma schema.
+PlanetScale 預設不在其資料庫架構中使用外鍵約束。然而,Prisma ORM 依賴底層資料庫中的外鍵約束來強制執行 Prisma schema 中模型之間的參照完整性。
 
-In Prisma ORM versions 3.1.1 and later, you can [emulate relations in Prisma Client with the `prisma` relation mode](/orm/prisma-schema/data-model/relations/relation-mode#emulate-relations-in-prisma-orm-with-the-prisma-relation-mode), which avoids the need for foreign key constraints in the database.
+在 Prisma ORM 3.1.1 及更高版本中,您可以[使用 `prisma` 關聯模式在 Prisma Client 中模擬關聯](/orm/prisma-schema/data-model/relations/relation-mode#emulate-relations-in-prisma-orm-with-the-prisma-relation-mode),這避免了在資料庫中需要外鍵約束。
 
-To enable emulation of relations in Prisma Client, set the `relationMode` field to `"prisma"` in the `datasource` block:
+要在 Prisma Client 中啟用關聯模擬,請在 `datasource` 區塊中將 `relationMode` 欄位設定為 `"prisma"`:
 
 ```prisma file=schema.prisma
 datasource db {
@@ -76,15 +76,15 @@ datasource db {
 
 :::info
 
-The ability to set the relation mode was introduced as part of the `referentialIntegrity` preview feature in Prisma ORM version 3.1.1, and is generally available in Prisma ORM versions 4.8.0 and later.<br /><br />The `relationMode` field was renamed in Prisma ORM version 4.5.0, and was previously named `referentialIntegrity`.
+設定關聯模式的能力是作為 Prisma ORM 3.1.1 版本中 `referentialIntegrity` 預覽功能的一部分引入的,並在 Prisma ORM 4.8.0 及更高版本中正式可用。<br /><br />`relationMode` 欄位在 Prisma ORM 4.5.0 版本中被重新命名,之前名為 `referentialIntegrity`。
 
 :::
 
-If you use relations in your Prisma schema with the default `"foreignKeys"` option for the `relationMode` field, PlanetScale will error and Prisma ORM output the [P3021 error message](/orm/reference/error-reference#p3021) when it tries to create foreign keys. (In versions before 2.27.0 it will output a raw database error.)
+如果您在 Prisma schema 中使用關聯且 `relationMode` 欄位使用預設的 `"foreignKeys"` 選項,當 Prisma ORM 嘗試建立外鍵時,PlanetScale 會產生錯誤,Prisma ORM 會輸出 [P3021 錯誤訊息](/orm/reference/error-reference#p3021)。(在 2.27.0 之前的版本中,它會輸出原始資料庫錯誤。)
 
-#### 2. Create indexes on foreign keys
+#### 2. 在外鍵上建立索引
 
-When [you emulate relations in Prisma Client](#option-1-emulate-relations-in-prisma-client), you need to create your own indexes. As an example of a situation where you would want to add an index, take this schema for a blog with posts and comments:
+當您[在 Prisma Client 中模擬關聯](#option-1-emulate-relations-in-prisma-client)時,需要建立自己的索引。作為需要添加索引的情況範例,考慮這個有文章和評論的部落格架構:
 
 ```prisma file=schema.prisma
 model Post {
@@ -103,9 +103,9 @@ model Comment {
 }
 ```
 
-The `postId` field in the `Comment` model refers to the corresponding `id` field in the `Post` model. However this is not implemented as a foreign key in PlanetScale, so the column doesn't have an automatic index. This means that some queries may not be well optimized. For example, if you query for all comments with a certain post `id`, PlanetScale may have to do a full table lookup. This could be slow, and also expensive because PlanetScale's billing model charges for the number of rows read.
+`Comment` 模型中的 `postId` 欄位引用 `Post` 模型中對應的 `id` 欄位。然而,這在 PlanetScale 中並未實作為外鍵,因此該欄位沒有自動索引。這意味著某些查詢可能未能很好地優化。例如,如果您查詢具有特定文章 `id` 的所有評論,PlanetScale 可能必須進行完整的表查找。這可能會很慢,而且成本很高,因為 PlanetScale 的計費模式是根據讀取的行數收費。
 
-To avoid this, you can define an index on the `postId` field using [Prisma ORM's `@@index` argument](/orm/reference/prisma-schema-reference#index):
+為避免這種情況,您可以使用 [Prisma ORM 的 `@@index` 參數](/orm/reference/prisma-schema-reference#index)在 `postId` 欄位上定義索引:
 
 ```prisma file=schema.prisma highlight=15;add
 model Post {
@@ -127,23 +127,23 @@ model Comment {
 }
 ```
 
-You can then add this change to your schema [using `db push`](#how-to-make-schema-changes-with-db-push).
+然後您可以[使用 `db push`](#how-to-make-schema-changes-with-db-push) 將此變更添加到您的架構。
 
-In versions 4.7.0 and later, Prisma ORM warns you if you have a relation with no index on the relation scalar field. For more information, see [Index validation](/orm/prisma-schema/data-model/relations/relation-mode#index-validation).
+在 4.7.0 及更高版本中,如果您有關聯但關聯純量欄位上沒有索引,Prisma ORM 會警告您。更多資訊請參閱[索引驗證](/orm/prisma-schema/data-model/relations/relation-mode#index-validation)。
 
 :::warning
 
-One issue to be aware of is that [implicit many-to-many relations](/orm/prisma-schema/data-model/relations/many-to-many-relations#implicit-many-to-many-relations) cannot have an index added in this way. If query speed or cost is an issue, you may instead want to use an [explicit many-to-many relation](/orm/prisma-schema/data-model/relations/many-to-many-relations#explicit-many-to-many-relations) in this case.
+需要注意的一個問題是,[隱式多對多關聯](/orm/prisma-schema/data-model/relations/many-to-many-relations#implicit-many-to-many-relations)無法以這種方式添加索引。如果查詢速度或成本是問題,在這種情況下您可能需要使用[顯式多對多關聯](/orm/prisma-schema/data-model/relations/many-to-many-relations#explicit-many-to-many-relations)。
 
 :::
 
-### Option 2: Enable foreign key constraints in the PlanetScale database settings
+### 選項 2: 在 PlanetScale 資料庫設定中啟用外鍵約束
 
-Support for foreign key constraints in PlanetScale databases has been Generally Available since February 2024. Follow the instructions in the [PlanetScale documentation](https://planetscale.com/docs/concepts/foreign-key-constraints) to enable them in your database.
+自 2024 年 2 月起,PlanetScale 資料庫中的外鍵約束支援已正式可用。請按照 [PlanetScale 文件](https://planetscale.com/docs/concepts/foreign-key-constraints)中的說明在您的資料庫中啟用它們。
 
-You can then use Prisma ORM and define relations in your Prisma schema without the need for extra configuration.
+然後,您可以使用 Prisma ORM 並在 Prisma schema 中定義關聯,無需額外配置。
 
-In that case, you can define a relation as with other database that supports foreign key constraints, for example:
+在這種情況下,您可以像其他支援外鍵約束的資料庫一樣定義關聯,例如:
 
 ```prisma file=schema.prisma
 model Post {
@@ -162,20 +162,20 @@ model Comment {
 }
 ```
 
-With this approach, it is _not_ necessary to:
+使用此方法,_不_需要:
 
-- set `relationMode = "prisma"` in your Prisma schema
-- define additional indexes on foreign keys
+- 在 Prisma schema 中設定 `relationMode = "prisma"`
+- 在外鍵上定義額外的索引
 
-Also, introspection will automatically create relation fields in your Prisma schema because it can detect the foreign key constraints in the database.
+此外,introspection 會自動在您的 Prisma schema 中建立關聯欄位,因為它可以檢測資料庫中的外鍵約束。
 
-## How to make schema changes with `db push`
+## 如何使用 `db push` 進行架構變更
 
-To use `db push` with PlanetScale, you will first need to [enable emulation of relations in Prisma Client](#option-1-emulate-relations-in-prisma-client). Pushing to your branch without referential emulation enabled will give the [error message](/orm/reference/error-reference#p3021) `Foreign keys cannot be created on this database.`
+要在 PlanetScale 中使用 `db push`,您首先需要[在 Prisma Client 中啟用關聯模擬](#option-1-emulate-relations-in-prisma-client)。在未啟用參照模擬的情況下推送到分支將會產生[錯誤訊息](/orm/reference/error-reference#p3021) `Foreign keys cannot be created on this database.`
 
-As an example, let's say you decide to decide to add a new `excerpt` field to the blog post schema above. You will first need to [create a new development branch and connect to it](#how-to-use-branches-and-deploy-requests).
+作為範例,假設您決定向上面的部落格文章架構添加新的 `excerpt` 欄位。您首先需要[建立新的開發分支並連接到它](#how-to-use-branches-and-deploy-requests)。
 
-Next, add the following to your `schema.prisma` file:
+接下來,將以下內容添加到您的 `schema.prisma` 檔案中:
 
 ```prisma file=schema.prisma highlight=5;edit
 model Post {
@@ -198,21 +198,21 @@ model Comment {
 }
 ```
 
-To push these changes, navigate to your project directory in your terminal and run
+要推送這些變更,請在終端中導航到您的專案目錄並執行
 
 ```terminal
 npx prisma db push
 ```
 
-Once you are happy with your changes on your development branch, you can open a deploy request to deploy these to your production branch.
+一旦您對開發分支上的變更感到滿意,就可以開啟部署請求將這些變更部署到生產分支。
 
-For more examples, see PlanetScale's tutorial on [automatic migrations with Prisma ORM](https://planetscale.com/docs/prisma/automatic-prisma-migrations) using `db push`.
+有關更多範例,請參閱 PlanetScale 關於使用 `db push` 進行 [Prisma ORM 自動遷移](https://planetscale.com/docs/prisma/automatic-prisma-migrations)的教學。
 
-## How to add in missing relations after introspection
+## 如何在內省後添加缺少的關聯
 
-> **Note**: This section is only relevant if you use `relationMode = "prisma"` to emulate foreign key constraints with Prisma ORM. If you enabled foreign key constraints in your PlanetScale database, you can ignore this section.
+> **注意**: 本節僅在您使用 `relationMode = "prisma"` 在 Prisma ORM 中模擬外鍵約束時相關。如果您在 PlanetScale 資料庫中啟用了外鍵約束,可以忽略本節。
 
-After introspecting with `npx prisma db pull`, the schema you get may be missing some relations. For example, the following schema is missing a relation between the `User` and `Post` models:
+使用 `npx prisma db pull` 進行內省後,您獲得的架構可能缺少一些關聯。例如,以下架構缺少 `User` 和 `Post` 模型之間的關聯:
 
 ```prisma file=schema.prisma
 model Post {
@@ -232,7 +232,7 @@ model User {
 }
 ```
 
-In this case you need to add the relation in manually:
+在這種情況下,您需要手動添加關聯:
 
 ```prisma file=schema.prisma highlight=6,16;add
 model Post {
@@ -256,15 +256,15 @@ model User {
 }
 ```
 
-For a more detailed example, see the [Getting started guide for PlanetScale](/getting-started/prisma-orm/add-to-existing-project/planetscale).
+有關更詳細的範例,請參閱 [PlanetScale 入門指南](/getting-started/prisma-orm/add-to-existing-project/planetscale)。
 
-## How to define shard keys in your Prisma schema (Preview)
+## 如何在 Prisma schema 中定義分片鍵 (預覽)
 
-[Sharding](https://planetscale.com/docs/vitess/sharding) is a popular technique to scale up when database load grows. 
+[分片](https://planetscale.com/docs/vitess/sharding)是當資料庫負載增長時進行擴展的流行技術。
 
-As of [v6.10.0](https://github.com/prisma/prisma/releases/tag/6.10.0), Prisma ORM supports sharding on PlanetScale natively (as a [Preview](/orm/more/releases#preview) feature) via the [`@shardKey`](/orm/reference/prisma-schema-reference#shardkey) and [`@@shardKey`](/orm/reference/prisma-schema-reference#shardkey-1) attributes in the Prisma schema which you can apply to the fields in your models that should serve as shard keys in your database setup.
+從 [v6.10.0](https://github.com/prisma/prisma/releases/tag/6.10.0) 開始,Prisma ORM 原生支援 PlanetScale 上的分片(作為[預覽](/orm/more/releases#preview)功能),透過 Prisma schema 中的 [`@shardKey`](/orm/reference/prisma-schema-reference#shardkey) 和 [`@@shardKey`](/orm/reference/prisma-schema-reference#shardkey-1) 屬性,您可以將其應用於模型中應作為資料庫設定中分片鍵的欄位。
 
-In order to use the shard key attributes, you need to specify the `shardKeys` Preview feature on your `generator`:
+要使用分片鍵屬性,您需要在 `generator` 上指定 `shardKeys` 預覽功能:
 
 ```prisma
 generator client {
@@ -274,9 +274,9 @@ generator client {
 }
 ```
 
-Now you can use the `@shardKey` and `@@shardKey` attributes:
+現在您可以使用 `@shardKey` 和 `@@shardKey` 屬性:
 
-**Single-column shard key**
+**單欄位分片鍵**
 
 ```prisma
 model User {
@@ -285,7 +285,7 @@ model User {
 }
 ```
 
-**Multi-column shard key**
+**多欄位分片鍵**
 
 ```prisma
 model User {
@@ -296,22 +296,22 @@ model User {
 }
 ```
 
-## How to use the PlanetScale serverless driver with Prisma ORM (Preview)
+## 如何在 Prisma ORM 中使用 PlanetScale 無伺服器驅動程式 (預覽)
 
-The [PlanetScale serverless driver](https://planetscale.com/docs/tutorials/planetscale-serverless-driver) provides a way of communicating with your database and executing queries over HTTP.
+[PlanetScale 無伺服器驅動程式](https://planetscale.com/docs/tutorials/planetscale-serverless-driver)提供了一種透過 HTTP 與資料庫通訊和執行查詢的方式。
 
-You can use Prisma ORM along with the PlanetScale serverless driver using the [`@prisma/adapter-planetscale`](https://www.npmjs.com/package/@prisma/adapter-planetscale) driver adapter. The driver adapter allows you to communicate with your database over HTTP.
+您可以使用 [`@prisma/adapter-planetscale`](https://www.npmjs.com/package/@prisma/adapter-planetscale) 驅動程式適配器將 Prisma ORM 與 PlanetScale 無伺服器驅動程式一起使用。驅動程式適配器允許您透過 HTTP 與資料庫通訊。
 
 :::info
 
-This feature has been Generally Available since Prisma ORM [v6.16.0](https://pris.ly/release/6.16.0).
+此功能自 Prisma ORM [v6.16.0](https://pris.ly/release/6.16.0) 起正式可用。
 
 :::
 
 
 :::info
 
-Ensure you update the host value in your connection string to `aws.connect.psdb.cloud`. You can learn more about this [here](https://planetscale.com/docs/tutorials/planetscale-serverless-driver#add-and-use-the-planetscale-serverless-driver-for-javascript-to-your-project).
+確保將連接字串中的主機值更新為 `aws.connect.psdb.cloud`。您可以在[此處](https://planetscale.com/docs/tutorials/planetscale-serverless-driver#add-and-use-the-planetscale-serverless-driver-for-javascript-to-your-project)了解更多相關資訊。
 
 ```bash
 DATABASE_URL='mysql://johndoe:strongpassword@aws.connect.psdb.cloud/clear_nightsky?sslaccept=strict'
@@ -319,7 +319,7 @@ DATABASE_URL='mysql://johndoe:strongpassword@aws.connect.psdb.cloud/clear_nights
 
 :::
 
-Install the Prisma ORM adapter for PlanetScale, PlanetScale serverless driver and `undici` packages:
+安裝 Prisma ORM 的 PlanetScale 適配器、PlanetScale 無伺服器驅動程式和 `undici` 套件:
 
 ```terminal
 npm install @prisma/adapter-planetscale undici
@@ -327,11 +327,11 @@ npm install @prisma/adapter-planetscale undici
 
 :::info
 
-When using a Node.js version below 18, you must provide a custom fetch function implementation. We recommend the `undici` package on which Node's built-in fetch is based. Node.js versions 18 and later include a built-in global `fetch` function, so you don't have to install an extra package.
+使用 Node.js 18 以下版本時,必須提供自訂 fetch 函式實作。我們建議使用 `undici` 套件,Node 的內建 fetch 就是基於此套件。Node.js 18 及更高版本包含內建的全域 `fetch` 函式,因此您無需安裝額外的套件。
 
 :::
 
-Update your Prisma Client instance to use the PlanetScale serverless driver:
+更新您的 Prisma Client 實例以使用 PlanetScale 無伺服器驅動程式:
 
 ```ts
 import { PrismaPlanetScale } from '@prisma/adapter-planetscale'
@@ -346,18 +346,18 @@ const adapter = new PrismaPlanetScale({ url: connectionString, fetch: undiciFetc
 const prisma = new PrismaClient({ adapter })
 ```
 
-You can then use Prisma Client as you normally would with full type-safety. Prisma Migrate, introspection, and Prisma Studio will continue working as before using the connection string defined in the Prisma schema.
+然後,您可以像平常一樣使用具有完整類型安全的 Prisma Client。Prisma Migrate、內省和 Prisma Studio 將繼續像以前一樣使用 Prisma schema 中定義的連接字串工作。
 
-## More on using PlanetScale with Prisma ORM
+## 更多關於在 Prisma ORM 中使用 PlanetScale
 
-The fastest way to start using PlanetScale with Prisma ORM is to refer to our Getting Started documentation:
+開始使用 PlanetScale 與 Prisma ORM 最快的方式是參考我們的入門文件:
 
-- [Start from scratch](/getting-started/prisma-orm/quickstart/planetscale)
-- [Add to existing project](/getting-started/prisma-orm/add-to-existing-project/planetscale)
+- [從頭開始](/getting-started/prisma-orm/quickstart/planetscale)
+- [新增到現有專案](/getting-started/prisma-orm/add-to-existing-project/planetscale)
 
-These tutorials will take you through the process of connecting to PlanetScale, pushing schema changes, and using Prisma Client.
+這些教學將引導您完成連接到 PlanetScale、推送架構變更和使用 Prisma Client 的過程。
 
-For further tips on best practices when using Prisma ORM and PlanetScale together, watch our video:
+有關使用 Prisma ORM 和 PlanetScale 的最佳實踐的更多提示,請觀看我們的影片:
 
 <div class="videoWrapper">
 

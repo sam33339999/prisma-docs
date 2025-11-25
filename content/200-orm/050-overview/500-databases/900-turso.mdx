@@ -5,89 +5,89 @@ metaDescription: 'Guide to Turso'
 tocDepth: 3
 ---
 
-This guide discusses the concepts behind using Prisma ORM and Turso, explains the commonalities and differences between Turso and other database providers, and leads you through the process for configuring your application to integrate with Turso.
+本指南探討使用 Prisma ORM 和 Turso 的相關概念,說明 Turso 與其他資料庫提供者之間的共通性和差異,並引導您完成配置應用程式以整合 Turso 的過程。
 
-::::note[Preview feature]
-There's a Turso preview feature that integrates with Prisma CLI workflows. See the [GitHub discussion](https://github.com/prisma/prisma/discussions/21345) and share feedback there.
+::::note[預覽功能]
+有一個與 Prisma CLI 工作流程整合的 Turso 預覽功能。請參閱 [GitHub 討論](https://github.com/prisma/prisma/discussions/21345)並在那裡分享您的反饋。
 ::::
 
-## What is Turso?
+## 什麼是 Turso?
 
-[Turso](https://turso.tech/) is an edge-hosted, distributed database that's based on [libSQL](https://turso.tech/libsql), an open-source and open-contribution fork of [SQLite](https://sqlite.org/), enabling you to bring data closer to your application and minimize query latency. Turso can also be hosted on a remote server.
+[Turso](https://turso.tech/) 是一個基於 [libSQL](https://turso.tech/libsql) 的邊緣託管分散式資料庫,libSQL 是 [SQLite](https://sqlite.org/) 的開源和開放貢獻的分支,使您能夠將資料靠近您的應用程式並最小化查詢延遲。Turso 也可以託管在遠端伺服器上。
 
-## Commonalities with other database providers
+## 與其他資料庫提供者的共通性
 
-libSQL is 100% compatible with SQLite. libSQL extends SQLite and adds the following features and capabilities:
+libSQL 與 SQLite 100% 相容。libSQL 擴展了 SQLite 並添加了以下功能和能力:
 
-- Support for replication
-- Support for automated backups
-- Ability to embed Turso as part of other programs such as the Linux kernel
-- Supports user-defined functions
-- Support for asynchronous I/O
+- 支援複製
+- 支援自動備份
+- 能夠將 Turso 嵌入為其他程式(如 Linux 核心)的一部分
+- 支援使用者定義函式
+- 支援非同步 I/O
 
-> To learn more about the differences between libSQL and how it is different from SQLite, see [libSQL Manifesto](https://turso.tech/libsql-manifesto).
+> 要了解更多關於 libSQL 的差異以及它與 SQLite 的不同之處,請參閱 [libSQL Manifesto](https://turso.tech/libsql-manifesto)。
 
-Many aspects of using Prisma ORM with Turso are just like using Prisma ORM with any other relational database. You can still:
+使用 Prisma ORM 與 Turso 的許多方面就像使用 Prisma ORM 與任何其他關聯式資料庫一樣。您仍然可以:
 
-- model your database with the [Prisma Schema Language](/orm/prisma-schema)
-- use Prisma ORM's existing [`sqlite` database connector](/orm/overview/databases/sqlite) in your schema
-- use [Prisma Client](/orm/prisma-client) in your application to talk to the database server at Turso
+- 使用 [Prisma Schema Language](/orm/prisma-schema) 建模您的資料庫
+- 在 schema 中使用 Prisma ORM 現有的 [`sqlite` 資料庫連接器](/orm/overview/databases/sqlite)
+- 在應用程式中使用 [Prisma Client](/orm/prisma-client) 與 Turso 的資料庫伺服器通訊
 
-## Differences to consider
+## 需要考慮的差異
 
-There are a number of differences between Turso and SQLite to consider. You should be aware of the following when deciding to use Turso and Prisma ORM:
+在決定使用 Turso 和 Prisma ORM 時,Turso 與 SQLite 之間有一些差異需要考慮。您應該注意以下幾點:
 
-- **Remote and embedded SQLite databases**. libSQL uses HTTP to connect to the remote SQLite database. libSQL also supports remote database replicas and embedded replicas. Embedded replicas enable you to replicate your primary database inside your application.
-- **Making schema changes**. Since libSQL uses HTTP to connect to the remote database, this makes it incompatible with Prisma Migrate. However, you can use [`prisma migrate diff`](/orm/reference/prisma-cli-reference#migrate-diff) to create a schema migration and then apply the changes to your database using [Turso's CLI](https://docs.turso.tech/reference/turso-cli).
+- **遠端和嵌入式 SQLite 資料庫**。libSQL 使用 HTTP 連接到遠端 SQLite 資料庫。libSQL 也支援遠端資料庫副本和嵌入式副本。嵌入式副本使您能夠在應用程式內部複製主資料庫。
+- **進行架構變更**。由於 libSQL 使用 HTTP 連接到遠端資料庫,這使得它與 Prisma Migrate 不相容。然而,您可以使用 [`prisma migrate diff`](/orm/reference/prisma-cli-reference#migrate-diff) 建立架構遷移,然後使用 [Turso 的 CLI](https://docs.turso.tech/reference/turso-cli) 將變更套用到資料庫。
 
-## How to connect and query a Turso database
+## 如何連接和查詢 Turso 資料庫
 
-The subsequent section covers how you can create a Turso database, retrieve your database credentials and connect to your database.
+後續章節介紹如何建立 Turso 資料庫、取得資料庫憑證並連接到您的資料庫。
 
-### How to provision a database and retrieve database credentials
+### 如何佈建資料庫並取得資料庫憑證
 
 :::info
 
-Ensure that you have the [Turso CLI](https://docs.turso.tech/reference/turso-cli) installed to manage your databases.
+確保您已安裝 [Turso CLI](https://docs.turso.tech/reference/turso-cli) 以管理您的資料庫。
 
 :::
 
-If you don't have an existing database, you can provision a database by running the following command:
+如果您沒有現有的資料庫,可以執行以下命令來佈建資料庫:
 
 ```terminal
 turso db create turso-prisma-db
 ```
 
-The above command will create a database in the closest region to your location.
+上述命令將在離您位置最近的區域建立資料庫。
 
-Run the following command to retrieve your database's connection string:
+執行以下命令以取得資料庫的連接字串:
 
 ```terminal
 turso db show turso-prisma-db
 ```
 
-Next, create an authentication token that will allow you to connect to the database:
+接下來,建立一個身份驗證令牌,允許您連接到資料庫:
 
 ```terminal
 turso db tokens create turso-prisma-db
 ```
 
-Update your `.env` file with the authentication token and connection string:
+使用身份驗證令牌和連接字串更新您的 `.env` 檔案:
 
 ```bash file=.env
 TURSO_AUTH_TOKEN="eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9..."
 TURSO_DATABASE_URL="libsql://turso-prisma-db-user.turso.io"
 ```
 
-### How to connect to a Turso database
+### 如何連接到 Turso 資料庫
 
-To get started, install the Prisma ORM driver adapter for libSQL packages:
+要開始使用,請安裝 Prisma ORM 的 libSQL 驅動程式適配器套件:
 
 ```terminal
 npm install @prisma/adapter-libsql
 ```
 
-Update your Prisma Client instance:
+更新您的 Prisma Client 實例:
 
 ```ts
 import { PrismaClient } from '../prisma/generated/client'
@@ -100,14 +100,14 @@ const adapter = new PrismaLibSQL({
 const prisma = new PrismaClient({ adapter })
 ```
 
-You can use Prisma Client as you normally would with full type-safety in your project.
+您可以在專案中像平常一樣使用具有完整類型安全的 Prisma Client。
 
-## Manage schema changes with Turso
+## 使用 Turso 管理架構變更
 
-Prisma CLI commands such as `prisma migrate dev` or `prisma db push` require a local SQLite connection. To roll out schema changes to Turso, use this workflow:
+Prisma CLI 命令(如 `prisma migrate dev` 或 `prisma db push`)需要本地 SQLite 連接。要將架構變更推送到 Turso,請使用此工作流程:
 
-1. **Configure Prisma CLI to target a local SQLite file.**  
-   Update `.env` and `prisma.config.ts` so Prisma CLI commands write to the local file instead of your remote Turso database:
+1. **配置 Prisma CLI 以目標本地 SQLite 檔案。**
+   更新 `.env` 和 `prisma.config.ts`,使 Prisma CLI 命令寫入本地檔案而不是遠端 Turso 資料庫:
 
 ```bash file=.env showLineNumbers
 LOCAL_DATABASE_URL="file:./dev.db"
@@ -128,57 +128,57 @@ export default defineConfig({
 })
 ```
 
-2. **Generate migrations locally.**  
-   Run `prisma migrate dev --name <migration-name>` to update the local SQLite database and produce SQL files in `prisma/migrations`.
+2. **在本地生成遷移。**
+   執行 `prisma migrate dev --name <migration-name>` 以更新本地 SQLite 資料庫並在 `prisma/migrations` 中生成 SQL 檔案。
 
-3. **Apply the generated SQL using the Turso CLI.**  
-   Use the [`turso db shell` command](https://docs.turso.tech/cli/introduction) to run the SQL against your remote database (replace `test` with your database name):
+3. **使用 Turso CLI 套用生成的 SQL。**
+   使用 [`turso db shell` 命令](https://docs.turso.tech/cli/introduction)對您的遠端資料庫執行 SQL(將 `test` 替換為您的資料庫名稱):
 
 ```bash showLineNumbers
 turso db shell test < ./prisma/migrations/20251118131940_init/migration.sql
 ```
 
-Replace the database name (`test`) and migration folder (`20251118131940_init`) with the values produced by `prisma migrate dev`.
+將資料庫名稱 (`test`) 和遷移資料夾 (`20251118131940_init`) 替換為 `prisma migrate dev` 生成的值。
 
-## Embedded Turso database replicas
+## 嵌入式 Turso 資料庫副本
 
-Turso supports [embedded replicas](https://turso.tech/blog/introducing-embedded-replicas-deploy-turso-anywhere-2085aa0dc242). Turso's embedded replicas enable you to have a copy of your primary, remote database _inside_ your application. Embedded replicas behave similarly to a local SQLite database. Database queries are faster because your database is inside your application.
+Turso 支援[嵌入式副本](https://turso.tech/blog/introducing-embedded-replicas-deploy-turso-anywhere-2085aa0dc242)。Turso 的嵌入式副本使您能夠在應用程式_內部_擁有主要遠端資料庫的副本。嵌入式副本的行為類似於本地 SQLite 資料庫。資料庫查詢更快,因為您的資料庫在應用程式內部。
 
-### How embedded database replicas work
+### 嵌入式資料庫副本的運作方式
 
-When your app initially establishes a connection to your database, the primary database will fulfill the query:
+當您的應用程式最初建立與資料庫的連接時,主資料庫將完成查詢:
 
 ![Embedded Replica: First remote read](./images/embedded-replica-remote-read.png)
 
-Turso will (1) create an embedded replica inside your application and (2) copy data from your primary database to the replica so it is locally available:
+Turso 將 (1) 在您的應用程式內部建立嵌入式副本,並 (2) 將資料從主資料庫複製到副本,以便在本地可用:
 
 ![Embedded Replica: Remote DB Copy](./images/embedded-replica-create-replica.png)
 
-The embedded replica will fulfill subsequent read queries. The libSQL client provides a [`sync()`](https://docs.turso.tech/sdk/ts/reference#manual-sync) method which you can invoke to ensure the embedded replica's data remains fresh.
+嵌入式副本將完成後續的讀取查詢。libSQL 客戶端提供 [`sync()`](https://docs.turso.tech/sdk/ts/reference#manual-sync) 方法,您可以呼叫它以確保嵌入式副本的資料保持新鮮。
 
 ![Embedded Replica: Local DB reads](./images/embedded-replica-read.png)
 
-With embedded replicas, this setup guarantees a responsive application, because the data will be readily available locally and faster to access.
+使用嵌入式副本,此設定保證了響應式應用程式,因為資料將在本地可用且更快存取。
 
-Like a read replica setup you may be familiar with, write operations are forwarded to the primary remote database and executed before being propagated to all embedded replicas.
+就像您可能熟悉的讀取副本設定一樣,寫入操作會轉發到主要遠端資料庫並執行,然後才傳播到所有嵌入式副本。
 
 ![Embedded Replica: Write operation propagation](./images/embedded-replica-write-propagation.png)
 
-1. Write operations propagation are forwarded to the database.
-1. Database responds to the server with the updates from 1.
-1. Write operations are propagated to the database replica.
+1. 寫入操作傳播被轉發到資料庫。
+1. 資料庫使用來自 1 的更新回應伺服器。
+1. 寫入操作傳播到資料庫副本。
 
-Your application's data needs will determine how often you should synchronize data between your remote database and embedded database replica. For example, you can use either middleware functions (e.g. Express and Fastify) or a cron job to synchronize the data.
+您的應用程式的資料需求將決定您應該多久在遠端資料庫和嵌入式資料庫副本之間同步資料。例如,您可以使用中介軟體函式(例如 Express 和 Fastify)或 cron 作業來同步資料。
 
-### How to synchronize data between your remote database and embedded replica
+### 如何在遠端資料庫和嵌入式副本之間同步資料
 
-To get started using embedded replicas with Prisma ORM, add the `sync()` method from libSQL in your application. The example below shows how you can synchronize data using Express middleware.
+要開始在 Prisma ORM 中使用嵌入式副本,請在應用程式中添加 libSQL 的 `sync()` 方法。下面的範例顯示如何使用 Express 中介軟體同步資料。
 
 ```ts highlight=5-8;add;
 import express from 'express'
 const app = express()
 
-// ... the rest of your application code
+// ... 您的應用程式程式碼的其餘部分
 //add-start
 app.use(async (req, res, next) => {
   await libsql.sync()
@@ -188,7 +188,7 @@ app.use(async (req, res, next) => {
 
 app.listen(3000, () => console.log(`Server ready at http://localhost:3000`))
 ```
-It could be also implemented as a [Prisma Client extension](/orm/prisma-client/client-extensions). The below example shows auto-syncing after create, update or delete operation is performed.
+也可以作為 [Prisma Client 擴充功能](/orm/prisma-client/client-extensions)實作。下面的範例顯示在執行建立、更新或刪除操作後自動同步。
 
 ```ts highlight=5-8
 const prisma = new PrismaClient().$extends({
@@ -196,12 +196,12 @@ const prisma = new PrismaClient().$extends({
     $allModels: {
       async $allOperations({ operation, model, args, query }) {
         const result = await query(args)
-        
-        // Synchronize the embedded replica after any write operation
+
+        // 在任何寫入操作後同步嵌入式副本
         if (['create', 'update', 'delete'].includes(operation)) {
           await libsql.sync()
         }
-        
+
         return result
       }
     }
