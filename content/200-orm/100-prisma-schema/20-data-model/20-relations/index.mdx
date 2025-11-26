@@ -1,15 +1,15 @@
 ---
-title: 'Relations'
-metaTitle: 'Relations'
-metaDescription: 'A relation is a connection between two models in the Prisma schema. This page explains how you can define one-to-one, one-to-many and many-to-many relations in Prisma.'
+title: '關聯'
+metaTitle: '關聯'
+metaDescription: '關聯是 Prisma schema 中兩個模型之間的連接。本頁說明如何在 Prisma 中定義一對一、一對多和多對多關聯。'
 tocDepth: 3
 ---
 
 <TopBlock>
 
-A relation is a _connection_ between two models in the Prisma schema. For example, there is a one-to-many relation between `User` and `Post` because one user can have many blog posts.
+關聯是 Prisma schema 中兩個模型之間的_連接_。例如,`User` 和 `Post` 之間存在一對多關聯,因為一個使用者可以擁有多篇部落格文章。
 
-The following Prisma schema defines a one-to-many relation between the `User` and `Post` models. The fields involved in defining the relation are highlighted:
+以下 Prisma schema 定義了 `User` 和 `Post` 模型之間的一對多關聯。參與定義關聯的欄位已被標示:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -56,12 +56,12 @@ model Post {
 </TabItem>
 </TabbedContent>
 
-At a Prisma ORM level, the `User` / `Post` relation is made up of:
+在 Prisma ORM 層級,`User` / `Post` 關聯由以下組成:
 
-- Two [relation fields](#relation-fields): `author` and `posts`. Relation fields define connections between models at the Prisma ORM level and **do not exist in the database**. These fields are used to generate Prisma Client.
-- The scalar `authorId` field, which is referenced by the `@relation` attribute. This field **does exist in the database** - it is the foreign key that connects `Post` and `User`.
+- 兩個[關聯欄位](#relation-fields):`author` 和 `posts`。關聯欄位在 Prisma ORM 層級定義模型之間的連接,並**不存在於資料庫中**。這些欄位用於生成 Prisma Client。
+- 純量 `authorId` 欄位,由 `@relation` 屬性引用。此欄位**確實存在於資料庫中** - 它是連接 `Post` 和 `User` 的外鍵。
 
-At a Prisma ORM level, a connection between two models is **always** represented by a [relation field](#relation-fields) on **each side** of the relation.
+在 Prisma ORM 層級,兩個模型之間的連接**總是**由關聯的**每一側**的[關聯欄位](#relation-fields)表示。
 
 <div class="videoWrapper">
 
@@ -78,38 +78,38 @@ At a Prisma ORM level, a connection between two models is **always** represented
 
 </TopBlock>
 
-## Relations in the database
+## 資料庫中的關聯
 
-### Relational databases
+### 關聯式資料庫
 
-The following entity relationship diagram defines the same one-to-many relation between the `User` and `Post` tables in a **relational database**:
+以下實體關聯圖定義了**關聯式資料庫**中 `User` 和 `Post` 資料表之間相同的一對多關聯:
 
 ![A one-to-many relationship between a user and posts table.](./one-to-many.png)
 
-In SQL, you use a _foreign key_ to create a relation between two tables. Foreign keys are stored on **one side** of the relation. Our example is made up of:
+在 SQL 中,您使用_外鍵_在兩個資料表之間建立關聯。外鍵儲存在關聯的**一側**。我們的範例由以下組成:
 
-- A foreign key column in the `Post` table named `authorId`.
-- A primary key column in the `User` table named `id`. The `authorId` column in the `Post` table references the `id` column in the `User` table.
+- `Post` 資料表中名為 `authorId` 的外鍵欄位。
+- `User` 資料表中名為 `id` 的主鍵欄位。`Post` 資料表中的 `authorId` 欄位引用 `User` 資料表中的 `id` 欄位。
 
-In the Prisma schema, the foreign key / primary key relationship is represented by the `@relation` attribute on the `author` field:
+在 Prisma schema 中,外鍵/主鍵關係由 `author` 欄位上的 `@relation` 屬性表示:
 
 ```prisma
 author     User        @relation(fields: [authorId], references: [id])
 ```
 
-> **Note**: Relations in the Prisma schema represent relationships that exist between tables in the database. If the relationship does not exist in the database, it does not exist in the Prisma schema.
+> **注意**: Prisma schema 中的關聯代表資料庫中資料表之間存在的關係。如果資料庫中不存在該關係,則 Prisma schema 中也不存在。
 
 ### MongoDB
 
-For MongoDB, Prisma ORM currently uses a [normalized data model design](https://www.mongodb.com/docs/manual/data-modeling/), which means that documents reference each other by ID in a similar way to relational databases.
+對於 MongoDB,Prisma ORM 目前使用[正規化資料模型設計](https://www.mongodb.com/docs/manual/data-modeling/),這意味著文件以類似於關聯式資料庫的方式透過 ID 相互引用。
 
-The following document represents a `User` (in the `User` collection):
+以下文件代表一個 `User`(在 `User` 集合中):
 
 ```json
 { "_id": { "$oid": "60d5922d00581b8f0062e3a8" }, "name": "Ella" }
 ```
 
-The following list of `Post` documents (in the `Post` collection) each have a `authorId` field which reference the same user:
+以下 `Post` 文件清單(在 `Post` 集合中)每個都有一個 `authorId` 欄位,引用相同的使用者:
 
 ```json
 [
@@ -126,11 +126,11 @@ The following list of `Post` documents (in the `Post` collection) each have a `a
 ]
 ```
 
-This data structure represents a one-to-many relation because multiple `Post` documents refer to the same `User` document.
+此資料結構代表一對多關聯,因為多個 `Post` 文件引用相同的 `User` 文件。
 
-#### `@db.ObjectId` on IDs and relation scalar fields
+#### ID 和關聯純量欄位上的 `@db.ObjectId`
 
-If your model's ID is an `ObjectId` (represented by a `String` field), you must add `@db.ObjectId` to the model's ID _and_ the relation scalar field on the other side of the relation:
+如果您的模型 ID 是 `ObjectId`(由 `String` 欄位表示),您必須將 `@db.ObjectId` 加到模型的 ID _和_關聯另一側的關聯純量欄位:
 
 ```prisma highlight=3,9;normal
 model User {
@@ -149,13 +149,13 @@ model Post {
 }
 ```
 
-## Relations in Prisma Client
+## Prisma Client 中的關聯
 
-Prisma Client is generated from the Prisma schema. The following examples demonstrate how relations manifest when you use Prisma Client to get, create, and update records.
+Prisma Client 從 Prisma schema 生成。以下範例示範當您使用 Prisma Client 來取得、建立和更新記錄時,關聯如何呈現。
 
-### Create a record and nested records
+### 建立一筆記錄和巢狀記錄
 
-The following query creates a `User` record and two connected `Post` records:
+以下查詢建立一筆 `User` 記錄和兩筆連接的 `Post` 記錄:
 
 ```ts
 const userAndPosts = await prisma.user.create({
@@ -170,14 +170,14 @@ const userAndPosts = await prisma.user.create({
 })
 ```
 
-In the underlying database, this query:
+在底層資料庫中,此查詢:
 
-1. Creates a `User` with an auto-generated `id` (for example, `20`)
-2. Creates two new `Post` records and sets the `authorId` of both records to `20`
+1. 建立一個具有自動生成 `id` 的 `User`(例如,`20`)
+2. 建立兩筆新的 `Post` 記錄,並將兩筆記錄的 `authorId` 設為 `20`
 
-### Retrieve a record and include related records
+### 擷取記錄並包含相關記錄
 
-The following query retrieves a `User` by `id` and includes any related `Post` records:
+以下查詢透過 `id` 擷取 `User` 並包含任何相關的 `Post` 記錄:
 
 ```ts
 const getAuthor = await prisma.user.findUnique({
@@ -191,14 +191,14 @@ const getAuthor = await prisma.user.findUnique({
 });
 ```
 
-In the underlying database, this query:
+在底層資料庫中,此查詢:
 
-1. Retrieves the `User` record with an `id` of `20`
-2. Retrieves all `Post` records with an `authorId` of `20`
+1. 擷取 `id` 為 `20` 的 `User` 記錄
+2. 擷取所有 `authorId` 為 `20` 的 `Post` 記錄
 
-### Associate an existing record to another existing record
+### 將現有記錄關聯到另一筆現有記錄
 
-The following query associates an existing `Post` record with an existing `User` record:
+以下查詢將現有的 `Post` 記錄與現有的 `User` 記錄關聯:
 
 ```ts
 const updateAuthor = await prisma.user.update({
@@ -215,26 +215,26 @@ const updateAuthor = await prisma.user.update({
 })
 ```
 
-In the underlying database, this query uses a [nested `connect` query](/orm/reference/prisma-client-reference#connect) to link the post with an `id` of 4 to the user with an `id` of 20. The query does this with the following steps:
+在底層資料庫中,此查詢使用[巢狀 `connect` 查詢](/orm/reference/prisma-client-reference#connect)將 `id` 為 4 的文章連結到 `id` 為 20 的使用者。該查詢透過以下步驟執行:
 
-- The query first looks for the user with an `id` of `20`.
-- The query then sets the `authorID` foreign key to `20`. This links the post with an `id` of `4` to the user with an `id` of `20`.
+- 查詢首先尋找 `id` 為 `20` 的使用者。
+- 然後查詢將 `authorID` 外鍵設為 `20`。這將 `id` 為 `4` 的文章連結到 `id` 為 `20` 的使用者。
 
-In this query, the current value of `authorID` does not matter. The query changes `authorID` to `20`, no matter its current value.
+在此查詢中,`authorID` 的當前值並不重要。無論其當前值為何,查詢都會將 `authorID` 更改為 `20`。
 
-## Types of relations
+## 關聯類型
 
-There are three different types (or [cardinalities](<https://en.wikipedia.org/wiki/Cardinality_(data_modeling)>)) of relations in Prisma ORM:
+Prisma ORM 中有三種不同類型(或[基數](<https://en.wikipedia.org/wiki/Cardinality_(data_modeling)>))的關聯:
 
-- [One-to-one](/orm/prisma-schema/data-model/relations/one-to-one-relations) (also called 1-1 relations)
-- [One-to-many](/orm/prisma-schema/data-model/relations/one-to-many-relations) (also called 1-n relations)
-- [Many-to-many](/orm/prisma-schema/data-model/relations/many-to-many-relations) (also called m-n relations)
+- [一對一](/orm/prisma-schema/data-model/relations/one-to-one-relations)(也稱為 1-1 關聯)
+- [一對多](/orm/prisma-schema/data-model/relations/one-to-many-relations)(也稱為 1-n 關聯)
+- [多對多](/orm/prisma-schema/data-model/relations/many-to-many-relations)(也稱為 m-n 關聯)
 
-The following Prisma schema includes every type of relation:
+以下 Prisma schema 包含所有類型的關聯:
 
-- one-to-one: `User` ↔ `Profile`
-- one-to-many: `User` ↔ `Post`
-- many-to-many: `Post` ↔ `Category`
+- 一對一:`User` ↔ `Profile`
+- 一對多:`User` ↔ `Post`
+- 多對多:`Post` ↔ `Category`
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -301,49 +301,49 @@ model Category {
 
 :::info
 
-This schema is the same as the [example data model](/orm/prisma-schema/data-model/models) but has all [scalar fields](/orm/prisma-schema/data-model/models#scalar-fields) removed (except for the required [relation scalar fields](/orm/prisma-schema/data-model/relations#relation-scalar-fields)) so you can focus on the [relation fields](#relation-fields).
+此 schema 與[範例資料模型](/orm/prisma-schema/data-model/models)相同,但移除了所有[純量欄位](/orm/prisma-schema/data-model/models#scalar-fields)(除了必需的[關聯純量欄位](/orm/prisma-schema/data-model/relations#relation-scalar-fields)),以便您可以專注於[關聯欄位](#relation-fields)。
 
 :::
 
 :::info
 
-This example uses [implicit many-to-many relations](/orm/prisma-schema/data-model/relations/many-to-many-relations#implicit-many-to-many-relations). These relations do not require the `@relation` attribute unless you need to [disambiguate relations](#disambiguating-relations).
+此範例使用[隱式多對多關聯](/orm/prisma-schema/data-model/relations/many-to-many-relations#implicit-many-to-many-relations)。這些關聯不需要 `@relation` 屬性,除非您需要[消除關聯歧義](#disambiguating-relations)。
 
 :::
 
-Notice that the syntax is slightly different between relational databases and MongoDB - particularly for [many-to-many relations](/orm/prisma-schema/data-model/relations/many-to-many-relations).
+請注意,關聯式資料庫和 MongoDB 之間的語法略有不同 - 特別是對於[多對多關聯](/orm/prisma-schema/data-model/relations/many-to-many-relations)。
 
-For relational databases, the following entity relationship diagram represents the database that corresponds to the sample Prisma schema:
+對於關聯式資料庫,以下實體關聯圖代表與範例 Prisma schema 對應的資料庫:
 
 ![The sample schema as an entity relationship diagram](./sample-schema.png)
 
-For MongoDB, Prisma ORM uses a [normalized data model design](https://www.mongodb.com/docs/manual/data-modeling/), which means that documents reference each other by ID in a similar way to relational databases. See [the MongoDB section](#mongodb) for more details.
+對於 MongoDB,Prisma ORM 使用[正規化資料模型設計](https://www.mongodb.com/docs/manual/data-modeling/),這意味著文件以類似於關聯式資料庫的方式透過 ID 相互引用。更多詳情請參閱 [MongoDB 部分](#mongodb)。
 
-### Implicit and explicit many-to-many relations
+### 隱式和顯式多對多關聯
 
-Many-to-many relations in relational databases can be modelled in two ways:
+關聯式資料庫中的多對多關聯可以用兩種方式建模:
 
-- [explicit many-to-many relations](/orm/prisma-schema/data-model/relations/many-to-many-relations#explicit-many-to-many-relations), where the relation table is represented as an explicit model in your Prisma schema
-- [implicit many-to-many relations](/orm/prisma-schema/data-model/relations/many-to-many-relations#implicit-many-to-many-relations), where Prisma ORM manages the relation table and it does not appear in the Prisma schema.
+- [顯式多對多關聯](/orm/prisma-schema/data-model/relations/many-to-many-relations#explicit-many-to-many-relations),其中關聯資料表在您的 Prisma schema 中表示為顯式模型
+- [隱式多對多關聯](/orm/prisma-schema/data-model/relations/many-to-many-relations#implicit-many-to-many-relations),其中 Prisma ORM 管理關聯資料表,它不會出現在 Prisma schema 中。
 
-Implicit many-to-many relations require both models to have a single `@id`. Be aware of the following:
+隱式多對多關聯需要兩個模型都有單一的 `@id`。請注意以下事項:
 
-- You cannot use a [multi-field ID](/orm/reference/prisma-schema-reference#id-1)
-- You cannot use a `@unique` in place of an `@id`
+- 您不能使用[多欄位 ID](/orm/reference/prisma-schema-reference#id-1)
+- 您不能使用 `@unique` 來代替 `@id`
 
-To use either of these features, you must set up an explicit many-to-many instead.
+要使用這些功能中的任何一個,您必須改為設定顯式多對多關聯。
 
-The implicit many-to-many relation still manifests in a relation table in the underlying database. However, Prisma ORM manages this relation table.
+隱式多對多關聯仍然在底層資料庫中以關聯資料表的形式存在。但是,Prisma ORM 管理此關聯資料表。
 
-If you use an implicit many-to-many relation instead of an explicit one, it makes the [Prisma Client API](/orm/prisma-client) simpler (because, for example, you have one fewer level of nesting inside of [nested writes](/orm/prisma-client/queries/relation-queries#nested-writes)).
+如果您使用隱式多對多關聯而不是顯式關聯,它會使 [Prisma Client API](/orm/prisma-client) 更簡單(例如,在[巢狀寫入](/orm/prisma-client/queries/relation-queries#nested-writes)中減少一層巢狀)。
 
-If you're not using Prisma Migrate but obtain your data model from [introspection](/orm/prisma-schema/introspection), you can still make use of implicit many-to-many relations by following Prisma ORM's [conventions for relation tables](/orm/prisma-schema/data-model/relations/many-to-many-relations#conventions-for-relation-tables-in-implicit-m-n-relations).
+如果您不使用 Prisma Migrate,而是從[內省](/orm/prisma-schema/introspection)獲取資料模型,您仍然可以透過遵循 Prisma ORM 的[關聯資料表慣例](/orm/prisma-schema/data-model/relations/many-to-many-relations#conventions-for-relation-tables-in-implicit-m-n-relations)來使用隱式多對多關聯。
 
-## Relation fields
+## 關聯欄位
 
-Relation [fields](/orm/prisma-schema/data-model/models#defining-fields) are fields on a Prisma [model](/orm/prisma-schema/data-model/models#defining-models) that do _not_ have a [scalar type](/orm/prisma-schema/data-model/models#scalar-fields). Instead, their type is another model.
+關聯[欄位](/orm/prisma-schema/data-model/models#defining-fields)是 Prisma [模型](/orm/prisma-schema/data-model/models#defining-models)上_沒有_[純量類型](/orm/prisma-schema/data-model/models#scalar-fields)的欄位。相反,它們的類型是另一個模型。
 
-Every relation must have exactly two relation fields, one on each model. In the case of one-to-one and one-to-many relations, an additional _relation scalar field_ is required which gets linked by one of the two relation fields in the `@relation` attribute. This relation scalar field is the direct representation of the _foreign key_ in the underlying database.
+每個關聯必須恰好有兩個關聯欄位,每個模型上各一個。在一對一和一對多關聯的情況下,需要額外的_關聯純量欄位_,該欄位由 `@relation` 屬性中的兩個關聯欄位之一連結。此關聯純量欄位是底層資料庫中_外鍵_的直接表示。
 
 <TabbedContent code>
 
@@ -387,21 +387,21 @@ model Post {
 </TabItem>
 </TabbedContent>
 
-Both `posts` and `author` are relation fields because their types are not scalar types but other models.
+`posts` 和 `author` 都是關聯欄位,因為它們的類型不是純量類型,而是其他模型。
 
-Also note that the [annotated relation field](#annotated-relation-fields) `author` needs to link the relation scalar field `authorId` on the `Post` model inside the `@relation` attribute. The relation scalar field represents the foreign key in the underlying database.
+還要注意,[標註的關聯欄位](#annotated-relation-fields) `author` 需要在 `@relation` 屬性內連結 `Post` 模型上的關聯純量欄位 `authorId`。關聯純量欄位代表底層資料庫中的外鍵。
 
-Both the relation fields (i.e. `posts` and `author`) are defined purely on a Prisma ORM-level, they don't manifest in the database.
+兩個關聯欄位(即 `posts` 和 `author`)都純粹在 Prisma ORM 層級定義,它們不會在資料庫中呈現。
 
-### Annotated relation fields
+### 標註的關聯欄位
 
-Relations that require one side of the relation to be _annotated_ with the `@relation` attribute are referred to as _annotated relation fields_. This includes:
+需要關聯的一側用 `@relation` 屬性_標註_的關聯稱為_標註的關聯欄位_。這包括:
 
-- one-to-one relations
-- one-to-many relations
-- many-to-many relations for MongoDB only
+- 一對一關聯
+- 一對多關聯
+- 僅適用於 MongoDB 的多對多關聯
 
-The side of the relation which is annotated with the `@relation` attribute represents the side that **stores the foreign key in the underlying database**. The "actual" field that represents the foreign key is required on that side of the relation as well, it's called _relation scalar field_, and is referenced inside `@relation` attribute:
+用 `@relation` 屬性標註的關聯一側代表**在底層資料庫中儲存外鍵**的一側。代表外鍵的「實際」欄位在關聯的該側也是必需的,它被稱為_關聯純量欄位_,並在 `@relation` 屬性內被引用:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -422,34 +422,34 @@ authorId   String  @db.ObjectId
 </TabItem>
 </TabbedContent>
 
-A scalar field _becomes_ a relation scalar field when it's used in the `fields` of a `@relation` attribute.
+當純量欄位在 `@relation` 屬性的 `fields` 中使用時,它_成為_關聯純量欄位。
 
-### Relation scalar fields
+### 關聯純量欄位
 
-#### Relation scalar field naming conventions
+#### 關聯純量欄位命名慣例
 
-Because a relation scalar field always _belongs_ to a relation field, the following naming convention is common:
+因為關聯純量欄位總是_屬於_一個關聯欄位,所以常見的命名慣例如下:
 
-- Relation field: `author`
-- Relation scalar field: `authorId` (relation field name + `Id`)
+- 關聯欄位:`author`
+- 關聯純量欄位:`authorId`(關聯欄位名稱 + `Id`)
 
-## The `@relation` attribute
+## `@relation` 屬性
 
-The [`@relation`](/orm/reference/prisma-schema-reference#relation) attribute can only be applied to the [relation fields](#relation-fields), not to [scalar fields](/orm/prisma-schema/data-model/models#scalar-fields).
+[`@relation`](/orm/reference/prisma-schema-reference#relation) 屬性只能應用於[關聯欄位](#relation-fields),不能應用於[純量欄位](/orm/prisma-schema/data-model/models#scalar-fields)。
 
-The `@relation` attribute is required when:
+在以下情況下需要 `@relation` 屬性:
 
-- you define a one-to-one or one-to-many relation, it is required on _one side_ of the relation (with the corresponding relation scalar field)
-- you need to disambiguate a relation (that's e.g. the case when you have two relations between the same models)
-- you define a [self-relation](/orm/prisma-schema/data-model/relations/self-relations)
-- you define [a many-to-many relation for MongoDB](/orm/prisma-schema/data-model/relations/many-to-many-relations#mongodb)
-- you need to control how the relation table is represented in the underlying database (e.g. use a specific name for a relation table)
+- 您定義一對一或一對多關聯,它在關聯的_一側_是必需的(以及對應的關聯純量欄位)
+- 您需要消除關聯的歧義(例如,當您在相同模型之間有兩個關聯時)
+- 您定義[自關聯](/orm/prisma-schema/data-model/relations/self-relations)
+- 您為 MongoDB 定義[多對多關聯](/orm/prisma-schema/data-model/relations/many-to-many-relations#mongodb)
+- 您需要控制關聯資料表在底層資料庫中的表示方式(例如,為關聯資料表使用特定名稱)
 
-> **Note**: [Implicit many-to-many relations](/orm/prisma-schema/data-model/relations/many-to-many-relations#implicit-many-to-many-relations) in relational databases do not require the `@relation` attribute.
+> **注意**: 關聯式資料庫中的[隱式多對多關聯](/orm/prisma-schema/data-model/relations/many-to-many-relations#implicit-many-to-many-relations)不需要 `@relation` 屬性。
 
-## Disambiguating relations
+## 消除關聯歧義
 
-When you define two relations between the same two models, you need to add the `name` argument in the `@relation` attribute to disambiguate them. As an example for why that's needed, consider the following models:
+當您在相同的兩個模型之間定義兩個關聯時,您需要在 `@relation` 屬性中加入 `name` 引數來消除它們的歧義。作為需要這樣做的範例,請考慮以下模型:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -508,14 +508,14 @@ model Post {
 </TabItem>
 </TabbedContent>
 
-In that case, the relations are ambiguous, there are four different ways to interpret them:
+在這種情況下,關聯是模糊的,有四種不同的解釋方式:
 
 - `User.writtenPosts` ↔ `Post.author` + `Post.authorId`
 - `User.writtenPosts` ↔ `Post.pinnedBy` + `Post.pinnedById`
 - `User.pinnedPost` ↔ `Post.author` + `Post.authorId`
 - `User.pinnedPost` ↔ `Post.pinnedBy` + `Post.pinnedById`
 
-To disambiguate these relations, you need to annotate the relation fields with the `@relation` attribute and provide the `name` argument. You can set any `name` (except for the empty string `""`), but it must be the same on both sides of the relation:
+要消除這些關聯的歧義,您需要用 `@relation` 屬性標註關聯欄位並提供 `name` 引數。您可以設定任何 `name`(除了空字串 `""`),但它在關聯的兩側必須相同:
 
 <TabbedContent code>
 <TabItem value="Relational databases">

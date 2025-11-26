@@ -1,13 +1,13 @@
 ---
 title: 'Data sources'
 metaTitle: 'Data sources (Reference)'
-metaDescription: 'Data sources enable Prisma to connect to your database. This page explains how to configure data sources in your Prisma schema.'
+metaDescription: '資料來源（Data sources）讓 Prisma 能連接到您的資料庫。本頁說明如何在 Prisma schema 中配置資料來源。'
 ---
 
-A data source determines how Prisma ORM connects to your database, and is represented by the [`datasource`](/orm/reference/prisma-schema-reference#datasource) block in the Prisma schema. The following data source uses the `postgresql` provider and includes a connection URL:
+資料來源決定了 Prisma ORM 如何連接到您的資料庫，並在 Prisma schema 中由 [`datasource`](/orm/reference/prisma-schema-reference#datasource) 區塊表示。以下資料來源使用 `postgresql` 提供者並包含一個連接 URL：
 
 ::::note
-As of Prisma ORM v7, the `url`, `directUrl`, and `shadowDatabaseUrl` fields in the Prisma schema `datasource` block are deprecated. Configure these fields in [Prisma Config](/orm/reference/prisma-config-reference) instead.
+從 Prisma ORM v7 開始，Prisma schema `datasource` 區塊中的 `url`、`directUrl` 和 `shadowDatabaseUrl` 欄位已被棄用。請改為在 [Prisma Config](/orm/reference/prisma-config-reference) 中配置這些欄位。
 ::::
 
 ```prisma
@@ -17,25 +17,25 @@ datasource db {
 }
 ```
 
-A Prisma schema can only have _one_ data source. However, you can:
+一個 Prisma schema 只能有_一個_資料來源。但是，您可以：
 
-- [Programmatically override a data source `url` when creating your `PrismaClient`](/orm/reference/prisma-client-reference#programmatically-override-a-datasource-url)
-- [Specify a different URL for Prisma Migrate's shadow database if you are working with cloud-hosted development databases](/orm/prisma-migrate/understanding-prisma-migrate/shadow-database#cloud-hosted-shadow-databases-must-be-created-manually)
+- [在建立 `PrismaClient` 時以程式化方式覆寫資料來源 `url`](/orm/reference/prisma-client-reference#programmatically-override-a-datasource-url)
+- [如果您使用雲端託管的開發資料庫，可以為 Prisma Migrate 的 shadow 資料庫指定不同的 URL](/orm/prisma-migrate/understanding-prisma-migrate/shadow-database#cloud-hosted-shadow-databases-must-be-created-manually)
 
-> **Note**: Multiple provider support was removed in 2.22.0. Please see [Deprecation of provider array notation](https://github.com/prisma/prisma/issues/3834) for more information.
+> **注意**：多個提供者支援已在 2.22.0 中移除。更多資訊請參閱[棄用提供者陣列表示法](https://github.com/prisma/prisma/issues/3834)。
 
-## Securing database connections
+## 保護資料庫連接
 
-Some data source `provider`s allow you to configure your connection with SSL/TLS, and provide parameters for the `url` to specify the location of certificates.
+某些資料來源 `provider` 允許您使用 SSL/TLS 配置連接，並為 `url` 提供參數以指定憑證的位置。
 
-- [Configuring an SSL connection with PostgreSQL](/orm/overview/databases/postgresql#configuring-an-ssl-connection)
-- [Configuring an SSL connection with MySQL](/orm/overview/databases/mysql#configuring-an-ssl-connection)
-- [Configure a TLS connection with Microsoft SQL Server](/orm/overview/databases/sql-server#connection-details)
+- [使用 PostgreSQL 配置 SSL 連接](/orm/overview/databases/postgresql#configuring-an-ssl-connection)
+- [使用 MySQL 配置 SSL 連接](/orm/overview/databases/mysql#configuring-an-ssl-connection)
+- [使用 Microsoft SQL Server 配置 TLS 連接](/orm/overview/databases/sql-server#connection-details)
 
-Prisma ORM resolves SSL certificates relative to the `./prisma` directory. If your certificate files are located outside that directory, e.g. your project root directory, use relative paths for certificates:
+Prisma ORM 會相對於 `./prisma` 目錄解析 SSL 憑證。如果您的憑證檔案位於該目錄之外，例如您的專案根目錄，請使用憑證的相對路徑：
 
 :::note
-When you're using a [multi-file Prisma schema](/orm/prisma-schema/overview/location#multi-file-prisma-schema), Prisma ORM resolves SSL certificates relative to the `./prisma/schema` directory.
+當您使用[多檔案 Prisma schema](/orm/prisma-schema/overview/location#multi-file-prisma-schema) 時，Prisma ORM 會相對於 `./prisma/schema` 目錄解析 SSL 憑證。
 :::
 
 ```prisma

@@ -1,29 +1,29 @@
 ---
-title: Multi-schema
-metaTitle: How to use Prisma ORM with multiple database schemas
-metaDescription: How to use Prisma ORM with multiple database schemas
+title: 多重 schema
+metaTitle: 如何在 Prisma ORM 中使用多個資料庫 schema
+metaDescription: 如何在 Prisma ORM 中使用多個資料庫 schema
 ---
 
-## Overview
+## 概述
 
-PostgreSQL, CockroachDB, and SQL Server allow you to organize database tables into named groups. These groups are known as _schemas_ and act as a _namespace_ for logically grouping tables (e.g. to avoid name collisions or to have clearer domain separation) and let you define foreign key constraints across them. To avoid ambiguity, this page will refer to these namespaces as _database schemas_.
+PostgreSQL、CockroachDB 和 SQL Server 允許您將資料庫資料表組織成命名群組。這些群組稱為 _schema_，並充當_命名空間_，用於邏輯上分組資料表（例如，避免名稱衝突或具有更清晰的領域分離），並允許您在它們之間定義外鍵約束。為避免歧義，本頁面將這些命名空間稱為_資料庫 schema_。
 
-This page explains how to:
-- include multiple database schemas in your Prisma schema
-- apply your schema changes to your database with Prisma Migrate
-- introspect an existing database with multiple database schemas
-- query across multiple database schemas with Prisma Client
+本頁面說明如何：
+- 在您的 Prisma schema 中包含多個資料庫 schema
+- 使用 Prisma Migrate 將您的 schema 變更應用到資料庫
+- 內省具有多個資料庫 schema 的現有資料庫
+- 使用 Prisma Client 跨多個資料庫 schema 進行查詢
 
 :::note
 
-Multi-schema feature is only supported for PostgreSQL, CockroachDB, and SQL Server. It is not available for SQLite and MySQL because these databases don't have the same concept of _schemas as namespaces_.
+多重 schema 功能僅支援 PostgreSQL、CockroachDB 和 SQL Server。它不適用於 SQLite 和 MySQL，因為這些資料庫沒有相同的 _schema 作為命名空間_ 的概念。
 
 :::
 
 
-## How to include multiple database schemas in your Prisma schema
+## 如何在您的 Prisma schema 中包含多個資料庫 schema
 
-To use multiple database schemas in your Prisma schema file, add the names of your database schemas to an array in the `schemas` field, in the `datasource` block. The following example adds a `"base"` and a `"shop"` schema:
+要在您的 Prisma schema 檔案中使用多個資料庫 schema，請在 `datasource` 區塊的 `schemas` 欄位中將資料庫 schema 的名稱添加到陣列中。以下範例添加了 `"base"` 和 `"shop"` schema：
 
 ```prisma file=schema.prisma
 generator client {
@@ -38,9 +38,9 @@ datasource db {
 }
 ```
 
-You do not need to change your connection string. The `schema` value of your connection string is the default database schema that Prisma Client connects to and uses for raw queries. All other Prisma Client queries use the schema of the model or enum that you are querying.
+您不需要更改連接字串。連接字串的 `schema` 值是 Prisma Client 連接到並用於原始查詢的預設資料庫 schema。所有其他 Prisma Client 查詢都使用您正在查詢的模型或列舉的 schema。
 
-To designate that a model or enum belongs to a specific database schema, add the `@@schema` attribute with the name of the database schema as a parameter. In the following example, the `User` model is part of the `"base"` schema, and the `Order` model and `Size` enum are part of the `"shop"` schema:
+要指定模型或列舉屬於特定的資料庫 schema，請添加 `@@schema` 屬性，並將資料庫 schema 的名稱作為參數。在以下範例中，`User` 模型是 `"base"` schema 的一部分，而 `Order` 模型和 `Size` 列舉是 `"shop"` schema 的一部分：
 
 ```prisma file=schema.prisma
 model User {
@@ -70,11 +70,11 @@ enum Size {
 }
 ```
 
-### Tables with the same name in different database schemas
+### 不同資料庫 schema 中具有相同名稱的資料表
 
-If you have tables with the same name in different database schemas, you will need to map the table names to unique model names in your Prisma schema. This avoids name conflicts when you query models in Prisma Client.
+如果您在不同的資料庫 schema 中有相同名稱的資料表，您需要將資料表名稱映射到 Prisma schema 中的唯一模型名稱。這可以避免在 Prisma Client 中查詢模型時的名稱衝突。
 
-For example, consider a situation where the `Config` table in the `base` database schema has the same name as the `Config` table in the `users` database schema. To avoid name conflicts, give the models in your Prisma schema unique names (`BaseConfig` and `UserConfig`) and use the `@@map` attribute to map each model to the corresponding table name:
+例如，考慮 `base` 資料庫 schema 中的 `Config` 資料表與 `users` 資料庫 schema 中的 `Config` 資料表具有相同名稱的情況。為了避免名稱衝突，請在您的 Prisma schema 中為模型提供唯一名稱（`BaseConfig` 和 `UserConfig`），並使用 `@@map` 屬性將每個模型映射到相應的資料表名稱：
 
 ```prisma file=schema.prisma
 model BaseConfig {
@@ -92,11 +92,11 @@ model UserConfig {
 }
 ```
 
-## How to apply your schema changes with Prisma Migrate
+## 如何使用 Prisma Migrate 應用您的 schema 變更
 
-You can use Prisma Migrate (or `prisma db push`) to apply changes to a Prisma schema with multiple database schemas.
+您可以使用 Prisma Migrate（或 `prisma db push`）將變更應用到具有多個資料庫 schema 的 Prisma schema。
 
-As an example, add a `Profile` model to the `base` schema above:
+作為範例，將 `Profile` 模型添加到上面的 `base` schema：
 
 ```prisma file=schema.prisma
 model User {
@@ -136,29 +136,29 @@ enum Size {
 }
 ```
 
-You can then apply this schema change to your database. For example, you can use `migrate dev` to create and apply your schema changes as a migration:
+然後，您可以將此 schema 變更應用到您的資料庫。例如，您可以使用 `migrate dev` 建立並應用您的 schema 變更作為遷移：
 
 ```terminal
 npx prisma migrate dev --name add_profile
 ```
 
-Note that if you move a model or enum from one schema to another, Prisma ORM deletes the model or enum from the source schema and creates a new one in the target schema.
+請注意，如果您將模型或列舉從一個 schema 移動到另一個 schema，Prisma ORM 會從來源 schema 中刪除模型或列舉，並在目標 schema 中建立一個新的。
 
-## How to introspect an existing database with multiple database schemas
+## 如何內省具有多個資料庫 schema 的現有資料庫
 
-You can introspect an existing database that has multiple database schemas in the same way that you introspect a database that has a single database schema, using `prisma db pull`:
+您可以使用與內省具有單個資料庫 schema 的資料庫相同的方式內省具有多個資料庫 schema 的現有資料庫，使用 `prisma db pull`：
 
 ```terminal
 npx prisma db pull
 ```
 
-This updates your Prisma schema to match the current state of the database.
+這會更新您的 Prisma schema 以符合資料庫的當前狀態。
 
-If you have tables with the same name in different database schemas, Prisma ORM shows a validation error pointing out the conflict. To fix this, [rename the introspected models with the `@map` attribute](#tables-with-the-same-name-in-different-database-schemas).
+如果您在不同的資料庫 schema 中有相同名稱的資料表，Prisma ORM 會顯示驗證錯誤，指出衝突。要解決此問題，請[使用 `@map` 屬性重新命名內省的模型](#tables-with-the-same-name-in-different-database-schemas)。
 
-## How to query across multiple database schemas with Prisma Client
+## 如何使用 Prisma Client 跨多個資料庫 schema 進行查詢
 
-You can query models in multiple database schemas without any change to your Prisma Client query syntax. For example, the following query finds all orders for a given user, using the Prisma schema above:
+您可以在多個資料庫 schema 中查詢模型，而無需更改 Prisma Client 查詢語法。例如，以下查詢使用上述 Prisma schema 查找給定使用者的所有訂單：
 
 ```ts
 const orders = await prisma.order.findMany({
@@ -170,6 +170,6 @@ const orders = await prisma.order.findMany({
 })
 ```
 
-### Externally managed tables
+### 外部管理的資料表
 
-Sometimes, you might not want Prisma ORM to manage specific tables, such as ones handled by another team or service (e.g., Auth0 or Clerk tables). In such cases, you can mark these as **externally managed tables** using the `tables.external` configuration option in your [Prisma Config file](/orm/reference/prisma-config-reference#tablesexternal-and-enumsexternal). Learn more about [externally managed tables](/orm/prisma-schema/data-model/externally-managed-tables).
+有時，您可能不希望 Prisma ORM 管理特定資料表，例如由另一個團隊或服務處理的資料表（例如，Auth0 或 Clerk 資料表）。在這種情況下，您可以使用 [Prisma Config 檔案](/orm/reference/prisma-config-reference#tablesexternal-and-enumsexternal)中的 `tables.external` 配置選項將這些標記為**外部管理的資料表**。深入了解[外部管理的資料表](/orm/prisma-schema/data-model/externally-managed-tables)。

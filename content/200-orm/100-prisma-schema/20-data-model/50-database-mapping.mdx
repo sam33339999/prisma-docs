@@ -1,26 +1,26 @@
 ---
-title: 'Database mapping'
-metaTitle: 'Database mapping'
-metaDescription: 'Database mapping in Prisma schema'
+title: '資料庫映射'
+metaTitle: '資料庫映射'
+metaDescription: 'Prisma schema 中的資料庫映射'
 tocDepth: 3
 ---
 
-The [Prisma schema](/orm/prisma-schema) includes mechanisms that allow you to define names of certain database objects. You can:
+[Prisma schema](/orm/prisma-schema) 包含允許您定義某些資料庫物件名稱的機制。您可以：
 
-- [Map model and field names to different collection/table and field/column names](#mapping-collectiontable-and-fieldcolumn-names)
-- [Define constraint and index names](#constraint-and-index-names)
+- [將模型和欄位名稱映射到不同的集合/資料表和欄位/欄位名稱](#mapping-collectiontable-and-fieldcolumn-names)
+- [定義約束和索引名稱](#constraint-and-index-names)
 
-## Mapping collection/table and field/column names
+## 映射集合/資料表和欄位/欄位名稱
 
-Sometimes the names used to describe entities in your database might not match the names you would prefer in your generated API. Mapping names in the Prisma schema allows you to influence the naming in your Client API without having to change the underlying database names.
+有時候，資料庫中用於描述實體的名稱可能不符合您在生成的 API 中偏好的名稱。在 Prisma schema 中映射名稱允許您影響 Client API 中的命名，而無需更改底層資料庫名稱。
 
-A common approach for naming tables/collections in databases for example is to use plural form and [snake_case](https://en.wikipedia.org/wiki/Snake_case) notation. However, we recommended a different [naming convention (singular form, PascalCase)](/orm/reference/prisma-schema-reference#naming-conventions).
+例如，資料庫中命名資料表/集合的常見方法是使用複數形式和 [snake_case](https://en.wikipedia.org/wiki/Snake_case) 表示法。然而，我們建議使用不同的[命名慣例（單數形式，PascalCase）](/orm/reference/prisma-schema-reference#naming-conventions)。
 
-`@map` and `@@map` allow you to [tune the shape of your Prisma Client API](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names) by decoupling model and field names from table and column names in the underlying database.
+`@map` 和 `@@map` 允許您通過將模型和欄位名稱與底層資料庫中的資料表和欄位名稱解耦，來[調整您的 Prisma Client API 的形式](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names)。
 
-### Map collection / table names
+### 映射集合/資料表名稱
 
-As an example, when you [introspect](/orm/prisma-schema/introspection) a database with a table named `comments`, the resulting Prisma model will look like this:
+例如，當您[內省](/orm/prisma-schema/introspection)一個包含名為 `comments` 的資料表的資料庫時，產生的 Prisma 模型將如下所示：
 
 ```prisma
 model comments {
@@ -28,7 +28,7 @@ model comments {
 }
 ```
 
-However, you can still choose `Comment` as the name of the model (e.g. to follow the naming convention) without renaming the underlying `comments` table in the database by using the [`@@map`](/orm/reference/prisma-schema-reference#map-1) attribute:
+然而，您仍然可以選擇 `Comment` 作為模型的名稱（例如，遵循命名慣例），而無需在資料庫中重新命名底層的 `comments` 資料表，只需使用 [`@@map`](/orm/reference/prisma-schema-reference#map-1) 屬性：
 
 ```prisma highlight=4;normal
 model Comment {
@@ -39,11 +39,11 @@ model Comment {
 }
 ```
 
-With this modified model definition, Prisma Client automatically maps the `Comment` model to the `comments` table in the underlying database.
+透過這個修改過的模型定義，Prisma Client 會自動將 `Comment` 模型映射到底層資料庫中的 `comments` 資料表。
 
-### Map field / column names
+### 映射欄位/欄位名稱
 
-You can also [`@map`](/orm/reference/prisma-schema-reference#map) a column/field name:
+您也可以 [`@map`](/orm/reference/prisma-schema-reference#map) 欄位/欄位名稱：
 
 ```prisma highlight=2-4;normal
 model Comment {
@@ -57,11 +57,11 @@ model Comment {
 }
 ```
 
-This way the `comment_text` column is not available under `prisma.comment.comment_text` in the Prisma Client API, but can be accessed via `prisma.comment.content`.
+這樣，`comment_text` 欄位在 Prisma Client API 中無法透過 `prisma.comment.comment_text` 存取，但可以透過 `prisma.comment.content` 存取。
 
-### Map enum names and values
+### 映射列舉名稱和值
 
-You can also `@map` an enum value, or `@@map` an enum:
+您也可以 `@map` 列舉值，或 `@@map` 列舉：
 
 ```prisma highlight=3,5;normal
 enum Type {
@@ -74,49 +74,49 @@ enum Type {
 }
 ```
 
-## Constraint and index names
+## 約束和索引名稱
 
-You can optionally use the `map` argument to explicitly define the **underlying constraint and index names** in the Prisma schema for the attributes [`@id`](/orm/reference/prisma-schema-reference#id), [`@@id`](/orm/reference/prisma-schema-reference#id-1), [`@unique`](/orm/reference/prisma-schema-reference#unique), [`@@unique`](/orm/reference/prisma-schema-reference#unique-1), [`@@index`](/orm/reference/prisma-schema-reference#index) and [`@relation`](/orm/reference/prisma-schema-reference#relation). (This is available in Prisma ORM version [2.29.0](https://github.com/prisma/prisma/releases/tag/2.29.0) and later.)
+您可以選擇性地使用 `map` 參數在 Prisma schema 中為屬性 [`@id`](/orm/reference/prisma-schema-reference#id)、[`@@id`](/orm/reference/prisma-schema-reference#id-1)、[`@unique`](/orm/reference/prisma-schema-reference#unique)、[`@@unique`](/orm/reference/prisma-schema-reference#unique-1)、[`@@index`](/orm/reference/prisma-schema-reference#index) 和 [`@relation`](/orm/reference/prisma-schema-reference#relation) 明確定義**底層約束和索引名稱**。（此功能在 Prisma ORM 版本 [2.29.0](https://github.com/prisma/prisma/releases/tag/2.29.0) 及更高版本中可用。）
 
-When introspecting a database, the `map` argument will _only_ be rendered in the schema if the name _differs_ from Prisma ORM's [default constraint naming convention for indexes and constraints](#prisma-orms-default-naming-conventions-for-indexes-and-constraints).
+當內省資料庫時，只有當名稱與 Prisma ORM 的[預設約束命名慣例](#prisma-orms-default-naming-conventions-for-indexes-and-constraints)_不同_時，`map` 參數才會在 schema 中_呈現_。
 
 :::danger
 
-If you use Prisma Migrate in a version earlier than 2.29.0 and want to maintain your existing constraint and index names after upgrading to a newer version, **do not** immediately run `prisma migrate` or `prisma db push`. This will **change any underlying constraint name that does not follow Prisma ORM's convention**. Follow the [upgrade path that allows you to maintain existing constraint and index names](/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-3/named-constraints#option-1-i-want-to-maintain-my-existing-constraint-and-index-names).
+如果您在 2.29.0 之前的版本中使用 Prisma Migrate，並希望在升級到較新版本後保持現有的約束和索引名稱，**請勿**立即執行 `prisma migrate` 或 `prisma db push`。這將**更改任何不遵循 Prisma ORM 慣例的底層約束名稱**。請遵循[允許您保持現有約束和索引名稱的升級路徑](/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-3/named-constraints#option-1-i-want-to-maintain-my-existing-constraint-and-index-names)。
 
 :::
 
-### Use cases for named constraints
+### 命名約束的使用情境
 
-Some use cases for explicitly named constraints include:
+明確命名約束的一些使用情境包括：
 
-- Company policy
-- Conventions of other tools
+- 公司政策
+- 其他工具的慣例
 
-### Prisma ORM's default naming conventions for indexes and constraints
+### Prisma ORM 的預設索引和約束命名慣例
 
-Prisma ORM naming convention was chosen to align with PostgreSQL since it is deterministic. It also helps to maximize the amount of times where names do not need to be rendered because many databases out there they already align with the convention.
+Prisma ORM 的命名慣例是為了與 PostgreSQL 保持一致，因為它是確定性的。這也有助於最大化不需要呈現名稱的次數，因為許多資料庫已經符合該慣例。
 
-Prisma ORM always uses the database names of entities when generating the default index and constraint names. If a model is remapped to a different name in the data model via `@@map` or `@map`, the default name generation will still take the name of the _table_ in the database as input. The same is true for fields and _columns_.
+Prisma ORM 在生成預設索引和約束名稱時，始終使用實體的資料庫名稱。如果透過 `@@map` 或 `@map` 將模型重新映射到資料模型中的不同名稱，預設名稱生成仍將以資料庫中的_資料表_名稱作為輸入。欄位和_欄位_也是如此。
 
-| Entity            | Convention                        | Example                        |
+| 實體            | 慣例                        | 範例                        |
 | ----------------- | --------------------------------- | ------------------------------ |
-| Primary Key       | \{tablename}\_pkey                 | `User_pkey`                    |
-| Unique Constraint | \{tablename}\_\{column_names}\_key  | `User_firstName_last_Name_key` |
-| Non-Unique Index  | \{tablename}\_\{column_names}\_idx  | `User_age_idx`                 |
-| Foreign Key       | \{tablename}\_\{column_names}\_fkey | `User_childName_fkey`          |
+| 主鍵       | \{tablename}\_pkey                 | `User_pkey`                    |
+| 唯一約束 | \{tablename}\_\{column_names}\_key  | `User_firstName_last_Name_key` |
+| 非唯一索引  | \{tablename}\_\{column_names}\_idx  | `User_age_idx`                 |
+| 外鍵       | \{tablename}\_\{column_names}\_fkey | `User_childName_fkey`          |
 
-Since most databases have a length limit for entity names, the names will be trimmed if necessary to not violate the database limits. We will shorten the part before the `_suffix` as necessary so that the full name is at most the maximum length permitted.
+由於大多數資料庫對實體名稱有長度限制，如有必要，名稱將被修剪以不違反資料庫限制。我們將根據需要縮短 `_suffix` 之前的部分，以便完整名稱最多為允許的最大長度。
 
-### Using default constraint names
+### 使用預設約束名稱
 
-When no explicit names are provided via `map` arguments Prisma ORM will generate index and constraint names following the [default naming convention](#prisma-orms-default-naming-conventions-for-indexes-and-constraints).
+當沒有透過 `map` 參數提供明確名稱時，Prisma ORM 將遵循[預設命名慣例](#prisma-orms-default-naming-conventions-for-indexes-and-constraints)生成索引和約束名稱。
 
-If you introspect a database the names for indexes and constraints will be added to your schema unless they follow Prisma ORM's naming convention. If they do, the names are not rendered to keep the schema more readable. When you migrate such a schema Prisma will infer the default names and persist them in the database.
+如果您內省資料庫，除非它們遵循 Prisma ORM 的命名慣例，否則索引和約束的名稱將被添加到您的 schema 中。如果它們遵循，名稱將不會呈現，以保持 schema 更具可讀性。當您遷移這樣的 schema 時，Prisma 將推斷預設名稱並將它們持久化到資料庫中。
 
-#### Example
+#### 範例
 
-The following schema defines three constraints (`@id`, `@unique`, and `@relation`) and one index (`@@index`):
+以下 schema 定義了三個約束（`@id`、`@unique` 和 `@relation`）和一個索引（`@@index`）：
 
 ```prisma highlight=2,8,11,13;normal
 model User {
@@ -139,23 +139,23 @@ model Post {
 }
 ```
 
-Since no explicit names are provided via `map` arguments Prisma will assume they follow our default naming convention.
+由於沒有透過 `map` 參數提供明確名稱，Prisma 將假設它們遵循我們的預設命名慣例。
 
-The following table lists the name of each constraint and index in the underlying database:
-| Constraint or index | Follows convention | Underlying constraint or index names |
+下表列出了底層資料庫中每個約束和索引的名稱：
+| 約束或索引 | 是否遵循慣例 | 底層約束或索引名稱 |
 | ---------------------------------- | ------------------ | ------------------------------------ |
-| `@id` (on `User` > `id` field) | Yes | `User_pk` |
-| `@@index` (on `Post`) | Yes | `Post_title_authorName_idx` |
-| `@id` (on `Post` > `id` field) | Yes | `Post_pk` |
-| `@relation` (on `Post` > `author`) | Yes | `Post_authorName_fkey` |
+| `@id`（在 `User` > `id` 欄位上） | 是 | `User_pk` |
+| `@@index`（在 `Post` 上） | 是 | `Post_title_authorName_idx` |
+| `@id`（在 `Post` > `id` 欄位上） | 是 | `Post_pk` |
+| `@relation`（在 `Post` > `author` 上） | 是 | `Post_authorName_fkey` |
 
-### Using custom constraint / index names
+### 使用自訂約束/索引名稱
 
-You can use the `map` argument to define **custom constraint and index names** in the underlying database.
+您可以使用 `map` 參數在底層資料庫中定義**自訂約束和索引名稱**。
 
-#### Example
+#### 範例
 
-The following example adds custom names to one `@id` and the `@@index`:
+以下範例為一個 `@id` 和 `@@index` 添加了自訂名稱：
 
 ```prisma highlight=2,13;normal
 model User {
@@ -178,20 +178,20 @@ model Post {
 }
 ```
 
-The following table lists the name of each constraint and index in the underlying database:
+下表列出了底層資料庫中每個約束和索引的名稱：
 
-| Constraint or index                | Follows convention | Underlying constraint or index names |
+| 約束或索引                | 是否遵循慣例 | 底層約束或索引名稱 |
 | ---------------------------------- | ------------------ | ------------------------------------ |
-| `@id` (on `User` > `id` field)     | No                 | `Custom_Primary_Key_Constraint_Name` |
-| `@@index` (on `Post`)              | No                 | `My_Custom_Index_Name`               |
-| `@id` (on `Post` > `id` field)     | Yes                | `Post_pk`                            |
-| `@relation` (on `Post` > `author`) | Yes                | `Post_authorName_fkey`               |
+| `@id`（在 `User` > `id` 欄位上）     | 否                 | `Custom_Primary_Key_Constraint_Name` |
+| `@@index`（在 `Post` 上）              | 否                 | `My_Custom_Index_Name`               |
+| `@id`（在 `Post` > `id` 欄位上）     | 是                | `Post_pk`                            |
+| `@relation`（在 `Post` > `author` 上） | 是                | `Post_authorName_fkey`               |
 
-### Related: Naming indexes and primary keys for Prisma Client
+### 相關：為 Prisma Client 命名索引和主鍵
 
-Additionally to `map`, the `@@id` and `@@unique` attributes take an optional `name` argument that allows you to customize your Prisma Client API.
+除了 `map` 之外，`@@id` 和 `@@unique` 屬性還接受一個可選的 `name` 參數，允許您自訂 Prisma Client API。
 
-On a model like:
+在像這樣的模型上：
 
 ```prisma
 model User {
@@ -202,7 +202,7 @@ model User {
 }
 ```
 
-the default API for selecting on that primary key uses a generated combination of the fields:
+在該主鍵上選擇的預設 API 使用欄位的生成組合：
 
 ```ts
 const user = await prisma.user.findUnique({
@@ -215,7 +215,7 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-Specifying `@@id([firstName, lastName], name: "fullName")` will change the Prisma Client API to this instead:
+指定 `@@id([firstName, lastName], name: "fullName")` 將將 Prisma Client API 更改為：
 
 ```ts highlight=3;edit
 const user = await prisma.user.findUnique({

@@ -1,18 +1,18 @@
 ---
-title: 'Models'
-metaTitle: 'Models'
-metaDescription: 'Learn about the concepts for building your data model with Prisma: Models, scalar types, enums, attributes, functions, IDs, default values and more.'
+title: '模型'
+metaTitle: '模型'
+metaDescription: '學習使用 Prisma 建立資料模型的概念：模型、純量類型、列舉、屬性、函式、ID、預設值等。'
 tocDepth: 3
 ---
 
-The data model definition part of the [Prisma schema](/orm/prisma-schema) defines your application models (also called **Prisma models**). Models:
+[Prisma schema](/orm/prisma-schema) 的資料模型定義部分定義了您的應用程式模型(也稱為 **Prisma 模型**)。模型:
 
-- Represent the **entities** of your application domain
-- Map to the **tables** (relational databases like PostgreSQL) or **collections** (MongoDB) in your database
-- Form the foundation of the **queries** available in the generated [Prisma Client API](/orm/prisma-client)
-- When used with TypeScript, Prisma Client provides generated **type definitions** for your models and any [variations](/orm/prisma-client/type-safety/operating-against-partial-structures-of-model-types) of them to make database access entirely type safe.
+- 代表您應用程式領域的**實體**
+- 對應到資料庫中的**表格**(關聯式資料庫如 PostgreSQL)或**集合**(MongoDB)
+- 形成生成的 [Prisma Client API](/orm/prisma-client) 中可用**查詢**的基礎
+- 當與 TypeScript 一起使用時,Prisma Client 為您的模型及其任何[變體](/orm/prisma-client/type-safety/operating-against-partial-structures-of-model-types)提供生成的**型別定義**,使資料庫存取完全型別安全。
 
-The following schema describes a blogging platform - the data model definition is highlighted:
+以下 schema 描述了一個部落格平台 - 資料模型定義已被標記:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -71,7 +71,7 @@ enum Role {
 </TabItem>
 <TabItem value="MongoDB">
 
-```prisma highlight=10-45;normal 
+```prisma highlight=10-45;normal
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
@@ -126,32 +126,32 @@ enum Role {
 </TabItem>
 </TabbedContent>
 
-The data model definition is made up of:
+資料模型定義由以下組成:
 
-- [Models](#defining-models) ([`model`](/orm/reference/prisma-schema-reference#model) primitives) that define a number of fields, including [relations between models](#relation-fields)
-- [Enums](#defining-enums) ([`enum`](/orm/reference/prisma-schema-reference#enum) primitives) (if your connector supports Enums)
-- [Attributes](#defining-attributes) and [functions](#using-functions) that change the behavior of fields and models
+- [模型](#defining-models)([`model`](/orm/reference/prisma-schema-reference#model) 原語),定義多個欄位,包括[模型之間的關聯](#relation-fields)
+- [列舉](#defining-enums)([`enum`](/orm/reference/prisma-schema-reference#enum) 原語)(如果您的連接器支援列舉)
+- [屬性](#defining-attributes)和[函式](#using-functions),改變欄位和模型的行為
 
-The corresponding database looks like this:
+對應的資料庫看起來像這樣:
 
-![Sample database](/img/orm/sample-database.png)
+![範例資料庫](/img/orm/sample-database.png)
 
 <details>
 
-<summary>A model maps to the underlying structures of the data source.</summary>
+<summary>模型對應到資料來源的底層結構。</summary>
 
-- In relational databases like PostgreSQL and MySQL, a `model` maps to a **table**
-- In MongoDB, a `model` maps to a **collection**
+- 在 PostgreSQL 和 MySQL 等關聯式資料庫中,`model` 對應到一個**表格**
+- 在 MongoDB 中,`model` 對應到一個**集合**
 
-> **Note**: In the future there might be connectors for non-relational databases and other data sources. For example, for a REST API it would map to a _resource_.
+> **注意**: 未來可能會有針對非關聯式資料庫和其他資料來源的連接器。例如,對於 REST API,它會對應到一個_資源_。
 
 </details>
 
-The following query uses Prisma Client that's generated from this data model to create:
+以下查詢使用從此資料模型生成的 Prisma Client 來建立:
 
-- A `User` record
-- Two nested `Post` records
-- Three nested `Category` records
+- 一個 `User` 記錄
+- 兩個巢狀的 `Post` 記錄
+- 三個巢狀的 `Category` 記錄
 
 <TabbedContent code>
 
@@ -245,23 +245,23 @@ main()
 
 </TabbedContent>
 
-Your data model reflects _your_ application domain. For example:
+您的資料模型反映_您的_應用程式領域。例如:
 
-- In an **ecommerce** application you probably have models like `Customer`, `Order`, `Item` and `Invoice`.
-- In a **social media** application you probably have models like `User`, `Post`, `Photo` and `Message`.
+- 在**電商**應用程式中,您可能有 `Customer`、`Order`、`Item` 和 `Invoice` 等模型。
+- 在**社群媒體**應用程式中,您可能有 `User`、`Post`、`Photo` 和 `Message` 等模型。
 
-## Introspection and migration
+## 自省和遷移
 
-There are two ways to define a data model:
+有兩種方式可以定義資料模型:
 
-- **Write the data model manually and use Prisma Migrate**: You can write your data model manually and map it to your database using [Prisma Migrate](/orm/prisma-migrate). In this case, the data model is the single source of truth for the models of your application.
-- **Generate the data model via introspection**: When you have an existing database or prefer migrating your database schema with SQL, you generate the data model by [introspecting](/orm/prisma-schema/introspection) your database. In this case, the database schema is the single source of truth for the models of your application.
+- **手動撰寫資料模型並使用 Prisma Migrate**: 您可以手動撰寫資料模型,並使用 [Prisma Migrate](/orm/prisma-migrate) 將其對應到您的資料庫。在這種情況下,資料模型是應用程式模型的單一真實來源。
+- **透過自省生成資料模型**: 當您擁有現有資料庫或偏好使用 SQL 遷移資料庫 schema 時,您可以透過[自省](/orm/prisma-schema/introspection)資料庫來生成資料模型。在這種情況下,資料庫 schema 是應用程式模型的單一真實來源。
 
-## Defining models
+## 定義模型
 
-Models represent the entities of your application domain. Models are represented by [`model`](/orm/reference/prisma-schema-reference#model) blocks and define a number of [fields](/orm/reference/prisma-schema-reference#model-fields). In the example data model above, `User`, `Profile`, `Post` and `Category` are models.
+模型代表您應用程式領域的實體。模型由 [`model`](/orm/reference/prisma-schema-reference#model) 區塊表示,並定義多個[欄位](/orm/reference/prisma-schema-reference#model-fields)。在上面的範例資料模型中,`User`、`Profile`、`Post` 和 `Category` 都是模型。
 
-A blogging platform can be extended with the following models:
+部落格平台可以擴展以下模型:
 
 ```prisma
 model Comment {
@@ -273,9 +273,9 @@ model Tag {
 }
 ```
 
-### Mapping model names to tables or collections
+### 將模型名稱對應到表格或集合
 
-Prisma model [naming conventions (singular form, PascalCase)](/orm/reference/prisma-schema-reference#naming-conventions) do not always match table names in the database. A common approach for naming tables/collections in databases is to use plural form and [snake_case](https://en.wikipedia.org/wiki/Snake_case) notation - for example: `comments`. When you introspect a database with a table named `comments`, the result Prisma model will look like this:
+Prisma 模型的[命名慣例(單數形式、PascalCase)](/orm/reference/prisma-schema-reference#naming-conventions)並不總是與資料庫中的表格名稱相符。資料庫中表格/集合的常見命名方式是使用複數形式和 [snake_case](https://en.wikipedia.org/wiki/Snake_case) 標記法 - 例如: `comments`。當您自省一個名為 `comments` 的表格的資料庫時,產生的 Prisma 模型將如下所示:
 
 ```prisma
 model comments {
@@ -283,7 +283,7 @@ model comments {
 }
 ```
 
-However, you can still adhere to the naming convention without renaming the underlying `comments` table in the database by using the [`@@map`](/orm/reference/prisma-schema-reference#map-1) attribute:
+然而,您仍然可以遵守命名慣例,而無需在資料庫中重新命名底層的 `comments` 表格,方法是使用 [`@@map`](/orm/reference/prisma-schema-reference#map-1) 屬性:
 
 ```prisma
 model Comment {
@@ -293,11 +293,11 @@ model Comment {
 }
 ```
 
-With this model definition, Prisma ORM automatically maps the `Comment` model to the `comments` table in the underlying database.
+使用此模型定義,Prisma ORM 會自動將 `Comment` 模型對應到底層資料庫中的 `comments` 表格。
 
-> **Note**: You can also [`@map`](/orm/reference/prisma-schema-reference#map) a column name or enum value, and `@@map` an enum name.
+> **注意**: 您也可以 [`@map`](/orm/reference/prisma-schema-reference#map) 欄位名稱或列舉值,以及 `@@map` 列舉名稱。
 
-`@map` and `@@map` allow you to [tune the shape of your Prisma Client API](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names#using-map-and-map-to-rename-fields-and-models-in-the-prisma-client-api) by decoupling model and field names from table and column names in the underlying database.
+`@map` 和 `@@map` 允許您[調整 Prisma Client API 的形狀](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names#using-map-and-map-to-rename-fields-and-models-in-the-prisma-client-api),將模型和欄位名稱與底層資料庫中的表格和欄位名稱解耦。
 
 <div class="videoWrapper">
 
@@ -312,40 +312,40 @@ With this model definition, Prisma ORM automatically maps the `Comment` model to
 
 </div>
 
-## Defining fields
+## 定義欄位
 
-The properties of a model are called _fields_, which consist of:
+模型的屬性稱為_欄位_,其由以下組成:
 
-- A **[field name](/orm/reference/prisma-schema-reference#model-fields)**
-- A **[field type](/orm/reference/prisma-schema-reference#model-fields)**
-- Optional **[type modifiers](#type-modifiers)**
-- Optional **[attributes](#defining-attributes)**, including [native database type attributes](#native-types-mapping)
+- 一個**[欄位名稱](/orm/reference/prisma-schema-reference#model-fields)**
+- 一個**[欄位類型](/orm/reference/prisma-schema-reference#model-fields)**
+- 可選的**[類型修飾符](#type-modifiers)**
+- 可選的**[屬性](#defining-attributes)**,包括[原生資料庫類型屬性](#native-types-mapping)
 
-A field's type determines its _structure_, and fits into one of two categories:
+欄位的類型決定其_結構_,並符合以下兩個類別之一:
 
-- [Scalar types](#scalar-fields) (includes [enums](#defining-enums)) that map to columns (relational databases) or document fields (MongoDB) in the database - for example, [`String`](/orm/reference/prisma-schema-reference#string) or [`Int`](/orm/reference/prisma-schema-reference#int)
-- Model types (the field is then called [relation field](/orm/prisma-schema/data-model/relations#relation-fields)) - for example `Post` or `Comment[]`.
+- [純量類型](#scalar-fields)(包括[列舉](#defining-enums)),對應到資料庫中的欄位(關聯式資料庫)或文件欄位(MongoDB) - 例如 [`String`](/orm/reference/prisma-schema-reference#string) 或 [`Int`](/orm/reference/prisma-schema-reference#int)
+- 模型類型(該欄位稱為[關聯欄位](/orm/prisma-schema/data-model/relations#relation-fields)) - 例如 `Post` 或 `Comment[]`。
 
-The following table describes `User` model's fields from the sample schema:
+下表描述了範例 schema 中 `User` 模型的欄位:
 
 <details>
 
-<summary>Expand to see table</summary>
+<summary>展開查看表格</summary>
 
-| Name      | Type      | Scalar vs Relation            | Type modifier | Attributes                            |
+| 名稱      | 類型      | 純量 vs 關聯                  | 類型修飾符      | 屬性                                  |
 | :-------- | :-------- | :---------------------------- | :------------ | :------------------------------------ |
-| `id`      | `Int`     | Scalar                        | -             | `@id` and `@default(autoincrement())` |
-| `email`   | `String`  | Scalar                        | -             | `@unique`                             |
-| `name`    | `String`  | Scalar                        | `?`           | -                                     |
-| `role`    | `Role`    | Scalar (`enum`)               | -             | `@default(USER)`                      |
-| `posts`   | `Post`    | Relation (Prisma-level field) | `[]`          | -                                     |
-| `profile` | `Profile` | Relation (Prisma-level field) | `?`           | -                                     |
+| `id`      | `Int`     | 純量                          | -             | `@id` 和 `@default(autoincrement())` |
+| `email`   | `String`  | 純量                          | -             | `@unique`                             |
+| `name`    | `String`  | 純量                          | `?`           | -                                     |
+| `role`    | `Role`    | 純量 (`enum`)                 | -             | `@default(USER)`                      |
+| `posts`   | `Post`    | 關聯 (Prisma 層級欄位)        | `[]`          | -                                     |
+| `profile` | `Profile` | 關聯 (Prisma 層級欄位)        | `?`           | -                                     |
 
 </details>
 
-### Scalar fields
+### 純量欄位
 
-The following example extends the `Comment` and `Tag` models with several scalar types. Some fields include [attributes](#defining-attributes):
+以下範例使用多個純量類型擴展了 `Comment` 和 `Tag` 模型。某些欄位包含[屬性](#defining-attributes):
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -386,11 +386,11 @@ model Tag {
 </TabItem>
 </TabbedContent>
 
-See [complete list of scalar field types](/orm/reference/prisma-schema-reference#model-field-scalar-types) .
+請參閱[純量欄位類型的完整列表](/orm/reference/prisma-schema-reference#model-field-scalar-types)。
 
-### Relation fields
+### 關聯欄位
 
-A relation field's type is another model - for example, a post (`Post`) can have multiple comments (`Comment[]`):
+關聯欄位的類型是另一個模型 - 例如,一篇文章(`Post`)可以有多個評論(`Comment[]`):
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -435,11 +435,11 @@ model Comment {
 </TabItem>
 </TabbedContent>
 
-Refer to the [relations documentation](/orm/prisma-schema/data-model/relations) for more examples and information about relationships between models.
+請參閱[關聯文件](/orm/prisma-schema/data-model/relations)以獲取更多範例和關於模型之間關係的資訊。
 
-### Native types mapping
+### 原生類型對應
 
-Version [2.17.0](https://github.com/prisma/prisma/releases/tag/2.17.0) and later support **native database type attributes** (type attributes) that describe the underlying database type:
+版本 [2.17.0](https://github.com/prisma/prisma/releases/tag/2.17.0) 及更高版本支援**原生資料庫類型屬性**(類型屬性),用於描述底層資料庫類型:
 
 ```prisma highlight=3;normal
 model Post {
@@ -450,33 +450,33 @@ model Post {
 }
 ```
 
-Type attributes are:
+類型屬性:
 
-- Specific to the underlying provider - for example, PostgreSQL uses `@db.Boolean` for `Boolean` whereas MySQL uses `@db.TinyInt(1)`
-- Written in PascalCase (for example, `VarChar` or `Text`)
-- Prefixed by `@db`, where `db` is the name of the `datasource` block in your schema
+- 特定於底層提供者 - 例如,PostgreSQL 對 `Boolean` 使用 `@db.Boolean`,而 MySQL 使用 `@db.TinyInt(1)`
+- 使用 PascalCase 撰寫(例如 `VarChar` 或 `Text`)
+- 以 `@db` 為前綴,其中 `db` 是您 schema 中 `datasource` 區塊的名稱
 
-Furthermore, during [Introspection](/orm/prisma-schema/introspection) type attributes are _only_ added to the schema if the underlying native type is **not the default type**. For example, if you are using the PostgreSQL provider, `String` fields where the underlying native type is `text` will not have a type attribute.
+此外,在[自省](/orm/prisma-schema/introspection)期間,類型屬性_僅_在底層原生類型**不是預設類型**時才會新增到 schema 中。例如,如果您使用 PostgreSQL 提供者,底層原生類型為 `text` 的 `String` 欄位將不會有類型屬性。
 
-See [complete list of native database type attributes per scalar type and provider](/orm/reference/prisma-schema-reference#model-field-scalar-types) .
+請參閱[每個純量類型和提供者的原生資料庫類型屬性完整列表](/orm/reference/prisma-schema-reference#model-field-scalar-types)。
 
-#### Benefits and workflows
+#### 好處和工作流程
 
-- Control **the exact native type** that [Prisma Migrate](/orm/prisma-migrate) creates in the database - for example, a `String` can be `@db.VarChar(200)` or `@db.Char(50)`
-- See an **enriched schema** when you introspect
+- 控制 [Prisma Migrate](/orm/prisma-migrate) 在資料庫中建立的**確切原生類型** - 例如,`String` 可以是 `@db.VarChar(200)` 或 `@db.Char(50)`
+- 當您自省時可以看到**豐富的 schema**
 
-### Type modifiers
+### 類型修飾符
 
-The type of a field can be modified by appending either of two modifiers:
+欄位的類型可以透過附加以下兩種修飾符之一來修改:
 
-- [`[]`](/orm/reference/prisma-schema-reference#-modifier) Make a field a list
-- [`?`](/orm/reference/prisma-schema-reference#-modifier-1) Make a field optional
+- [`[]`](/orm/reference/prisma-schema-reference#-modifier) 使欄位成為列表
+- [`?`](/orm/reference/prisma-schema-reference#-modifier-1) 使欄位可選
 
-> **Note**: You **cannot** combine type modifiers - optional lists are not supported.
+> **注意**: 您**不能**組合類型修飾符 - 不支援可選列表。
 
-#### Lists
+#### 列表
 
-The following example includes a scalar list and a list of related models:
+以下範例包含一個純量列表和一個相關模型的列表:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -509,9 +509,9 @@ model Post {
 </TabItem>
 </TabbedContent>
 
-> **Note**: Scalar lists are **only** supported if the database connector supports scalar lists, either natively or at a Prisma ORM level.
+> **注意**: 純量列表**僅**在資料庫連接器支援純量列表時才受支援,無論是原生支援還是在 Prisma ORM 層級支援。
 
-#### Optional and mandatory fields
+#### 可選和必填欄位
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -548,34 +548,34 @@ model Tag {
 </TabItem>
 </TabbedContent>
 
-When **not** annotating a field with the `?` type modifier, the field will be _required_ on every record of the model. This has effects on two levels:
+當**未**使用 `?` 類型修飾符標註欄位時,該欄位將在模型的每個記錄上都是_必填的_。這在兩個層級上有影響:
 
-- **Databases**
-  - **Relational databases**: Required fields are represented via `NOT NULL` constraints in the underlying database.
-  - **MongoDB**: Required fields are not a concept on a MongoDB database level.
-- **Prisma Client**: Prisma Client's generated [TypeScript types](#type-definitions) that represent the models in your application code will also define these fields as required to ensure they always carry values at runtime.
+- **資料庫**
+  - **關聯式資料庫**: 必填欄位在底層資料庫中透過 `NOT NULL` 約束表示。
+  - **MongoDB**: 必填欄位不是 MongoDB 資料庫層級的概念。
+- **Prisma Client**: Prisma Client 生成的 [TypeScript 類型](#type-definitions)表示應用程式程式碼中的模型,也會將這些欄位定義為必填,以確保它們在執行時總是攜帶值。
 
-> **Note**: The default value of an optional field is `null`.
+> **注意**: 可選欄位的預設值是 `null`。
 
-### Unsupported types
+### 不支援的類型
 
-When you introspect a relational database, unsupported data types are added as [`Unsupported`](/orm/reference/prisma-schema-reference#unsupported) :
+當您自省關聯式資料庫時,不支援的資料類型會新增為 [`Unsupported`](/orm/reference/prisma-schema-reference#unsupported):
 
 ```prisma
 location    Unsupported("POLYGON")?
 ```
 
-The `Unsupported` type allows you to define fields in the Prisma schema for database types that are not yet supported by Prisma ORM. For example, MySQL's `POLYGON` type is not currently supported by Prisma ORM, but can now be added to the Prisma schema using the `Unsupported("POLYGON")` type.
+`Unsupported` 類型允許您在 Prisma schema 中為 Prisma ORM 尚不支援的資料庫類型定義欄位。例如,MySQL 的 `POLYGON` 類型目前不受 Prisma ORM 支援,但現在可以使用 `Unsupported("POLYGON")` 類型新增到 Prisma schema 中。
 
-Fields of type `Unsupported` do not appear in the generated Prisma Client API, but you can still use Prisma ORM’s [raw database access feature](/orm/prisma-client/using-raw-sql/raw-queries) to query these fields.
+`Unsupported` 類型的欄位不會出現在生成的 Prisma Client API 中,但您仍然可以使用 Prisma ORM 的[原始資料庫存取功能](/orm/prisma-client/using-raw-sql/raw-queries)來查詢這些欄位。
 
-> **Note**: If a model has **mandatory `Unsupported` fields**, the generated client will not include `create` or `update` methods for that model.
+> **注意**: 如果模型有**必填的 `Unsupported` 欄位**,生成的 client 將不會包含該模型的 `create` 或 `update` 方法。
 
-> **Note**: The MongoDB connector does not support nor require the `Unsupported` type because it supports all scalar types.
+> **注意**: MongoDB 連接器不支援也不需要 `Unsupported` 類型,因為它支援所有純量類型。
 
-## Defining attributes
+## 定義屬性
 
-Attributes modify the behavior of fields or model blocks. The following example includes three field attributes ([`@id`](/orm/reference/prisma-schema-reference#id) , [`@default`](/orm/reference/prisma-schema-reference#default) , and [`@unique`](/orm/reference/prisma-schema-reference#unique) ) and one block attribute ([`@@unique`](/orm/reference/prisma-schema-reference#unique-1)):
+屬性修改欄位或模型區塊的行為。以下範例包含三個欄位屬性([`@id`](/orm/reference/prisma-schema-reference#id)、[`@default`](/orm/reference/prisma-schema-reference#default) 和 [`@unique`](/orm/reference/prisma-schema-reference#unique))和一個區塊屬性([`@@unique`](/orm/reference/prisma-schema-reference#unique-1)):
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -610,28 +610,28 @@ model User {
 </TabItem>
 </TabbedContent>
 
-Some attributes accept [arguments](/orm/reference/prisma-schema-reference#attribute-argument-types) - for example, `@default` accepts `true` or `false`:
+某些屬性接受[參數](/orm/reference/prisma-schema-reference#attribute-argument-types) - 例如,`@default` 接受 `true` 或 `false`:
 
 ```prisma
 isAdmin   Boolean @default(false) // short form of @default(value: false)
 ```
 
-See [complete list of field and block attributes](/orm/reference/prisma-schema-reference#attributes)
+請參閱[欄位和區塊屬性的完整列表](/orm/reference/prisma-schema-reference#attributes)
 
-### Defining an ID field
+### 定義 ID 欄位
 
-An ID uniquely identifies individual records of a model. A model can only have _one_ ID:
+ID 唯一標識模型的單個記錄。一個模型只能有_一個_ ID:
 
-- In **relational databases**, the ID can be a single field or based on multiple fields. If a model does not have an `@id` or an `@@id`, you must define a mandatory `@unique` field or `@@unique` block instead.
-- In **MongoDB**, an ID must be a single field that defines an `@id` attribute and a `@map("_id")` attribute.
+- 在**關聯式資料庫**中,ID 可以是單一欄位或基於多個欄位。如果模型沒有 `@id` 或 `@@id`,您必須定義一個必填的 `@unique` 欄位或 `@@unique` 區塊來代替。
+- 在 **MongoDB** 中,ID 必須是定義 `@id` 屬性和 `@map("_id")` 屬性的單一欄位。
 
-#### Defining IDs in relational databases
+#### 在關聯式資料庫中定義 ID
 
-In relational databases, an ID can be defined by a single field using the [`@id`](/orm/reference/prisma-schema-reference#id) attribute, or multiple fields using the [`@@id`](/orm/reference/prisma-schema-reference#id-1) attribute.
+在關聯式資料庫中,ID 可以使用 [`@id`](/orm/reference/prisma-schema-reference#id) 屬性由單一欄位定義,或使用 [`@@id`](/orm/reference/prisma-schema-reference#id-1) 屬性由多個欄位定義。
 
-##### Single field IDs
+##### 單一欄位 ID
 
-In the following example, the `User` ID is represented by the `id` integer field:
+在以下範例中,`User` ID 由 `id` 整數欄位表示:
 
 ```prisma highlight=2;normal
 model User {
@@ -645,9 +645,9 @@ model User {
 }
 ```
 
-##### Composite IDs
+##### 複合 ID
 
-In the following example, the `User` ID is represented by a combination of the `firstName` and `lastName` fields:
+在以下範例中,`User` ID 由 `firstName` 和 `lastName` 欄位的組合表示:
 
 ```prisma highlight=7;normal
 model User {
@@ -661,9 +661,9 @@ model User {
 }
 ```
 
-By default, the name of this field in Prisma Client queries will be `firstName_lastName`.
+預設情況下,此欄位在 Prisma Client 查詢中的名稱將是 `firstName_lastName`。
 
-You can also provide your own name for the composite ID using the [`@@id`](/orm/reference/prisma-schema-reference#id-1) attribute's `name` field:
+您也可以使用 [`@@id`](/orm/reference/prisma-schema-reference#id-1) 屬性的 `name` 欄位為複合 ID 提供您自己的名稱:
 
 ```prisma highlight=7;normal
 model User {
@@ -677,17 +677,17 @@ model User {
 }
 ```
 
-The `firstName_lastName` field will now be named `fullName` instead.
+`firstName_lastName` 欄位現在將被命名為 `fullName`。
 
 :::info
 
-Refer to the documentation on [working with composite IDs](/orm/prisma-client/special-fields-and-types/working-with-composite-ids-and-constraints) to learn how to interact with a composite ID in Prisma Client.
+請參閱[使用複合 ID](/orm/prisma-client/special-fields-and-types/working-with-composite-ids-and-constraints) 的文件,了解如何在 Prisma Client 中與複合 ID 互動。
 
 :::
 
-##### `@unique` fields as unique identifiers
+##### `@unique` 欄位作為唯一識別碼
 
-In the following example, users are uniquely identified by a `@unique` field. Because the `email` field functions as a unique identifier for the model (which is required), it must be mandatory:
+在以下範例中,使用者由 `@unique` 欄位唯一標識。因為 `email` 欄位作為模型的唯一識別碼(這是必需的),它必須是必填的:
 
 ```prisma highlight=2;normal
 model User {
@@ -702,16 +702,16 @@ model User {
 
 :::info
 
-**Constraint names in relational databases** <br />
-You can optionally define a [custom primary key constraint name](/orm/prisma-schema/data-model/database-mapping#constraint-and-index-names) in the underlying database.
+**關聯式資料庫中的約束名稱** <br />
+您可以選擇在底層資料庫中定義[自訂主鍵約束名稱](/orm/prisma-schema/data-model/database-mapping#constraint-and-index-names)。
 
 :::
 
-#### Defining IDs in MongoDB
+#### 在 MongoDB 中定義 ID
 
-The MongoDB connector has [specific rules for defining an ID field](/orm/reference/prisma-schema-reference#mongodb) that differs from relational databases. An ID must be defined by a single field using the [`@id`](/orm/reference/prisma-schema-reference#id) attribute and must include `@map("_id")`.
+MongoDB 連接器對於定義 ID 欄位有[特定規則](/orm/reference/prisma-schema-reference#mongodb),與關聯式資料庫不同。ID 必須使用 [`@id`](/orm/reference/prisma-schema-reference#id) 屬性由單一欄位定義,並且必須包含 `@map("_id")`。
 
-In the following example, the `User` ID is represented by the `id` string field that accepts an auto-generated `ObjectId`:
+在以下範例中,`User` ID 由接受自動生成的 `ObjectId` 的 `id` 字串欄位表示:
 
 ```prisma highlight=2;normal
 model User {
@@ -725,7 +725,7 @@ model User {
 }
 ```
 
-In the following example, the `User` ID is represented by the `id` string field that accepts something other than an `ObjectId` - for example, a unique username:
+在以下範例中,`User` ID 由接受 `ObjectId` 以外的其他內容的 `id` 字串欄位表示 - 例如,唯一的使用者名稱:
 
 ```prisma highlight=2;normal
 model User {
@@ -741,14 +741,14 @@ model User {
 
 :::warning
 
-**MongoDB does not support `@@id`**<br />
-MongoDB does not support composite IDs, which means you cannot identify a model with a `@@id` block.
+**MongoDB 不支援 `@@id`**<br />
+MongoDB 不支援複合 ID,這意味著您無法使用 `@@id` 區塊識別模型。
 
 :::
 
-### Defining a default value
+### 定義預設值
 
-You can define default values for scalar fields of your models using the [`@default`](/orm/reference/prisma-schema-reference#default) attribute:
+您可以使用 [`@default`](/orm/reference/prisma-schema-reference#default) 屬性為模型的純量欄位定義預設值:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -787,29 +787,29 @@ model Post {
 </TabItem>
 </TabbedContent>
 
-`@default` attributes either:
+`@default` 屬性可以:
 
-- Represent `DEFAULT` values in the underlying database (relational databases only) _or_
-- Use a Prisma ORM-level function. For example, `cuid()` and `uuid()` are provided by Prisma Client's [query engine](/orm/more/under-the-hood/engines) for all connectors.
+- 在底層資料庫中表示 `DEFAULT` 值(僅限關聯式資料庫)_或_
+- 使用 Prisma ORM 層級的函式。例如,`cuid()` 和 `uuid()` 由 Prisma Client 的[查詢引擎](/orm/more/under-the-hood/engines)為所有連接器提供。
 
-Default values can be:
+預設值可以是:
 
-- Static values that correspond to the field type, such as `5` (`Int`), `Hello` (`String`), or `false` (`Boolean`)
-- [Lists](/orm/reference/prisma-schema-reference#-modifier) of static values, such as `[5, 6, 8]` (`Int[]`) or `["Hello", "Goodbye"]` (`String`[]). These are available in Prisma ORM versions `4.0.0` and later, when using supported databases (PostgreSQL, CockroachDB and MongoDB)
-- [Functions](#using-functions), such as [`now()`](/orm/reference/prisma-schema-reference#now) or [`uuid()`](/orm/reference/prisma-schema-reference#uuid)
-- JSON data. Note that JSON needs to be enclosed with double-quotes inside the `@default` attribute, e.g.: `@default("[]")`. If you want to provide a JSON object, you need to enclose it with double-quotes and then escape any internal double quotes using a backslash, e.g.: `@default("{ \"hello\": \"world\" }")`.
+- 對應到欄位類型的靜態值,例如 `5`(`Int`)、`Hello`(`String`)或 `false`(`Boolean`)
+- 靜態值的[列表](/orm/reference/prisma-schema-reference#-modifier),例如 `[5, 6, 8]`(`Int[]`)或 `["Hello", "Goodbye"]`(`String`[])。這些在 Prisma ORM 版本 `4.0.0` 及更高版本中可用,當使用支援的資料庫(PostgreSQL、CockroachDB 和 MongoDB)時
+- [函式](#using-functions),例如 [`now()`](/orm/reference/prisma-schema-reference#now) 或 [`uuid()`](/orm/reference/prisma-schema-reference#uuid)
+- JSON 資料。請注意,JSON 需要在 `@default` 屬性內用雙引號括起來,例如: `@default("[]")`。如果您想提供一個 JSON 物件,您需要用雙引號括起來,然後使用反斜線轉義任何內部的雙引號,例如: `@default("{ \"hello\": \"world\" }")`。
 
 :::info
 
-Refer to the [attribute function reference documentation](/orm/reference/prisma-schema-reference#attribute-functions) for information about connector support for functions.
+請參閱[屬性函式參考文件](/orm/reference/prisma-schema-reference#attribute-functions)以獲取有關連接器支援函式的資訊。
 
 :::
 
-### Defining a unique field
+### 定義唯一欄位
 
-You can add unique attributes to your models to be able to uniquely identify individual records of that model. Unique attributes can be defined on a single field using [`@unique`](/orm/reference/prisma-schema-reference#unique) attribute, or on multiple fields (also called composite or compound unique constraints) using the [`@@unique`](/orm/reference/prisma-schema-reference#unique-1) attribute.
+您可以在模型中新增唯一屬性,以便能夠唯一識別該模型的單個記錄。唯一屬性可以使用 [`@unique`](/orm/reference/prisma-schema-reference#unique) 屬性在單一欄位上定義,或使用 [`@@unique`](/orm/reference/prisma-schema-reference#unique-1) 屬性在多個欄位上定義(也稱為複合或組合唯一約束)。
 
-In the following example, the value of the `email` field must be unique:
+在以下範例中,`email` 欄位的值必須是唯一的:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -836,7 +836,7 @@ model User {
 </TabItem>
 </TabbedContent>
 
-In the following example, a combination of `authorId` and `title` must be unique:
+在以下範例中,`authorId` 和 `title` 的組合必須是唯一的:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -879,14 +879,14 @@ model Post {
 
 :::info
 
-**Constraint names in relational databases** <br />
-You can optionally define a [custom unique constraint name](/orm/prisma-schema/data-model/database-mapping#constraint-and-index-names) in the underlying database.
+**關聯式資料庫中的約束名稱** <br />
+您可以選擇在底層資料庫中定義[自訂唯一約束名稱](/orm/prisma-schema/data-model/database-mapping#constraint-and-index-names)。
 
 :::
 
-By default, the name of this field in Prisma Client queries will be `authorId_title`.
+預設情況下,此欄位在 Prisma Client 查詢中的名稱將是 `authorId_title`。
 
-You can also provide your own name for the composite unique constraint using the [`@@unique`](/orm/prisma-schema/data-model/database-mapping#constraint-and-index-names) attribute's `name` field:
+您也可以使用 [`@@unique`](/orm/prisma-schema/data-model/database-mapping#constraint-and-index-names) 屬性的 `name` 欄位為複合唯一約束提供您自己的名稱:
 
 ```prisma highlight=10;normal
 model Post {
@@ -903,19 +903,19 @@ model Post {
 }
 ```
 
-The `authorId_title` field will now be named `authorTitle` instead.
+`authorId_title` 欄位現在將被命名為 `authorTitle`。
 
 :::info
 
-Refer to the documentation on [working with composite unique identifiers](/orm/prisma-client/special-fields-and-types/working-with-composite-ids-and-constraints) to learn how to interact with a composite unique constraints in Prisma Client.
+請參閱[使用複合唯一識別碼](/orm/prisma-client/special-fields-and-types/working-with-composite-ids-and-constraints)的文件,了解如何在 Prisma Client 中與複合唯一約束互動。
 
 :::
 
-#### Composite type unique constraints
+#### 複合類型唯一約束
 
-When using the MongoDB provider in version `3.12.0` and later, you can define a unique constraint on a field of a [composite type](#defining-composite-types) using the syntax `@@unique([compositeType.field])`. As with other fields, composite type fields can be used as part of a multi-column unique constraint.
+當在版本 `3.12.0` 及更高版本中使用 MongoDB 提供者時,您可以使用語法 `@@unique([compositeType.field])` 在[複合類型](#defining-composite-types)的欄位上定義唯一約束。與其他欄位一樣,複合類型欄位可以作為多欄位唯一約束的一部分使用。
 
-The following example defines a multi-column unique constraint based on the `email` field of the `User` model and the `number` field of the `Address` composite type which is used in `User.address`:
+以下範例基於 `User` 模型的 `email` 欄位和 `Address` 複合類型的 `number` 欄位(在 `User.address` 中使用)定義了一個多欄位唯一約束:
 
 ```prisma file=schema.prisma showLineNumbers
 type Address {
@@ -932,7 +932,7 @@ model User {
 }
 ```
 
-This notation can be chained if there is more than one nested composite type:
+如果有多個巢狀複合類型,此標記法可以連結:
 
 ```prisma file=schema.prisma showLineNumbers
 type City {
@@ -952,9 +952,9 @@ model User {
 }
 ```
 
-### Defining an index
+### 定義索引
 
-You can define indexes on one or multiple fields of your models via the [`@@index`](/orm/reference/prisma-schema-reference#index) on a model. The following example defines a multi-column index based on the `title` and `content` field:
+您可以透過模型上的 [`@@index`](/orm/reference/prisma-schema-reference#index) 在模型的一個或多個欄位上定義索引。以下範例基於 `title` 和 `content` 欄位定義了一個多欄位索引:
 
 ```prisma
 model Post {
@@ -968,16 +968,16 @@ model Post {
 
 :::info
 
-**Index names in relational databases** <br />
-You can optionally define a [custom index name](/orm/prisma-schema/data-model/database-mapping#constraint-and-index-names) in the underlying database.
+**關聯式資料庫中的索引名稱** <br />
+您可以選擇在底層資料庫中定義[自訂索引名稱](/orm/prisma-schema/data-model/database-mapping#constraint-and-index-names)。
 
 :::
 
-#### Defining composite type indexes
+#### 定義複合類型索引
 
-When using the MongoDB provider in version `3.12.0` and later, you can define an index on a field of a [composite type](#defining-composite-types) using the syntax `@@index([compositeType.field])`. As with other fields, composite type fields can be used as part of a multi-column index.
+當在版本 `3.12.0` 及更高版本中使用 MongoDB 提供者時,您可以使用語法 `@@index([compositeType.field])` 在[複合類型](#defining-composite-types)的欄位上定義索引。與其他欄位一樣,複合類型欄位可以作為多欄位索引的一部分使用。
 
-The following example defines a multi-column index based on the `email` field of the `User` model and the `number` field of the `Address` composite type:
+以下範例基於 `User` 模型的 `email` 欄位和 `Address` 複合類型的 `number` 欄位定義了一個多欄位索引:
 
 ```prisma file=schema.prisma showLineNumbers
 type Address {
@@ -994,7 +994,7 @@ model User {
 }
 ```
 
-This notation can be chained if there is more than one nested composite type:
+如果有多個巢狀複合類型,此標記法可以連結:
 
 ```prisma file=schema.prisma showLineNumbers
 type City {
@@ -1014,13 +1014,13 @@ model User {
 }
 ```
 
-## Defining enums
+## 定義列舉
 
-You can define enums in your data model [if enums are supported for your database connector](/orm/reference/database-features#misc), either natively or at Prisma ORM level.
+如果您的資料庫連接器[支援列舉](/orm/reference/database-features#misc),您可以在資料模型中定義列舉,無論是原生支援還是在 Prisma ORM 層級支援。
 
-Enums are considered [scalar](#scalar-fields) types in the Prisma schema data model. They're therefore [by default](/orm/prisma-client/queries/select-fields#return-the-default-fields) included as return values in [Prisma Client queries](/orm/prisma-client/queries/crud).
+列舉在 Prisma schema 資料模型中被視為[純量](#scalar-fields)類型。因此,它們[預設](/orm/prisma-client/queries/select-fields#return-the-default-fields)作為回傳值包含在 [Prisma Client 查詢](/orm/prisma-client/queries/crud)中。
 
-Enums are defined via the [`enum`](/orm/reference/prisma-schema-reference#enum) block. For example, a `User` has a `Role`:
+列舉透過 [`enum`](/orm/reference/prisma-schema-reference#enum) 區塊定義。例如,`User` 有一個 `Role`:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -1065,23 +1065,23 @@ enum Role {
 </TabItem>
 </TabbedContent>
 
-## Defining composite types
+## 定義複合類型
 
 :::info
 
-Composite types were added in version `3.10.0` under the `mongodb` Preview feature flag and are in General Availability since version `3.12.0`.
+複合類型在版本 `3.10.0` 中作為 `mongodb` 預覽功能新增,並從版本 `3.12.0` 開始進入正式版本。
 
 :::
 
 :::warning
 
-Composite types are currently only available on MongoDB.
+複合類型目前僅在 MongoDB 上可用。
 
 :::
 
-Composite types (known as [embedded documents](https://www.mongodb.com/docs/manual/data-modeling/#embedded-data) in MongoDB) provide support for embedding records inside other records, by allowing you to define new object types. Composite types are structured and typed in a similar way to [models](#defining-models).
+複合類型(在 MongoDB 中稱為[嵌入式文件](https://www.mongodb.com/docs/manual/data-modeling/#embedded-data))透過允許您定義新的物件類型來提供在其他記錄內嵌入記錄的支援。複合類型的結構和類型化方式與[模型](#defining-models)類似。
 
-To define a composite type, use the `type` block. As an example, take the following schema:
+要定義複合類型,請使用 `type` 區塊。例如,以下 schema:
 
 ```prisma file=schema.prisma showLineNumbers
 model Product {
@@ -1097,17 +1097,17 @@ type Photo {
 }
 ```
 
-In this case, the `Product` model has a list of `Photo` composite types stored in `photos`.
+在這種情況下,`Product` 模型有一個儲存在 `photos` 中的 `Photo` 複合類型列表。
 
-### Considerations when using composite types
+### 使用複合類型時的注意事項
 
-Composite types only support a limited set of [attributes](/orm/reference/prisma-schema-reference#attributes). The following attributes are supported:
+複合類型僅支援有限的[屬性](/orm/reference/prisma-schema-reference#attributes)集。支援以下屬性:
 
 - `@default`
 - `@map`
-- [Native types](/orm/reference/prisma-schema-reference#model-field-scalar-types), such as `@db.ObjectId`
+- [原生類型](/orm/reference/prisma-schema-reference#model-field-scalar-types),例如 `@db.ObjectId`
 
-The following attributes are not supported inside composite types:
+複合類型內不支援以下屬性:
 
 - `@unique`
 - `@id`
@@ -1115,15 +1115,15 @@ The following attributes are not supported inside composite types:
 - `@ignore`
 - `@updatedAt`
 
-However, unique constraints can still be defined by using the `@@unique` attribute on the level of the model that uses the composite type. For more details, see [Composite type unique constraints](#composite-type-unique-constraints).
+然而,仍然可以透過在使用複合類型的模型層級上使用 `@@unique` 屬性來定義唯一約束。有關更多詳細資訊,請參閱[複合類型唯一約束](#composite-type-unique-constraints)。
 
-Indexes can be defined by using the `@@index` attribute on the level of the model that uses the composite type. For more details, see [Composite type indexes](#defining-composite-type-indexes).
+可以透過在使用複合類型的模型層級上使用 `@@index` 屬性來定義索引。有關更多詳細資訊,請參閱[複合類型索引](#defining-composite-type-indexes)。
 
-## Using functions
+## 使用函式
 
-The Prisma schema supports a number of [functions](/orm/reference/prisma-schema-reference#attribute-functions) . These can be used to specify [default values](/orm/reference/prisma-schema-reference#default) on fields of a model.
+Prisma schema 支援多個[函式](/orm/reference/prisma-schema-reference#attribute-functions)。這些可以用來指定模型欄位上的[預設值](/orm/reference/prisma-schema-reference#default)。
 
-For example, the default value of `createdAt` is [`now()`](/orm/reference/prisma-schema-reference#now) :
+例如,`createdAt` 的預設值是 [`now()`](/orm/reference/prisma-schema-reference#now):
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -1148,21 +1148,21 @@ model Post {
 </TabItem>
 </TabbedContent>
 
-[`cuid()`](/orm/reference/prisma-schema-reference#cuid) and [`uuid()`](/orm/reference/prisma-schema-reference#uuid) are implemented by Prisma ORM and therefore are not "visible" in the underlying database schema. You can still use them when using [introspection](/orm/prisma-schema/introspection) by [manually changing your Prisma schema](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names) and [generating Prisma Client](/orm/prisma-client/setup-and-configuration/generating-prisma-client), in that case the values will be generated by Prisma Client's [query engine](/orm/more/under-the-hood/engines)
+[`cuid()`](/orm/reference/prisma-schema-reference#cuid) 和 [`uuid()`](/orm/reference/prisma-schema-reference#uuid) 由 Prisma ORM 實作,因此在底層資料庫 schema 中不「可見」。當使用[自省](/orm/prisma-schema/introspection)時,您仍然可以透過[手動變更 Prisma schema](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names) 和[生成 Prisma Client](/orm/prisma-client/setup-and-configuration/generating-prisma-client) 來使用它們,在這種情況下,值將由 Prisma Client 的[查詢引擎](/orm/more/under-the-hood/engines)生成
 
-Support for [`autoincrement()`](/orm/reference/prisma-schema-reference#autoincrement), [`now()`](/orm/reference/prisma-schema-reference#now), and [`dbgenerated(...)`](/orm/reference/prisma-schema-reference#dbgenerated) differ between databases.
+[`autoincrement()`](/orm/reference/prisma-schema-reference#autoincrement)、[`now()`](/orm/reference/prisma-schema-reference#now) 和 [`dbgenerated(...)`](/orm/reference/prisma-schema-reference#dbgenerated) 的支援在不同資料庫之間有所不同。
 
-**Relational database connectors** implement `autoincrement()`, `dbgenerated(...)`, and `now()` at database level. The **MongoDB connector** does not support `autoincrement()` or `dbgenerated(...)`, and `now()` is implemented at the Prisma ORM level. The [`auto()`](/orm/reference/prisma-schema-reference#auto) function is used to generate an `ObjectId`.
+**關聯式資料庫連接器**在資料庫層級實作 `autoincrement()`、`dbgenerated(...)` 和 `now()`。**MongoDB 連接器**不支援 `autoincrement()` 或 `dbgenerated(...)`,並且 `now()` 在 Prisma ORM 層級實作。[`auto()`](/orm/reference/prisma-schema-reference#auto) 函式用於生成 `ObjectId`。
 
-## Relations
+## 關聯
 
-Refer to the [relations documentation](/orm/prisma-schema/data-model/relations) for more examples and information about relationships between models.
+請參閱[關聯文件](/orm/prisma-schema/data-model/relations)以獲取更多關於模型之間關係的範例和資訊。
 
-## Models in Prisma Client
+## Prisma Client 中的模型
 
-### Queries (CRUD)
+### 查詢 (CRUD)
 
-Every model in the data model definition will result in a number of CRUD queries in the generated [Prisma Client API](/orm/prisma-client):
+資料模型定義中的每個模型都會在生成的 [Prisma Client API](/orm/prisma-client) 中產生多個 CRUD 查詢:
 
 - [`findMany()`](/orm/reference/prisma-client-reference#findmany)
 - [`findFirst()`](/orm/reference/prisma-client-reference#findfirst)
@@ -1179,9 +1179,9 @@ Every model in the data model definition will result in a number of CRUD queries
 - [`updateManyAndReturn()`](/orm/reference/prisma-client-reference#updatemanyandreturn)
 - [`deleteMany()`](/orm/reference/prisma-client-reference#deletemany)
 
-The operations are accessible via a generated property on the Prisma Client instance. By default the name of the property is the lowercase form of the model name, e.g. `user` for a `User` model or `post` for a `Post` model.
+這些操作可透過 Prisma Client 實例上生成的屬性存取。預設情況下,屬性的名稱是模型名稱的小寫形式,例如 `User` 模型的 `user` 或 `Post` 模型的 `post`。
 
-Here is an example illustrating the use of a `user` property from the Prisma Client API:
+以下是一個範例,說明如何使用 Prisma Client API 中的 `user` 屬性:
 
 ```js
 const newUser = await prisma.user.create({
@@ -1192,17 +1192,17 @@ const newUser = await prisma.user.create({
 const allUsers = await prisma.user.findMany()
 ```
 
-### Type definitions
+### 型別定義
 
-Prisma Client also generates **type definitions** that reflect your model structures. These are part of the generated [`@prisma/client`](/orm/prisma-client/setup-and-configuration/generating-prisma-client#the-prismaclient-npm-package) node module.
+Prisma Client 還會生成反映您模型結構的**型別定義**。這些是生成的 [`@prisma/client`](/orm/prisma-client/setup-and-configuration/generating-prisma-client#the-prismaclient-npm-package) node 模組的一部分。
 
-When using TypeScript, these type definitions ensure that all your database queries are entirely type safe and validated at compile-time (even partial queries using [`select`](/orm/reference/prisma-client-reference#select) or [`include`](/orm/reference/prisma-client-reference#include) ).
+當使用 TypeScript 時,這些型別定義確保您的所有資料庫查詢都是完全型別安全的,並在編譯時驗證(即使使用 [`select`](/orm/reference/prisma-client-reference#select) 或 [`include`](/orm/reference/prisma-client-reference#include) 的部分查詢也是如此)。
 
-Even when using plain JavaScript, the type definitions are still included in the `@prisma/client` node module, enabling features like [IntelliSense](https://code.visualstudio.com/docs/editor/intellisense)/autocompletion in your editor.
+即使使用純 JavaScript,型別定義仍然包含在 `@prisma/client` node 模組中,在您的編輯器中啟用 [IntelliSense](https://code.visualstudio.com/docs/editor/intellisense)/自動完成等功能。
 
-> **Note**: The actual types are stored in the `.prisma/client` folder. `@prisma/client/index.d.ts` exports the contents of this folder.
+> **注意**: 實際的型別儲存在 `.prisma/client` 資料夾中。`@prisma/client/index.d.ts` 匯出此資料夾的內容。
 
-For example, the type definition for the `User` model from above would look as follows:
+例如,上面 `User` 模型的型別定義如下:
 
 ```ts
 export type User = {
@@ -1213,13 +1213,13 @@ export type User = {
 }
 ```
 
-Note that the relation fields `posts` and `profile` are not included in the type definition by default. However, if you need variations of the `User` type you can still define them using some of [Prisma Client's generated helper types](/orm/prisma-client/setup-and-configuration/generating-prisma-client) (in this case, these helper types would be called `UserGetIncludePayload` and `UserGetSelectPayload`).
+請注意,關聯欄位 `posts` 和 `profile` 預設不包含在型別定義中。但是,如果您需要 `User` 型別的變體,您仍然可以使用一些 [Prisma Client 生成的輔助型別](/orm/prisma-client/setup-and-configuration/generating-prisma-client)來定義它們(在這種情況下,這些輔助型別將被稱為 `UserGetIncludePayload` 和 `UserGetSelectPayload`)。
 
-## Limitations
+## 限制
 
-### Records must be uniquely identifiable
+### 記錄必須可唯一識別
 
-Prisma ORM currently only supports models that have at least one unique field or combination of fields. In practice, this means that every Prisma model must have either at least one of the following attributes:
+Prisma ORM 目前僅支援至少有一個唯一欄位或欄位組合的模型。實際上,這意味著每個 Prisma 模型必須至少有以下屬性之一:
 
-- `@id` or `@@id` for a single- or multi-field primary key constraint (max one per model)
-- `@unique` or `@@unique` for a single- or multi-field unique constraint
+- 單一或多欄位主鍵約束的 `@id` 或 `@@id`(每個模型最多一個)
+- 單一或多欄位唯一約束的 `@unique` 或 `@@unique`

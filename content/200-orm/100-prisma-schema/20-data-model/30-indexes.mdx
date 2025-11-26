@@ -1,56 +1,56 @@
 ---
-title: 'Indexes'
-metaDescription: 'How to configure index functionality and add full text indexes'
+title: '索引'
+metaDescription: '如何配置索引功能並新增全文索引'
 hidePage: false
 tocDepth: 3
 ---
 
 <TopBlock>
 
-Prisma ORM allows configuration of database indexes, unique constraints and primary key constraints. This is in General Availability in versions `4.0.0` and later. You can enable this with the `extendedIndexes` Preview feature in versions `3.5.0` and later.
+Prisma ORM 允許配置資料庫索引、唯一約束和主鍵約束。這在版本 `4.0.0` 及更高版本中為正式版本。您可以在版本 `3.5.0` 及更高版本中透過 `extendedIndexes` 預覽功能啟用此功能。
 
-Version `3.6.0` also introduces support for introspection and migration of full text indexes in MySQL and MongoDB through a new `@@fulltext` attribute, available through the `fullTextIndex` Preview feature.
+版本 `3.6.0` 還透過新的 `@@fulltext` 屬性引入了對 MySQL 和 MongoDB 中全文索引的自省和遷移支援,可透過 `fullTextIndex` 預覽功能使用。
 
 :::warning
 
-If you are upgrading from a version earlier than 4.0.0, these changes to index configuration and full text indexes might be **breaking changes** if you have a database that already uses these features. See [Upgrading from previous versions](#upgrading-from-previous-versions) for more information on how to upgrade.
+如果您從 4.0.0 之前的版本升級,這些索引配置和全文索引的變更可能是**破壞性變更**,如果您的資料庫已經使用這些功能。請參閱[從早期版本升級](#upgrading-from-previous-versions)以獲取有關如何升級的更多資訊。
 
 :::
 
 </TopBlock>
 
-## Index configuration
+## 索引配置
 
-You can configure indexes, unique constraints, and primary key constraints with the following attribute arguments:
+您可以使用以下屬性參數配置索引、唯一約束和主鍵約束:
 
-- The [`length` argument](#configuring-the-length-of-indexes-with-length-mysql) allows you to specify a maximum length for the subpart of the value to be indexed on `String` and `Bytes` types
+- [`length` 參數](#configuring-the-length-of-indexes-with-length-mysql)允許您為 `String` 和 `Bytes` 類型的索引值子部分指定最大長度
 
-  - Available on the `@id`, `@@id`, `@unique`, `@@unique` and `@@index` attributes
-  - MySQL only
+  - 在 `@id`、`@@id`、`@unique`、`@@unique` 和 `@@index` 屬性上可用
+  - 僅限 MySQL
 
-- The [`sort` argument](#configuring-the-index-sort-order-with-sort) allows you to specify the order that the entries of the constraint or index are stored in the database
+- [`sort` 參數](#configuring-the-index-sort-order-with-sort)允許您指定約束或索引的條目在資料庫中儲存的順序
 
-  - Available on the `@unique`, `@@unique` and `@@index` attributes in all databases, and on the `@id` and `@@id` attributes in SQL Server
+  - 在所有資料庫的 `@unique`、`@@unique` 和 `@@index` 屬性上可用,以及在 SQL Server 的 `@id` 和 `@@id` 屬性上可用
 
-- The [`type` argument](#configuring-the-access-type-of-indexes-with-type-postgresql) allows you to support index access methods other than PostgreSQL's default `BTree` access method
+- [`type` 參數](#configuring-the-access-type-of-indexes-with-type-postgresql)允許您支援 PostgreSQL 預設 `BTree` 存取方法以外的索引存取方法
 
-  - Available on the `@@index` attribute
-  - PostgreSQL only
-  - Supported index access methods: `Hash`, `Gist`, `Gin`, `SpGist` and `Brin`
+  - 在 `@@index` 屬性上可用
+  - 僅限 PostgreSQL
+  - 支援的索引存取方法: `Hash`、`Gist`、`Gin`、`SpGist` 和 `Brin`
 
-- The [`clustered` argument](#configuring-if-indexes-are-clustered-or-non-clustered-with-clustered-sql-server) allows you to configure whether a constraint or index is clustered or non-clustered
-  - Available on the `@id`, `@@id`, `@unique`, `@@unique` and `@@index` attributes
-  - SQL Server only
+- [`clustered` 參數](#configuring-if-indexes-are-clustered-or-non-clustered-with-clustered-sql-server)允許您配置約束或索引是叢集還是非叢集
+  - 在 `@id`、`@@id`、`@unique`、`@@unique` 和 `@@index` 屬性上可用
+  - 僅限 SQL Server
 
-See the linked sections for details of which version each feature was first introduced in.
+請參閱連結的章節以了解每個功能首次引入的版本詳細資訊。
 
-### Configuring the length of indexes with `length` (MySQL)
+### 使用 `length` 配置索引長度 (MySQL)
 
-The `length` argument is specific to MySQL and allows you to define indexes and constraints on columns of `String` and `Byte` types. For these types, MySQL requires you to specify a maximum length for the subpart of the value to be indexed in cases where the full value would exceed MySQL's limits for index sizes. See [the MySQL documentation](https://dev.mysql.com/doc/refman/8.0/en/innodb-limits.html) for more details.
+`length` 參數特定於 MySQL,允許您在 `String` 和 `Byte` 類型的欄位上定義索引和約束。對於這些類型,MySQL 要求您為要索引的值子部分指定最大長度,以防完整值超過 MySQL 對索引大小的限制。請參閱 [MySQL 文件](https://dev.mysql.com/doc/refman/8.0/en/innodb-limits.html)以獲取更多詳細資訊。
 
-The `length` argument is available on the `@id`, `@@id`, `@unique`, `@@unique` and `@@index` attributes. It is generally available in versions 4.0.0 and later, and available as part of the `extendedIndexes` preview feature in versions 3.5.0 and later.
+`length` 參數在 `@id`、`@@id`、`@unique`、`@@unique` 和 `@@index` 屬性上可用。它在版本 4.0.0 及更高版本中為正式版本,並在版本 3.5.0 及更高版本中作為 `extendedIndexes` 預覽功能的一部分可用。
 
-As an example, the following data model declares an `id` field with a maximum length of 3000 characters:
+例如,以下資料模型宣告了一個最大長度為 3000 個字元的 `id` 欄位:
 
 ```prisma file=schema.prisma showLineNumbers
 model Id {
@@ -58,7 +58,7 @@ model Id {
 }
 ```
 
-This is not valid in MySQL because it exceeds MySQL's index storage limit and therefore Prisma ORM rejects the data model. The generated SQL would be rejected by the database.
+這在 MySQL 中無效,因為它超過了 MySQL 的索引儲存限制,因此 Prisma ORM 拒絕此資料模型。生成的 SQL 將被資料庫拒絕。
 
 ```sql
 CREATE TABLE `Id` (
@@ -66,7 +66,7 @@ CREATE TABLE `Id` (
 )
 ```
 
-The `length` argument allows you to specify that only a subpart of the `id` value represents the primary key. In the example below, the first 100 characters are used:
+`length` 參數允許您指定只有 `id` 值的一個子部分代表主鍵。在下面的範例中,使用前 100 個字元:
 
 ```prisma file=schema.prisma showLineNumbers
 model Id {
@@ -74,11 +74,11 @@ model Id {
 }
 ```
 
-Prisma Migrate is able to create constraints and indexes with the `length` argument if specified in your data model. This means that you can create indexes and constraints on values of Prisma schema type `Byte` and `String`. If you don't specify the argument the index is treated as covering the full value as before.
+如果在資料模型中指定,Prisma Migrate 能夠建立帶有 `length` 參數的約束和索引。這意味著您可以在 Prisma schema 類型 `Byte` 和 `String` 的值上建立索引和約束。如果您不指定參數,索引將被視為覆蓋完整值,如之前一樣。
 
-Introspection will fetch these limits where they are present in your existing database. This allows Prisma ORM to support indexes and constraints that were previously suppressed and results in better support of MySQL databases utilizing this feature.
+自省將獲取資料庫中存在的這些限制。這允許 Prisma ORM 支援先前被抑制的索引和約束,並改善對使用此功能的 MySQL 資料庫的支援。
 
-The `length` argument can also be used on compound primary keys, using the `@@id` attribute, as in the example below:
+`length` 參數也可以用於複合主鍵,使用 `@@id` 屬性,如下面的範例所示:
 
 ```prisma file=schema.prisma showLineNumbers
 model CompoundId {
@@ -89,19 +89,19 @@ model CompoundId {
 }
 ```
 
-A similar syntax can be used for the `@@unique` and `@@index` attributes.
+類似的語法可用於 `@@unique` 和 `@@index` 屬性。
 
-### Configuring the index sort order with `sort`
+### 使用 `sort` 配置索引排序順序
 
-The `sort` argument allows you to specify the order that the entries of the index or constraint are stored in the database. This can have an effect on whether the database is able to use an index for specific queries. The behavior and support varies by database:
+`sort` 參數允許您指定索引或約束的條目在資料庫中儲存的順序。這可能會影響資料庫是否能夠為特定查詢使用索引。行為和支援因資料庫而異:
 
-- In MySQL/MariaDB, you can specify sort order (`ASC`/`DESC`) directly in unique constraints and indexes
-- In PostgreSQL, sort order can only be specified on indexes, not on unique constraints
-- In SQL Server, sort order is supported on all constraints and indexes including `@id` and `@@id`
+- 在 MySQL/MariaDB 中,您可以直接在唯一約束和索引中指定排序順序(`ASC`/`DESC`)
+- 在 PostgreSQL 中,排序順序只能在索引上指定,不能在唯一約束上指定
+- 在 SQL Server 中,所有約束和索引(包括 `@id` 和 `@@id`)都支援排序順序
 
-The `sort` argument is generally available in versions 4.0.0 and later, and available as part of the `extendedIndexes` preview feature in versions 3.5.0 and later.
+`sort` 參數在版本 4.0.0 及更高版本中為正式版本,並在版本 3.5.0 及更高版本中作為 `extendedIndexes` 預覽功能的一部分可用。
 
-For example, in MySQL/MariaDB, the following table using a descending unique constraint:
+例如,在 MySQL/MariaDB 中,使用降序唯一約束的以下表格:
 
 ```sql
 CREATE TABLE `Unique` (
@@ -110,7 +110,7 @@ CREATE TABLE `Unique` (
 )
 ```
 
-would be introspected as
+將被自省為
 
 ```prisma file=schema.prisma showLineNumbers
 model Unique {
@@ -118,14 +118,14 @@ model Unique {
 }
 ```
 
-Note that in PostgreSQL, while you cannot specify sort order on unique constraints directly, you can create a unique index with a sort order that will enforce uniqueness:
+請注意,在 PostgreSQL 中,雖然您不能直接在唯一約束上指定排序順序,但您可以建立一個具有排序順序的唯一索引來強制唯一性:
 
 ```sql
 -- PostgreSQL approach
 CREATE UNIQUE INDEX "unique_index_desc" ON "Unique" ("unique" DESC);
 ```
 
-The `sort` argument can also be used on compound indexes:
+`sort` 參數也可以用於複合索引:
 
 ```prisma file=schema.prisma showLineNumbers
 model CompoundUnique {
@@ -136,9 +136,9 @@ model CompoundUnique {
 }
 ```
 
-### Example: using `sort` and `length` together
+### 範例: 同時使用 `sort` 和 `length`
 
-The following example demonstrates the use of the `sort` and `length` arguments to configure indexes and constraints for a `Post` model:
+以下範例示範了如何使用 `sort` 和 `length` 參數來配置 `Post` 模型的索引和約束:
 
 ```prisma file=schema.prisma showLineNumbers
 model Post {
@@ -153,15 +153,15 @@ model Post {
 }
 ```
 
-### Configuring the access type of indexes with `type` (PostgreSQL)
+### 使用 `type` 配置索引的存取類型 (PostgreSQL)
 
-The `type` argument is available for configuring the index type in PostgreSQL with the `@@index` attribute. The index access methods available are `Hash`, `Gist`, `Gin`, `SpGist` and `Brin`, as well as the default `BTree` index access method. The `type` argument is generally available in versions 4.0.0 and later. The `Hash` index access method is available as part of the `extendedIndexes` preview feature in versions 3.6.0 and later, and the `Gist`, `Gin`, `SpGist` and `Brin` index access methods are available in preview in versions 3.14.0 and later.
+`type` 參數可用於在 PostgreSQL 中使用 `@@index` 屬性配置索引類型。可用的索引存取方法有 `Hash`、`Gist`、`Gin`、`SpGist` 和 `Brin`,以及預設的 `BTree` 索引存取方法。`type` 參數在版本 4.0.0 及更高版本中為正式版本。`Hash` 索引存取方法在版本 3.6.0 及更高版本中作為 `extendedIndexes` 預覽功能的一部分可用,而 `Gist`、`Gin`、`SpGist` 和 `Brin` 索引存取方法在版本 3.14.0 及更高版本中處於預覽狀態。
 
 #### Hash
 
-The `Hash` type will store the index data in a format that is much faster to search and insert, and that will use less disk space. However, only the `=` and `<>` comparisons can use the index, so other comparison operators such as `<` and `>` will be much slower with `Hash` than when using the default `BTree` type.
+`Hash` 類型將以更快的搜尋和插入格式儲存索引資料,並且使用更少的磁碟空間。但是,只有 `=` 和 `<>` 比較可以使用索引,因此其他比較運算子如 `<` 和 `>` 在使用 `Hash` 時會比使用預設的 `BTree` 類型慢得多。
 
-As an example, the following model adds an index with a `type` of `Hash` to the `value` field:
+例如,以下模型為 `value` 欄位新增了一個 `type` 為 `Hash` 的索引:
 
 ```prisma file=schema.prisma showLineNumbers
 model Example {
@@ -172,7 +172,7 @@ model Example {
 }
 ```
 
-This translates to the following SQL commands:
+這轉換為以下 SQL 命令:
 
 ```sql
 CREATE TABLE "Example" (
@@ -183,19 +183,19 @@ CREATE TABLE "Example" (
 CREATE INDEX "Example_value_idx" ON "Example" USING HASH (value);
 ```
 
-#### Generalized Inverted Index (GIN)
+#### 廣義倒排索引 (GIN)
 
-The GIN index stores composite values, such as arrays or `JsonB` data. This is useful for speeding up querying whether one object is part of another object. It is commonly used for full-text searches.
+GIN 索引儲存複合值,例如陣列或 `JsonB` 資料。這對於加速查詢一個物件是否為另一個物件的一部分很有用。它通常用於全文搜尋。
 
-An indexed field can define the operator class, which defines the operators handled by the index.
+索引欄位可以定義運算子類別,該類別定義索引處理的運算子。
 
 :::warning
 
-Indexes using a function (such as `to_tsvector`) to determine the indexed value are not yet supported by Prisma ORM. Indexes defined in this way will not be visible with `prisma db pull`.
+Prisma ORM 尚不支援使用函式(例如 `to_tsvector`)來確定索引值的索引。以這種方式定義的索引在使用 `prisma db pull` 時將不可見。
 
 :::
 
-As an example, the following model adds a `Gin` index to the `value` field, with `JsonbPathOps` as the class of operators allowed to use the index:
+例如,以下模型為 `value` 欄位新增了一個 `Gin` 索引,並將 `JsonbPathOps` 作為允許使用索引的運算子類別:
 
 ```prisma file=schema.prisma showLineNumbers
 model Example {
@@ -208,7 +208,7 @@ model Example {
 }
 ```
 
-This translates to the following SQL commands:
+這轉換為以下 SQL 命令:
 
 ```sql
 CREATE TABLE "Example" (
@@ -219,32 +219,32 @@ CREATE TABLE "Example" (
 CREATE INDEX "Example_value_idx" ON "Example" USING GIN (value jsonb_path_ops);
 ```
 
-As part of the `JsonbPathOps` the `@>` operator is handled by the index, speeding up queries such as `value @> '{"foo": 2}'`.
+作為 `JsonbPathOps` 的一部分,`@>` 運算子由索引處理,加速查詢如 `value @> '{"foo": 2}'`。
 
-##### Supported Operator Classes for GIN
+##### GIN 支援的運算子類別
 
-Prisma ORM generally supports operator classes provided by PostgreSQL in versions 10 and later. If the operator class requires the field type to be of a type Prisma ORM does not yet support, using the `raw` function with a string input allows you to use these operator classes without validation.
+Prisma ORM 通常支援 PostgreSQL 版本 10 及更高版本提供的運算子類別。如果運算子類別需要欄位類型為 Prisma ORM 尚不支援的類型,使用帶有字串輸入的 `raw` 函式允許您使用這些運算子類別而無需驗證。
 
-The default operator class (marked with ✅) can be omitted from the index definition.
+預設運算子類別(標記為 ✅)可以從索引定義中省略。
 
-| Operator class | Allowed field type (native types) | Default | Other                         |
+| 運算子類別     | 允許的欄位類型(原生類型) | 預設 | 其他                          |
 | -------------- | --------------------------------- | ------- | ----------------------------- |
-| `ArrayOps`     | Any array                         | ✅      | Also available in CockroachDB |
-| `JsonbOps`     | `Json` (`@db.JsonB`)              | ✅      | Also available in CockroachDB |
+| `ArrayOps`     | 任何陣列                          | ✅      | 也可在 CockroachDB 中使用     |
+| `JsonbOps`     | `Json` (`@db.JsonB`)              | ✅      | 也可在 CockroachDB 中使用     |
 | `JsonbPathOps` | `Json` (`@db.JsonB`)              |         |                               |
 | `raw("other")` |                                   |         |                               |
 
-Read more about built-in operator classes in the [official PostgreSQL documentation](https://www.postgresql.org/docs/14/gin-builtin-opclasses.html).
+請在[官方 PostgreSQL 文件](https://www.postgresql.org/docs/14/gin-builtin-opclasses.html)中閱讀更多關於內建運算子類別的資訊。
 
 ##### CockroachDB
 
-GIN and BTree are the only index types supported by CockroachDB. The operator classes marked to work with CockroachDB are the only ones allowed on that database and supported by Prisma ORM. The operator class cannot be defined in the Prisma Schema Language: the `ops` argument is not necessary or allowed on CockroachDB.
+GIN 和 BTree 是 CockroachDB 支援的唯一索引類型。標記為與 CockroachDB 配合使用的運算子類別是該資料庫上唯一允許且受 Prisma ORM 支援的運算子類別。運算子類別無法在 Prisma Schema Language 中定義:`ops` 參數在 CockroachDB 上不是必需的或不允許的。
 
-#### Generalized Search Tree (GiST)
+#### 廣義搜尋樹 (GiST)
 
-The GiST index type is used for implementing indexing schemes for user-defined types. By default there are not many direct uses for GiST indexes, but for example the B-Tree index type is built using a GiST index.
+GiST 索引類型用於為使用者定義的類型實作索引方案。預設情況下,GiST 索引沒有太多直接用途,但例如 B-Tree 索引類型是使用 GiST 索引建構的。
 
-As an example, the following model adds a `Gist` index to the `value` field with `InetOps` as the operators that will be using the index:
+例如,以下模型為 `value` 欄位新增了一個 `Gist` 索引,並將 `InetOps` 作為將使用索引的運算子:
 
 ```prisma file=schema.prisma showLineNumbers
 model Example {
@@ -258,7 +258,7 @@ model Example {
 }
 ```
 
-This translates to the following SQL commands:
+這轉換為以下 SQL 命令:
 
 ```sql
 CREATE TABLE "Example" (
@@ -269,26 +269,26 @@ CREATE TABLE "Example" (
 CREATE INDEX "Example_value_idx" ON "Example" USING GIST (value inet_ops);
 ```
 
-Queries comparing IP addresses, such as `value > '10.0.0.2'`, will use the index.
+比較 IP 位址的查詢,例如 `value > '10.0.0.2'`,將使用索引。
 
-##### Supported Operator Classes for GiST
+##### GiST 支援的運算子類別
 
-Prisma ORM generally supports operator classes provided by PostgreSQL in versions 10 and later. If the operator class requires the field type to be of a type Prisma ORM does not yet support, using the `raw` function with a string input allows you to use these operator classes without validation.
+Prisma ORM 通常支援 PostgreSQL 版本 10 及更高版本提供的運算子類別。如果運算子類別需要欄位類型為 Prisma ORM 尚不支援的類型,使用帶有字串輸入的 `raw` 函式允許您使用這些運算子類別而無需驗證。
 
-| Operator class | Allowed field type (allowed native types) |
+| 運算子類別     | 允許的欄位類型(允許的原生類型) |
 | -------------- | ----------------------------------------- |
 | `InetOps`      | `String` (`@db.Inet`)                     |
 | `raw("other")` |                                           |
 
-Read more about built-in operator classes in the [official PostgreSQL documentation](https://www.postgresql.org/docs/14/gist-builtin-opclasses.html).
+請在[官方 PostgreSQL 文件](https://www.postgresql.org/docs/14/gist-builtin-opclasses.html)中閱讀更多關於內建運算子類別的資訊。
 
-#### Space-Partitioned GiST (SP-GiST)
+#### 空間分割 GiST (SP-GiST)
 
-The SP-GiST index is a good choice for many different non-balanced data structures. If the query matches the partitioning rule, it can be very fast.
+SP-GiST 索引對於許多不同的非平衡資料結構是一個不錯的選擇。如果查詢與分割規則匹配,它可以非常快。
 
-As with GiST, SP-GiST is important as a building block for user-defined types, allowing implementation of custom search operators directly with the database.
+與 GiST 一樣,SP-GiST 作為使用者定義類型的構建塊非常重要,允許直接使用資料庫實作自訂搜尋運算子。
 
-As an example, the following model adds a `SpGist` index to the `value` field with `TextOps` as the operators using the index:
+例如,以下模型為 `value` 欄位新增了一個 `SpGist` 索引,並將 `TextOps` 作為使用索引的運算子:
 
 ```prisma file=schema.prisma showLineNumbers
 model Example {
@@ -302,7 +302,7 @@ model Example {
 }
 ```
 
-This translates to the following SQL commands:
+這轉換為以下 SQL 命令:
 
 ```sql
 CREATE TABLE "Example" (
@@ -313,27 +313,27 @@ CREATE TABLE "Example" (
 CREATE INDEX "Example_value_idx" ON "Example" USING SPGIST (value);
 ```
 
-Queries such as `value LIKE 'something%'` will be sped up by the index.
+查詢如 `value LIKE 'something%'` 將被索引加速。
 
-##### Supported Operator Classes for SP-GiST
+##### SP-GiST 支援的運算子類別
 
-Prisma ORM generally supports operator classes provided by PostgreSQL in versions 10 and later. If the operator class requires the field type to be of a type Prisma ORM does not yet support, using the `raw` function with a string input allows you to use these operator classes without validation.
+Prisma ORM 通常支援 PostgreSQL 版本 10 及更高版本提供的運算子類別。如果運算子類別需要欄位類型為 Prisma ORM 尚不支援的類型,使用帶有字串輸入的 `raw` 函式允許您使用這些運算子類別而無需驗證。
 
-The default operator class (marked with ✅) can be omitted from the index definition.
+預設運算子類別(標記為 ✅)可以從索引定義中省略。
 
-| Operator class | Allowed field type (native types)    | Default | Supported PostgreSQL versions |
+| 運算子類別     | 允許的欄位類型(原生類型)    | 預設 | 支援的 PostgreSQL 版本 |
 | -------------- | ------------------------------------ | ------- | ----------------------------- |
 | `InetOps`      | `String` (`@db.Inet`)                | ✅      | 10+                           |
 | `TextOps`      | `String` (`@db.Text`, `@db.VarChar`) | ✅      |                               |
 | `raw("other")` |                                      |         |                               |
 
-Read more about built-in operator classes from [official PostgreSQL documentation](https://www.postgresql.org/docs/14/spgist-builtin-opclasses.html).
+請在[官方 PostgreSQL 文件](https://www.postgresql.org/docs/14/spgist-builtin-opclasses.html)中閱讀更多關於內建運算子類別的資訊。
 
-#### Block Range Index (BRIN)
+#### 區塊範圍索引 (BRIN)
 
-The BRIN index type is useful if you have lots of data that does not change after it is inserted, such as date and time values. If your data is a good fit for the index, it can store large datasets in a minimal space.
+BRIN 索引類型對於您有大量資料在插入後不會變更的情況很有用,例如日期和時間值。如果您的資料非常適合索引,它可以在最小的空間中儲存大型資料集。
 
-As an example, the following model adds a `Brin` index to the `value` field with `Int4BloomOps` as the operators that will be using the index:
+例如,以下模型為 `value` 欄位新增了一個 `Brin` 索引,並將 `Int4BloomOps` 作為將使用索引的運算子:
 
 ```prisma file=schema.prisma showLineNumbers
 model Example {
@@ -346,7 +346,7 @@ model Example {
 }
 ```
 
-This translates to the following SQL commands:
+這轉換為以下 SQL 命令:
 
 ```sql
 CREATE TABLE "Example" (
@@ -357,15 +357,15 @@ CREATE TABLE "Example" (
 CREATE INDEX "Example_value_idx" ON "Example" USING BRIN (value int4_bloom_ops);
 ```
 
-Queries like `value = 2` will now use the index, which uses a fraction of the space used by the `BTree` or `Hash` indexes.
+查詢如 `value = 2` 現在將使用索引,該索引使用的空間是 `BTree` 或 `Hash` 索引使用的空間的一小部分。
 
-##### Supported Operator Classes for BRIN
+##### BRIN 支援的運算子類別
 
-Prisma ORM generally supports operator classes provided by PostgreSQL in versions 10 and later, and some supported operators are only available from PostgreSQL versions 14 and later. If the operator class requires the field type to be of a type Prisma ORM does not yet support, using the `raw` function with a string input allows you to use these operator classes without validation.
+Prisma ORM 通常支援 PostgreSQL 版本 10 及更高版本提供的運算子類別,一些支援的運算子僅在 PostgreSQL 版本 14 及更高版本中可用。如果運算子類別需要欄位類型為 Prisma ORM 尚不支援的類型,使用帶有字串輸入的 `raw` 函式允許您使用這些運算子類別而無需驗證。
 
-The default operator class (marked with ✅) can be omitted from the index definition.
+預設運算子類別(標記為 ✅)可以從索引定義中省略。
 
-| Operator class              | Allowed field type (native types)    | Default | Supported PostgreSQL versions |
+| 運算子類別              | 允許的欄位類型(原生類型)    | 預設 | 支援的 PostgreSQL 版本 |
 | --------------------------- | ------------------------------------ | ------- | ----------------------------- |
 | `BitMinMaxOps`              | `String` (`@db.Bit`)                 | ✅      |                               |
 | `VarBitMinMaxOps`           | `String` (`@db.VarBit`)              | ✅      |                               |
@@ -421,13 +421,13 @@ The default operator class (marked with ✅) can be omitted from the index defin
 | `UuidMinMaxMultiOps`        | `String` (`@db.Uuid`)                |         | 14+                           |
 | `raw("other")`              |                                      |         |                               |
 
-Read more about built-in operator classes in the [official PostgreSQL documentation](https://www.postgresql.org/docs/14/brin-builtin-opclasses.html).
+請在[官方 PostgreSQL 文件](https://www.postgresql.org/docs/14/brin-builtin-opclasses.html)中閱讀更多關於內建運算子類別的資訊。
 
-### Configuring if indexes are clustered or non-clustered with `clustered` (SQL Server)
+### 使用 `clustered` 配置索引是否為叢集或非叢集 (SQL Server)
 
-The `clustered` argument is available to configure (non)clustered indexes in SQL Server. It can be used on the `@id`, `@@id`, `@unique`, `@@unique` and `@@index` attributes. It is generally available in versions 4.0.0 and later, and available as part of the `extendedIndexes` preview feature in versions 3.13.0 and later.
+`clustered` 參數可用於在 SQL Server 中配置(非)叢集索引。它可以在 `@id`、`@@id`、`@unique`、`@@unique` 和 `@@index` 屬性上使用。它在版本 4.0.0 及更高版本中為正式版本,並在版本 3.13.0 及更高版本中作為 `extendedIndexes` 預覽功能的一部分可用。
 
-As an example, the following model configures the `@id` to be non-clustered (instead of the clustered default):
+例如,以下模型將 `@id` 配置為非叢集(而不是叢集預設值):
 
 ```prisma file=schema.prisma showLineNumbers
 model Example {
@@ -436,7 +436,7 @@ model Example {
 }
 ```
 
-This translates to the following SQL commands:
+這轉換為以下 SQL 命令:
 
 ```sql
 CREATE TABLE [Example] (
@@ -446,9 +446,9 @@ CREATE TABLE [Example] (
 )
 ```
 
-The default value of `clustered` for each attribute is as follows:
+每個屬性的 `clustered` 預設值如下:
 
-| Attribute  | Value   |
+| 屬性       | 值      |
 | ---------- | ------- |
 | `@id`      | `true`  |
 | `@@id`     | `true`  |
@@ -456,38 +456,38 @@ The default value of `clustered` for each attribute is as follows:
 | `@@unique` | `false` |
 | `@@index`  | `false` |
 
-A table can have at most one clustered index.
+一個表格最多可以有一個叢集索引。
 
-### Upgrading from previous versions
-
-:::warning
-
-These index configuration changes can be **breaking changes** when activating the functionality for certain, existing Prisma schemas for existing databases. After enabling the preview features required to use them, run `prisma db pull` to introspect the existing database to update your Prisma schema before using Prisma Migrate again.
-
-:::
-
-A breaking change can occur in the following situations:
-
-- **Existing sort constraints and indexes:** earlier versions of Prisma ORM will assume that the desired sort order is _ascending_ if no order is specified explicitly. This means that this is a breaking change if you have existing constraints or indexes that are using descending sort order and migrate your database without first specifying this in your data model.
-- **Existing length constraints and indexes:** in earlier versions of Prisma ORM, indexes and constraints that were length constrained in MySQL could not be represented in the Prisma schema. Therefore `prisma db pull` was not fetching these and you could not manually specify them. When you ran `prisma db push` or `prisma migrate dev` they were ignored if already present in your database. Since you are now able to specify these, migrate commands will now drop them if they are missing from your data model but present in the database.
-- **Existing indexes other than `BTree` (PostgreSQL):** earlier versions of Prisma ORM only supported the default `BTree` index type. Other supported indexes (`Hash`, `Gist`, `Gin`, `SpGist` and `Brin`) need to be added before migrating your database.
-- **Existing (non-)clustered indexes (SQL Server):** earlier versions of Prisma ORM did not support configuring an index as clustered or non-clustered. For indexes that do not use the default, these need to be added before migrating your database.
-
-In each of the cases above unwanted changes to your database can be prevented by properly specifying these properties in your data model where necessary. **The easiest way to do this is to use `prisma db pull` to retrieve any existing constraints or configuration.** Alternatively, you could also add these arguments manually. This should be done before using `prisma db push` or `prisma migrate dev` the first time after the upgrade.
-
-## Full text indexes (MySQL and MongoDB)
-
-The `fullTextIndex` preview feature provides support for introspection and migration of full text indexes in MySQL and MongoDB in version 3.6.0 and later. This can be configured using the `@@fulltext` attribute. Existing full text indexes in the database are added to your Prisma schema after introspecting with `db pull`, and new full text indexes added in the Prisma schema are created in the database when using Prisma Migrate. This also prevents validation errors in some database schemas that were not working before.
+### 從早期版本升級
 
 :::warning
 
-For now we do not enable the full text search commands in Prisma Client for MongoDB; the progress can be followed in the [MongoDB](https://github.com/prisma/prisma/issues/9413) issue.
+這些索引配置變更可能是**破壞性變更**,當為現有資料庫的某些現有 Prisma schema 啟用功能時。在啟用使用它們所需的預覽功能後,執行 `prisma db pull` 以自省現有資料庫以更新您的 Prisma schema,然後再次使用 Prisma Migrate。
 
 :::
 
-### Enabling the `fullTextIndex` preview feature
+在以下情況下可能會發生破壞性變更:
 
-To enable the `fullTextIndex` preview feature, add the `fullTextIndex` feature flag to the `generator` block of the `schema.prisma` file:
+- **現有的排序約束和索引**: 如果沒有明確指定順序,早期版本的 Prisma ORM 將假設所需的排序順序為_升序_。這意味著,如果您有使用降序排序順序的現有約束或索引,並且在沒有首先在資料模型中指定這一點的情況下遷移資料庫,這將是一個破壞性變更。
+- **現有的長度約束和索引**: 在早期版本的 Prisma ORM 中,在 MySQL 中長度受限的索引和約束無法在 Prisma schema 中表示。因此,`prisma db pull` 沒有獲取這些,您也無法手動指定它們。當您執行 `prisma db push` 或 `prisma migrate dev` 時,如果它們已經存在於資料庫中,它們會被忽略。由於您現在能夠指定這些,如果它們在資料模型中缺少但在資料庫中存在,遷移命令現在將刪除它們。
+- **現有的非 `BTree` 索引 (PostgreSQL)**: 早期版本的 Prisma ORM 僅支援預設的 `BTree` 索引類型。其他支援的索引(`Hash`、`Gist`、`Gin`、`SpGist` 和 `Brin`)需要在遷移資料庫之前新增。
+- **現有的(非)叢集索引 (SQL Server)**: 早期版本的 Prisma ORM 不支援將索引配置為叢集或非叢集。對於不使用預設值的索引,這些需要在遷移資料庫之前新增。
+
+在上述每種情況下,都可以透過在資料模型中適當地指定這些屬性來防止對資料庫的不需要的變更。**最簡單的方法是使用 `prisma db pull` 來檢索任何現有的約束或配置。**或者,您也可以手動新增這些參數。這應該在升級後第一次使用 `prisma db push` 或 `prisma migrate dev` 之前完成。
+
+## 全文索引 (MySQL 和 MongoDB)
+
+`fullTextIndex` 預覽功能在版本 3.6.0 及更高版本中提供對 MySQL 和 MongoDB 中全文索引的自省和遷移支援。這可以使用 `@@fulltext` 屬性配置。資料庫中的現有全文索引在使用 `db pull` 自省後會新增到您的 Prisma schema 中,並且在 Prisma schema 中新增的新全文索引在使用 Prisma Migrate 時會在資料庫中建立。這也可以防止在某些以前無法工作的資料庫 schema 中出現驗證錯誤。
+
+:::warning
+
+目前我們不會在 Prisma Client 中為 MongoDB 啟用全文搜尋命令;進度可以在 [MongoDB](https://github.com/prisma/prisma/issues/9413) 問題中追蹤。
+
+:::
+
+### 啟用 `fullTextIndex` 預覽功能
+
+要啟用 `fullTextIndex` 預覽功能,請將 `fullTextIndex` 功能標誌新增到 `schema.prisma` 檔案的 `generator` 區塊中:
 
 ```prisma file=schema.prisma showLineNumbers
 generator client {
@@ -497,9 +497,9 @@ generator client {
 }
 ```
 
-### Examples
+### 範例
 
-The following example demonstrates adding a `@@fulltext` index to the `title` and `content` fields of a `Post` model:
+以下範例示範了為 `Post` 模型的 `title` 和 `content` 欄位新增 `@@fulltext` 索引:
 
 ```prisma file=schema.prisma showLineNumbers
 model Post {
@@ -511,7 +511,7 @@ model Post {
 }
 ```
 
-On MongoDB, you can use the `@@fulltext` index attribute (via the `fullTextIndex` preview feature) with the `sort` argument to add fields to your full-text index in ascending or descending order. The following example adds a `@@fulltext` index to the `title` and `content` fields of the `Post` model, and sorts the `title` field in descending order:
+在 MongoDB 上,您可以使用 `@@fulltext` 索引屬性(透過 `fullTextIndex` 預覽功能)與 `sort` 參數一起以升序或降序將欄位新增到您的全文索引中。以下範例為 `Post` 模型的 `title` 和 `content` 欄位新增了一個 `@@fulltext` 索引,並以降序排序 `title` 欄位:
 
 ```prisma file=schema.prisma showLineNumbers
 generator js {
@@ -533,12 +533,12 @@ model Post {
 }
 ```
 
-### Upgrading from previous versions
+### 從早期版本升級
 
 :::warning
 
-This can be a **breaking change** when activating the functionality for certain, existing Prisma schemas for existing databases. After enabling the preview features required to use them, run `prisma db pull` to introspect the existing database to update your Prisma schema before using Prisma Migrate again.
+這可能是**破壞性變更**,當為現有資料庫的某些現有 Prisma schema 啟用功能時。在啟用使用它們所需的預覽功能後,執行 `prisma db pull` 以自省現有資料庫以更新您的 Prisma schema,然後再次使用 Prisma Migrate。
 
 :::
 
-Earlier versions of Prisma ORM converted full text indexes using the `@@index` attribute rather than the `@@fulltext` attribute. After enabling the `fullTextIndex` preview feature, run `prisma db pull` to convert these indexes to `@@fulltext` before migrating again with Prisma Migrate. If you do not do this, the existing indexes will be dropped instead and normal indexes will be created in their place.
+早期版本的 Prisma ORM 使用 `@@index` 屬性而不是 `@@fulltext` 屬性轉換全文索引。在啟用 `fullTextIndex` 預覽功能後,執行 `prisma db pull` 以在再次使用 Prisma Migrate 遷移之前將這些索引轉換為 `@@fulltext`。如果您不這樣做,現有的索引將被刪除,並在它們的位置建立普通索引。

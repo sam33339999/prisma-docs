@@ -2,34 +2,34 @@
 title: 'Overview on Prisma Schema'
 sidebar_label: 'Overview'
 metaTitle: 'Prisma Schema Overview'
-metaDescription: 'The Prisma schema is the main method of configuration when using Prisma. It is typically called schema.prisma and contains your database connection and data model.'
+metaDescription: 'Prisma schema 是使用 Prisma 時的主要配置方法。它通常被命名為 schema.prisma，並包含您的資料庫連接和資料模型。'
 ---
 
-The Prisma Schema (or _schema_ for short) is the main method of configuration for your Prisma ORM setup. It consists of the following parts:
+Prisma Schema（或簡稱 _schema_）是您 Prisma ORM 設定的主要配置方法。它由以下部分組成：
 
-- [**Data sources**](/orm/prisma-schema/overview/data-sources): Specify the details of the data sources Prisma ORM should connect to (e.g. a PostgreSQL database)
-- [**Generators**](/orm/prisma-schema/overview/generators): Specifies what clients should be generated based on the data model (e.g. Prisma Client)
-- [**Data model definition**](/orm/prisma-schema/data-model): Specifies your application [models](/orm/prisma-schema/data-model/models#defining-models) (the shape of the data per data source) and their [relations](/orm/prisma-schema/data-model/relations)
+- [**資料來源（Data sources）**](/orm/prisma-schema/overview/data-sources)：指定 Prisma ORM 應該連接的資料來源詳細資訊（例如 PostgreSQL 資料庫）
+- [**產生器（Generators）**](/orm/prisma-schema/overview/generators)：指定應根據資料模型產生哪些客戶端（例如 Prisma Client）
+- [**資料模型定義（Data model definition）**](/orm/prisma-schema/data-model)：指定您的應用程式[模型](/orm/prisma-schema/data-model/models#defining-models)（每個資料來源的資料形狀）及其[關聯](/orm/prisma-schema/data-model/relations)
 
-It is typically a single file called `schema.prisma` (or multiple files with `.prisma` file extension) that is stored in a defined but customizable [location](/orm/prisma-schema/overview/location). You can also [organize your Prisma schema in multiple files](/orm/prisma-schema/overview/location#multi-file-prisma-schema) if you prefer that.
+它通常是一個名為 `schema.prisma` 的單一檔案（或多個具有 `.prisma` 副檔名的檔案），儲存在一個已定義但可自訂的[位置](/orm/prisma-schema/overview/location)。如果您偏好的話，也可以[將您的 Prisma schema 組織在多個檔案中](/orm/prisma-schema/overview/location#multi-file-prisma-schema)。
 
-See the [Prisma schema API reference](/orm/reference/prisma-schema-reference) <span class="api"></span> for detailed information about each section of the schema.
+有關 schema 每個部分的詳細資訊，請參閱 [Prisma schema API 參考](/orm/reference/prisma-schema-reference) <span class="api"></span>。
 
-Whenever a `prisma` command is invoked, the CLI typically reads some information from the schema, e.g.:
+每當呼叫 `prisma` 命令時，CLI 通常會從 schema 讀取一些資訊，例如：
 
-- `prisma generate`: Reads _all_ above mentioned information from the Prisma schema to generate the correct data source client code (e.g. Prisma Client).
-- `prisma migrate dev`: Reads the data sources and data model definition to create a new migration.
+- `prisma generate`：從 Prisma schema 讀取_所有_上述資訊，以產生正確的資料來源客戶端程式碼（例如 Prisma Client）。
+- `prisma migrate dev`：讀取資料來源和資料模型定義以建立新的遷移。
 
-You can also [use environment variables](#accessing-environment-variables-from-the-schema) inside the schema to provide configuration options when a CLI command is invoked.
+您也可以在 schema 中[使用環境變數](#accessing-environment-variables-from-the-schema)，以便在呼叫 CLI 命令時提供配置選項。
 
-## Example
+## 範例
 
-The following is an example of a Prisma Schema that specifies:
+以下是一個 Prisma Schema 的範例，它指定了：
 
-- A data source (PostgreSQL or MongoDB)
-- A generator (Prisma Client)
-- A data model definition with two models (with one relation) and one `enum`
-- Several [native data type attributes](/orm/prisma-schema/data-model/models#native-types-mapping) (`@db.VarChar(255)`, `@db.ObjectId`)
+- 一個資料來源（PostgreSQL 或 MongoDB）
+- 一個產生器（Prisma Client）
+- 一個包含兩個模型（具有一個關聯）和一個 `enum` 的資料模型定義
+- 幾個[原生資料型別屬性](/orm/prisma-schema/data-model/models#native-types-mapping)（`@db.VarChar(255)`、`@db.ObjectId`）
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -110,17 +110,17 @@ enum Role {
 </TabItem>
 </TabbedContent>
 
-## Syntax
+## 語法
 
-Prisma Schema files are written in Prisma Schema Language (PSL). See the [data sources](/orm/prisma-schema/overview/data-sources), [generators](/orm/prisma-schema/overview/generators), [data model definition](/orm/prisma-schema/data-model) and of course [Prisma Schema API reference](/orm/reference/prisma-schema-reference) pages for details and examples.
+Prisma Schema 檔案使用 Prisma Schema Language（PSL）編寫。有關詳細資訊和範例，請參閱[資料來源](/orm/prisma-schema/overview/data-sources)、[產生器](/orm/prisma-schema/overview/generators)、[資料模型定義](/orm/prisma-schema/data-model)，當然還有 [Prisma Schema API 參考](/orm/reference/prisma-schema-reference)頁面。
 
 ### VS Code
 
-Syntax highlighting for PSL is available via a [VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) (which also lets you auto-format the contents of your Prisma schema and indicates syntax errors with red squiggly lines). Learn more about [setting up Prisma ORM in your editor](/orm/more/development-environment/editor-setup).
+PSL 的語法高亮可通過 [VS Code 擴充套件](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma)獲得（它還可以讓您自動格式化 Prisma schema 的內容，並用紅色波浪線指示語法錯誤）。了解更多關於[在編輯器中設定 Prisma ORM](/orm/more/development-environment/editor-setup) 的資訊。
 
 ### GitHub
 
-PSL code snippets on GitHub can be rendered with syntax highlighting as well by using the `.prisma` file extension or annotating fenced code blocks in Markdown with `prisma`:
+GitHub 上的 PSL 程式碼片段也可以透過使用 `.prisma` 副檔名或在 Markdown 中使用 `prisma` 標註程式碼區塊來進行語法高亮渲染：
 
 ````
 ```prisma
@@ -133,13 +133,13 @@ model User {
 ```
 ````
 
-## Accessing environment variables from the schema
+## 從 schema 存取環境變數
 
-You can use environment variables to provide configuration options when a CLI command is invoked, or a Prisma Client query is run.
+您可以使用環境變數在呼叫 CLI 命令或執行 Prisma Client 查詢時提供配置選項。
 
-Hardcoding URLs directly in your schema is possible but is discouraged because it poses a security risk. Using environment variables in the schema allows you to **keep secrets out of the schema** which in turn **improves the portability of the schema** by allowing you to use it in different environments.
+直接在您的 schema 中硬編碼 URL 是可能的，但不建議這樣做，因為它會帶來安全風險。在 schema 中使用環境變數可以讓您**將機密資訊保留在 schema 之外**，進而**提高 schema 的可移植性**，讓您能在不同的環境中使用它。
 
-Environment variables can be accessed using the `env()` function:
+可以使用 `env()` 函數來存取環境變數：
 
 ```prisma
 datasource db {
@@ -147,22 +147,22 @@ datasource db {
 }
 ```
 
-You can use the `env()` function in the following places:
+您可以在以下位置使用 `env()` 函數：
 
-- A datasource url
+- datasource url
 - Generator binary targets
 
-See [Environment variables](/orm/more/development-environment/environment-variables) for more information about how to use an `.env` file during development.
+有關如何在開發期間使用 `.env` 檔案的更多資訊，請參閱[環境變數](/orm/more/development-environment/environment-variables)。
 
-## Comments
+## 註解
 
-There are three types of comments that are supported in Prisma Schema Language:
+Prisma Schema Language 支援三種類型的註解：
 
-- `// comment`: This comment is for the reader's clarity and is not present in the abstract syntax tree (AST) of the schema.
-- `/// comment`: These comments will show up in the abstract syntax tree (AST) of the schema as descriptions to AST nodes. Tools can then use these comments to provide additional information. All comments are attached to the next available node - [free-floating comments](https://github.com/prisma/prisma/issues/3544) are not supported and are not included in the AST.
-- `/* block comment */`: These comments will show up in the abstract syntax tree, similarly to `///` comments.
+- `// comment`：此註解是為了讀者的清晰度而設，不會出現在 schema 的抽象語法樹（AST）中。
+- `/// comment`：這些註解將作為 AST 節點的描述出現在 schema 的抽象語法樹（AST）中。工具可以使用這些註解來提供額外的資訊。所有註解都附加到下一個可用的節點上 - 不支援[自由浮動註解](https://github.com/prisma/prisma/issues/3544)，並且不會包含在 AST 中。
+- `/* block comment */`：這些註解將出現在抽象語法樹中，與 `///` 註解類似。
 
-Here are some different examples:
+以下是一些不同的範例：
 
 ```prisma
 /// This comment will get attached to the `User` node in the AST
@@ -185,16 +185,16 @@ model Customer {
 }
 ```
 
-## Auto formatting
+## 自動格式化
 
-Prisma ORM supports formatting `.prisma` files automatically. There are two ways to format `.prisma` files:
+Prisma ORM 支援自動格式化 `.prisma` 檔案。有兩種格式化 `.prisma` 檔案的方法：
 
-- Run the [`prisma format`](/orm/reference/prisma-cli-reference#format) <span class="api"></span> command.
-- Install the [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) and invoke the [VS Code format action](https://code.visualstudio.com/docs/editor/codebasics#_formatting) - manually or on save.
+- 執行 [`prisma format`](/orm/reference/prisma-cli-reference#format) <span class="api"></span> 命令。
+- 安裝 [Prisma VS Code 擴充套件](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma)並呼叫 [VS Code 格式化操作](https://code.visualstudio.com/docs/editor/codebasics#_formatting) - 手動或在儲存時。
 
-There are no configuration options - [formatting rules](#formatting-rules) are fixed (similar to Golang's `gofmt` but unlike Javascript's `prettier`):
+沒有配置選項 - [格式化規則](#formatting-rules)是固定的（類似於 Golang 的 `gofmt`，但不像 Javascript 的 `prettier`）：
 
-### Formatting rules
+### 格式化規則
 
 #### Configuration blocks are aligned by their `=` sign
 
@@ -206,7 +206,7 @@ block _ {
 }
 ```
 
-#### Field definitions are aligned into columns separated by 2 or more spaces
+#### 欄位定義對齊成由 2 個或更多空格分隔的欄
 
 ```
 block _ {
@@ -215,7 +215,7 @@ block _ {
 }
 ```
 
-#### Empty lines resets block alignment and formatting rules
+#### 空白行重設區塊對齊和格式化規則
 
 ```
 block _ {
@@ -237,7 +237,7 @@ block _ {
 }
 ```
 
-#### Multiline field attributes are properly aligned with the rest of the field attributes
+#### 多行欄位屬性與其餘欄位屬性正確對齊
 
 ```
 block _ {
@@ -247,7 +247,7 @@ block _ {
 }
 ```
 
-#### Block attributes are sorted to the end of the block
+#### 區塊屬性排序到區塊的末尾
 
 ```
 block _ {

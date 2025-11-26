@@ -1,10 +1,10 @@
 ---
 title: "Generators"
 metaTitle: "Generators (Reference)"
-metaDescription: "Generators in your Prisma schema specify what assets are generated when the `prisma generate` command is invoked. This page explains how to configure generators."
+metaDescription: "Prisma schema 中的產生器（Generators）指定了在呼叫 `prisma generate` 命令時會產生哪些資源。本頁說明如何配置產生器。"
 ---
 
-A Prisma schema can have one or more generators, represented by the [`generator`](/orm/reference/prisma-schema-reference#generator) block:
+一個 Prisma schema 可以有一個或多個產生器，由 [`generator`](/orm/reference/prisma-schema-reference#generator) 區塊表示：
 
 ```prisma
 generator client {
@@ -13,37 +13,37 @@ generator client {
 }
 ```
 
-A generator determines which assets are created when you run the `prisma generate` command.
+產生器決定了當您執行 `prisma generate` 命令時會建立哪些資源。
 
-The default generator for Prisma Client is `prisma-client`, which outputs plain TypeScript code and _requires_ a custom `output` path (read more about it [here](https://www.prisma.io/blog/why-prisma-orm-generates-code-into-node-modules-and-why-it-ll-change)).
+Prisma Client 的預設產生器是 `prisma-client`，它輸出純 TypeScript 程式碼並_需要_一個自訂的 `output` 路徑（在[此處](https://www.prisma.io/blog/why-prisma-orm-generates-code-into-node-modules-and-why-it-ll-change)閱讀更多相關資訊）。
 
-Alternatively, you can configure any npm package that complies with our generator specification.
+或者，您可以配置任何符合我們產生器規格的 npm 套件。
 
 ## `prisma-client`
 
-The new `prisma-client` generator offers greater control and flexibility when using Prisma ORM across different JavaScript environments (such as ESM, Bun, Deno, ...).
+新的 `prisma-client` 產生器在不同的 JavaScript 環境（如 ESM、Bun、Deno 等）中使用 Prisma ORM 時提供了更大的控制和靈活性。
 
-It generates Prisma Client into a custom directory in your application's codebase that's specified via the `output` field on the `generator` block. This gives you full visibility and control over the generated code. It also [splits](#importing-types) the generated Prisma Client library into multiple files.
+它將 Prisma Client 產生到您應用程式程式碼庫中的自訂目錄，該目錄透過 `generator` 區塊上的 `output` 欄位指定。這讓您對產生的程式碼擁有完全的可見性和控制權。它還將產生的 Prisma Client 函式庫[分割](#importing-types)成多個檔案。
 
-This generator ensures you can bundle your application code exactly the way you want, without relying on hidden or automatic behaviors.
+這個產生器確保您可以完全按照您想要的方式打包應用程式程式碼，而無需依賴隱藏或自動的行為。
 
-Here are the main differences compared to `prisma-client-js`:
+與 `prisma-client-js` 相比，主要差異如下：
 
-- Requires an `output` path; no "magic" generation into `node_modules` any more
-- Doesn't load `.env` at runtime; use `dotenv` or set environment variables manually instead
-- Supports ESM and CommonJS via the `moduleFormat` field
-- More flexible thanks to additional [fields](#field-reference)
-- Outputs plain TypeScript that's bundled just like the rest of your application code
+- 需要一個 `output` 路徑；不再「魔法般地」產生到 `node_modules` 中
+- 不會在執行時載入 `.env`；請改用 `dotenv` 或手動設定環境變數
+- 透過 `moduleFormat` 欄位支援 ESM 和 CommonJS
+- 由於新增了[欄位](#field-reference)而更加靈活
+- 輸出純 TypeScript，與您應用程式程式碼的其餘部分一樣進行打包
 
-The `prisma-client` generator has been Generally Available since [v6.16.0](https://pris.ly/releases/6.16.0) and is the default generator as of Prisma ORM v7.
+`prisma-client` 產生器自 [v6.16.0](https://pris.ly/releases/6.16.0) 起已正式發布（GA），並且自 Prisma ORM v7 起成為預設產生器。
 
-### Getting started
+### 開始使用
 
-Follow these steps to use the new `prisma-client` generator in your project.
+按照以下步驟在您的專案中使用新的 `prisma-client` 產生器。
 
-#### 1. Configure the `prisma-client` generator in `schema.prisma`
+#### 1. 在 `schema.prisma` 中配置 `prisma-client` 產生器
 
-Update your [`generator`](/orm/prisma-schema/overview/generators) block:
+更新您的 [`generator`](/orm/prisma-schema/overview/generators) 區塊：
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -54,7 +54,7 @@ generator client {
 }
 ```
 
-The **`output` option is required** and tells Prisma ORM where to put the generated Prisma Client code. You can choose any location suitable for your project structure. For instance, if you have the following layout:
+**`output` 選項是必需的**，它告訴 Prisma ORM 將產生的 Prisma Client 程式碼放在哪裡。您可以選擇適合您專案結構的任何位置。例如，如果您有以下佈局：
 
 ```txt
 .
@@ -66,21 +66,21 @@ The **`output` option is required** and tells Prisma ORM where to put the genera
 └── tsconfig.json
 ```
 
-Then `../src/generated/prisma` places the generated code in `src/generated/prisma` relative to `schema.prisma`.
+那麼 `../src/generated/prisma` 會將產生的程式碼放在相對於 `schema.prisma` 的 `src/generated/prisma` 中。
 
-#### 2. Generate Prisma Client
+#### 2. 產生 Prisma Client
 
-Generate Prisma Client by running:
+執行以下命令來產生 Prisma Client：
 
 ```terminal
 npx prisma generate
 ```
 
-This generates the code for Prisma Client (including the query engine binary) into the specified `output` folder.
+這會將 Prisma Client 的程式碼（包括查詢引擎二進位檔）產生到指定的 `output` 資料夾中。
 
-#### 3. Exclude the generated directory from version control
+#### 3. 從版本控制中排除產生的目錄
 
-The new generator includes both the TypeScript client code _and_ the [query engine](/orm/more/under-the-hood/engines#the-query-engine-file). Including the query engine in version control can cause compatibility issues on different machines. To avoid this, add the generated directory to `.gitignore`:
+新的產生器包含了 TypeScript 客戶端程式碼_和_[查詢引擎](/orm/more/under-the-hood/engines#the-query-engine-file)。將查詢引擎包含在版本控制中可能會在不同機器上導致相容性問題。為避免這種情況，請將產生的目錄加入到 `.gitignore`：
 
 ```bash file=.gitignore
 # Keep the generated Prisma Client + query engine out of version control
@@ -89,15 +89,15 @@ The new generator includes both the TypeScript client code _and_ the [query engi
 
 :::note
 
-In the future, you can safely include the generated directory in version control when [Prisma ORM is fully transitioned from Rust to TypeScript](https://www.prisma.io/blog/rust-to-typescript-update-boosting-prisma-orm-performance?utm_source=docs&utm_medium=inline_text).
+未來，當 [Prisma ORM 完全從 Rust 過渡到 TypeScript](https://www.prisma.io/blog/rust-to-typescript-update-boosting-prisma-orm-performance?utm_source=docs&utm_medium=inline_text) 時，您就可以安全地將產生的目錄包含在版本控制中。
 
 :::
 
-#### 4. Use Prisma Client in your application
+#### 4. 在您的應用程式中使用 Prisma Client
 
-#### Importing Prisma Client
+#### 匯入 Prisma Client
 
-After generating the Prisma Client, import it from the path you specified:
+產生 Prisma Client 後，從您指定的路徑匯入它：
 
 ```ts file=src/index.ts
 import { PrismaClient } from "./generated/prisma/client";

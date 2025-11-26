@@ -1,32 +1,32 @@
 ---
-title: 'Views'
-metaTitle: 'How to include views in your Prisma schema'
-metaDescription: 'How to include views in your Prisma schema'
+title: '視圖'
+metaTitle: '如何在 Prisma schema 中包含視圖'
+metaDescription: '如何在 Prisma schema 中包含視圖'
 hidePage: false
 sidebar_class_name: preview-badge
 tocDepth: 3
 ---
 
 
-Database views allow you to name and store queries. In relational databases, views are [stored SQL queries](https://www.postgresql.org/docs/current/sql-createview.html) that might include columns in multiple tables, or calculated values such as aggregates. In MongoDB, views are queryable objects where the contents are defined by an [aggregation pipeline](https://www.mongodb.com/docs/manual/core/aggregation-pipeline) on other collections.
+資料庫視圖允許您命名和儲存查詢。在關聯式資料庫中,視圖是[儲存的 SQL 查詢](https://www.postgresql.org/docs/current/sql-createview.html),可能包含多個表格中的欄位,或計算值如聚合。在 MongoDB 中,視圖是可查詢的物件,其內容由其他集合上的[聚合管道](https://www.mongodb.com/docs/manual/core/aggregation-pipeline)定義。
 
-The `views` preview feature allows you to represent views in your Prisma schema with the `view` keyword. To use views in Prisma ORM, follow these steps:
+`views` 預覽功能允許您使用 `view` 關鍵字在 Prisma schema 中表示視圖。要在 Prisma ORM 中使用視圖,請遵循以下步驟:
 
-1. [Enable the `views` preview feature](#enable-the-views-preview-feature)
-1. [Create a view in the underlying database](#create-a-view-in-the-underlying-database), either directly or as a [manual addition to a Prisma Migrate migration file](#use-views-with-prisma-migrate-and-db-push), or use an existing view
-1. [Represent the view in your Prisma schema](#add-views-to-your-prisma-schema)
-1. [Query the view in Prisma Client](#query-views-in-prisma-client)
+1. [啟用 `views` 預覽功能](#enable-the-views-preview-feature)
+1. [在底層資料庫中建立視圖](#create-a-view-in-the-underlying-database),直接建立或作為 [Prisma Migrate 遷移檔案的手動新增](#use-views-with-prisma-migrate-and-db-push),或使用現有視圖
+1. [在 Prisma schema 中表示視圖](#add-views-to-your-prisma-schema)
+1. [在 Prisma Client 中查詢視圖](#query-views-in-prisma-client)
 
 
 :::warning
 
-Support for views is currently a [Preview](/orm/more/releases#preview) feature. You can add a view to your Prisma schema with the `view` keyword or introspect the views in your database schema with `db pull`. You cannot yet apply views in your schema to your database with Prisma Migrate and `db push` unless the changes are added manually to your migration file using the `--create-only` flag. <br /><br />For updates on progress with this feature, follow [our GitHub issue](https://github.com/prisma/prisma/issues/17335).
+視圖支援目前是[預覽](/orm/more/releases#preview)功能。您可以使用 `view` 關鍵字將視圖新增到 Prisma schema 中,或使用 `db pull` 自省資料庫 schema 中的視圖。除非使用 `--create-only` 標誌將變更手動新增到遷移檔案中,否則您還無法使用 Prisma Migrate 和 `db push` 將 schema 中的視圖應用到資料庫。<br /><br />有關此功能的進度更新,請關注[我們的 GitHub 問題](https://github.com/prisma/prisma/issues/17335)。
 
 :::
 
-## Enable the `views` preview feature
+## 啟用 `views` 預覽功能
 
-Support for views is currently in an early preview. To enable the `views` preview feature, add the `views` feature flag to the `previewFeatures` field of the `generator` block in your Prisma Schema:
+視圖支援目前處於早期預覽階段。要啟用 `views` 預覽功能,請將 `views` 功能標誌新增到 Prisma Schema 中 `generator` 區塊的 `previewFeatures` 欄位中:
 
 ```prisma file=schema.prisma highlight=3;add showLineNumbers
 generator client {
@@ -37,13 +37,13 @@ generator client {
 }
 ```
 
-Please leave feedback about this preview feature in our dedicated preview feature [feedback issue](https://github.com/prisma/prisma/issues/17335) for `views`.
+請在我們專門的預覽功能[回饋問題](https://github.com/prisma/prisma/issues/17335)中留下關於 `views` 的回饋。
 
-## Create a view in the underlying database
+## 在底層資料庫中建立視圖
 
-Currently, you cannot apply views that you define in your Prisma schema to your database with Prisma Migrate or `db push`. Instead, you must first create the view in the underlying database, either manually or [as part of a migration](#use-views-with-prisma-migrate-and-db-push).
+目前,您無法使用 Prisma Migrate 或 `db push` 將在 Prisma schema 中定義的視圖應用到資料庫。相反,您必須首先在底層資料庫中建立視圖,手動建立或[作為遷移的一部分](#use-views-with-prisma-migrate-and-db-push)。
 
-For example, take the following Prisma schema with a `User` model and a related `Profile` model:
+例如,以下 Prisma schema 包含一個 `User` 模型和一個相關的 `Profile` 模型:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -86,9 +86,9 @@ model Profile {
 </TabItem>
 </TabbedContent>
 
-Next, take a `UserInfo` view in the underlying database that combines the `email` and `name` fields from the `User` model and the `bio` field from the `Profile` model.
+接下來,在底層資料庫中使用一個 `UserInfo` 視圖,該視圖結合了 `User` 模型的 `email` 和 `name` 欄位以及 `Profile` 模型的 `bio` 欄位。
 
-For a relational database, the SQL statement to create this view is:
+對於關聯式資料庫,建立此視圖的 SQL 語句是:
 
 ```sql
 CREATE VIEW "UserInfo" AS
@@ -97,7 +97,7 @@ CREATE VIEW "UserInfo" AS
     LEFT JOIN "Profile" p ON u.id = p."userId";
 ```
 
-For MongoDB, you can [create a view](https://www.mongodb.com/docs/manual/core/views/join-collections-with-view/) with the following command:
+對於 MongoDB,您可以使用以下命令[建立視圖](https://www.mongodb.com/docs/manual/core/views/join-collections-with-view/):
 
 ```ts
 db.createView('UserInfo', 'User', [
@@ -121,17 +121,17 @@ db.createView('UserInfo', 'User', [
 ])
 ```
 
-## Use views with Prisma Migrate and `db push`
+## 使用 Prisma Migrate 和 `db push` 的視圖
 
-If you apply changes to your Prisma schema with Prisma Migrate or `db push`, Prisma ORM does not create or run any SQL related to views.
+如果您使用 Prisma Migrate 或 `db push` 將變更應用到 Prisma schema,Prisma ORM 不會建立或執行任何與視圖相關的 SQL。
 
-To include views in a migration, run `migrate dev --create-only` and then manually add the SQL for views to your migration file. Alternatively, you can create views manually in the database.
+要在遷移中包含視圖,執行 `migrate dev --create-only`,然後手動將視圖的 SQL 新增到您的遷移檔案中。或者,您可以在資料庫中手動建立視圖。
 
-## Add views to your Prisma schema
+## 將視圖新增到 Prisma schema
 
-To add a view to your Prisma schema, use the `view` keyword.
+要將視圖新增到 Prisma schema,請使用 `view` 關鍵字。
 
-You can represent the `UserInfo` view from the example above in your Prisma schema as follows:
+您可以在 Prisma schema 中表示上述範例中的 `UserInfo` 視圖,如下所示:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -160,18 +160,18 @@ view UserInfo {
 </TabItem>
 </TabbedContent>
 
-### Write by hand
+### 手動撰寫
 
-A `view` block is comprised of two main pieces:
+`view` 區塊由兩個主要部分組成:
 
-- The `view` block definition
-- The view's field definitions
+- `view` 區塊定義
+- 視圖的欄位定義
 
-These two pieces allow you to define the name of your view in the generated Prisma Client and the columns present in your view's query results.
+這兩個部分允許您定義生成的 Prisma Client 中視圖的名稱以及視圖查詢結果中存在的欄位。
 
-#### Define a `view` block
+#### 定義 `view` 區塊
 
-To define the `UserInfo` view from the example above, begin by using the `view` keyword to define a `view` block in your schema named `UserInfo`:
+要定義上述範例中的 `UserInfo` 視圖,首先使用 `view` 關鍵字在 schema 中定義一個名為 `UserInfo` 的 `view` 區塊:
 
 ```prisma
 view UserInfo {
@@ -179,14 +179,14 @@ view UserInfo {
 }
 ```
 
-#### Define fields
+#### 定義欄位
 
-The properties of a view are called _fields_, which consist of:
+視圖的屬性稱為_欄位_,其由以下組成:
 
-- A field name
-- A field type
+- 欄位名稱
+- 欄位類型
 
-The fields of the `UserInfo` example view can be defined as follows:
+`UserInfo` 範例視圖的欄位可以定義如下:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -219,24 +219,24 @@ view UserInfo {
 </TabItem>
 </TabbedContent>
 
-Each _field_ of a `view` block represents a column in the query results of the view in the underlying database.
+`view` 區塊的每個_欄位_代表底層資料庫中視圖查詢結果的一個欄位。
 
-### Use introspection
+### 使用自省
 
 :::warning
-Currently views can only be introspected with PostgreSQL, MySQL, SQL Server and CockroachDB databases. If you are using another database provider, your views must be added manually.
+目前只能使用 PostgreSQL、MySQL、SQL Server 和 CockroachDB 資料庫自省視圖。如果您使用其他資料庫提供者,則必須手動新增視圖。
 :::
 
 
-If you have an existing view or views defined in your database, [introspection](/orm/prisma-schema/introspection) will automatically generate `view` blocks in your Prisma schema that represent those views.
+如果您在資料庫中定義了現有的一個或多個視圖,[自省](/orm/prisma-schema/introspection)將自動在 Prisma schema 中生成代表這些視圖的 `view` 區塊。
 
-Assuming the example `UserInfo` view exists in your underlying database, running the following command will generate a `view` block in your Prisma schema representing that view:
+假設範例 `UserInfo` 視圖存在於您的底層資料庫中,執行以下命令將在 Prisma schema 中生成代表該視圖的 `view` 區塊:
 
 ```terminal copy
 npx prisma db pull
 ```
 
-The resulting `view` block will be defined as follows:
+產生的 `view` 區塊將定義如下:
 
 ```prisma
 view UserInfo {
@@ -248,14 +248,14 @@ view UserInfo {
 ```
 
 :::warning
-Please note for now `db pull` will only introspect views in your schema when using PostgreSQL, MySQL, SQL Server or CockroachDB. Support for this workflow will be extended to other database providers.
+請注意,目前 `db pull` 只會在使用 PostgreSQL、MySQL、SQL Server 或 CockroachDB 時自省 schema 中的視圖。此工作流程的支援將擴展到其他資料庫提供者。
 :::
 
-#### The `views` directory
+#### `views` 目錄
 
-Introspection of a database with one or more existing views will also create a new `views` directory within your `prisma` directory (starting with Prisma version 4.12.0). This directory will contain a subdirectory named after your database's schema which contains a `.sql` file for each view that was introspected in that schema. Each file will be named after an individual view and will contain the query the related view defines.
+自省包含一個或多個現有視圖的資料庫還會在您的 `prisma` 目錄中建立一個新的 `views` 目錄(從 Prisma 版本 4.12.0 開始)。此目錄將包含一個以資料庫 schema 命名的子目錄,該子目錄包含為該 schema 中自省的每個視圖建立的 `.sql` 檔案。每個檔案將以單個視圖命名,並將包含相關視圖定義的查詢。
 
-For example, after introspecting a database with the default `public` schema using the model used above you will find a `prisma/views/public/UserInfo.sql` file was created with the following contents:
+例如,在使用上述模型自省具有預設 `public` schema 的資料庫後,您會發現建立了一個 `prisma/views/public/UserInfo.sql` 檔案,其內容如下:
 
 ```sql
 SELECT
@@ -270,15 +270,15 @@ FROM
   );
 ```
 
-## Query views in Prisma Client
+## 在 Prisma Client 中查詢視圖
 
 :::note
 
-Be sure to run `prisma generate` after updating your Prisma schema so that the `view` definitions become part of your Prisma Client API.
+請確保在更新 Prisma schema 後執行 `prisma generate`,以便 `view` 定義成為 Prisma Client API 的一部分。
 
 :::
 
-You can query views in Prisma Client in the same way that you query models. For example, the following query finds all users with a `name` of `'Alice'` in the `UserInfo` view defined above.
+您可以在 Prisma Client 中以與查詢模型相同的方式查詢視圖。例如,以下查詢在上面定義的 `UserInfo` 視圖中查找所有 `name` 為 `'Alice'` 的使用者。
 
 ```ts
 const userinfo = await prisma.userInfo.findMany({
@@ -290,53 +290,53 @@ const userinfo = await prisma.userInfo.findMany({
 
 :::note
 
-Write-queries (create/update/delete) are not supported on `views`.
+寫入查詢(create/update/delete)不支援在 `views` 上。
 
 :::
 
 
-## Special types of views
+## 特殊類型的視圖
 
-This section describes how to use Prisma ORM with updatable and materialized views in your database.
+本節描述如何在資料庫中使用 Prisma ORM 與可更新視圖和物化視圖。
 
-### Updatable views
+### 可更新視圖
 
-Some databases support _updatable views_ (e.g. [PostgreSQL](https://www.postgresql.org/docs/current/sql-createview.html#SQL-CREATEVIEW-UPDATABLE-VIEWS), [MySQL](https://dev.mysql.com/doc/refman/8.0/en/view-updatability.html), and [SQL Server](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-view-transact-sql?view=sql-server-ver16#updatable-views)). Updatable views allow creating, updating, or deleting entries if the underlying database supports such operations.
+某些資料庫支援_可更新視圖_(例如 [PostgreSQL](https://www.postgresql.org/docs/current/sql-createview.html#SQL-CREATEVIEW-UPDATABLE-VIEWS)、[MySQL](https://dev.mysql.com/doc/refman/8.0/en/view-updatability.html) 和 [SQL Server](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-view-transact-sql?view=sql-server-ver16#updatable-views))。如果底層資料庫支援此類操作,可更新視圖允許建立、更新或刪除條目。
 
-Prisma ORM does not allow any mutations (create, update, delete) on views, regardless of the database's capabilities. This change provides guardrails to ensure that views are treated consistently as read-only entities within Prisma Client. As a result, methods to perform writes such as `create`, `update`, `delete`, or `upsert` are not generated for `view` blocks in your Prisma Client API.
+Prisma ORM 不允許在視圖上進行任何變更(create、update、delete),無論資料庫的能力如何。此變更提供護欄,確保視圖在 Prisma Client 中被一致地視為唯讀實體。因此,在 Prisma Client API 中不會為 `view` 區塊生成執行寫入的方法,如 `create`、`update`、`delete` 或 `upsert`。
 
-If you need to modify data represented by a view, you must perform the write operations directly on the underlying tables or use raw SQL queries.
+如果您需要修改視圖表示的資料,您必須直接在底層表格上執行寫入操作或使用原始 SQL 查詢。
 
-### Materialized views
+### 物化視圖
 
-Some databases support materialized views, e.g. [PostgreSQL](https://www.postgresql.org/docs/current/rules-materializedviews.html), [CockroachDB](https://www.cockroachlabs.com/docs/stable/views.html#materialized-views), [MongoDB](https://www.mongodb.com/docs/manual/core/materialized-views/), and [SQL Server](https://learn.microsoft.com/en-us/sql/relational-databases/views/create-indexed-views?view=sql-server-ver16) (where they're called "indexed views").
+某些資料庫支援物化視圖,例如 [PostgreSQL](https://www.postgresql.org/docs/current/rules-materializedviews.html)、[CockroachDB](https://www.cockroachlabs.com/docs/stable/views.html#materialized-views)、[MongoDB](https://www.mongodb.com/docs/manual/core/materialized-views/) 和 [SQL Server](https://learn.microsoft.com/en-us/sql/relational-databases/views/create-indexed-views?view=sql-server-ver16)(在其中稱為「索引視圖」)。
 
-Materialized views persist the result of the view query for faster access and only update it on demand.
+物化視圖將視圖查詢的結果保存以便更快地存取,並且只在需要時更新它。
 
-Currently, Prisma ORM does not support materialized views. However, when you [manually create a view](#create-a-view-in-the-underlying-database), you can also create a materialized view with the corresponding command in the underlying database. You can then use Prisma Client's [TypedSQL functionality](/orm/prisma-client/using-raw-sql) to execute the command and refresh the view manually.
+目前,Prisma ORM 不支援物化視圖。但是,當您[手動建立視圖](#create-a-view-in-the-underlying-database)時,您也可以使用底層資料庫中的相應命令建立物化視圖。然後,您可以使用 Prisma Client 的 [TypedSQL 功能](/orm/prisma-client/using-raw-sql)來執行命令並手動刷新視圖。
 
-In the future Prisma Client might support marking individual views as materialized and add a Prisma Client method to refresh the materialized view. Please comment on our [`views` feedback issue](https://github.com/prisma/prisma/issues/17335) with your use case.
+未來 Prisma Client 可能會支援將單個視圖標記為物化,並新增 Prisma Client 方法來刷新物化視圖。請在我們的 [`views` 回饋問題](https://github.com/prisma/prisma/issues/17335)上評論您的使用案例。
 
-## Limitations
+## 限制
 
-Prisma ORM treats all `view` blocks as _read-only_ representations of database queries rather than true tables. Because of this, several limitations apply to ensure Prisma Client remains consistent with the behavior of the underlying database.
+Prisma ORM 將所有 `view` 區塊視為_唯讀_資料庫查詢的表示,而不是真正的表格。因此,為了確保 Prisma Client 與底層資料庫的行為保持一致,適用一些限制。
 
-### No identifiers
+### 沒有識別碼
 
-Views are virtual tables and do not have inherent primary keys. Hence, you cannot define `@id`, `@@id` attributes on a `view` block.
+視圖是虛擬表格,沒有內在的主鍵。因此,您無法在 `view` 區塊上定義 `@id`、`@@id` 屬性。
 
-### No indexes
+### 沒有索引
 
-Because views are virtual tables, they cannot have indexes. Therefore, `@index` and `@@index` cannot be defined on `view` blocks.
+因為視圖是虛擬表格,所以它們不能有索引。因此,`@index` 和 `@@index` 無法在 `view` 區塊上定義。
 
-### Unsafe `@unique` attributes
+### 不安全的 `@unique` 屬性
 
-While Prisma ORM lets you place `@unique` and `@@unique` attributes on views, the underlying database and Prisma do not enforce those constraints. Multiple rows can therefore share the same value for a supposedly unique field.
+雖然 Prisma ORM 允許您在視圖上放置 `@unique` 和 `@@unique` 屬性,但底層資料庫和 Prisma 不會強制執行這些約束。因此,多行可能會共享同一個應該是唯一欄位的值。
 
-Neither the database nor Prisma ORM enforce the unique constraint expressed by that attribute. 
+資料庫和 Prisma ORM 都不會強制執行該屬性表達的唯一約束。
 
-The purpose of the `@unique` attribute in this case is only to enable relationships across views as well as `findUnique` queries and cursor-based pagination in Prisma Client.
+在這種情況下,`@unique` 屬性的目的只是為了在 Prisma Client 中啟用跨視圖的關係以及 `findUnique` 查詢和基於游標的分頁。
 
-### Disabled write queries
+### 停用寫入查詢
 
-All write operations (`create`, `update`, `delete`, `upsert`) are disabled and not generated in the Prisma Client.
+所有寫入操作(`create`、`update`、`delete`、`upsert`)都被停用,並且不會在 Prisma Client 中生成。

@@ -1,32 +1,32 @@
 ---
-title: One-to-one relations
-metaDescription: How to define and work with one-to-one relations in Prisma.
+title: 一對一關聯
+metaDescription: 如何在 Prisma 中定義和使用一對一關聯。
 tocDepth: 3
 ---
 
-:::info Quick summary
-Learn how to define and use one-to-one (1-1) relations in your Prisma schema, including modeling choices and key concepts.
+:::info 快速摘要
+學習如何在您的 Prisma schema 中定義和使用一對一 (1-1) 關聯,包括建模選擇和關鍵概念。
 :::
 
 
 <TopBlock>
 
-This page introduces one-to-one relations and explains how to use them in your Prisma schema.
+本頁介紹一對一關聯並說明如何在您的 Prisma schema 中使用它們。
 
 </TopBlock>
 
 <details>
-<summary>Questions answered in this page</summary>
+<summary>本頁回答的問題</summary>
 
-- How do I model one-to-one relations?
-- Which side should store the foreign key?
-- How do optional vs required 1-1 work?
+- 如何建模一對一關聯?
+- 哪一側應該儲存外鍵?
+- 可選與必需的 1-1 關聯如何運作?
 
 </details>
 
-## Overview
+## 概述
 
-One-to-one (1-1) relations refer to relations where at most **one** record can be connected on both sides of the relation. In the example below, there is a one-to-one relation between `User` and `Profile`:
+一對一 (1-1) 關聯是指在關聯的兩側最多只能連接**一筆**記錄的關聯。在下面的範例中,`User` 和 `Profile` 之間存在一對一關聯:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -63,12 +63,12 @@ model Profile {
 </TabItem>
 </TabbedContent>
 
-The `userId` relation scalar is a direct representation of the foreign key in the underlying database. This one-to-one relation expresses the following:
+`userId` 關聯純量是底層資料庫中外鍵的直接表示。這個一對一關聯表達以下內容:
 
-- "a user can have zero profiles or one profile" (because the `profile` field is [optional](/orm/prisma-schema/data-model/models#type-modifiers) on `User`)
-- "a profile must always be connected to one user"
+- 「一個使用者可以有零個或一個個人資料」(因為 `User` 上的 `profile` 欄位是[可選的](/orm/prisma-schema/data-model/models#type-modifiers))
+- 「一個個人資料必須始終連接到一個使用者」
 
-In the previous example, the `user` relation field of the `Profile` model references the `id` field of the `User` model. You can also reference a different field. In this case, you need to mark the field with the `@unique` attribute, to guarantee that there is only a single `User` connected to each `Profile`. In the following example, the `user` field references an `email` field in the `User` model, which is marked with the `@unique` attribute:
+在前面的範例中,`Profile` 模型的 `user` 關聯欄位引用 `User` 模型的 `id` 欄位。您也可以引用不同的欄位。在這種情況下,您需要用 `@unique` 屬性標記該欄位,以保證每個 `Profile` 只連接到單一的 `User`。在以下範例中,`user` 欄位引用 `User` 模型中的 `email` 欄位,該欄位用 `@unique` 屬性標記:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -109,13 +109,13 @@ model Profile {
 
 :::warning
 
-In MySQL, you can create a foreign key with only an index on the referenced side, and not a unique constraint. In Prisma ORM versions 4.0.0 and later, if you introspect a relation of this type it will trigger a validation error. To fix this, you will need to add a `@unique` constraint to the referenced field.
+在 MySQL 中,您可以只在引用側建立帶有索引的外鍵,而不需要唯一約束。在 Prisma ORM 4.0.0 及更高版本中,如果您內省此類型的關聯,將會觸發驗證錯誤。要修復此問題,您需要在引用的欄位上加入 `@unique` 約束。
 
 :::
 
-## Multi-field relations in relational databases
+## 關聯式資料庫中的多欄位關聯
 
-In **relational databases only**, you can also use [multi-field IDs](/orm/reference/prisma-schema-reference#id-1) to define a 1-1 relation:
+**僅在關聯式資料庫中**,您也可以使用[多欄位 ID](/orm/reference/prisma-schema-reference#id-1) 來定義 1-1 關聯:
 
 ```prisma
 model User {
@@ -136,11 +136,11 @@ model Profile {
 }
 ```
 
-## 1-1 relations in the database
+## 資料庫中的 1-1 關聯
 
-### Relational databases
+### 關聯式資料庫
 
-The following example demonstrates how to create a 1-1 relation in SQL:
+以下範例示範如何在 SQL 中建立 1-1 關聯:
 
 ```sql
 CREATE TABLE "User" (
@@ -153,9 +153,9 @@ CREATE TABLE "Profile" (
 );
 ```
 
-Notice that there is a `UNIQUE` constraint on the foreign key `userId`. If this `UNIQUE` constraint was missing, the relation would be considered a [1-n relation](/orm/prisma-schema/data-model/relations/one-to-many-relations).
+請注意,外鍵 `userId` 上有一個 `UNIQUE` 約束。如果缺少此 `UNIQUE` 約束,該關聯將被視為 [1-n 關聯](/orm/prisma-schema/data-model/relations/one-to-many-relations)。
 
-The following example demonstrates how to create a 1-1 relation in SQL using a composite key (`firstName` and `lastName`):
+以下範例示範如何使用複合鍵(`firstName` 和 `lastName`)在 SQL 中建立 1-1 關聯:
 
 ```sql
 CREATE TABLE "User" (
@@ -174,15 +174,15 @@ CREATE TABLE "Profile" (
 
 ### MongoDB
 
-For MongoDB, Prisma ORM currently uses a [normalized data model design](https://www.mongodb.com/docs/manual/data-modeling/), which means that documents reference each other by ID in a similar way to relational databases.
+對於 MongoDB,Prisma ORM 目前使用[正規化資料模型設計](https://www.mongodb.com/docs/manual/data-modeling/),這意味著文件以類似於關聯式資料庫的方式透過 ID 相互引用。
 
-The following MongoDB document represents a `User`:
+以下 MongoDB 文件代表一個 `User`:
 
 ```json
 { "_id": { "$oid": "60d58e130011041800d209e1" }, "name": "Bob" }
 ```
 
-The following MongoDB document represents a `Profile` - notice the `userId` field, which references the `User` document's `$oid`:
+以下 MongoDB 文件代表一個 `Profile` - 注意 `userId` 欄位,它引用 `User` 文件的 `$oid`:
 
 ```json
 {
@@ -192,25 +192,25 @@ The following MongoDB document represents a `Profile` - notice the `userId` fiel
 }
 ```
 
-## Required and optional 1-1 relation fields
+## 必需和可選的 1-1 關聯欄位
 
-In a one-to-one relation, the side of the relation _without_ a relation scalar (the field representing the foreign key in the database) _must_ be optional:
+在一對一關聯中,_沒有_關聯純量(代表資料庫中外鍵的欄位)的關聯一側_必須_是可選的:
 
 ```prisma highlight=3;normal
 model User {
   id      Int      @id @default(autoincrement())
   //highlight-next-line
-  profile Profile? // No relation scalar - must be optional
+  profile Profile? // 沒有關聯純量 - 必須是可選的
 }
 ```
 
-This restriction was introduced in 2.12.0.
+此限制是在 2.12.0 中引入的。
 
-However, you can choose if the side of the relation _with_ a relation scalar should be optional or mandatory.
+但是,您可以選擇_具有_關聯純量的關聯一側應該是可選的還是必需的。
 
-### Mandatory 1-1 relation
+### 必需的 1-1 關聯
 
-In the following example, `profile` and `profileId` are mandatory. This means that you cannot create a `User` without connecting or creating a `Profile`:
+在以下範例中,`profile` 和 `profileId` 是必需的。這意味著您無法在不連接或建立 `Profile` 的情況下建立 `User`:
 
 ```prisma
 model User {
@@ -225,9 +225,9 @@ model Profile {
 }
 ```
 
-### Optional 1-1 relation
+### 可選的 1-1 關聯
 
-In the following example, `profile` and `profileId` are optional. This means that you can create a user without connecting or creating a `Profile`:
+在以下範例中,`profile` 和 `profileId` 是可選的。這意味著您可以在不連接或建立 `Profile` 的情況下建立使用者:
 
 ```prisma
 model User {
@@ -242,11 +242,11 @@ model Profile {
 }
 ```
 
-## Choosing which side should store the foreign key in a 1-1 relation
+## 選擇在 1-1 關聯中哪一側應該儲存外鍵
 
-In **1-1 relations**, you can decide yourself which side of the relation you want to annotate with the `@relation` attribute (and therefore holds the foreign key).
+在 **1-1 關聯**中,您可以自己決定要用 `@relation` 屬性標註關聯的哪一側(因此持有外鍵)。
 
-In the following example, the relation field on the `Profile` model is annotated with the `@relation` attribute. `userId` is a direct representation of the foreign key in the underlying database:
+在以下範例中,`Profile` 模型上的關聯欄位用 `@relation` 屬性標註。`userId` 是底層資料庫中外鍵的直接表示:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -283,7 +283,7 @@ model Profile {
 </TabItem>
 </TabbedContent>
 
-You can also annotate the other side of the relation with the `@relation` attribute. The following example annotates the relation field on the `User` model. `profileId` is a direct representation of the foreign key in the underlying database:
+您也可以用 `@relation` 屬性標註關聯的另一側。以下範例標註 `User` 模型上的關聯欄位。`profileId` 是底層資料庫中外鍵的直接表示:
 
 <TabbedContent code>
 <TabItem value="Relational databases">

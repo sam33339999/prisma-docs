@@ -1,52 +1,52 @@
 ---
-title: External tables
-metaTitle: Externally managed tables
-metaDescription: How to declare and use externally managed tables in Prisma ORM
+title: 外部資料表
+metaTitle: 外部管理的資料表
+metaDescription: 如何在 Prisma ORM 中宣告和使用外部管理的資料表
 sidebar_class_name: preview-badge
 ---
 
-## Overview
+## 概述
 
 
-_Externally managed tables_ (or _external tables_ for short) in Prisma ORM are tables that can be **queried via Prisma Client** but are **ignored by Prisma Migrate**.
+Prisma ORM 中的_外部管理的資料表_（或簡稱_外部資料表_）是可以**透過 Prisma Client 查詢**但**被 Prisma Migrate 忽略**的資料表。
 
-Sometimes, you might not want Prisma ORM to manage specific tables—such as ones handled by another team or service.
+有時，您可能不希望 Prisma ORM 管理特定資料表——例如由另一個團隊或服務處理的資料表。
 
-Some concrete use cases for this are:
-- auth services like Clerk or Auth0 that manage specific tables with user and session data
-- storage services like Supabase Storage with tables for storing metadata about buckets and objects
-- a microservice-based organization where specific teams own specific tables in the database
+這方面的一些具體使用情境包括：
+- 像 Clerk 或 Auth0 這樣的認證服務，它們管理包含使用者和會話資料的特定資料表
+- 像 Supabase Storage 這樣的儲存服務，它們有用於儲存有關 bucket 和物件的中繼資料的資料表
+- 基於微服務的組織，其中特定團隊擁有資料庫中的特定資料表
 
-There may be many other scenarios based on custom organizational constraints or preferences where you may not want Prisma ORM to manage specific tables.
+基於自訂組織約束或偏好，可能有許多其他情境，您可能不希望 Prisma ORM 管理特定資料表。
 
 :::warning
-Externally managed tables are currently in [Preview](/orm/more/releases#preview).
+外部管理的資料表目前處於[預覽](/orm/more/releases#preview)階段。
 :::
 
 :::note
-Externally managed tables are frequently used in combination with [multi-schema](/orm/prisma-schema/data-model/multi-schema) database setups. However, this is not a hard requirement. You can have only a single schema in your database and also declare externally managed tables within it.
+外部管理的資料表經常與[多重 schema](/orm/prisma-schema/data-model/multi-schema) 資料庫設定結合使用。然而，這並不是硬性要求。您可以在資料庫中只有一個 schema，並在其中宣告外部管理的資料表。
 :::
 
 :::warning
-Prisma ORM will not verify that the structure of the tables in the database and the structures of the Prisma models actually match.
-On the one hand, it requires the developer to be thorough when updating the Prisma schema (the safest way to do it is by using `prisma db pull`).
-On the other hand, this flexibility enables you to represent only part of the underlying table in the database (and e.g. not expose _all_ its columns).
+Prisma ORM 不會驗證資料庫中資料表的結構與 Prisma 模型的結構是否實際匹配。
+一方面，這要求開發人員在更新 Prisma schema 時要仔細（最安全的方法是使用 `prisma db pull`）。
+另一方面，這種靈活性使您能夠僅表示資料庫中底層資料表的一部分（例如，不公開_所有_欄位）。
 :::
 
-## Workflow
+## 工作流程
 
-If you want to use external tables, here's the main workflow:
-1. Declare the name of the external tables in your [Prisma Config file](/orm/reference/prisma-config-reference)
-1. Update your Prisma schema (e.g. via `npx prisma db pull`)
-1. Re-generate Prisma Client with `npx prisma generate`
-1. You can now query the external table using Prisma Client but it will be ignored by Prisma Migrate
-1. When the table gets changed (by whoever owns it):
-    1. Re-introspect your database using `npx prisma db pull` or manually update the models in your prisma file
-    1. Re-generate Prisma Client with `npx prisma generate`
+如果您想使用外部資料表，以下是主要工作流程：
+1. 在您的 [Prisma Config 檔案](/orm/reference/prisma-config-reference)中宣告外部資料表的名稱
+1. 更新您的 Prisma schema（例如透過 `npx prisma db pull`）
+1. 使用 `npx prisma generate` 重新生成 Prisma Client
+1. 您現在可以使用 Prisma Client 查詢外部資料表，但它將被 Prisma Migrate 忽略
+1. 當資料表被更改時（由擁有它的人）：
+    1. 使用 `npx prisma db pull` 重新內省您的資料庫，或手動更新 prisma 檔案中的模型
+    1. 使用 `npx prisma generate` 重新生成 Prisma Client
 
-## Prisma Config syntax
+## Prisma Config 語法
 
-You can specify externally managed tables in your [Prisma Config](/orm/reference/prisma-config-reference) file via the `tables.external` property:
+您可以透過 `tables.external` 屬性在您的 [Prisma Config](/orm/reference/prisma-config-reference) 檔案中指定外部管理的資料表：
 
 ```ts file=prisma.config.ts
 import 'dotenv/config'
@@ -81,20 +81,20 @@ export default defineConfig({
 })
 ```
 
-- Analogous to tables, you can also have externally managed _enums_.
-- On PostgreSQL and SQL Server you have to specify the fully qualified table/enum name including the schema name. For example: `public.products` or `auth.users`.
-- On MySQL and SQLite, you only have to specify the table name.
+- 與資料表類似，您也可以有外部管理的_列舉_。
+- 在 PostgreSQL 和 SQL Server 上，您必須指定包含 schema 名稱的完全限定資料表/列舉名稱。例如：`public.products` 或 `auth.users`。
+- 在 MySQL 和 SQLite 上，您只需指定資料表名稱。
 
-## Relationships
+## 關聯
 
-Prisma can create and update relationships from tables it manages to externally managed tables.
+Prisma 可以從它管理的資料表建立和更新到外部管理資料表的關聯。
 
-However, for this Prisma needs to be aware of the structure of those externally managed tables during migration creation.
-You can provide a SQL script that Prisma will run on its [shadow database](/orm/prisma-migrate/understanding-prisma-migrate/shadow-database) ahead of all migrations to emulate the external tables and enums during migration creation.
+然而，為此，Prisma 需要在遷移建立期間知道這些外部管理資料表的結構。
+您可以提供一個 SQL 腳本，Prisma 將在所有遷移之前在其[影子資料庫](/orm/prisma-migrate/understanding-prisma-migrate/shadow-database)上執行該腳本，以在遷移建立期間模擬外部資料表和列舉。
 
-The created placeholder table does not need to have the full structure of the actual table but primary keys need to be present.
+建立的佔位符資料表不需要具有實際資料表的完整結構，但主鍵需要存在。
 
-If the external table is not referenced by any managed table—that is no managed table contains a foreign key constraint on the external table—you do NOT need to provide any SQL for it in `migrations.initShadowDb`.
+如果外部資料表未被任何受管理的資料表引用——也就是說，沒有受管理的資料表包含對外部資料表的外鍵約束——您不需要在 `migrations.initShadowDb` 中為其提供任何 SQL。
 
 
 ```ts file=prisma.config.ts
@@ -129,11 +129,11 @@ export default defineConfig({
 })
 ```
 
-Relationships from an external table to a managed table, where the external table contains the foreign key constraint on the managed table, are **NOT** managed by Prisma as that would modify the external table.
+從外部資料表到受管理資料表的關聯，其中外部資料表包含對受管理資料表的外鍵約束，**不**由 Prisma 管理，因為這將修改外部資料表。
 
-## Example
+## 範例
 
-Assume you have the following Prisma schema which only contains the `posts` table:
+假設您有以下 Prisma schema，其中僅包含 `posts` 資料表：
 
 ```prisma
 generator client {
@@ -155,10 +155,10 @@ model posts {
 }
 ```
 
-You have created that `posts` table already via a prior migration. 
-You now also have a `users` table and `role` enum in your database which you want to treat as externally managed.
+您已經透過先前的遷移建立了該 `posts` 資料表。
+您現在在資料庫中還有一個 `users` 資料表和 `role` 列舉，您希望將其視為外部管理。
 
-So the tables in your PostgreSQL database in the default `public` schema look like this:
+因此，您的 PostgreSQL 資料庫中預設 `public` schema 中的資料表如下所示：
 
 ```sql
 -- Enum used by users table
@@ -182,9 +182,9 @@ CREATE TABLE posts (
 );
 ```
 
-### 1. Declaring externally managed tables in Prisma Config
+### 1. 在 Prisma Config 中宣告外部管理的資料表
 
-Enable use of externally managed tables via the `tables.external` property:
+透過 `tables.external` 屬性啟用外部管理資料表的使用：
 
 ```ts file=prisma.config.ts
 import 'dotenv/config'
@@ -218,17 +218,17 @@ export default defineConfig({
 })
 ```
 
-### 2. Update the Prisma schema
+### 2. 更新 Prisma schema
 
-Next, you need to update your Prisma schema. You can do this either:
-- by manually creating the models 
-- or by using [introspection](/orm/prisma-schema/introspection):
+接下來，您需要更新 Prisma schema。您可以透過以下任一方式執行此操作：
+- 手動建立模型
+- 或使用[內省](/orm/prisma-schema/introspection)：
 
 ```terminal
 npx prisma db pull
 ```
 
-The `users` table is now in your Prisma schema:
+`users` 資料表現在在您的 Prisma schema 中：
 
 ```prisma
 model posts {
@@ -255,27 +255,27 @@ enum role {
 // highlight-end
 ```
 
-### 3. Re-generate Prisma Client
+### 3. 重新生成 Prisma Client
 
-In order to be able to query the `users` table, you need to re-generate Prisma Client:
+為了能夠查詢 `users` 資料表，您需要重新生成 Prisma Client：
 
 ```terminal
 npx prisma generate
 ```
 
-### 4. Query the `users` table using Prisma Client
+### 4. 使用 Prisma Client 查詢 `users` 資料表
 
-You can now query the external `users` table with Prisma Client:
+您現在可以使用 Prisma Client 查詢外部 `users` 資料表：
 
 ```ts
 await prisma.users.findMany()
 ```
 
-### 5. Add a relationship
+### 5. 添加關聯
 
-Let's say you now want to add an author relationship from `posts` onto `users`.
+假設您現在想從 `posts` 到 `users` 添加一個作者關聯。
 
-First update your Prisma schema.
+首先更新您的 Prisma schema。
 
 ```prisma
 model posts {
@@ -307,7 +307,7 @@ enum role {
 }
 ```
 
-Then add a `migrations.initShadowDb` script so Prisma knows about the `users` table during migrations.
+然後添加 `migrations.initShadowDb` 腳本，以便 Prisma 在遷移期間知道 `users` 資料表。
 
 ```ts file=prisma.config.ts
 import 'dotenv/config'
@@ -338,4 +338,4 @@ export default defineConfig({
 })
 ```
 
-Now you can run `prisma migrate dev` command.
+現在您可以執行 `prisma migrate dev` 命令。
