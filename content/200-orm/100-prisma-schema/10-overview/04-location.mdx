@@ -1,22 +1,22 @@
 ---
-title: Schema location
-metaTitle: Prisma Schema Location and Configuration
-metaDescription: Documentation regarding proper location of Prisma Schema including default naming and multiple files.
+title: Schema 位置
+metaTitle: Prisma Schema 位置和配置
+metaDescription: 關於 Prisma Schema 正確位置的文件,包括預設命名和多檔案配置。
 ---
 
-The default name for the Prisma Schema is a single file `schema.prisma` in your `prisma` folder. When your schema is named like this, the Prisma CLI will detect it automatically.
+Prisma Schema 的預設名稱是 `prisma` 資料夾中的單一檔案 `schema.prisma`。當您的 schema 如此命名時,Prisma CLI 將自動偵測它。
 
-## Prisma Schema location
+## Prisma Schema 位置
 
-The Prisma CLI looks for the Prisma Schema in the following locations, in the following order:
+Prisma CLI 按以下順序在以下位置尋找 Prisma Schema:
 
-1.  The location specified by the [`--schema` flag](/orm/reference/prisma-cli-reference), which is available when you `introspect`, `generate`, `migrate`, and `studio`:
+1.  由 [`--schema` 旗標](/orm/reference/prisma-cli-reference)指定的位置,在執行 `introspect`、`generate`、`migrate` 和 `studio` 時可用:
 
     ```terminal
     prisma generate --schema=./alternative/schema.prisma
     ```
 
-2.  The location specified in the `package.json` file (version 2.7.0 and later):
+2.  在 `package.json` 檔案中指定的位置 (2.7.0 及更高版本):
 
     ```json
     "prisma": {
@@ -24,12 +24,12 @@ The Prisma CLI looks for the Prisma Schema in the following locations, in the fo
     }
     ```
 
-3.  Default locations:
+3.  預設位置:
 
     - `./prisma/schema.prisma`
     - `./schema.prisma`
 
-The Prisma CLI outputs the path of the schema that will be used. The following example shows the terminal output for `prisma db pull`:
+Prisma CLI 會輸出將使用的 schema 路徑。以下範例顯示 `prisma db pull` 的終端機輸出:
 
 ```no-lines
 Environment variables loaded from .env
@@ -43,9 +43,9 @@ Introspecting based on datasource defined in prisma/schema.prisma …
 Run prisma generate to generate Prisma Client.
 ```
 
-## Multi-file Prisma schema
+## 多檔案 Prisma schema
 
-If you prefer splitting your Prisma schema into multiple files, you can have a setup that looks as follows:
+如果您偏好將 Prisma schema 拆分為多個檔案,可以建立如下設定:
 
 ```
 prisma/
@@ -59,18 +59,18 @@ prisma/
 
 :::note
 
-Multi-file Prisma schemas are Generally Available since [v6.7.0](https://pris.ly/release/6.7.0). Before that, they could be used via the `prismaSchemaFolder` Preview feature flag.
+多檔案 Prisma schema 自 [v6.7.0](https://pris.ly/release/6.7.0) 起正式發布。在此之前,可以透過 `prismaSchemaFolder` 預覽功能旗標使用。
 
 :::
 
-### Usage
+### 使用方式
 
-When using a multi-file Prisma schema, you must always explicitly specify the location of the directory that contains your schema files (including the main `schema.prisma` file with your `generator` block).
+使用多檔案 Prisma schema 時,您必須明確指定包含 schema 檔案的目錄位置 (包括含有 `generator` 區塊的主要 `schema.prisma` 檔案)。
 
-You can do this in either of three ways:
+您可以透過以下三種方式之一執行此操作:
 
-- pass the the `--schema` option to your Prisma CLI command (e.g. `prisma migrate dev --schema ./prisma`) 
-- set the `prisma.schema` field in `package.json`:
+- 將 `--schema` 選項傳遞給 Prisma CLI 命令 (例如 `prisma migrate dev --schema ./prisma`)
+- 在 `package.json` 中設定 `prisma.schema` 欄位:
   ```jsonc
   // package.json
   {
@@ -79,7 +79,7 @@ You can do this in either of three ways:
     }
   }
   ```
-- set the `schema` property in [`prisma.config.ts`](/orm/reference/prisma-config-reference#schema) ( for Prisma ORM v7):
+- 在 [`prisma.config.ts`](/orm/reference/prisma-config-reference#schema) 中設定 `schema` 屬性 (適用於 Prisma ORM v7):
   ```ts
   import { defineConfig, env } from 'prisma/config'
   import 'dotenv/config'
@@ -98,19 +98,19 @@ You can do this in either of three ways:
 
   :::note
 
-  We recommend using the [Prisma Config file](/orm/reference/prisma-config-reference#schema) to specify the location of your Prisma schema. This is the most flexible way to specify the location of your Prisma schema alongside other configuration options.
+  我們建議使用 [Prisma Config 檔案](/orm/reference/prisma-config-reference#schema)來指定 Prisma schema 的位置。這是指定 Prisma schema 位置以及其他配置選項的最靈活方式。
 
   :::
 
 :::warning
 
-The `schema.prisma` file (which contains your `generator` block) must be located in the same directory that you specify in your schema configuration. For example, if you configure `schema: 'prisma'`, your `schema.prisma` file must be at `prisma/schema.prisma`, not in a subdirectory like `prisma/models/schema.prisma`.
+包含 `generator` 區塊的 `schema.prisma` 檔案必須位於您在 schema 配置中指定的相同目錄中。例如,如果您配置 `schema: 'prisma'`,您的 `schema.prisma` 檔案必須位於 `prisma/schema.prisma`,而不是像 `prisma/models/schema.prisma` 這樣的子目錄中。
 
 :::
 
-You also must place the `migrations` directory at the same level as your `schema.prisma` file.
+您還必須將 `migrations` 目錄放置在與 `schema.prisma` 檔案相同的層級。
 
-For example, assuming `schema.prisma` defines the `generator` block, here's the correct directory structure:
+例如,假設 `schema.prisma` 定義了 `generator` 區塊,以下是正確的目錄結構:
 
 ```
 # All files must be inside the `prisma/` directory
@@ -125,18 +125,18 @@ prisma/
 
 :::info
 
-If your schema files are in a `prisma/` directory (as shown above), the Prisma CLI commands like `prisma generate` and `prisma migrate dev` will work without additional configuration, as `./prisma/schema.prisma` is a default location.
+如果您的 schema 檔案位於 `prisma/` 目錄中 (如上所示),`prisma generate` 和 `prisma migrate dev` 等 Prisma CLI 命令將無需額外配置即可運作,因為 `./prisma/schema.prisma` 是預設位置。
 
 :::
 
-### Tips for multi-file Prisma Schema
+### 多檔案 Prisma Schema 的提示
 
-We've found that a few patterns work well with this feature and will help you get the most out of it:
+我們發現有幾種模式與此功能搭配使用效果良好,將有助於您充分利用它:
 
-- Organize your files by domain: group related models into the same file. For example, keep all user-related models in `user.prisma` while post-related models go in `post.prisma`. 
-- Use clear naming conventions: schema files should be named clearly and succinctly. Use names like `user.prisma` and `post.prisma` and not `myModels.prisma` or `CommentFeaturesSchema.prisma`.
-- Have an obvious "main" schema file: while you can now have as many schema files as you want, you'll still need a place where you define your `generator` block. We recommend having a single schema file that's obviously the "main" file so that this block is easy to find. `main.prisma`, `schema.prisma`, and `base.prisma` are a few we've seen that work well.
+- 按領域組織您的檔案:將相關模型分組到同一個檔案中。例如,將所有與使用者相關的模型保留在 `user.prisma` 中,而與貼文相關的模型則放在 `post.prisma` 中。
+- 使用清晰的命名慣例:schema 檔案應該清晰簡潔地命名。使用像 `user.prisma` 和 `post.prisma` 這樣的名稱,而不是 `myModels.prisma` 或 `CommentFeaturesSchema.prisma`。
+- 擁有明顯的「主要」schema 檔案:雖然您現在可以擁有任意多個 schema 檔案,但仍然需要一個地方來定義 `generator` 區塊。我們建議擁有一個明顯是「主要」檔案的單一 schema 檔案,以便輕鬆找到此區塊。`main.prisma`、`schema.prisma` 和 `base.prisma` 是我們看到效果不錯的幾個名稱。
 
-### Examples
+### 範例
 
-Our fork of [`dub` by dub.co](https://github.com/prisma/dub) is a great example of a real world project adapted to use a multi-file Prisma Schema.
+我們 fork 的 [`dub` by dub.co](https://github.com/prisma/dub) 是一個很好的範例,展示了如何將真實世界的專案調整為使用多檔案 Prisma Schema。
