@@ -14,7 +14,7 @@ The following query targeting a `User` model does not provide a [`take` option](
 await prisma.user.findMany({ where: { email: "janedoe@gmail.com" }})
 ```
 
-## What is the problem?
+## 什麼是 the problem?
 
 When a query is executed without specifying a limit, it will return all relevant rows, which can lead to several issues:
 

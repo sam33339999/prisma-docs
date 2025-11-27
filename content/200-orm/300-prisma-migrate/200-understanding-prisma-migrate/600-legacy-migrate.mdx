@@ -255,7 +255,7 @@ The `migrate` command includes a number of subcommands to specify the desired ac
 
 Saves a migration that defines the steps necessary to update your current schema.
 
-#### Prerequisites
+#### 前置需求
 
 Before using the `migrate save` command, you must define a valid [`datasource`](/orm/prisma-schema/overview/data-sources) within your `schema.prisma` file.
 
@@ -313,7 +313,7 @@ prisma migrate save --name "First migration" --experimental
 prisma migrate save --create-db --experimental
 ```
 
-##### Preview the migration that would be created by running the `migrate save` command
+##### 預覽 the migration that would be created by running the `migrate save` command
 
 ```terminal
 prisma migrate save --preview --experimental
@@ -323,7 +323,7 @@ prisma migrate save --preview --experimental
 
 Migrate the database up to a specific state.
 
-#### Prerequisites
+#### 前置需求
 
 Before using the `migrate up` command, you must define a valid [`datasource`](/orm/prisma-schema/overview/data-sources) within your `schema.prisma` file.
 
@@ -390,7 +390,7 @@ prisma migrate up 20200223181448 --experimental
 prisma migrate up --create-db --experimental
 ```
 
-##### Preview the migration that would be applied by running the `migrate up` command
+##### 預覽 the migration that would be applied by running the `migrate up` command
 
 ```terminal
 prisma migrate up --preview --experimental
@@ -400,7 +400,7 @@ prisma migrate up --preview --experimental
 
 Migrate the database down to a specific state.
 
-#### Prerequisites
+#### 前置需求
 
 Before using the `migrate down` command, you must define a valid [`datasource`](/orm/prisma-schema/overview/data-sources) within your `schema.prisma` file.
 
@@ -459,7 +459,7 @@ prisma migrate down "First migration" --experimental
 prisma migrate down 20200223181448 --experimental
 ```
 
-##### Preview the migration that would be applied by running the `migrate down` command
+##### 預覽 the migration that would be applied by running the `migrate down` command
 
 ```terminal
 prisma migrate down --preview --experimental

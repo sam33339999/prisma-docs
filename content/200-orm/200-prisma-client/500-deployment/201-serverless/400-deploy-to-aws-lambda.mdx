@@ -113,7 +113,7 @@ PRISMA_CLI_BINARY_TARGETS=native,rhel-openssl-1.0.x
 
 :::
 
-### Connection pooling
+### 連線池ing
 
 In a Function as a Service (FaaS) environment, each function invocation typically creates a new database connection. Unlike a continuously running Node.js server, these connections aren't maintained between executions. For better performance in serverless environments, implement connection pooling to reuse existing database connections rather than creating new ones for each function call.
 

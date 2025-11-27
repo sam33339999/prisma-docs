@@ -31,7 +31,7 @@ Accelerate's cache performs best when it observes a higher load from a project. 
 
 Prisma operations are sent to Accelerate over HTTP. As a result, the first request to Accelerate must establish an HTTP handshake and may have additional latency as a result. We're exploring ways to reduce this initial request latency in the future.
 
-## What is the pricing of Accelerate?
+## 什麼是 the pricing of Accelerate?
 
 You can find more details on our [Accelerate pricing page](https://www.prisma.io/pricing)
 
@@ -83,7 +83,7 @@ Under the hood, Accelerate uses Cloudflare, which uses [Anycast](https://www.clo
 
 You can invalidate the cache on-demand via the [`$accelerate.invalidate` API](/accelerate/api-reference#accelerateinvalidate) if you're on a [paid plan](https://www.prisma.io/pricing#accelerate), or you can invalidate your entire cache, on a project level, a maximum of five times a day. This limit is set based on [your plan](https://www.prisma.io/pricing#accelerate). You can manage this via the Accelerate configuration page.
 
-## What is Accelerate's consistency model?
+## 什麼是 Accelerate's consistency model?
 
 Accelerate does not have a consistency model. It is not a distributed system where nodes need to reach a consensus (because data is only stored in the cache node(s) closest to the user). However, the data cached in Accelerate's cache nodes doesn't propagate to other nodes, so Accelerate by design doesn't need a consistency model.
 
@@ -115,7 +115,7 @@ Even without using Accelerate's global cache, you can still greatly benefit from
 
 No. We currently do not have any plans for supporting other ORMs/query builders or drivers. However, if you're interested in support for other libraries, feel free to reach out and let us know in our [Discord](https://pris.ly/discord?utm_source=docs&utm_medium=inline_text) community in the `#help-and-questions` channel.
 
-## What is the maximum allowed value for the `ttl` parameter when configuring `cacheStrategy`?
+## 什麼是 the maximum allowed value for the `ttl` parameter when configuring `cacheStrategy`?
 
 The [Time-to-live](/postgres/database/caching#time-to-live-ttl) (`ttl`) parameter can be set for up to a _year_. However, it's important to note that items within the cache may be evicted if they are not frequently accessed.
 
@@ -175,13 +175,13 @@ As the cache needs to be cleared globally, it is difficult to provide a specific
 
 Here is a [demo app](https://pris.ly/test-cache-invalidation) to test the time it takes to invalidate a cache query result.
 
-## What is the difference between **Invalidate** and **Revalidate**?
+## 什麼是 the difference between **Invalidate** and **Revalidate**?
 
 **Invalidate**: The cache entry is deleted, and new data will be fetched on the next request, causing a cache miss. This removes stale data but may lead to slower responses until the cache is repopulated.
 
 **Revalidate**: The cache entry is updated proactively, ensuring the next request uses fresh data from the cache. This keeps the cache valid and maintains faster response times by avoiding cache misses.
 
-## What is on-demand cache invalidation?
+## 什麼是 on-demand cache invalidation?
 
 [On-demand cache invalidation](/postgres/database/caching#on-demand-cache-invalidation) lets applications instantly update specific cached data when it changes, instead of waiting for regular cache refresh cycles. This keeps information accurate and up-to-date for users.
 

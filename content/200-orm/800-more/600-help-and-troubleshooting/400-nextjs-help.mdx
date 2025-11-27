@@ -56,7 +56,7 @@ Monorepos allow multiple projects to share code and dependencies, making them a 
 1. **Dependency Resolution**: Multiple packages in a monorepo might lead to conflicts if they use different version of Prisma ORM.
 2. **Schema Centralization**: Managing a single Prisma Schema across multiple projects can be complex.
 
-#### Best practices for monorepo integration
+#### 最佳實踐 for monorepo integration
 
 - **Centralize the Prisma Schema**: Place the `schema.prisma` file in a shared package, such as `@myorg/db`, to ensure consistency.
 - **Use a custom output directory for generated client**: Define a [custom output directory](/orm/prisma-client/setup-and-configuration/generating-prisma-client#using-a-custom-output-path) for the generated Prisma Client to maintain consistency across packages.

@@ -17,7 +17,7 @@ metaDescription: '了解使用 Prisma 進行資料建模與使用 SQL 或 ORM �
 - 它們的主要特徵/屬性是什麼？
 - 如何使用我的技術堆疊表示它們？
 
-## Data modeling without Prisma ORM
+## 資料模型ing without Prisma ORM
 
 Data modeling typically needs to happen on (at least) two levels:
 
@@ -31,7 +31,7 @@ The way that the application models are represented on both levels might differ 
 - Databases typically have more powerful data modeling capabilities, like indexes, cascading deletes, or a variety of additional constraints (e.g. unique, not null, ...)
 - Databases and programming languages have different technical constraints
 
-### Data modeling on the database level
+### 資料模型ing on the database level
 
 #### Relational databases
 
@@ -79,7 +79,7 @@ Prisma Client currently expects a consistent model and [normalized model design]
 - If a model or field is not present in the Prisma schema, it is ignored
 - If a field is mandatory but not present in the MongoDB dataset, you will get an error
 
-### Data modeling on the application level
+### 資料模型ing on the application level
 
 In addition to creating the tables that represent the entities from your application domain, you also need to create application models in your programming language. In object-oriented languages, this is often done by creating _classes_ to represent your models. Depending on the programming language, this might also be done with _interfaces_ or _structs_.
 
@@ -130,7 +130,7 @@ const user = new User(
 
 Notice that in these examples, the application models are "dumb", meaning they don't implement any logic but their sole purpose is to carry data as _plain old JavaScript objects_.
 
-### Data modeling with ORMs
+### 資料模型ing with ORMs
 
 ORMs are commonly used in object-oriented languages to make it easier for developers to work with a database. The key characteristic of an ORM is that it lets you model your application data in terms of _classes_ which are mapped to _tables_ in the underlying database.
 
@@ -175,7 +175,7 @@ The call to `findByPk` creates a SQL statement to retrieve the `User` record tha
 
 The resulting `user` object is an instance of Sequelize's `Model` class (because `User` inherits from `Model`). It's not a POJO, but an object that implements additional behavior from Sequelize.
 
-## Data modeling with Prisma ORM
+## 資料模型ing with Prisma ORM
 
 Depending on which parts of Prisma ORM you want to use in your application, the data modeling flow looks slightly different. The following two sections explain the workflows for using [**only Prisma Client**](#using-only-prisma-client) and using [**Prisma Client and Prisma Migrate**](#using-prisma-client-and-prisma-migrate).
 

@@ -330,11 +330,11 @@ const groupBy = await prisma.user.groupBy({
 
 You cannot use `select` with `groupBy()`. However, all fields included in `by` are automatically returned.
 
-#### What is the difference between using `where` and `having` with `groupBy()`?
+#### 什麼是 the difference between using `where` and `having` with `groupBy()`?
 
 `where` filters all records before grouping, and `having` filters entire groups and supports filtering on an aggregate field value, such as the average or sum of a particular field in that group.
 
-#### What is the difference between `groupBy()` and `distinct`?
+#### 什麼是 the difference between `groupBy()` and `distinct`?
 
 Both `distinct` and `groupBy()` group records by one or more unique field values. `groupBy()` allows you to aggregate data within each group - for example, return the average number of views on posts from Denmark - whereas distinct does not.
 

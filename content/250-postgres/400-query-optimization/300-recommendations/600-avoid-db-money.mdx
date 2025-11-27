@@ -18,7 +18,7 @@ model Item {
 }
 ```
 
-## What is the problem?
+## 什麼是 the problem?
 
 The `@db.Money` data type in PostgreSQL is not ideal for storing monetary values. Internally, `@db.Money` is implemented as an integer, which offers speed but lacks flexibility. It handles fractional values and rounding in unexpected ways, which can lead to inaccuracies. 
 

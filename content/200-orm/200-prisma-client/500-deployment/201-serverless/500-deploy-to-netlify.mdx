@@ -35,7 +35,7 @@ Curious why we moved away from the Rust engine? Take a look at why we transition
 :::
 
 
-## Prerequisites
+## 前置需求
 
 Before you can follow this guide, you will need to set up your application to begin deploying to Netlify. We recommend the ["Get started with Netlify"](https://docs.netlify.com/get-started/) guide for a quick overview and ["Deploy functions"](https://docs.netlify.com/functions/deploy/?fn-language=ts) for an in-depth look at your deployment options.
 
@@ -128,7 +128,7 @@ netlify deploy
 
 You can now test the deployed application.
 
-## Connection pooling
+## 連線池ing
 
 When you use a Function-as-a-Service provider, like Netlify, it is beneficial to pool database connections for performance reasons. This is because every function invocation may result in a new connection to your database which can quickly run out of open connections.
 

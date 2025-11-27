@@ -94,7 +94,7 @@ If you are using the `rejectOnNotFound` parameter on a per-query basis, then fol
 
 If instead you have set up the `rejectOnNotFound` parameter at the client level, you will need to follow [the steps for updating your code at the client level](/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-5/rejectonnotfound-changes#replacing-rejectonnotfound-enabled-at-the-client-level).
 
-### `jsonProtocol` out of Preview
+### `jsonProtocol` out of 預覽
 
 The `jsonProtocol` preview feature is now Generally Available. This new protocol leads to [significantly improved startup times](https://www.prisma.io/blog/prisma-5-f66prwkjx72s#improved-startup-performance-in-prisma-client) when compared to our previous GraphQL-based protocol. When upgrading to Prisma ORM 5, make sure to remove `jsonProtocol` from your preview features, if added.
 

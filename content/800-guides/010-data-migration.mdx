@@ -26,7 +26,7 @@ community_section: true
 
 When making changes to your database schema in production, it's crucial to ensure data consistency and avoid downtime. This guide shows you how to use the expand and contract pattern to safely migrate data between columns. We'll walk through a practical example of replacing a boolean field with an enum field while preserving existing data.
 
-## Prerequisites
+## 前置需求
 
 Before starting this guide, make sure you have:
 
@@ -279,7 +279,7 @@ Watch for any errors in your logs and monitor your application's behavior after 
    - If the data migration fails, the transaction will automatically rollback
    - Fix any errors and retry the migration
 
-## Next steps
+## 後續步驟
 
 Now that you've completed your first expand and contract migration, you can:
 
