@@ -8,7 +8,7 @@ toc: true
 
 <TopBlock>
 
-Prisma Accelerate optimizes database interactions through advanced connection pooling and global edge caching. Its connection pooler is available in 16 regions and helps applications load-balance and scale database requests based on demand.
+Prisma Accelerate optimizes database interactions through advanced connection pooling and global edge caching. Its connection pooler is 可用於 16 regions and helps applications load-balance and scale database requests based on demand.
 
 Considering the information above, we recommend evaluating Accelerate with high volume to see it perform under load.
 
@@ -26,11 +26,11 @@ Prisma Accelerate employs a dynamic, serverless connection pooling infrastructur
 
 - **Maximize Connection Reuse:** Executing a consistent volume of queries helps maintain active instances of Accelerate connection poolers. This increases connection reuse, ensuring faster response times for subsequent queries.
 
-By understanding and harnessing this mechanism, you can ensure that your database queries perform consistently and efficiently at scale.
+By understanding and harnessing this mechanism, 您可以 ensure that your database queries perform consistently and efficiently at scale.
 
 ## 評估 Prisma Accelerate 連線池 效能
 
-Below you will find an example of how to evaluate Prisma Accelerate using a sample model:
+Below you will find an example of 如何 evaluate Prisma Accelerate using a sample model:
 
 ```prisma
 model Notes {
@@ -132,7 +132,7 @@ main()
 
 Prisma Accelerate’s edge cache is also optimized for a high volume of queries. The cache automatically optimizes for repeated queries. As a result, the cache hit rate will increase as the query frequency does. Adding a query result to the cache is also non-blocking, so a short burst of queries might not utilize the cache or a sustained load.
 
-To evaluate Accelerate’s edge caching, you can modify the above script with the below:
+To evaluate Accelerate’s edge caching, 您可以 modify the above script with the below:
 
 ```typescript
 import { PrismaClient } from '@prisma/client'

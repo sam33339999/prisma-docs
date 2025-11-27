@@ -8,7 +8,7 @@ toc: true
 ---
 
 
-When working with Prisma Accelerate, you may encounter errors often highlighted by specific error codes during development and operations. It is important to understand the meaning of these errors, why they occur, and how to resolve them in order to ensure the smooth operation of your applications. This guide aims to provide insights and steps to troubleshoot specific error codes encountered with Prisma Accelerate.
+When working with Prisma Accelerate, you may encounter errors often highlighted by specific error codes during development and operations. It is important to understand the meaning of these errors, why they occur, and 如何 resolve them in order to ensure the smooth operation of your applications. This guide aims to provide insights and steps to troubleshoot specific error codes encountered with Prisma Accelerate.
 
 
 ## [`P6009`](/orm/reference/error-reference#p6009-responsesizelimitexceeded) (`ResponseSizeLimitExceeded`)
@@ -53,7 +53,7 @@ If the application is receiving very high traffic and there are not a sufficient
 
 **Suggested solution**: Review and possibly increase the `connection_limit` specified in the connection string parameter when setting up Accelerate in a platform environment ([reference](/postgres/database/connection-pooling#configuring-the-connection-pool-size)). This limit should align with your database's maximum number of connections.
 
-By default, the connection limit is set to 10 unless a different `connection_limit` is specified in your database connection string.
+預設情況下, the connection limit is set to 10 unless a different `connection_limit` is specified in your database connection string.
 
 #### Long-running queries
 
@@ -73,11 +73,11 @@ Moreover, it's crucial to periodically scrutinize and refine essential queries a
 
 ### Considerations for [`P6009`](/orm/reference/error-reference#p6009-responsesizelimitexceeded) and [`P6004`](/orm/reference/error-reference#p6004-querytimeout) errors
 
-For runtimes that support Prisma ORM natively, you could consider creating two `PrismaClient` Instances. One with the Accelerate connection string (prefixed with `prisma://`) and the other one with the direct database connection string (prefixed with `postgres://`, `mysql://` etc). The main idea behind this approach is to bypass Accelerate for certain specific queries.
+For runtimes that support Prisma ORM natively, you could consider creating two `PrismaClient` Instances. One with the Accelerate connection string (prefixed with `prisma://`) and the other one with the direct database connection string (prefixed with `postgres://`, `mysql://` etc). 主要 idea behind this approach is to bypass Accelerate for certain specific queries.
 
-However, please note that the available connections would be split between both of your `PrismaClient` Instances. It's crucial to understand the implications of managing multiple instances, particularly in regards to direct database connections. Utilizing a `PrismaClient` instance with a direct database connection string means that this connection will interact directly with your database.
+However, please 請注意 the available connections would be split between both of your `PrismaClient` Instances. It's crucial to understand the implications of managing multiple instances, particularly in regards to direct database connections. Utilizing a `PrismaClient` instance with a direct database connection string means that this connection will interact directly with your database.
 
-This approach requires careful consideration because the direct connections and those managed by Accelerate share the same underlying database connection pool. This can lead to competition for resources, potentially affecting the performance and availability of your database services.
+This approach 需要 careful consideration because the direct connections and those managed by Accelerate share the same underlying database connection pool. This can lead to competition for resources, potentially affecting the performance and availability of your database services.
 
 Additionally, direct connections could have a significant impact on your database's performance and availability. Operations that consume a considerable amount of resources could potentially degrade the service for other users or processes that rely on the same database.
 
@@ -147,7 +147,7 @@ If your application retries queries immediately or with minimal delay, especiall
 
 #### Sudden traffic spikes
 
-Unpredicted traffic surges (for example, during product launches, flash sales, or viral growth events) can cause the threshold to be met and result into `P5011`.
+Unpredicted traffic surges (例如, during product launches, flash sales, or viral growth events) can cause the threshold to be met and result into `P5011`.
 
 **Suggested solution:**
 - Consider proactive scaling strategies for both Prisma Accelerate and your database.  
@@ -167,7 +167,7 @@ Certain processes, such as bulk data imports, ETL operations, or extended CRON j
 
 #### Issue
 
-When using an Aiven MySQL connection string that includes the `?ssl-mode=REQUIRED` parameter, you may encounter the following error:  
+When using an Aiven MySQL connection string that includes the `?ssl-mode=REQUIRED` parameter, you may encounter 以下 error:  
 
 ```
 We were unable to process your request. Please refresh and try again.
@@ -175,7 +175,7 @@ We were unable to process your request. Please refresh and try again.
 
 #### Cause
 
-The `ssl-mode=REQUIRED` parameter is incompatible with Accelerate, which leads to connection issues.
+The `ssl-mode=REQUIRED` parameter is in相容於 Accelerate, which leads to connection issues.
 
 #### Suggested solution 
 

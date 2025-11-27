@@ -6,17 +6,17 @@ metaDescription: 如何 啟用 PostgreSQL 原生 資料庫 functions for project
 
 <TopBlock>
 
-In PostgreSQL, some [native database functions](/orm/prisma-schema/data-model/unsupported-database-features#native-database-functions) are part of optional extensions. For example, in PostgreSQL versions 12.13 and earlier the `gen_random_uuid()` function is part of the [`pgcrypto`](https://www.postgresql.org/docs/10/pgcrypto.html) extension.
+In PostgreSQL, some [native database functions](/orm/prisma-schema/data-model/unsupported-database-features#native-database-functions) are part of optional extensions. 例如, in PostgreSQL versions 12.13 and earlier the `gen_random_uuid()` function is part of the [`pgcrypto`](https://www.postgresql.org/docs/10/pgcrypto.html) extension.
 
-To use a PostgreSQL extension, you must install it on the file system of your database server and then activate the extension. If you use Prisma Migrate, this must be done as part of a migration.
+使用 a PostgreSQL extension, 您必須 install it on the file system of your database server and then activate the extension. If you use Prisma Migrate, this must be done as part of a migration.
 
 :::warning
 
-Do not activate extensions outside a migration file if you use Prisma Migrate. The [shadow database](/orm/prisma-migrate/understanding-prisma-migrate/shadow-database) requires the same extensions. Prisma Migrate creates and deletes the shadow database automatically, so the only way to activate an extension is to include it in a migration file.
+Do not activate extensions outside a migration file if you use Prisma Migrate. The [shadow database](/orm/prisma-migrate/understanding-prisma-migrate/shadow-database) 需要 the same extensions. Prisma Migrate creates and deletes the shadow database automatically, so the only way to activate an extension is to include it in a migration file.
 
 :::
 
-In Prisma ORM versions 4.5.0 and later, you can activate the extension by declaring it in your Prisma schema with the [`postgresqlExtensions` preview feature](/orm/prisma-schema/postgresql-extensions):
+In Prisma ORM versions 4.5.0 and later, 您可以 activate the extension by declaring it in your Prisma schema with the [`postgresqlExtensions` preview feature](/orm/prisma-schema/postgresql-extensions):
 
 ```prisma file=schema.prisma highlight=3,9;add showLineNumbers
 generator client {
@@ -33,17 +33,17 @@ datasource db {
 }
 ```
 
-You can then apply these changes to your database with Prisma Migrate. See [How to migrate PostgreSQL extensions](/orm/prisma-schema/postgresql-extensions) for details.
+您可以 then apply these changes to your database with Prisma Migrate. See [如何 migrate PostgreSQL extensions](/orm/prisma-schema/postgresql-extensions) for details.
 
-In earlier versions of Prisma ORM, you must instead add a SQL command to your migration file to activate the extension. See [How to install a PostgreSQL extension as part of a migration](#how-to-install-a-postgresql-extension-as-part-of-a-migration).
+In earlier versions of Prisma ORM, 您必須 instead add a SQL command to your migration file to activate the extension. See [How 安裝 a PostgreSQL extension as part of a migration](#how-to-install-a-postgresql-extension-as-part-of-a-migration).
 
 </TopBlock>
 
 ## 如何安裝 a PostgreSQL extension as part of a migration
 
-This section describes how to add a SQL command to a migration file to activate a PostgreSQL extension. If you manage PostgreSQL extensions in your Prisma Schema with the `postgresqlExtensions` preview feature instead, see [How to migrate PostgreSQL extensions](/orm/prisma-schema/postgresql-extensions).
+本節描述 如何 add a SQL command to a migration file to activate a PostgreSQL extension. If you manage PostgreSQL extensions in your Prisma Schema with the `postgresqlExtensions` preview feature instead, see [如何 migrate PostgreSQL extensions](/orm/prisma-schema/postgresql-extensions).
 
-The following example demonstrates how to install the `pgcrypto` extension as part of a migration:
+以下範例 demonstrates how 安裝 the `pgcrypto` extension as part of a migration:
 
 1. Add the field with the native database function to your schema:
 
@@ -53,7 +53,7 @@ The following example demonstrates how to install the `pgcrypto` extension as pa
    }
    ```
 
-   If you include a cast operator (such as `::TEXT`), you must surround the entire function with parentheses:
+   If you include a cast operator (such as `::TEXT`), 您必須 surround the entire function with parentheses:
 
    ```prisma
    @default(dbgenerated("(gen_random_uuid()::TEXT)"))

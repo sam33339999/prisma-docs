@@ -16,7 +16,7 @@ The `version` command outputs information about your current `prisma` version, p
 
 #### Options
 
-The `version` command recognizes the following options to modify its behavior:
+The `version` command recognizes 以下 options to modify its behavior:
 
 | Option   | Required | Description                                 |
 | -------- | -------- | ------------------------------------------- |
@@ -122,7 +122,7 @@ Bootstraps a fresh Prisma ORM project within the current directory.
 
 The `init` command does not interpret any existing files. Instead, it creates a `prisma` directory containing a bare-bones `schema.prisma` file within your current directory.
 
-By default, the project sets up a [local Prisma Postgres](/postgres/database/local-development) instance but you can choose a different database using the `--datasource-provider` option.
+預設情況下, the project sets up a [local Prisma Postgres](/postgres/database/local-development) instance but 您可以 choose a different database using the `--datasource-provider` option.
 
 
 #### Arguments
@@ -130,11 +130,11 @@ By default, the project sets up a [local Prisma Postgres](/postgres/database/loc
 | Argument                 | Required | Description                                                                                                                                                                                     | Default                       |
 | ------------------------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
 | `--datasource-provider`  | No       | Specifies the value for the `provider` field in the `datasource` block. Options are `prisma+postgres`, `sqlite`, `postgresql`, `mysql`, `sqlserver`, `mongodb` and `cockroachdb`.               | `postgresql`                  |
-| `--db`                   | No       | Shorthand syntax for `--datasource-provider prisma+postgres`; creates a new [Prisma Postgres](/postgres) instance. Requires authentication in the [PDP Console](https://console.prisma.io).     |                               |
-| `--prompt` (or `--vibe`) | No       | Scaffolds a Prisma schema based on the prompt and deploys it to a fresh Prisma Postgres instance. Requires authentication in the [PDP Console](https://console.prisma.io).                      |                               |
+| `--db`                   | No       | Shorthand syntax for `--datasource-provider prisma+postgres`; creates a new [Prisma Postgres](/postgres) instance. 需要 authentication in the [PDP Console](https://console.prisma.io).     |                               |
+| `--prompt` (or `--vibe`) | No       | Scaffolds a Prisma schema based on the prompt and deploys it to a fresh Prisma Postgres instance. 需要 authentication in the [PDP Console](https://console.prisma.io).                      |                               |
 | `--url`                  | No       | Define a custom `datasource` url.                                                                                                                                                                 |                               |
-| `--generator-provider`   | No       | Define the generator provider to use.                                                                                                                                                           | `prisma-client`            |
-| `--preview-feature`      | No       | Define the [Preview features](/orm/reference/preview-features) to use. To define multiple Preview features, you have to provide the flag multiple times for each Preview feature. See examples. |                               |
+| `--generator-provider`   | No       | Define the generator provider 使用.                                                                                                                                                           | `prisma-client`            |
+| `--preview-feature`      | No       | Define the [Preview features](/orm/reference/preview-features) 使用. To define multiple Preview features, you have to provide the flag multiple times for each Preview feature. See examples. |                               |
 | `--output`               | No       | Specifies the [output location for the generated client](/orm/prisma-client/setup-and-configuration/generating-prisma-client#using-a-custom-output-path).                                       | `../generated/prisma` |
 | `--with-model`           | No       | Adds a simple `User` model to the initial Prisma schema. Available since version `5.14.0`.                                                                                                      |                               |
 
@@ -190,7 +190,7 @@ Next, run the `prisma dev` command to interact with your local Prisma Postgres i
 prisma init --datasource-provider sqlite
 ```
 
-The command output contains helpful information on how to use the generated files and begin using Prisma ORM with your project.
+The command output contains helpful information on 如何使用 the generated files and begin using Prisma ORM with your project.
 
 **Run `prisma init --db`**
 
@@ -264,7 +264,7 @@ For more info, visit the Prisma Postgres docs: https://pris.ly/ppg-docs
 
 </CodeWithResult>
 
-The command creates a new [Prisma Postgres](https://www.prisma.io/postgres) instance. Note that it requires you to be authenticated with the [PDP Console](https://console.prisma.io), If you run it for the first time without being authenticated, the command will open the browser for you to log into Console.
+The command creates a new [Prisma Postgres](https://www.prisma.io/postgres) instance. 請注意 it 需要 you to be authenticated with the [PDP Console](https://console.prisma.io), If you run it for the first time without being authenticated, the command will open the browser for you to log into Console.
 
 **Run `prisma init --prompt "Simple habit tracker application"`**
 
@@ -272,7 +272,7 @@ The command creates a new [Prisma Postgres](https://www.prisma.io/postgres) inst
 prisma init --prompt "Simple habit tracker application"
 ```
 
-The command scaffolds a Prisma schema and deploys it to a fresh [Prisma Postgres](https://www.prisma.io/postgres) instance. Note that it requires you to be authenticated with the [PDP Console](https://console.prisma.io), If you run it for the first time without being authenticated, the command will open the browser for you to log into Console.
+The command scaffolds a Prisma schema and deploys it to a fresh [Prisma Postgres](https://www.prisma.io/postgres) instance. 請注意 it 需要 you to be authenticated with the [PDP Console](https://console.prisma.io), If you run it for the first time without being authenticated, the command will open the browser for you to log into Console.
 
 **Run `prisma init --preview-feature`**
 
@@ -368,7 +368,7 @@ export default defineConfig({
 })
 ```
 
-See the [Prisma Config reference](/orm/reference/prisma-config-reference) for more details.
+參見 [Prisma Config reference](/orm/reference/prisma-config-reference) for more details.
 
 **`.env`**
 
@@ -461,14 +461,14 @@ DATABASE_URL="mysql://user:password@localhost:3306/mydb"
 
 The `generate` command generates assets like Prisma Client based on the [`generator`](/orm/prisma-schema/overview/generators) and [`data model`](/orm/prisma-schema/data-model/models) blocks defined in your `prisma/schema.prisma` file.
 
-The `generate` command is most often used to generate Prisma Client with the `prisma-client` generator. This does the following:
+The `generate` command is most often used to generate Prisma Client with the `prisma-client` generator. This does 以下:
 
 1. Inspects the current directory to find a Prisma Schema to process.
-2. Generates a customized Prisma Client based on your schema into the output directory specified in the generator block.
+2. Generates a customized Prisma Client based on your schema into 輸出 directory specified in the generator block.
 
 #### 前置需求
 
-To use the `generate` command, you must add a generator definition in your `schema.prisma` file. The `prisma-client` generator, used to generate Prisma Client, can be added by including the following in your `schema.prisma` file:
+使用 the `generate` command, 您必須 add a generator definition in your `schema.prisma` file. The `prisma-client` generator, used to generate Prisma Client, can be added by including 以下 in your `schema.prisma` file:
 
 ```prisma
 generator client {
@@ -482,9 +482,9 @@ generator client {
 | Option              | Required | Description                                                                                                                                                                                                                         | Default |
 | ------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | `--data-proxy`      | No       | The `generate` command will generate Prisma Client for use with [Prisma Accelerate](/accelerate) prior to Prisma 5.0.0. Mutually exclusive with `--accelerate` and `--no-engine`.                                                   |
-| `--accelerate`      | No       | The `generate` command will generate Prisma Client for use with [Prisma Accelerate](/accelerate). Mutually exclusive with `--data-proxy` and `--no-engine`. Available in Prisma 5.1.0 and later.                                    |
-| `--no-engine`       | No       | The `generate` command will generate Prisma Client without an accompanied engine for use with [Prisma Accelerate](/accelerate). Mutually exclusive with `--data-proxy` and `--accelerate`. Available in Prisma ORM 5.2.0 and later. |
-| `--no-hints`        | No       | The `generate` command will generate Prisma Client without usage hints, surveys or info banners being printed to the terminal. Available in Prisma ORM 5.16.0 and later.                                                            |
+| `--accelerate`      | No       | The `generate` command will generate Prisma Client for use with [Prisma Accelerate](/accelerate). Mutually exclusive with `--data-proxy` and `--no-engine`. 可用於 Prisma 5.1.0 and later.                                    |
+| `--no-engine`       | No       | The `generate` command will generate Prisma Client without an accompanied engine for use with [Prisma Accelerate](/accelerate). Mutually exclusive with `--data-proxy` and `--accelerate`. 可用於 Prisma ORM 5.2.0 and later. |
+| `--no-hints`        | No       | The `generate` command will generate Prisma Client without usage hints, surveys or info banners being printed to the terminal. 可用於 Prisma ORM 5.16.0 and later.                                                            |
 | `--allow-no-models` | No       | The `generate` command will generate Prisma Client without generating any models.                                                                                                                                                   |
 | `--watch`           | No       | The `generate` command will continue to watch the `schema.prisma` file and re-generate Prisma Client on file changes.                                                                                                               |
 
@@ -492,7 +492,7 @@ generator client {
 
 **Deprecation Warning**
 
-As of Prisma 5.2.0, `--data-proxy` and `--accelerate` are deprecated in favor of `--no-engine` as Prisma Client no longer requires an option to work with Prisma Accelerate. All options are available and work similarly, but we recommend `--no-engine` as it prevents an engine from being downloaded which will greatly impact the size of apps deployed to serverless and edge functions.
+As of Prisma 5.2.0, `--data-proxy` and `--accelerate` are deprecated in favor of `--no-engine` as Prisma Client no longer 需要 an option to work with Prisma Accelerate. All options are available and work similarly, but we recommend `--no-engine` as it prevents an engine from being downloaded which will greatly impact the size of apps deployed to serverless and edge functions.
 
 :::
 
@@ -501,7 +501,7 @@ As of Prisma 5.2.0, `--data-proxy` and `--accelerate` are deprecated in favor of
 | Argument      | Required | Description                                                                                                                                                                                  | Default                                     |     |
 | ------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | --- |
 | `--schema`    | No       | Specifies the path to the desired `schema.prisma` file to be processed instead of the default path. Both absolute and relative paths are supported.                                          | `./schema.prisma`, `./prisma/schema.prisma` |     |
-| `--generator` | No       | Specifies which generator to use to generate assets. This option may be provided multiple times to include multiple generators. By default, all generators in the target schema will be run. |                                             |
+| `--generator` | No       | Specifies which generator 使用 to generate assets. This option may be provided multiple times to include multiple generators. 預設情況下, all generators in the target schema will be run. |                                             |
 
 #### Examples
 
@@ -580,7 +580,7 @@ prisma generate --generator client --generator zod_schemas
 
 #### Generated Assets
 
-The `prisma-client` generator creates a customized client for working with your database in a custom output directory specified by the `output` field - you can [customize the output folder](/orm/prisma-client/setup-and-configuration/generating-prisma-client#using-a-custom-output-path).
+The `prisma-client` generator creates a customized client for working with your database in a custom output directory specified by the `output` field - 您可以 [customize 輸出 folder](/orm/prisma-client/setup-and-configuration/generating-prisma-client#using-a-custom-output-path).
 
 ### `validate`
 
@@ -827,7 +827,7 @@ false
 
 </CodeWithResult>
 
-If you're using an older version of Prisma, you can use this command by running:
+If you're using an older version of Prisma, 您可以 use this command by running:
 
 ```terminal
 npx prisma@latest debug
@@ -835,7 +835,7 @@ npx prisma@latest debug
 
 ## `dev`
 
-The `dev` command starts a [local Prisma Postgres](/postgres/database/local-development) database that you can run Prisma ORM commands against. It is useful for development and testing purposes and also allows you to switch to [Prisma Postgres](/postgres) in production easily. 
+The `dev` command starts a [local Prisma Postgres](/postgres/database/local-development) database that 您可以 run Prisma ORM commands against. It is useful for development and testing purposes and also allows you to switch to [Prisma Postgres](/postgres) in production easily. 
 
 ### Arguments
 
@@ -887,13 +887,13 @@ Stops one or more [local Prisma Postgres](/postgres/database/local-development) 
 npx prisma dev stop <glob>
 ```
 
-`<glob>` is a placeholder for a glob pattern to specify which local Prisma Postgres instances should be stopped, for example:
+`<glob>` is a placeholder for a glob pattern to specify which local Prisma Postgres instances should be stopped, 例如：
 
 ```terminal
 npx prisma dev stop mydb # stops a DB called `mydb`
 ```
 
-To stop all databases that begin with `mydb` (e.g. `mydb-dev` and `mydb-prod`), you can use a glob:
+To stop all databases that begin with `mydb` (e.g. `mydb-dev` and `mydb-prod`), 您可以 use a glob:
 
 ```
 npx prisma dev stop mydb* # stops all DBs starting with `mydb`
@@ -907,13 +907,13 @@ Removes the data of one or more [local Prisma Postgres](/postgres/database/local
 npx prisma dev rm <glob>
 ```
 
-`<glob>` is a placeholder for a glob pattern to specify which local Prisma Postgres instances should be removed, for example:
+`<glob>` is a placeholder for a glob pattern to specify which local Prisma Postgres instances should be removed, 例如：
 
 ```terminal
 npx prisma dev stop mydb # stops a DB called `mydb`
 ```
 
-To stop all databases that begin with `mydb` (e.g. `mydb-dev` and `mydb-prod`), you can use a glob:
+To stop all databases that begin with `mydb` (e.g. `mydb-dev` and `mydb-prod`), 您可以 use a glob:
 
 ```
 npx prisma dev stop mydb* # stops all DBs starting with `mydb`
@@ -940,9 +940,9 @@ Introspection with the `db pull` command on the [MongoDB connector](/orm/overvie
 
 #### 前置需求
 
-Before using the `db pull` command, you must configure your database connection in your `prisma.config.ts` file.
+Before using the `db pull` command, 您必須 configure your database connection in your `prisma.config.ts` file.
 
-For example:
+例如：
 
 ```prisma file=schema.prisma
 generator client {
@@ -1097,16 +1097,16 @@ The `db push` command pushes the state of your Prisma schema to the database wit
 
 This command is a good choice when you do not need to version schema changes, such as during prototyping and local development.
 
-See also:
+另請參閱:
 
-- [Conceptual overview of `db push` and when to use it over Prisma Migrate](/orm/prisma-migrate/workflows/prototyping-your-schema)
+- [Conceptual overview of `db push` and 何時使用 it over Prisma Migrate](/orm/prisma-migrate/workflows/prototyping-your-schema)
 - [Schema prototyping with `db push`](/orm/prisma-migrate/workflows/prototyping-your-schema)
 
 #### 前置需求
 
-Before using the `db push` command, you must configure your database connection in your `prisma.config.ts` file.
+Before using the `db push` command, 您必須 configure your database connection in your `prisma.config.ts` file.
 
-For example:
+例如：
 
 ```prisma file=schema.prisma
 generator client {
@@ -1138,7 +1138,7 @@ export default defineConfig({
 | Options              | Required | Description                                                                                                                |
 | :------------------- | :------- | :------------------------------------------------------------------------------------------------------------------------- |
 | `--skip-generate`    | No       | Skip generation of artifacts such as Prisma Client                                                                         |
-| `--force-reset`      | No       | Resets the database and then updates the schema - useful if you need to start from scratch due to unexecutable migrations. |
+| `--force-reset`      | No       | Resets the database and then updates the schema - useful if 您需要 start from scratch due to unexecutable migrations. |
 | `--accept-data-loss` | No       | Ignore data loss warnings. This option is required if as a result of making the schema changes, data may be lost.          |
 | `--help` / `--h`     | No       | Displays the help message                                                                                                  |
 
@@ -1193,7 +1193,7 @@ prisma db seed
 
 :::info
 
-The `db execute` command is Generally Available in versions 3.13.0 and later. If you're using a version between 3.9.0 and 3.13.0, it is available behind a `--preview-feature` CLI flag.
+The `db execute` command is Generally 可用於 versions 3.13.0 and later. If you're using a version between 3.9.0 and 3.13.0, it is available behind a `--preview-feature` CLI flag.
 
 :::
 
@@ -1208,17 +1208,17 @@ This command applies a SQL script to the database without interacting with the P
 - the SQL script, which can be provided either on standard input or in a file
 - the data source, which can either be the URL of the data source or the path to your Prisma schema file
 
-The output of the command is connector-specific, and is not meant for returning data, but only to report success or failure.
+輸出 of the command is connector-specific, and is not meant for returning data, but only to report success or failure.
 
-See also:
+另請參閱:
 
 - [Migration troubleshooting in production](/orm/prisma-migrate/workflows/patching-and-hotfixing#fixing-failed-migrations-with-migrate-diff-and-db-execute)
 
 #### 前置需求
 
-Before using the `db execute` command, if you do not use the `--url` option you must configure your database connection in your `prisma.config.ts` file.
+Before using the `db execute` command, if you do not use the `--url` option 您必須 configure your database connection in your `prisma.config.ts` file.
 
-For example:
+例如：
 
 ```prisma file=schema.prisma
 generator client {
@@ -1249,14 +1249,14 @@ export default defineConfig({
 
 #### Options
 
-One of the following data source inputs is required:
+One of 以下 data source inputs is required:
 
 | Options    | Description                                                          |
 | :--------- | :------------------------------------------------------------------- |
 | `--url`    | URL of the data source to run the command on                         |
 | `--schema` | Path to a Prisma schema file, uses the URL in the `datasource` block |
 
-One of the following script inputs is required:
+One of 以下 script inputs is required:
 
 | Options   | Description                                                           |
 | :-------- | :-------------------------------------------------------------------- |
@@ -1296,15 +1296,15 @@ Instead of `migrate dev` and related commands, [`db push`](/orm/prisma-migrate/w
 
 ### `migrate dev`
 
-**For use in development environments only, requires shadow database**
+**For use in development environments only, 需要 shadow database**
 
 The `migrate dev` command:
 
 1. Reruns the existing migration history in the [shadow database](/orm/prisma-migrate/understanding-prisma-migrate/shadow-database) in order to detect schema drift (edited or deleted migration file, or a manual changes to the database schema)
-1. Applies pending migrations to the shadow database (for example, new migrations created by colleagues)
+1. Applies pending migrations to the shadow database (例如, new migrations created by colleagues)
 1. Generates a new migration from any changes you made to the Prisma schema before running `migrate dev`
 1. Applies all unapplied migrations to the development database and updates the `_prisma_migrations` table
-1. Triggers the generation of artifacts (for example, Prisma Client)
+1. Triggers the generation of artifacts (例如, Prisma Client)
 
 :::warning
 
@@ -1312,7 +1312,7 @@ This command is not supported on [MongoDB](/orm/overview/databases/mongodb). Use
 
 :::
 
-See also:
+另請參閱:
 
 - [Conceptual overview of Prisma Migrate](/orm/prisma-migrate)
 - [Developing with Prisma Migrate](/orm/prisma-migrate)
@@ -1323,7 +1323,7 @@ See also:
 | :---------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------ |
 | `--create-only`   | No       | Creates a new migration but does not apply it. This also works if you haven't made any changes to your schema (in that case, an empty migration is created). Run `migrate dev` to apply migration. |         |
 | `--skip-seed`     | No       | Skip triggering seed                                                                                                                                                                               |         |
-| `--skip-generate` | No       | Skip triggering generators (for example, Prisma Client)                                                                                                                                            |         |
+| `--skip-generate` | No       | Skip triggering generators (例如, Prisma Client)                                                                                                                                            |         |
 | `--name` / `-n`   | No       | Name the migration (e.g. `prisma migrate dev --name added_job_title`)                                                                                                                              |         |
 | `--help` / `-h`   | No       | Displays the help message                                                                                                                                                                          |         |
 
@@ -1376,7 +1376,7 @@ This command is not supported on [MongoDB](/orm/overview/databases/mongodb). Use
 | Option            | Required | Description                                             | Default |
 | :---------------- | :------- | :------------------------------------------------------ | :------ |
 | `--force`         | No       | Skip the confirmation prompt                            |         |
-| `--skip-generate` | No       | Skip triggering generators (for example, Prisma Client) |         |
+| `--skip-generate` | No       | Skip triggering generators (例如, Prisma Client) |         |
 | `--skip-seed`     | No       | Skip triggering seed                                    |         |
 | `--help` / `--h`  | No       | Displays the help message                               |
 
@@ -1458,7 +1458,7 @@ prisma migrate deploy
 
 The `migrate resolve` command allows you to solve migration history issues in production by marking a failed migration as already applied (supports baselining) or rolled back.
 
-Note that this command can only be used with a failed migration. If you try to use it with a successful migration you will receive an error.
+請注意 this command can only be used with a failed migration. If you try 使用 it with a successful migration you will receive an error.
 
 :::warning
 
@@ -1476,11 +1476,11 @@ This command is not supported on [MongoDB](/orm/overview/databases/mongodb). Use
 
 | Argument        | Required | Description                                                                                                                                       | Default                                          |
 | :-------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------- |
-| `--applied`     | No\*     | Record a specific migration as applied - for example `--applied "20201231000000_add_users_table"`                                                 |                                                  |
-| `--rolled-back` | No\*     | Record a specific migration as rolled back - for example `--rolled-back "20201231000000_add_users_table"`                                         | `./schema.prisma`<br /> `./prisma/schema.prisma` |
+| `--applied`     | No\*     | Record a specific migration as applied - 例如 `--applied "20201231000000_add_users_table"`                                                 |                                                  |
+| `--rolled-back` | No\*     | Record a specific migration as rolled back - 例如 `--rolled-back "20201231000000_add_users_table"`                                         | `./schema.prisma`<br /> `./prisma/schema.prisma` |
 | `--schema`      | No       | Specifies the path to the desired schema.prisma file to be processed instead of the default path. Both absolute and relative paths are supported. | `./schema.prisma`<br /> `./prisma/schema.prisma` |
 
-You must specify either `--rolled-back` _or_ `--applied`.
+您必須 specify either `--rolled-back` _or_ `--applied`.
 
 #### Examples
 
@@ -1502,7 +1502,7 @@ This command is not supported on [MongoDB](/orm/overview/databases/mongodb). Use
 
 :::
 
-For example:
+例如：
 
 ```
 Status
@@ -1519,7 +1519,7 @@ The migrations from the database are not found locally in prisma/migrations:
 20201208100950_new_migration
 ```
 
-In versions 4.3.0 and later, `prisma migrate status` exits with exit code 1 in the following cases:
+In versions 4.3.0 and later, `prisma migrate status` exits with exit code 1 in 以下 cases:
 
 - a database connection error occurs
 - there are migration files in the `migrations` directory that have not been applied to the database
@@ -1549,17 +1549,17 @@ prisma migrate status
 
 :::info
 
-This command is only partially supported for [MongoDB](/orm/overview/databases/mongodb). See the command options below for details.
+This command is only partially supported for [MongoDB](/orm/overview/databases/mongodb). 參見 command options below for details.
 
 :::
 
 This command compares two database schema sources and outputs a description of a migration taking the first to the state of the second.
 
-The output can be given either as a human-readable summary (the default) or an executable script.
+輸出 can be given either as a human-readable summary (the default) or an executable script.
 
 :::warning
 
-The `migrate diff` command can only compare database features that are [supported by Prisma](/orm/reference/database-features). If two databases differ only in unsupported features, such as views or triggers, then `migrate diff` will not show any difference between them.
+The `migrate diff` command can only compare database features that are [支援 Prisma](/orm/reference/database-features). If two databases differ only in unsupported features, such as views or triggers, then `migrate diff` will not show any difference between them.
 
 :::
 
@@ -1576,17 +1576,17 @@ where the `--from-...` and `--to-...` options are selected based on the type of 
 - Prisma schema data models
 - an empty schema
 
-Both schema sources must use the same database provider. For example, a diff comparing a PostgreSQL data source with a SQLite data source is not supported.
+Both schema sources must use the same database provider. 例如, a diff comparing a PostgreSQL data source with a SQLite data source is not supported.
 
-See also:
+另請參閱:
 
 - [Migration troubleshooting in production](/orm/prisma-migrate/workflows/patching-and-hotfixing#fixing-failed-migrations-with-migrate-diff-and-db-execute)
 
 #### 前置需求
 
-Before using the `migrate diff` command, if you are using the `--from-schema-datasource` or `--to-schema-datasource` you must configure your database connection in your `prisma.config.ts` file.
+Before using the `migrate diff` command, if you are using the `--from-schema-datasource` or `--to-schema-datasource` 您必須 configure your database connection in your `prisma.config.ts` file.
 
-For example:
+例如：
 
 ```prisma file=schema.prisma
 generator client {
@@ -1615,7 +1615,7 @@ export default defineConfig({
 
 #### Options
 
-One of the following `--from-...` options is required:
+One of 以下 `--from-...` options is required:
 
 | Options                    | Description                                                                                              | Notes                                                                          |
 | :------------------------- | :------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- |
@@ -1626,7 +1626,7 @@ One of the following `--from-...` options is required:
 | `--from-empty`             | Assume that you the data model you are migrating from is empty                                           |                                                                                |
 | `--from-local-d1`          | Path to a local D1 instance ([learn more](/orm/overview/databases/cloudflare-d1#using-the-wrangler-cli-with-prisma-migrate-diff)) | Available since [5.12.0](https://github.com/prisma/prisma/releases/tag/5.12.0) |
 
-One of the following `--to-...` options is required:
+One of 以下 `--to-...` options is required:
 
 | Options                  | Description                                                                                              | Notes                                                                          |
 | :----------------------- | :------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- |
@@ -1695,7 +1695,7 @@ The `platform` command provides access to the Prisma Data Platform through the P
   - `platform accelerate enable`: Enables Prisma Accelerate for the specified environment.
   - `platform accelerate disable`: Disables Prisma Accelerate for the specified environment.
 
-You can find the complete list of available commands with the arguments [here](/platform/platform-cli/commands).
+您可以 find the complete list of available commands with the arguments [here](/platform/platform-cli/commands).
 
 ### `mcp`
 
@@ -1713,15 +1713,15 @@ Prisma ORM v7 introduces a more stable version of Prisma Studio with improved pe
 
 Prisma Studio currently supports PostgreSQL, MySQL, and SQLite. Support for CockroachDB and MongoDB is not available yet but may be added in future releases.
 
-For detailed database support information, including SQLite requirements, see [Databases supported by Prisma Studio](/orm/tools/prisma-studio#databases-supported-by-prisma-studio).
+For detailed database support information, including SQLite 需求, see [Databases 支援 Prisma Studio](/orm/tools/prisma-studio#databases-supported-by-prisma-studio).
 
 :::
 
 #### 前置需求
 
-Before using the `studio` command, you must configure your database connection in your `prisma.config.ts` file.
+Before using the `studio` command, 您必須 configure your database connection in your `prisma.config.ts` file.
 
-For example:
+例如：
 
 ```prisma file=schema.prisma
 generator client {
@@ -1750,7 +1750,7 @@ export default defineConfig({
 
 #### Options
 
-The `studio` command recognizes the following options:
+The `studio` command recognizes 以下 options:
 
 | Option            | Required | Description                                                                      | Default                  |
 | ----------------- | -------- | -------------------------------------------------------------------------------- | ------------------------ |
@@ -1844,17 +1844,17 @@ This is available from version 3.0.1 and later.
 
 Prisma CLI supports [custom HTTP proxies](https://github.com/prisma/prisma/issues/506). This is particularly relevant when being behind a corporate firewall.
 
-To activate usage of the proxy, provide either of the following environment variables:
+To activate usage of the proxy, provide either of 以下 environment variables:
 
-- [`HTTP_PROXY`](/orm/reference/environment-variables-reference#http_proxy) or `http_proxy`: Proxy URL for http traffic, for example `http://localhost:8080`
-- [`HTTPS_PROXY`](/orm/reference/environment-variables-reference#https_proxy) or `https_proxy`: Proxy URL for https traffic, for example `https://localhost:8080`
+- [`HTTP_PROXY`](/orm/reference/environment-variables-reference#http_proxy) or `http_proxy`: Proxy URL for http traffic, 例如 `http://localhost:8080`
+- [`HTTPS_PROXY`](/orm/reference/environment-variables-reference#https_proxy) or `https_proxy`: Proxy URL for https traffic, 例如 `https://localhost:8080`
 
 
 ## `npx create-db`
 
 The [`create-db`](https://create-db.prisma.io/) command provisions a temporary [Prisma Postgres](/postgres) database with a single command. This is a standalone utility that can be invoked using `npx`. It's ideal for quickly testing, prototyping, or integrating with Prisma Postgres.
 
-You can run the following variants:
+您可以 run 以下 variants:
 
 | Command               | Description                                   |
 | --------------------- | --------------------------------------------- |
@@ -1864,7 +1864,7 @@ You can run the following variants:
 
 Each database created with these commands:
 
-* Is available for **24 hours** by default.
+* Is available for **24 hours** 預設情況下.
 * Can be **claimed for free** to make it permanent using the URL displayed in the CLI output.
 
-For full usage details, options (such as `--region` and `--interactive`), and examples, see the [documentation](/postgres/introduction/npx-create-db).
+For full usage details, options (such as `--region` and `--interactive`), and examples, 參見 [documentation](/postgres/introduction/npx-create-db).

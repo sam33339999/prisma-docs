@@ -8,7 +8,7 @@ toc: true
 
 Optimize provides recommendations to help you identify and resolve performance issues caused by repeated queries.
 
-The following query targeting the `Post` model is executed repeatedly with identical parameters:
+以下 query targeting the `Post` model is executed repeatedly with identical parameters:
 
 ```ts
 await prisma.post.findMany({
@@ -23,6 +23,6 @@ await prisma.post.findMany({
 
 When the same query is executed multiple times with the same parameters within a short time frame, it can lead to:
 
-- **Time waste:** A new connection may be established between the application and database, the query and its parameters are sent to the database, the database processes the query, and the results are sent back to the application.
+- **Time waste:** A new connection may be established between the application and database, the query and its parameters are sent to the database, the database processes the query, and 結果s are sent back to the application.
 - **Increased resource usage:** Query execution increases CPU and memory usage, as well as disk I/O, putting strain on your database's system resources.
 - **Higher costs:** In serverless database pricing models, higher resource usage can result in increased costs.

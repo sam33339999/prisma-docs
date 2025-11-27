@@ -10,15 +10,15 @@ community_section: true
 
 ## Overview
 
-This guide shows you how to automatically create and delete [Prisma Postgres](https://www.prisma.io/postgres) databases using GitHub Actions and [the Prisma Postgres management API](https://api.prisma.io/v1/swagger-editor). The setup provisions a new database for every pull request, seeds it with sample data, and the `github-actions` bot leaves a comment with the database name and the status.
+本指南向您展示如何 automatically create and delete [Prisma Postgres](https://www.prisma.io/postgres) databases using GitHub Actions and [the Prisma Postgres management API](https://api.prisma.io/v1/swagger-editor). The setup provisions a new database for every pull request, seeds it with sample data, and the `github-actions` bot leaves a comment with the database name and the status.
 
 ![GitHub Actions comment](/img/guides/github-comment.png)
 
-After the PR is closed, the database is automatically deleted. This allows you to test changes in isolation without affecting the main development database. 
+After the PR is closed, the database is automatically deleted. This allows you to test changes in isolation without affecting 主要 development database. 
 
 ## 前置需求
 
-Make sure you have the following:
+Make sure you have 以下:
 
 - Node.js 18 or later
 - A [Prisma Data Platform](https://console.prisma.io?utm_source=actions_guide&utm_medium=docs) account
@@ -35,13 +35,13 @@ npm init -y
 
 ## 2. Install and configure Prisma
 
-In this section, you'll set up Prisma in your project and verify that it works locally before integrating it into GitHub Actions. This involves installing Prisma's dependencies, connecting to a Prisma Postgres database, defining your data models, applying your schema, and seeding the database with sample data.
+在本節中, you'll set up Prisma in your project and verify that it works locally before integrating it into GitHub Actions. This involves installing Prisma's dependencies, connecting to a Prisma Postgres database, defining your data models, applying your schema, and seeding the database with sample data.
 
-By the end of this section, your project will be fully prepared to use Prisma both locally and in a CI workflow.
+By the end of this section, your project will be fully prepared 使用 Prisma both locally and in a CI workflow.
 
 ### 2.1. Install dependencies
 
-To get started with Prisma, install the required dependencies:
+開始使用 with Prisma, install the required dependencies:
 
 ```terminal
 npm install prisma tsx @types/pg dotenv --save-dev
@@ -50,7 +50,7 @@ npm install @prisma/client @prisma/adapter-pg pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -60,7 +60,7 @@ Once installed, initialize Prisma:
 npx prisma init --db --output ../src/generated/prisma
 ```
 
-This creates:
+這會建立:
 
 * A `prisma/` directory with `schema.prisma`
 * A `.env` file with `DATABASE_URL`
@@ -97,7 +97,7 @@ model Post {
 }
 ```
 
-Create a `prisma.config.ts` file to configure Prisma with seeding:
+Create a `prisma.config.ts` file 配置 Prisma with seeding:
 
 ```typescript file=prisma.config.ts
 //add-start
@@ -119,7 +119,7 @@ export default defineConfig({
 
 :::note
 
-You'll need to install the `dotenv` package:
+You'll need 安裝 the `dotenv` package:
 
 ```terminal
 npm install dotenv
@@ -250,13 +250,13 @@ This file will contain the logic to manage databases on a per-PR basis. This Git
 
 :::note
 
-This workflow uses `us-east-1` as the default region for Prisma Postgres. You can change this to your preferred region by modifying the `region` parameter in the API calls, or even by adding a `region` input to the workflow.
+This workflow uses `us-east-1` as the default region for Prisma Postgres. 您可以 change this to your preferred region by modifying the `region` parameter in the API calls, or even by adding a `region` input to the workflow.
 
 :::
 
 ### 3.2. Add the base configuration
 
-Paste the following into `.github/workflows/prisma-postgres-management.yml`. This sets up when the workflow runs and provides required environment variables.
+Paste 以下 into `.github/workflows/prisma-postgres-management.yml`. This sets up when the workflow runs and provides required environment variables.
 
 ```yaml file=.github/workflows/prisma-postgres-management.yml
 name: Prisma Postgres Management API Workflow
@@ -303,7 +303,7 @@ Now add a job to provision the database when the PR is opened or when triggered 
 * Seeds the database
 * Comments on the PR with status
 
-Append the following under the `jobs:` key in your workflow file:
+Append 以下 under the `jobs:` key in your workflow file:
 
 ```yaml file=.github/workflows/prisma-postgres-management.yml
 jobs:
@@ -460,13 +460,13 @@ jobs:
 
 ### 3.4. Add a cleanup job to the workflow
 
-When a pull request is closed, you can automatically remove the associated database by adding a cleanup job. The cleanup job:
+When a pull request is closed, 您可以 automatically remove the associated database by adding a cleanup job. The cleanup job:
 
 * Finds the database by name
 * Deletes it from the Prisma Postgres project
 * Can also be triggered manually with `action: cleanup`
 
-Append the following to your `jobs:` section, after the `provision-database` job:
+Append 以下 to your `jobs:` section, after the `provision-database` job:
 
 ```yaml file=.github/workflows/prisma-postgres-management.yml
   cleanup-database:
@@ -534,7 +534,7 @@ This completes your Prisma Postgres management workflow setup. In the next step,
 
 Initialize a git repository and push to [GitHub](https://github.com/):
 
-If you don't have a repository in GitHub yet, [create one on GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository). Once the repository is ready, run the following commands:
+If you don't have a repository in GitHub yet, [create one on GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository). Once the repository is ready, run 以下 commands:
    ```terminal
    git add .
    git commit -m "Initial commit with Prisma Postgres integration"
@@ -562,7 +562,7 @@ To manage Prisma Postgres databases, you also need a service token. Follow these
 
 ### 5.2 Retrieve the project ID where you want to provision Prisma Postgres databases
 
-To avoid conflicts with your development databases, you'll now create a dedicated project specifically for CI workflows. Use the following curl command to create a new Prisma Postgres project using the Prisma Postgres Management API:
+To avoid conflicts with your development databases, you'll now create a dedicated project specifically for CI workflows. Use 以下 curl command 建立 a new Prisma Postgres project using the Prisma Postgres Management API:
 
 ```terminal
 curl -X POST https://api.prisma.io/v1/projects \
@@ -597,18 +597,18 @@ The CLI output will then look like this:
 }
 ```
 
-Copy and store the `$PRISMA_PROJECT_ID` from the output. This is your Prisma project ID, which you will use in the next step.
+Copy and store the `$PRISMA_PROJECT_ID` from 輸出. This is your Prisma project ID, which you will use in the next step.
 
 ## 6. Add secrets in GitHub
 
-To add secrets:
+添加 secrets:
 
 1. Go to your GitHub repository.
 2. Navigate to **Settings**.
 3. Click and expand the **Secrets and variables** section.
 4. Click **Actions**.
 3. Click **New repository secret**.
-4. Add the following:
+4. Add 以下:
    * `PRISMA_PROJECT_ID` - Your Prisma project ID from the Prisma Console.
    * `PRISMA_POSTGRES_SERVICE_TOKEN` - Your service token.
 
@@ -616,7 +616,7 @@ These secrets will be accessed in the workflow file via `env`.
 
 ## 7. Try the workflow
 
-You can test the setup in two ways:
+您可以 test the setup in two ways:
 
 **Option 1: Automatic trigger via PR**
 
@@ -631,7 +631,7 @@ You can test the setup in two ways:
 1. Go to the **Actions** tab in your repository.
 2. Select the **Prisma Postgres Management API Workflow** on the left sidebar.
 3. Click the **Run workflow** dropdown
-4. Choose `provision` as the action and optionally provide a custom database name. You can also choose `cleanup` to delete an *existing* database.
+4. Choose `provision` as the action and optionally provide a custom database name. 您可以 also choose `cleanup` 刪除 an *existing* database.
 5. Click **Run workflow**.
 
 
@@ -645,4 +645,4 @@ This gives you:
 * Automatic schema sync and seed.
 * Cleanup of unused databases after merges.
 
-This setup improves confidence in changes and reduces the risk of shared database conflicts. You can extend this by integrating test suites, or integrating it in your workflow.
+This setup improves confidence in changes and reduces the risk of shared database conflicts. 您可以 extend this by integrating test suites, or integrating it in your workflow.

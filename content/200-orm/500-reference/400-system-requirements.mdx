@@ -5,15 +5,15 @@ metaDescription: "系統需求 for running Prisma ORM"
 tocDepth: 3
 ---
 
-This page provides an overview of the system requirements for Prisma ORM.
+This page provides an overview of the system 需求 for Prisma ORM.
 
 ## 系統需求
 
-This section lists the software that Prisma ORM requires and the supported operating systems, along with runtime dependency requirements for specific operating systems.
+This section lists the software that Prisma ORM 需要 and the supported operating systems, along with runtime dependency 需求 for specific operating systems.
 
 ### Software 需求
 
-The latest version of Prisma ORM requires the following software:
+The latest version of Prisma ORM 需要 以下 software:
 
 | Tool                  | Minimum required version |
 | :-------------------- | :----------------------- |
@@ -26,16 +26,16 @@ The latest version of Prisma ORM requires the following software:
 
 - Prisma ORM supports and tests all _Active LTS_ and _Maintenance LTS_ **Node.js** releases. [Releases that are not in these states like _Current_, and also odd-numbered versions](https://nodejs.org/en/about/releases/) probably also work, but are not recommended for production use.
 - **TypeScript** is only required for TypeScript users.
-- When using **Yarn 1**, `1.19.2` is the minimum version compatible with Prisma Client.
+- When using **Yarn 1**, `1.19.2` is the minimum version 相容於 Prisma Client.
 
-See also: [Supported database versions](/orm/reference/supported-databases)
+另請參閱: [Supported database versions](/orm/reference/supported-databases)
 
 <details>
 <summary>Expand for earlier versions</summary>
 
 ### Prisma ORM v6
 
-Prisma ORM v6 requires the following software:
+Prisma ORM v6 需要 以下 software:
 
 |                       | Minimum required version |
 | :-------------------- | :----------------------- |
@@ -51,14 +51,14 @@ Prisma ORM is supported on macOS, Windows and most Linux distributions.
 
 #### Linux runtime dependencies
 
-Prisma ORM requires the following system libraries to be installed to work:
+Prisma ORM 需要 以下 system libraries to be installed to work:
 
 - OpenSSL 1.0.x, 1.1.x or 3.x
 - zlib (`libz.so.1`)
 - libgcc (`libgcc_s.so.1`)
 - C standard library (glibc on most Linux distributions or musl libc on Alpine Linux)
 
-The following two tables show the supported Linux distro families, OpenSSL versions and C standard libraries for each CPU architecture.
+以下 two tables show the supported Linux distro families, OpenSSL versions and C standard libraries for each CPU architecture.
 
 On `AMD64` (`x86_64`) architecture:
 
@@ -83,21 +83,21 @@ Systems that can run the supported Node.js versions will most likely have zlib a
 
 #### Windows runtime dependencies
 
-On Windows [Microsoft Visual C++ Redistributable 2015](https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x64.exe) or newer must be installed (which is by default the case on most modern installations).
+On Windows [Microsoft Visual C++ Redistributable 2015](https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x64.exe) or newer must be installed (which is 預設情況下 the case on most modern installations).
 
 #### macOS runtime dependencies
 
-Prisma ORM supports macOS 10.15 or newer. There are no additional platform-specific requirements on macOS other than what is listed for all platforms in the [Software requirements](#software-requirements) section.
+Prisma ORM supports macOS 10.15 or newer. There are no additional platform-specific 需求 on macOS other than 什麼是 listed for all platforms in the [Software 需求](#software-需求) section.
 
 ## 疑難排解
 
-There are some common problems caused by using outdated versions of the system requirements:
+There are some common problems caused by using outdated versions of the system 需求:
 
 ### Unable to build a TypeScript project with `@prisma/client`
 
 #### Problem
 
-You see the following error when you try type-checking a project after you run `prisma generate`.
+You see 以下 error when you try type-checking a project after you run `prisma generate`.
 
 ```terminal wrap
 ./node_modules/.prisma/client/index.d.ts:10:33
@@ -113,13 +113,13 @@ Type error: Type expected.
 
 #### Solution
 
-Upgrade the TypeScript dependency in your project to a [version supported by Prisma ORM](#software-requirements). `npm install -D typescript`.
+Upgrade the TypeScript dependency in your project to a [version 支援 Prisma ORM](#software-需求). `npm install -D typescript`.
 
-### Unable to use `groupBy` 預覽 feature
+### Unable 使用 `groupBy` 預覽 feature
 
 #### Problem
 
-You see the following console error when you attempt to run an app that uses the `groupBy` preview feature:
+You see 以下 console error when you attempt to run an app that uses the `groupBy` preview feature:
 
 ```terminal wrap
 server.ts:6:25 - error TS2615: Type of property 'OR' circularly references itself in mapped type '{ [K in keyof { AND?: Enumerable<ProductScalarWhereWithAggregatesInput>; OR?: Enumerable<ProductScalarWhereWithAggregatesInput>; ... 4 more ...; category?: string | StringWithAggregatesFilter; }]: Or<...> extends 1 ? { ...; }[K] extends infer TK ? GetHavingFields<...> : never : {} extends FieldPaths<...> ? never : K...'.
@@ -140,4 +140,4 @@ server.ts:6:48 - error TS2554: Expected 0 arguments, but got 1.
 
 #### Solution
 
-Upgrade the TypeScript dependency in your project to a [version supported by Prisma ORM](#software-requirements). `npm install -D typescript`.
+Upgrade the TypeScript dependency in your project to a [version 支援 Prisma ORM](#software-需求). `npm install -D typescript`.

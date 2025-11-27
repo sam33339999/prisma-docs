@@ -12,7 +12,7 @@ tags:
 community_section: true
 ---
 
-Prisma Studio can be embedded directly into your Next.js application using the [`@prisma/studio-core`](https://www.npmjs.com/package/@prisma/studio-core) package. This guide walks you through the setup so you can manage your database from within your app instead of running Prisma Studio separately.
+Prisma Studio can be embedded directly into your Next.js application using the [`@prisma/studio-core`](https://www.npmjs.com/package/@prisma/studio-core) package. This guide walks you through the setup so 您可以 manage your database from within your app instead of running Prisma Studio separately.
 
 After completing the guide, you'll have a Next.js app with Prisma Studio embedded, allowing you to browse and edit your database directly from your application interface:
 
@@ -28,9 +28,9 @@ Embedding Prisma Studio can be useful in scenarios such as:
 
 [**Embeddable Prisma Studio**](/postgres/database/prisma-studio/embedding-studio) is *free* and licensed under Apache 2.0.
 
-✔️ Free to use in production
+✔️ Free 使用 in production
 ⚠️ Prisma branding must remain visible and unchanged
-🔐 To remove branding or learn about upcoming partner-only features, reach out at [partnerships@prisma.io](mailto:partnerships@prisma.io)
+🔐 移除 branding or 學習關於 upcoming partner-only features, reach out at [partnerships@prisma.io](mailto:partnerships@prisma.io)
 
 Currently, Embedded Prisma Studio supports [**Prisma Postgres**](/postgres), with additional databases coming soon.
 
@@ -85,7 +85,7 @@ npm install @prisma/extension-accelerate @prisma/client @prisma/adapter-pg doten
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -178,11 +178,11 @@ npx prisma migrate dev --name init
 npx prisma generate
 ```
 
-This creates the tables in your Prisma Postgres database and generates the Prisma Client.
+這會建立 the tables in your Prisma Postgres database and generates the Prisma Client.
 
 ### 2.6. Seed your database (optional)
 
-Create a seed file to add some sample data. Create a `seed.ts` file in the `prisma` folder and add the following code:
+Create a seed file 添加 some sample data. Create a `seed.ts` file in the `prisma` folder and add 以下 code:
 
 ```typescript file=prisma/seed.ts
 import { PrismaClient } from '../app/generated/prisma/client'
@@ -269,7 +269,7 @@ npx prisma db seed
 
 ## 3. Setting up the embedded Prisma Studio in your app
 
-Now that you have Prisma ORM and Prisma Postgres set up, you can embed Prisma Studio in your Next.js app. 
+Now that you have Prisma ORM and Prisma Postgres set up, 您可以 embed Prisma Studio in your Next.js app. 
 
 ### 3.1. Install the Prisma Studio Core package
 
@@ -281,7 +281,7 @@ npm install @prisma/studio-core
 
 :::note
 
-If you encounter a dependency resolution error while installing `@prisma/studio-core`, you can force the install with:
+If you encounter a dependency resolution error while installing `@prisma/studio-core`, 您可以 force the install with:
 
 ```terminal
 npm install @prisma/studio-core --force
@@ -332,7 +332,7 @@ export default function StudioWrapper({ children }: StudioWrapperProps) {
 
 ### 3.3. Create an API endpoint to send the SQL queries to Prisma Studio
 
-Next, set up a backend endpoint that Prisma Studio can communicate with. This endpoint receives SQL queries from the embedded Studio UI, forwards them to your Prisma Postgres database, and then returns the results (or errors) back to the frontend.
+Next, set up a backend endpoint that Prisma Studio can communicate with. This endpoint receives SQL queries from the embedded Studio UI, forwards them to your Prisma Postgres database, and then returns 結果s (or errors) back to the frontend.
 
 To do this, create a new folder called `api` inside the `app` directory. Inside it, add a `studio` folder with a `route.ts` file. This file will handle all requests sent to `/api/studio` and act as the bridge between the Studio component in your frontend and the database in your backend:
 
@@ -403,9 +403,9 @@ export async function OPTIONS() {
 }
 ```
 
-### 3.4. Create the main Studio page
+### 3.4. Create 主要 Studio page
 
-Open the `app/page.tsx` file and replace the existing code to render the embedded Studio with the following:
+Open the `app/page.tsx` file and replace the existing code to render the embedded Studio with 以下:
 
 ```tsx file=app/page.tsx
 'use client';
@@ -468,7 +468,7 @@ Start your Next.js development server:
 npm run dev
 ```
 
-Open your browser and go to `http://localhost:3000`. You should now see Prisma Studio running inside your application:
+Open your browser and go to `http://localhost:3000`. 您應該 now see Prisma Studio running inside your application:
 
 ![Prisma Studio embedded in Next.js app](/img/guides/embedded-studio.gif)
 
@@ -489,21 +489,21 @@ Verify whether everything works by testing the basics:
 - Update a record to check that changes are saved.
 - Add a new record and confirm it appears instantly.
 - Try filtering data to make sure queries run correctly.
-- Navigate through relationships (for example, view a user's posts) to confirm associations work.
+- Navigate through relationships (例如, view a user's posts) to confirm associations work.
 
 Once these actions work as expected, your embedded Prisma Studio is set up and connected to your Prisma Postgres database.
 
 ## 後續步驟
 
-At this point you have Prisma Studio running inside your Next.js application and connected to your Prisma Postgres database. You can browse, edit, and manage your data without leaving your app. To make this setup production-ready, consider these improvements:
+At this point you have Prisma Studio running inside your Next.js application and connected to your Prisma Postgres database. 您可以 browse, edit, and manage your data without leaving your app. To make this setup production-ready, consider these improvements:
 
-1. **Add authentication**: Currently, anyone who can open your app has access to Prisma Studio. [Add user authentication](/postgres/database/prisma-studio/embedding-studio#adding-user-authentication) and only allow specific roles (for example, admins) to use the embedded Studio. You can do this by checking authentication tokens in your `/api/studio` endpoint before running queries.
+1. **Add authentication**: Currently, anyone who can open your app has access to Prisma Studio. [Add user authentication](/postgres/database/prisma-studio/embedding-studio#adding-user-authentication) and only allow specific roles (例如, admins) 使用 the embedded Studio. 您可以 do this by checking authentication tokens in your `/api/studio` endpoint before running queries.
 
-2. **Use environment-specific configuration**: In development you may want a test database, while in production you'll need a separate live database. Update your `.env` file to use different `DATABASE_URL` values for each environment, and confirm that your `/api/studio` endpoint is reading the correct one.
+2. **Use environment-specific configuration**: In development you may want a test database, while in production you'll need a separate live database. Update your `.env` file 使用 different `DATABASE_URL` values for each environment, and confirm that your `/api/studio` endpoint is reading the correct one.
 
 3. **Apply custom styling**: The Studio component ships with a default look. Pass in [your own theme](/postgres/database/prisma-studio/embedding-studio#custom-styling) and adjust colors, typography, or branding to match the rest of your application. This helps Studio feel like a native part of your app rather than a standalone tool.
 
 By adding authentication, environment-specific settings, and styling, you move from a working demo to a secure and polished production setup.
 
-For more patterns and examples, see the [Prisma Studio Core demo repository](https://github.com/prisma/studio-core-demo), which includes an alternative implementation using Hono.js and React. If you prefer a guided walkthrough, watch the YouTube video: [**Use Prisma Studio in Your Own Applications
+For more patterns and examples, 參見 [Prisma Studio Core demo repository](https://github.com/prisma/studio-core-demo), which includes an alternative implementation using Hono.js and React. If you prefer a guided walkthrough, watch the YouTube video: [**Use Prisma Studio in Your Own Applications
 **](https://www.youtube.com/watch?v=Up5vG2YHPvc).

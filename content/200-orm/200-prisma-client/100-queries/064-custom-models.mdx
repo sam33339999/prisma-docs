@@ -16,7 +16,7 @@ As your application grows, you may find the need to group related logic together
 
 ## Static methods with Prisma Client extensions
 
-The following example demonstrates how to create a Prisma Client extension that adds a `signUp` and `findManyByDomain` methods to a User model.
+以下範例 demonstrates how 建立 a Prisma Client extension that adds a `signUp` and `findManyByDomain` methods to a User model.
 
 <TabbedContent code>
 
@@ -93,7 +93,7 @@ model Password {
 
 ## Wrap a model in a class
 
-In the example below, you'll see how you can wrap the `user` model in the Prisma Client within a `Users` class.
+In the example below, you'll see how 您可以 wrap the `user` model in the Prisma Client within a `Users` class.
 
 ```tsx
 import { PrismaClient, User } from '@prisma/client'
@@ -125,15 +125,15 @@ async function main() {
 }
 ```
 
-With this new `Users` class, you can define custom functions like `signup`:
+With this new `Users` class, 您可以 define custom functions like `signup`:
 
-Note that in the example above, you're only exposing a `signup` method from Prisma Client. The Prisma Client is hidden within the `Users` class, so you're no longer be able to call methods like `findMany` and `upsert`.
+請注意 in the example above, you're only exposing a `signup` method from Prisma Client. The Prisma Client is hidden within the `Users` class, so you're no longer be able to call methods like `findMany` and `upsert`.
 
 This approach works well when you have a large application and you want to intentionally limit what your models can do.
 
 ## Extending Prisma Client model object
 
-But what if you don't want to hide existing functionality but still want to group custom functions together? In this case, you can use `Object.assign` to extend Prisma Client without limiting its functionality:
+But what if you don't want to hide existing functionality but still want to group custom functions together? In this case, 您可以 use `Object.assign` to extend Prisma Client without limiting its functionality:
 
 ```tsx
 import { PrismaClient, User } from '@prisma/client'
@@ -169,7 +169,7 @@ async function main() {
 }
 ```
 
-Now you can use your custom `signup` method alongside `count`, `updateMany`, `groupBy()` and all of the other wonderful methods that Prisma Client provides. Best of all, it's all type-safe!
+Now 您可以 use your custom `signup` method alongside `count`, `updateMany`, `groupBy()` and all of the other wonderful methods that Prisma Client provides. Best of all, it's all type-safe!
 
 ## Going further
 

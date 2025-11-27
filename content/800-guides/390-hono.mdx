@@ -12,7 +12,7 @@ community_section: true
 
 Prisma ORM offers type-safe database access, and [Hono](https://hono.dev/) is built for fast, lightweight web apps. Together with [Prisma Postgres](https://www.prisma.io/postgres), you get a fast, lightweight backend, that can be deployed through Node.js, Cloudflare, or many other runtimes. 
 
-In this guide, you'll learn to integrate Prisma ORM with a Prisma Postgres database in a Hono backend application. You can find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/hono).
+在本指南中, you'll learn to integrate Prisma ORM with a Prisma Postgres database in a Hono backend application. 您可以 find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/hono).
 
 ## 前置需求
 - [Node.js 20+](https://nodejs.org)
@@ -27,16 +27,16 @@ npm create hono@latest
 
 :::info
 - *Target directory?* `my-app`
-- *Which template do you want to use?* `nodejs`
+- *Which template do you want 使用?* `nodejs`
 - *Install dependencies? (recommended)* `Yes`
-- *Which package manager do you want to use?* `npm`
+- *Which package manager do you want 使用?* `npm`
 :::
 
 ## 2. Install and configure Prisma
 
 ### 2.1. Install dependencies
 
-To get started with Prisma, you'll need to install a few dependencies:
+開始使用 with Prisma, you'll need 安裝 a few dependencies:
 
 ```terminal
 npm install prisma tsx @types/pg --save-dev
@@ -45,7 +45,7 @@ npm install @prisma/client @prisma/adapter-pg dotenv pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -58,7 +58,7 @@ npx prisma init --db --output ../src/generated/prisma
 :::info
 You'll need to answer a few questions while setting up your Prisma Postgres database. Select the region closest to your location and a memorable name for your database like "My Hono Project"
 :::
-This will create:
+這將 create:
 
 - A `prisma/` directory with a `schema.prisma` file
 - A `prisma.config.ts` with your Prisma configuration
@@ -66,7 +66,7 @@ This will create:
 
 ### 2.2. Define your Prisma Schema
 
-In the `prisma/schema.prisma` file, add the following models and change the generator to use the `prisma-client` provider:
+In the `prisma/schema.prisma` file, add 以下 models and change the generator 使用 the `prisma-client` provider:
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -97,7 +97,7 @@ model Post {
 //add-end
 ```
 
-This creates two models: `User` and `Post`, with a one-to-many relationship between them.
+這會建立 two models: `User` and `Post`, with a one-to-many relationship between them.
 
 In `prisma.config.ts`, import `dotenv` at the top of the file
 
@@ -120,7 +120,7 @@ export default defineConfig({
 
 ### 2.3. Configure the Prisma Client generator
 
-Now, run the following command to create the database tables and generate the Prisma Client:
+Now, run 以下 command 建立 the database tables and generate the Prisma Client:
 
 ```terminal
 npx prisma migrate dev --name init
@@ -193,7 +193,7 @@ main()
   });
 ```
 
-Now, tell Prisma how to run this script by updating your `prisma.config.ts`:
+Now, tell Prisma 如何 run this script by updating your `prisma.config.ts`:
 
 ```typescript file=prisma.config.ts
 import { defineConfig, env } from "prisma/config";
@@ -229,7 +229,7 @@ npx prisma studio
 
 ### 3.1. Create a Prisma middleware
 
-Inside of `/src`, create a `lib` directory and a `prisma.ts` file inside it. This file will be used to create and export your Prisma Client instance. Set up the Prisma client like this:
+Inside of `/src`, create a `lib` directory and a `prisma.ts` file inside it. This file will be used 建立 and export your Prisma Client instance. Set up the Prisma client like this:
 
 ```tsx file=src/lib/prisma.ts
 import type { Context, Next } from 'hono';
@@ -261,12 +261,12 @@ export default withPrisma;
 :::warning
 We recommend using a connection pooler (like [Prisma Accelerate](https://www.prisma.io/accelerate)) to manage database connections efficiently.
 
-If you choose not to use one, in long-lived environments (for example, a Node.js server) instantiate a single `PrismaClient` and reuse it across requests to avoid exhausting database connections. In serverless environments or when using a pooler (for example, Accelerate), creating a client per request is acceptable.
+If you choose not 使用 one, in long-lived environments (例如, a Node.js server) instantiate a single `PrismaClient` and reuse it across requests to avoid exhausting database connections. In serverless environments or when using a pooler (例如, Accelerate), creating a client per request is acceptable.
 :::
 
 ### 3.2 Environment Variables & Types
 
-By default, Hono does not load any environment variables from a `.env`. `dotenv` handles this and will be read that file and expose them via `process.env`. Hono can get additional types to know that the `withPrisma` middleware will set a `prisma`
+預設情況下, Hono does not load any environment variables from a `.env`. `dotenv` handles this and will be read that file and expose them via `process.env`. Hono can get additional types to know that the `withPrisma` middleware will set a `prisma`
 key on the Hono context
 
 ```ts file=src/index.ts 
@@ -306,7 +306,7 @@ If using Cloudflare Workers, the environment variables will automatically be set
 
 ### 3.3. Create A GET Route
 
-Fetch data from the database using Hono's `app.get` function. This will perform any database queries
+Fetch data from the database using Hono's `app.get` function. 這將 perform any database queries
 and return the data as JSON.
 
 Create a new route inside of `src/index.ts`:
@@ -342,12 +342,12 @@ curl http://localhost:3000/users | jq
 ```
 
 You're done! You've created a Hono app with Prisma that's connected to a Prisma Postgres database.
-For next steps there are some resources below for you to explore as well as next steps for expanding
+For 後續步驟 there are some resources below for you to explore as well as 後續步驟 for expanding
 your project.
 
-## Next Steps
+## 後續步驟
 
-Now that you have a working Hono app connected to a Prisma Postgres database, you can:
+Now that you have a working Hono app connected to a Prisma Postgres database, 您可以:
 
 - Extend your Prisma schema with more models and relationships
 - Add create/update/delete routes and forms

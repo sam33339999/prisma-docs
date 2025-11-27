@@ -24,7 +24,7 @@ community_section: true
 
 ## Introduction
 
-When making changes to your database schema in production, it's crucial to ensure data consistency and avoid downtime. This guide shows you how to use the expand and contract pattern to safely migrate data between columns. We'll walk through a practical example of replacing a boolean field with an enum field while preserving existing data.
+When making changes to your database schema in production, it's crucial to ensure data consistency and avoid downtime. 本指南向您展示如何 use the expand and contract pattern to safely migrate data between columns. We'll walk through a practical example of replacing a boolean field with an enum field while preserving existing data.
 
 ## 前置需求
 
@@ -63,7 +63,7 @@ model Post {
 
 ### 1.2. Configure Prisma
 
-Create a `prisma.config.ts` file in the root of your project with the following content:
+Create a `prisma.config.ts` file in the root of your project with 以下 content:
 
 ```typescript file=prisma.config.ts
 import 'dotenv/config'
@@ -82,7 +82,7 @@ export default defineConfig({
 
 :::note
 
-You'll need to install the required packages. If you haven't already, install them using your package manager:
+You'll need 安裝 the required packages. If you haven't already, install them using your package manager:
 
 ```bash
 npm install prisma @types/pg --save-dev
@@ -91,7 +91,7 @@ npm install @prisma/client @prisma/adapter-pg pg dotenv
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -109,7 +109,7 @@ git checkout -b create-status-field
 
 ### 2.1. Add new column
 
-Update your schema to add the new Status enum and field:
+Update your schema 添加 the new Status enum and field:
 
 ```prisma
 model Post {
@@ -217,7 +217,7 @@ git checkout -b drop-published-column
 
 ### 4.2. Remove old column
 
-Update your schema to remove the published field:
+Update your schema 移除 the published field:
 
 ```prisma
 model Post {
@@ -253,7 +253,7 @@ npx prisma generate
 
 ### 5.1. Set up deployment
 
-Add the following command to your CI/CD pipeline:
+Add 以下 command to your CI/CD pipeline:
 
 ```bash
 npx prisma migrate deploy
@@ -281,12 +281,12 @@ Watch for any errors in your logs and monitor your application's behavior after 
 
 ## 後續步驟
 
-Now that you've completed your first expand and contract migration, you can:
+Now that you've completed your first expand and contract migration, 您可以:
 
 - Learn more about [Prisma Migrate](/orm/prisma-migrate)
 - Explore [schema prototyping](/orm/prisma-migrate/workflows/prototyping-your-schema)
 - Understand [customizing migrations](/orm/prisma-migrate/workflows/customizing-migrations)
 
-For more information:
+欲了解更多資訊:
 - [Expand and Contract Pattern Documentation](https://www.prisma.io/dataguide/types/relational/expand-and-contract-pattern)
 - [Prisma Migrate Workflows](/orm/prisma-migrate/workflows)

@@ -10,9 +10,9 @@ community_section: true
 
 ## Introduction
 
-Prisma ORM streamlines database access with type-safe queries and a smooth developer experience. SolidStart, a modern framework for building reactive web apps with SolidJS, pairs well with Prisma and Postgres to create a clean and scalable full-stack architecture.
+Prisma ORM streamlines database access with type-safe queries and a smooth developer experience. SolidStart, a modern framework for building reactive web apps with SolidJS, pairs well with Prisma and Postgres 建立 a clean and scalable full-stack architecture.
 
-In this guide, you'll learn how to integrate Prisma ORM with a Prisma Postgres database in a SolidStart project from scratch. You can find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/solid-start).
+在本指南中, you'll 學習如何 integrate Prisma ORM with a Prisma Postgres database in a SolidStart project from scratch. 您可以 find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/solid-start).
 
 ## 前置需求
 - [Node.js 18+](https://nodejs.org)
@@ -25,7 +25,7 @@ Begin by creating a new SolidStart app. In your terminal, run:
 npm init solid@latest 
 ```
 
-Use the following options when prompted:
+Use 以下 options when prompted:
 
 :::info
 
@@ -44,9 +44,9 @@ npm install
 npm run dev
 ```
 
-Once the dev server is running, open `http://localhost:3000` in your browser. You should see the SolidStart welcome screen.
+Once the dev server is running, open `http://localhost:3000` in your browser. 您應該 參見 SolidStart welcome screen.
 
-Clean up the default UI by editing the `app.tsx` file and replacing its content with the following code:
+Clean up the default UI by editing the `app.tsx` file and replacing its content with 以下 code:
 
 ```typescript file=src/app.tsx
 import "./app.css";
@@ -64,7 +64,7 @@ export default function App() {
 
 ### 2.1. Install dependencies
 
-To get started with Prisma, you'll need to install a few dependencies:
+開始使用 with Prisma, you'll need 安裝 a few dependencies:
 
 ```terminal
 npm install prisma tsx @types/pg --save-dev
@@ -73,7 +73,7 @@ npm install @prisma/client @prisma/adapter-pg dotenv pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -86,7 +86,7 @@ npx prisma init --db --output ../src/generated/prisma
 You'll need to answer a few questions while setting up your Prisma Postgres database. Select the region closest to your location and a memorable name for your database like "My SolidStart Project"
 :::
 
-This will create:
+這將 create:
 
 - A `prisma` directory with a `schema.prisma` file.
 - A `prisma.config.ts` file for configuring Prisma
@@ -96,7 +96,7 @@ This will create:
 
 ### 2.2. Define your Prisma Schema
 
-In the `prisma/schema.prisma` file, add the following models and change the generator to use the `prisma-client` provider:
+In the `prisma/schema.prisma` file, add 以下 models and change the generator 使用 the `prisma-client` provider:
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -127,7 +127,7 @@ model Post {
 //add-end
 ```
 
-This creates two models: `User` and `Post`, with a one-to-many relationship between them.
+這會建立 two models: `User` and `Post`, with a one-to-many relationship between them.
 
 ### 2.3 Add `dotenv` to `prisma.config.ts`
 
@@ -153,7 +153,7 @@ export default defineConfig({
 
 ### 2.4. Configure the Prisma Client generator
 
-Now, run the following command to create the database tables and generate the Prisma Client:
+Now, run 以下 command 建立 the database tables and generate the Prisma Client:
 
 ```terminal
 npx prisma migrate dev --name init
@@ -219,7 +219,7 @@ export async function main() {
 main();
 ```
 
-Now, tell Prisma how to run this script by updating your `prisma.config.ts`:
+Now, tell Prisma 如何 run this script by updating your `prisma.config.ts`:
 
 ```ts file=prisma.config.ts
 import 'dotenv/config'
@@ -260,7 +260,7 @@ At the root of your project, create a new `lib` folder and a `prisma.ts` file in
 mkdir -p lib && touch lib/prisma.ts
 ```
 
-Add the following code to create a Prisma Client instance:
+Add 以下 code 建立 a Prisma Client instance:
 
 ```typescript file=lib/prisma.ts
 import { PrismaClient } from "../src/generated/prisma/client.js";
@@ -280,7 +280,7 @@ export default prisma;
 :::warning
 We recommend using a connection pooler (like [Prisma Accelerate](https://www.prisma.io/accelerate)) to manage database connections efficiently.
 
-If you choose not to use one, **avoid** instantiating `PrismaClient` globally in long-lived environments. Instead, create and dispose of the client per request to prevent exhausting your database connections.
+If you choose not 使用 one, **avoid** instantiating `PrismaClient` globally in long-lived environments. Instead, create and dispose of the client per request to prevent exhausting your database connections.
 :::
 
 ### 3.2. Create an API Route
@@ -438,9 +438,9 @@ export default function App() {
 
 You're done! You've just created a SolidStart app connected to a Prisma Postgres database.
 
-## Next Steps
+## 後續步驟
 
-Now that you have a working SolidStart app connected to a Prisma Postgres database, you can:
+Now that you have a working SolidStart app connected to a Prisma Postgres database, 您可以:
 
 - Extend your Prisma schema with more models and relationships
 - Add create/update/delete routes and forms

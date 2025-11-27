@@ -5,11 +5,11 @@ metaDescription: '學習如何 to use 關於 特殊欄位和型別 with Prisma �
 tocDepth: 3
 ---
 
-This section covers various special fields and types you can use with Prisma Client.
+本節涵蓋 various special fields and types 您可以 use with Prisma Client.
 
 ## Working with `Decimal`
 
-`Decimal` fields are represented by the [`Decimal.js` library](https://mikemcl.github.io/decimal.js/). The following example demonstrates how to import and use `Prisma.Decimal`:
+`Decimal` fields are represented by the [`Decimal.js` library](https://mikemcl.github.io/decimal.js/). 以下範例 demonstrates 如何 import and use `Prisma.Decimal`:
 
 ```ts
 import { PrismaClient, Prisma } from '@prisma/client'
@@ -23,7 +23,7 @@ const newTypes = await prisma.sample.create({
 
 <br/>
 
-You can also perform arithmetic operations:
+您可以 also perform arithmetic operations:
 
 ```ts
 import { PrismaClient, Prisma } from '@prisma/client'
@@ -48,7 +48,7 @@ The use of the `Decimal` field [is not currently supported in MongoDB](https://g
 
 ### 概述
 
-`BigInt` fields are represented by the [`BigInt` type](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt) (Node.js 10.4.0+ required). The following example demonstrates how to use the `BigInt` type:
+`BigInt` fields are represented by the [`BigInt` type](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt) (Node.js 10.4.0+ required). 以下範例 demonstrates 如何使用 the `BigInt` type:
 
 ```ts
 import { PrismaClient, Prisma } from '@prisma/client'
@@ -62,7 +62,7 @@ const newTypes = await prisma.sample.create({
 
 ### Serializing `BigInt`
 
-Prisma Client returns records as plain JavaScript objects. If you attempt to use `JSON.stringify` on an object that includes a `BigInt` field, you will see the following error:
+Prisma Client returns records as plain JavaScript objects. If you attempt 使用 `JSON.stringify` on an object that includes a `BigInt` field, you will see 以下 error:
 
 ```
 Do not know how to serialize a BigInt
@@ -79,7 +79,7 @@ JSON.stringify(
 
 ## Working with `Bytes`
 
-`Bytes` fields are represented by the [`Uint8Array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) type. The following example demonstrates how to use the `Uint8Array` type:
+`Bytes` fields are represented by the [`Uint8Array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) type. 以下範例 demonstrates 如何使用 the `Uint8Array` type:
 
 ```ts
 import { PrismaClient, Prisma } from '@prisma/client'
@@ -91,7 +91,7 @@ const newTypes = await prisma.sample.create({
 })
 ```
 
-Note that **before Prisma v6**, `Bytes` were represented by the [`Buffer`](https://nodejs.org/api/buffer.html) type:
+請注意 **before Prisma v6**, `Bytes` were represented by the [`Buffer`](https://nodejs.org/api/buffer.html) type:
 
 ```ts
 import { PrismaClient, Prisma } from '@prisma/client'
@@ -115,7 +115,7 @@ There currently is a [bug](https://github.com/prisma/prisma/issues/9516) that do
 
 When creating records that have fields of type [`DateTime`](/orm/reference/prisma-schema-reference#datetime), Prisma Client accepts values as [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) objects adhering to the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
 
-Consider the following schema:
+Consider 以下 schema:
 
 ```prisma
 model User {

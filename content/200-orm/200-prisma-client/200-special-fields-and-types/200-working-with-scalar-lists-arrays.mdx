@@ -46,7 +46,7 @@ Example field value:
 
 ## Setting the value of a scalar list
 
-The following example demonstrates how to [`set`](/orm/reference/prisma-client-reference#set-1) the value of a scalar list (`coinflips`) when you create a model:
+以下範例 demonstrates 如何 [`set`](/orm/reference/prisma-client-reference#set-1) the value of a scalar list (`coinflips`) when you create a model:
 
 ```ts
 const createdUser = await prisma.user.create({
@@ -66,7 +66,7 @@ This method is available on MongoDB only in versions
 
 :::
 
-The following example demonstrates how to [`unset`](/orm/reference/prisma-client-reference#unset) the value of a scalar list (`coinflips`):
+以下範例 demonstrates 如何 [`unset`](/orm/reference/prisma-client-reference#unset) the value of a scalar list (`coinflips`):
 
 ```ts
 const createdUser = await prisma.user.create({
@@ -93,7 +93,7 @@ Available for:
 
 :::
 
-Use the [`push`](/orm/reference/prisma-client-reference#push) method to add a single value to a scalar list:
+Use the [`push`](/orm/reference/prisma-client-reference#push) method 添加 a single value to a scalar list:
 
 ```ts
 const userUpdate = await prisma.user.update({
@@ -108,7 +108,7 @@ const userUpdate = await prisma.user.update({
 })
 ```
 
-In earlier versions, you have to overwrite the entire value. The following example retrieves user, uses `push()` to add three new coin flips, and overwrites the `coinflips` field in an `update`:
+In earlier versions, you have to overwrite the entire value. 以下範例 retrieves user, uses `push()` 添加 three new coin flips, and overwrites the `coinflips` field in an `update`:
 
 ```ts
 const user = await prisma.user.findUnique({
@@ -147,7 +147,7 @@ Available for:
 
 :::
 
-Use [scalar list filters](/orm/reference/prisma-client-reference#scalar-list-filters) to filter for records with scalar lists that match a specific condition. The following example returns all posts where the tags list includes `databases` _and_ `typescript`:
+Use [scalar list filters](/orm/reference/prisma-client-reference#scalar-list-filters) to filter for records with scalar lists that match a specific condition. 以下範例 returns all posts where the tags list includes `databases` _and_ `typescript`:
 
 ```ts
 const posts = await prisma.post.findMany({
@@ -170,14 +170,14 @@ This section applies to:
 
 :::
 
-When using scalar list filters with a relational database connector, array fields with a `NULL` value are not considered by the following conditions:
+When using scalar list filters with a relational database connector, array fields with a `NULL` value are not considered by 以下 conditions:
 
 - `NOT` (array does not contain X)
 - `isEmpty` (array is empty)
 
-This means that records you might expect to see are not returned. Consider the following examples:
+This means that records you might expect to see are not returned. Consider 以下範例:
 
-- The following query returns all posts where the `tags` **do not** include `databases`:
+- 以下 query returns all posts where the `tags` **do not** include `databases`:
 
   ```ts
   const posts = await prisma.post.findMany({
@@ -198,7 +198,7 @@ This means that records you might expect to see are not returned. Consider the f
 
   - ✘ `NULL` arrays, even though they do not contain `"databases"`
 
-The following query returns all posts where `tags` is empty:
+以下 query returns all posts where `tags` is empty:
 
 ```ts
 const posts = await prisma.post.findMany({
@@ -218,4 +218,4 @@ The query does not return:
 
 - ✘ `NULL` arrays, even though they could be considered empty
 
-To work around this issue, you can set the default value of array fields to `[]`.
+To work around this issue, 您可以 set the default value of array fields to `[]`.

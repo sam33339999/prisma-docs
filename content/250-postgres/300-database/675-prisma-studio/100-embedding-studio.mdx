@@ -13,12 +13,12 @@ Prisma Studio can be embedded in your own application via the [`@prisma/studio-c
 It provides `Studio`, a React component which renders Prisma Studio for your database. The `Studio` component accepts an executor that calls a `/studio` endpoint in your backend. The backend uses your `DATABASE_URL` (connection string) to connect to the correct Prisma Postgres instance and execute the SQL query.
 
 :::tip
-If you want to see what embedded Studio looks like, **[check out the demo](https://github.com/prisma/studio-core-demo) on GitHub**!
+If you want to see what embedded Studio looks like, **[查看 the demo](https://github.com/prisma/studio-core-demo) on GitHub**!
 :::
 
 ## Use cases
 
-You can embed Prisma Studio in your own app in various scenarios:
+您可以 embed Prisma Studio in your own app in various scenarios:
 
 - Create an quick admin dashboard for editing data
 - Multi-tenant application where every user has their own DB
@@ -29,7 +29,7 @@ You can embed Prisma Studio in your own app in various scenarios:
 - Frontend: A React application
 - Backend:
   - A server-side application to expose the `/studio` endpoint (e.g. with Express or Hono)
-  - A Prisma Postgres instance (you can create one with `npx prisma init --db`)
+  - A Prisma Postgres instance (您可以 create one with `npx prisma init --db`)
 
 :::note
 The embeddable version of Prisma Studio will be available for other databases in combination with Prisma ORM soon.
@@ -45,9 +45,9 @@ npm install @prisma/studio-core
 
 ## 前端 設定
 
-In your React app, you can use the `Studio` component to render the tables in your database via Prisma Studio. It receives an _executor_ which is responsible for packaging the current SQL query in an HTTP request (also allowing for custom headers/payloads) and sending it to the `/studio` endpoint in your backend.
+In your React app, 您可以 use the `Studio` component to render the tables in your database via Prisma Studio. It receives an _executor_ which is responsible for packaging the current SQL query in an HTTP request (also allowing for custom headers/payloads) and sending it to the `/studio` endpoint in your backend.
 
-> Check out the [demo](https://github.com/prisma/studio-core-demo/blob/main/frontend/index.tsx) on GitHub for a full reference implementation.
+> 查看 the [demo](https://github.com/prisma/studio-core-demo/blob/main/frontend/index.tsx) on GitHub for a full reference implementation.
 
 ### Minimal implementation
 
@@ -117,7 +117,7 @@ function App() {
 
 ### Custom styling
 
-You can customize the look and feel of Prisma Studio so that it matches your application’s design. This is done by passing a custom theme to the `Studio` component. A theme is simply a set of CSS variables that define colors, spacing, and other style properties for both light and dark modes.
+您可以 customize the look and feel of Prisma Studio so that it matches your application’s design. This is done by passing a custom theme to the `Studio` component. A theme is simply a set of CSS variables that define colors, spacing, and other style properties for both light and dark modes.
 
 Here's an example of applying a custom theme:
 
@@ -168,7 +168,7 @@ function App() {
 }
 ```
 
-With this setup, Studio inherits your custom colors, borders, and typography rules, making it feel like a natural part of your app rather than a separate tool. You can define as many or as few variables as you need depending on the level of customization you want.
+With this setup, Studio inherits your custom colors, borders, and typography rules, making it feel like a natural part of your app rather than a separate tool. 您可以 define as many or as few variables as you need depending on the level of customization you want.
 
 ### 概念
 
@@ -184,7 +184,7 @@ Your backend needs to expose a `/studio` endpoint where the frontend sends its r
 
 The backend also needs to have access to the Prisma Postgres API key, we recommend setting it as an environment variable as a best practice.
 
-> Check out the [demo](https://github.com/prisma/studio-core-demo/blob/main/server/index.ts) on GitHub for a full reference implementation.
+> 查看 the [demo](https://github.com/prisma/studio-core-demo/blob/main/server/index.ts) on GitHub for a full reference implementation.
 
 ### Minimal implementation
 
@@ -289,9 +289,9 @@ sequenceDiagram
 
 ## Adding user authentication
 
-When you want to authenticate the users of your app against Prisma Studio, you can do that by adding custom logic around your embedded Prisma Studio version.
+When you want to authenticate the users of your app against Prisma Studio, 您可以 do that by adding custom logic around your embedded Prisma Studio version.
 
-On the frontend, you can ensure to pass the `Authorization` header and other data (e.g. a user ID) when creating the executor:
+On the frontend, 您可以 ensure to pass the `Authorization` header and other data (e.g. a user ID) when creating the executor:
 
 ```tsx
 const executor = createStudioBFFClient({
@@ -303,7 +303,7 @@ const executor = createStudioBFFClient({
 });
 ```
 
-In your server-side implementation, you can then retrieve these values from the incoming request and extract the Prisma Postgres API key that's needed for this user's query:
+In your server-side implementation, 您可以 then retrieve these values from the incoming request and extract the Prisma Postgres API key that's needed for this user's query:
 
 ```typescript
 const userId = c.req.header("X-User-ID");
@@ -318,7 +318,7 @@ Embeddable Prisma Studio (Free) is licensed under Apache 2.0.
 
 ✔️ Free for production use  
 ⚠️ Prisma branding must remain visible and unaltered  
-🔐 To remove our branding or to inquire about upcoming partner-only features, ping us here: [partnerships@prisma.io](mailto:partnerships@prisma.io)
+🔐 移除 our branding or to inquire about upcoming partner-only features, ping us here: [partnerships@prisma.io](mailto:partnerships@prisma.io)
 
 ## Telemetry
 

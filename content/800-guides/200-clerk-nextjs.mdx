@@ -12,7 +12,7 @@ community_section: true
 
 [Clerk](https://clerk.com/) is a drop-in auth provider that handles sign-up, sign-in, user management, and webhooks so you don't have to.
 
-In this guide you'll wire Clerk into a brand-new [Next.js](https://nextjs.org/) app, persist users in a [Prisma Postgres](https://prisma.io/postgres) database, and expose a tiny posts API. You can find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/clerk-nextjs).
+在本指南中 you'll wire Clerk into a brand-new [Next.js](https://nextjs.org/) app, persist users in a [Prisma Postgres](https://prisma.io/postgres) database, and expose a tiny posts API. 您可以 find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/clerk-nextjs).
 
 ## 前置需求
 
@@ -32,13 +32,13 @@ It will prompt you to customize your setup. Choose the defaults:
 
 :::info
 
-- *Would you like to use TypeScript?* `Yes`
-- *Would you like to use ESLint?* `Yes`
-- *Would you like to use Tailwind CSS?* `Yes`
+- *Would you like 使用 TypeScript?* `Yes`
+- *Would you like 使用 ESLint?* `Yes`
+- *Would you like 使用 Tailwind CSS?* `Yes`
 - *Would you like your code inside a `src/` directory?* `No`
-- *Would you like to use App Router?* (recommended) `Yes`
-- *Would you like to use Turbopack for `next dev`?* `Yes`
-- *Would you like to customize the import alias (`@/*` by default)?* `No`
+- *Would you like 使用 App Router?* (recommended) `Yes`
+- *Would you like 使用 Turbopack for `next dev`?* `Yes`
+- *Would you like to customize the import alias (`@/*` 預設情況下)?* `No`
 
 :::
 
@@ -217,7 +217,7 @@ const Navbar = () => {
 
 ### 3.1. Install dependencies
 
-To get started with Prisma, you'll need to install a few dependencies:
+開始使用 with Prisma, you'll need 安裝 a few dependencies:
 
 ```terminal
 npm install prisma tsx @types/pg --save-dev
@@ -226,7 +226,7 @@ npm install @prisma/client @prisma/adapter-pg dotenv pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -238,14 +238,14 @@ npx prisma init --db --output ../app/generated/prisma
 :::info
 You'll need to answer a few questions while setting up your Prisma Postgres database. Select the region closest to your location and a memorable name for the database like "My Clerk NextJS Project"
 :::
-This will create:
+這將 create:
 
 - A `prisma/` directory with a `schema.prisma` file
 - A `DATABASE_URL` in `.env`
 
 ### 3.2. Define your Prisma Schema
 
-In the `prisma/schema.prisma` file, add the following models:
+In the `prisma/schema.prisma` file, add 以下 models:
 
 ```prisma file=prisma/schema.prisma showLineNumbers
 generator client {
@@ -278,9 +278,9 @@ model Post {
 //add-end
 ```
 
-This will create two models: `User` and `Post`, with a one-to-many relationship between them.
+這將 create two models: `User` and `Post`, with a one-to-many relationship between them.
 
-Create a `prisma.config.ts` file to configure Prisma:
+Create a `prisma.config.ts` file 配置 Prisma:
 
 ```typescript file=prisma.config.ts showLineNumbers
 //add-start
@@ -301,7 +301,7 @@ export default defineConfig({
 
 :::note
 
-You'll need to install the `dotenv` package:
+You'll need 安裝 the `dotenv` package:
 
 ```terminal
 npm install dotenv
@@ -309,7 +309,7 @@ npm install dotenv
 
 :::
 
-Now, run the following command to create the database tables and generate the Prisma Client:
+Now, run 以下 command 建立 the database tables and generate the Prisma Client:
 
 ```terminal
 npx prisma migrate dev --name init
@@ -391,7 +391,7 @@ export async function POST(req: NextRequest) {
 
 When a new user is created, they need to be stored in the database.
 
-You'll do that by checking if the event type is `user.created` and then using Prisma's `upsert` method to create a new user if they don't exist:
+You'll do that by checking if the event type is `user.created` and then using Prisma's `upsert` method 建立 a new user if they don't exist:
 
 ```tsx file=app/api/webhooks/clerk/route.ts showLineNumbers
 import { verifyWebhook } from "@clerk/nextjs/webhooks";
@@ -468,7 +468,7 @@ export async function POST(req: NextRequest) {
 
 ### 4.2. Expose your local app for webhooks
 
-You'll need to expose your local app for webhooks with [ngrok](https://ngrok.com/). This will allow Clerk to reach your `/api/webhooks/clerk` route to push events like `user.created`.
+You'll need to expose your local app for webhooks with [ngrok](https://ngrok.com/). 這將 allow Clerk to reach your `/api/webhooks/clerk` route to push events like `user.created`.
 
 Install ngrok and expose your local app:
 
@@ -477,7 +477,7 @@ npm install --global ngrok
 ngrok http 3000
 ```
 
-Copy the ngrok `Forwarding URL`. This will be used to set the webhook URL in Clerk.
+Copy the ngrok `Forwarding URL`. 這將 be used to set the webhook URL in Clerk.
 
 Navigate to the ***Webhooks*** section of your Clerk application located near the bottom of the ***Configure*** tab under ***Developers***.
 
@@ -502,7 +502,7 @@ CLERK_WEBHOOK_SIGNING_SECRET=<your-signing-secret>
 
 On the home page, press Sign Up and create an account using any of the sign-up options
 
-Open Prisma Studio and you should see a user record.
+Open Prisma Studio and 您應該 see a user record.
 
 ```terminal
 npx prisma studio
@@ -520,7 +520,7 @@ If you don't see a user record, there are a few things to check:
 
 ## 5. Build a posts API
 
-To create posts under a user, you'll need to create a new API route at `app/api/posts/route.ts`:
+建立 posts under a user, you'll need 建立 a new API route at `app/api/posts/route.ts`:
 
 Start by importing the necessary dependencies:
 
@@ -650,7 +650,7 @@ export default function PostInputs() {
 }
 ```
 
-You'll be using a form to create a post and call the `POST` route you created earlier:
+You'll be using a form 建立 a post and call the `POST` route you created earlier:
 
 ```tsx file=app/components/PostInputs.tsx showLineNumbers
 "use client";
@@ -710,7 +710,7 @@ On submit:
 
 Now, update the `page.tsx` file to fetch posts, show the form, and render the list.
 
-Delete everything within `page.tsx`, leaving only the following:
+Delete everything within `page.tsx`, leaving only 以下:
 
 ```tsx file=app/page.tsx showLineNumbers
 export default function Home() {
@@ -813,9 +813,9 @@ export default async function Home() {
 
 You've successfully built a Next.js application with Clerk authentication and Prisma, creating a foundation for a secure and scalable full-stack application that handles user management and data persistence with ease.
 
-Below are some next steps to explore, as well as some more resources to help you get started expanding your project.
+Below are some 後續步驟 to explore, as well as some more resources to help you get started expanding your project.
 
-## Next Steps
+## 後續步驟
 
 - Add delete functionality to posts and users.
 - Add a search bar to filter posts.

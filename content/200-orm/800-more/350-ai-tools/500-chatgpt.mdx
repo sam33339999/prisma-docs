@@ -8,13 +8,13 @@ toc: true
 
 [ChatGPT](https://openai.com/chatgpt) is a large language model-based chatbot developed by OpenAI. You can extend its capabilities by connecting it to external tools, such as the Prisma MCP server, to interact with your Prisma Postgres databases.
 
-This guide explains how to add the remote Prisma MCP server to ChatGPT, allowing you to create and manage your databases using natural language prompts.
+本指南說明如何 add the remote Prisma MCP server to ChatGPT, allowing you 建立 and manage your databases using natural language prompts.
 
 :::tip[ChatGPT MCP integration is experimental]
 
 This feature is still in development by OpenAI and might look or work a little differently over time. Some users may not have access to it yet.
 
-If you notice that something has changed or doesn't match this guide, please [open an issue](https://github.com/prisma/docs/issues) or submit a pull request to update our docs.
+If you notice that something has changed or doesn't match this guide, please [open an issue](https://github.com/prisma/docs/issues) or submit a pull request 更新 our docs.
 :::
 
 Here is an end to end demo of setting up the remote Prisma MCP server and using it in ChatGPT:
@@ -24,7 +24,7 @@ Here is an end to end demo of setting up the remote Prisma MCP server and using 
 
 ## 功能 of the Prisma MCP Server
 
-By connecting the Prisma MCP server to ChatGPT, you can perform a variety of database management tasks directly from the chat interface. Here are some of the key features available:
+By connecting the Prisma MCP server to ChatGPT, 您可以 perform a variety of database management tasks directly from the chat interface. Here are some of the key features available:
 
 - **Database management**: Create, list, and delete your Prisma Postgres databases.
 - **Connection strings**: Generate, list, and revoke database connection strings.
@@ -34,7 +34,7 @@ By connecting the Prisma MCP server to ChatGPT, you can perform a variety of dat
 
 ## 前置需求
 
-To use the Prisma MCP server with ChatGPT, you need access to ChatGPT's Developer Mode. This feature is available on specific ChatGPT plans. For the most up-to-date information on supported plans, please refer to the [official OpenAI documentation](https://platform.openai.com/docs/guides/developer-mode).
+使用 the Prisma MCP server with ChatGPT, you need access to ChatGPT's Developer Mode. This feature is available on specific ChatGPT plans. For the most up-to-date information on supported plans, please 參閱 the [official OpenAI documentation](https://platform.openai.com/docs/guides/developer-mode).
 
 ## Enable Developer mode in ChatGPT
 
@@ -50,7 +50,7 @@ To use the Prisma MCP server with ChatGPT, you need access to ChatGPT's Develope
 2. Go to the **Apps & Connectors** section of your **Settings**.
 3. On the top right, locate and click **Create**.
 4. A "New Connector" popup will open. Fill in the text fields as follows:
-    - **Icon**: You can download and use the [Prisma favicon](https://www.prisma.io/favicon.ico).
+    - **Icon**: 您可以 download and use the [Prisma favicon](https://www.prisma.io/favicon.ico).
     - **Name**: `Prisma MCP server`
     - **Description**: `Manage Prisma Postgres databases`
     - **MCP Server URL**: `https://mcp.prisma.io/mcp`
@@ -61,13 +61,13 @@ You will be redirected to authenticate with your Prisma Data Platform account an
 
 ## Using the remote Prisma MCP Server
 
-Once Developer Mode is enabled and the Prisma MCP server is added, you can use it in your chats.
+Once Developer Mode is enabled and the Prisma MCP server is added, 您可以 use it in your chats.
 
 1. In ChatGPT, click the **+** icon to the left of the chat input box.
 2. Click **More**.
-3. Select the **Prisma MCP server** to add it to your chat as a connector.
+3. Select the **Prisma MCP server** 添加 it to your chat as a connector.
 
-Now you can use natural language prompts to manage your database. For example:
+Now 您可以 use natural language prompts to manage your database. 例如：
 
 ```
 Create a DB called pet-app for me near Paris

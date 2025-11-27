@@ -31,7 +31,7 @@ Postgres extensions support in Prisma Postgres is currently in [Early Access](/p
 
 ## Using 擴充 with Prisma ORM
 
-Some extensions may already be supported by Prisma Postgres but not yet by Prisma ORM. Native support for some Postgres extensions in Prisma ORM is coming soon. In the meantime, you can still use these extensions with Prisma ORM by using [customized migrations](/orm/prisma-migrate/workflows/customizing-migrations) and [TypedSQL](/orm/prisma-client/using-raw-sql/typedsql) (or another mechanism to send [raw SQL](/orm/prisma-client/using-raw-sql) via in Prisma ORM). 
+Some extensions may already be 支援 Prisma Postgres but not yet by Prisma ORM. Native support for some Postgres extensions in Prisma ORM is coming soon. In the meantime, 您可以 still use these extensions with Prisma ORM by using [customized migrations](/orm/prisma-migrate/workflows/customizing-migrations) and [TypedSQL](/orm/prisma-client/using-raw-sql/typedsql) (or another mechanism to send [raw SQL](/orm/prisma-client/using-raw-sql) via in Prisma ORM). 
 
 Let's walk through an example with `pgvector`.
 
@@ -47,7 +47,7 @@ Notice the `--create-only` flag which will create an empty migration file in you
 
 ### 2. Create and use the extension in your 遷移 file
 
-In the empty migration file, you can write any custom SQL to be executed in the database:
+In the empty migration file, 您可以 write any custom SQL to be executed in the database:
 
 ```sql
 -- prisma/migrations/<timestamp>-add-pgvector/migration.sql
@@ -66,7 +66,7 @@ In this case, you:
 
 ### 3. Execute the 遷移 against the 資料庫
 
-Run the following command to execute the migration and apply its changes in your database:
+Run 以下 command to execute the migration and apply its changes in your database:
 
 ```terminal
 npx prisma migrate deploy
@@ -118,7 +118,7 @@ model Document {
 }
 ```
 
-Because the `VECTOR` type is not yet natively supported by Prisma ORM, it's represented as an [`Unsupported`](/orm/prisma-schema/data-model/models#unsupported-types) type.
+Because the `VECTOR` type is not yet natively 支援 Prisma ORM, it's represented as an [`Unsupported`](/orm/prisma-schema/data-model/models#unsupported-types) type.
 
 ### 4. 查詢 with raw SQL
 
@@ -131,7 +131,7 @@ await prisma.$executeRaw`
 `;
 ```
 
-You can also use [TypedSQL](/orm/prisma-client/using-raw-sql/typedsql) for type-safe SQL queries against your database.
+您可以 also use [TypedSQL](/orm/prisma-client/using-raw-sql/typedsql) for type-safe SQL queries against your database.
 
 ## Temporary 限制
 
@@ -223,7 +223,7 @@ Here’s the full list with corrected URLs:
 
 ## Other 擴充 are coming soon
 
-Support for the following extensions is going to come soon:
+Support for 以下 extensions is going to come soon:
 
 - [`postgis`](https://postgis.net/)
 

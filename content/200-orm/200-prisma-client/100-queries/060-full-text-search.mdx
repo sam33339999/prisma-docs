@@ -5,17 +5,17 @@ metaDescription: '本頁說明 如何 search for text within a 欄位.'
 sidebar_class_name: preview-badge
 ---
 
-Prisma Client supports full-text search for **PostgreSQL** databases in versions 2.30.0 and later, and **MySQL** databases in versions 3.8.0 and later. With full-text search (FTS) enabled, you can add search functionality to your application by searching for text within a database column. 
+Prisma Client supports full-text search for **PostgreSQL** databases in versions 2.30.0 and later, and **MySQL** databases in versions 3.8.0 and later. With full-text search (FTS) enabled, 您可以 add search functionality to your application by searching for text within a database column. 
 
 :::info
 
-In Prisma v6, FTS has been [promoted to General Availability on MySQL](/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-6#fulltextsearch). It still remains in Preview for PostgreSQL and requires using the [`fullTextSearchPostgres`](/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-6#full-text-search-on-postgresql) Preview feature flag.
+In Prisma v6, FTS has been [promoted to General Availability on MySQL](/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-6#fulltextsearch). It still remains in Preview for PostgreSQL and 需要 using the [`fullTextSearchPostgres`](/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-6#full-text-search-on-postgresql) Preview feature flag.
 
 :::
 
 ## Enabling full-text search for PostgreSQL
 
-The full-text search API is currently a Preview feature. To enable this feature, carry out the following steps:
+The full-text search API is currently a Preview feature. 啟用 this feature, carry out 以下 steps:
 
 1. Update the [`previewFeatures`](/orm/reference/preview-features) block in your schema to include the `fullTextSearchPostgres` preview feature flag:
 
@@ -34,7 +34,7 @@ The full-text search API is currently a Preview feature. To enable this feature,
    npx prisma generate
    ```
 
-After you regenerate your client, a new `search` field will be available on any `String` fields created on your models. For example, the following search will return all posts that contain the word 'cat'.
+After you regenerate your client, a new `search` field will be available on any `String` fields created on your models. 例如, 以下 search will return all posts that contain the word 'cat'.
 
 ```ts
 // All posts that contain the word 'cat'.
@@ -47,7 +47,7 @@ const result = await prisma.posts.findMany({
 })
 ```
 
-> **Note**: There currently is a [known issue](https://github.com/prisma/prisma/issues/23627) in the full-text search feature for PostgreSQL. If you observe slow search queries, you can [optimize your query with raw SQL](#full-text-search-with-raw-sql).
+> **Note**: There currently is a [known issue](https://github.com/prisma/prisma/issues/23627) in the full-text search feature for PostgreSQL. If you observe slow search queries, 您可以 [optimize your query with raw SQL](#full-text-search-with-raw-sql).
 
 ## Querying the database
 
@@ -55,7 +55,7 @@ The `search` field uses the database's native querying capabilities under the ho
 
 ### PostgreSQL
 
-The following examples demonstrate the use of the PostgreSQL 'and' (`&`) and 'or' (`|`) operators:
+以下範例 demonstrate the use of the PostgreSQL 'and' (`&`) and 'or' (`|`) operators:
 
 ```ts
 // All posts that contain the words 'cat' or 'dog'.
@@ -78,11 +78,11 @@ const result = await prisma.posts.findMany({
 })
 ```
 
-To get a sense of how the query format works, consider the following text:
+To get a sense of how the query format works, consider 以下 text:
 
 **"The quick brown fox jumps over the lazy dog"**
 
-Here's how the following queries would match that text:
+Here's how 以下 queries would match that text:
 
 | Query                                   | Match? | Explanation                             |
 | :-------------------------------------- | :----- | :-------------------------------------- |
@@ -95,11 +95,11 @@ Here's how the following queries would match that text:
 | `fox <-> dog`                           | Yes    | 'dog' follows 'fox' in the text         |
 | `dog <-> fox`                           | No     | 'fox' doesn't follow 'dog' in the text  |
 
-For the full range of supported operations, see the [PostgreSQL full text search documentation](https://www.postgresql.org/docs/12/functions-textsearch.html).
+For the full range of supported operations, 參見 [PostgreSQL full text search documentation](https://www.postgresql.org/docs/12/functions-textsearch.html).
 
 ### MySQL
 
-The following examples demonstrate use of the MySQL 'and' (`+`) and 'not' (`-`) operators:
+以下範例 demonstrate use of the MySQL 'and' (`+`) and 'not' (`-`) operators:
 
 ```ts
 // All posts that contain the words 'cat' or 'dog'.
@@ -131,11 +131,11 @@ const result = await prisma.posts.findMany({
 })
 ```
 
-To get a sense of how the query format works, consider the following text:
+To get a sense of how the query format works, consider 以下 text:
 
 **"The quick brown fox jumps over the lazy dog"**
 
-Here's how the following queries would match that text:
+Here's how 以下 queries would match that text:
 
 | Query          | Match? | Description                                            |
 | :------------- | :----- | :----------------------------------------------------- |
@@ -151,7 +151,7 @@ Here's how the following queries would match that text:
 
 > **Note**: The - operator acts only to exclude rows that are otherwise matched by other search terms. Thus, a boolean-mode search that contains only terms preceded by - returns an empty result. It does not return “all rows except those containing any of the excluded terms.”
 
-MySQL also has `>`, `<` and `~` operators for altering the ranking order of search results. As an example, consider the following two records:
+MySQL also has `>`, `<` and `~` operators for altering the ranking order of search results. As an example, consider 以下 two records:
 
 **1. "The quick brown fox jumps over the lazy dog"**
 
@@ -162,7 +162,7 @@ MySQL also has `>`, `<` and `~` operators for altering the ranking order of sear
 | `fox ~cat`        | Return 1. first, then 2. | Return all records containing 'fox', but rank records containing 'cat' lower                            |
 | `fox (<cat >dog)` | Return 1. first, then 2. | Return all records containing 'fox', but rank records containing 'cat' lower than rows containing 'dog' |
 
-For the full range of supported operations, see the [MySQL full text search documentation](https://dev.mysql.com/doc/refman/8.0/en/fulltext-boolean.html).
+For the full range of supported operations, 參見 [MySQL full text search documentation](https://dev.mysql.com/doc/refman/8.0/en/fulltext-boolean.html).
 
 ## Sorting results by `_relevance`
 
@@ -172,7 +172,7 @@ Sorting by relevance is only available for PostgreSQL and MySQL.
 
 :::
 
-In addition to [Prisma Client's default `orderBy` behavior](/orm/reference/prisma-client-reference#orderby), full-text search also adds sorting by relevance to a given string or strings. As an example, if you wanted to order posts by their relevance to the term `'database'` in their title, you could use the following:
+In addition to [Prisma Client's default `orderBy` behavior](/orm/reference/prisma-client-reference#orderby), full-text search also adds sorting by relevance to a given string or strings. As an example, if you wanted to order posts by their relevance to the term `'database'` in their title, you could use 以下:
 
 ```ts
 const posts = await prisma.post.findMany({
@@ -194,9 +194,9 @@ Prisma Client does not currently support using indexes to speed up full text sea
 
 ### MySQL
 
-For MySQL, it is necessary to add indexes to any columns you search using the `@@fulltext` argument in the `schema.prisma` file. 
+For MySQL, it is necessary 添加 indexes to any columns you search using the `@@fulltext` argument in the `schema.prisma` file. 
 
-In the following example, one full text index is added to the `content` field of the `Blog` model, and another is added to both the `content` and `title` fields together:
+In 以下範例, one full text index is added to the `content` field of the `Blog` model, and another is added to both the `content` and `title` fields together:
 
 ```prisma file=schema.prisma showLineNumbers
 generator client {
@@ -241,15 +241,15 @@ const result = await prisma.blogs.findMany({
 })
 ```
 
-However, if you try to search on `title` alone, the search will fail with the error "Cannot find a fulltext index to use for the search" and the message code is `P2030`, because the search requires an index on both fields.
+However, if you try to search on `title` alone, the search will fail with the error "Cannot find a fulltext index 使用 for the search" and the message code is `P2030`, because the search 需要 an index on both fields.
 
 ## Full-text search with raw SQL
 
-Full-text search is currently in Preview, and due to a [known issue](https://github.com/prisma/prisma/issues/23627), you might experience slow search queries. If so, you can optimize your query using [TypedSQL](/orm/prisma-client/using-raw-sql).
+Full-text search is currently in Preview, and due to a [known issue](https://github.com/prisma/prisma/issues/23627), you might experience slow search queries. If so, 您可以 optimize your query using [TypedSQL](/orm/prisma-client/using-raw-sql).
 
 ### PostgreSQL
 
-With [TypedSQL](/orm/prisma-client/using-raw-sql), you can use PostgreSQL's `to_tsvector` and `to_tsquery` to express your search query.
+With [TypedSQL](/orm/prisma-client/using-raw-sql), 您可以 use PostgreSQL's `to_tsvector` and `to_tsquery` to express your search query.
 
 <TabbedContent code>
 
@@ -276,7 +276,7 @@ With [TypedSQL](/orm/prisma-client/using-raw-sql), you can use PostgreSQL's `to_
 
 > **Note**: Depending on your language preferences, you may exchange `english` against another language in the SQL statement.
 
-If you want to include a wildcard in your search term, you can do this as follows:
+If you want to include a wildcard in your search term, 您可以 do this as follows:
 
 <TabbedContent code>
 
@@ -302,7 +302,7 @@ If you want to include a wildcard in your search term, you can do this as follow
 
 ### MySQL
 
-In MySQL, you can express your search query as follows:
+In MySQL, 您可以 express your search query as follows:
 
 <TabbedContent code>
 

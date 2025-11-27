@@ -12,7 +12,7 @@ community_section: true
 
 [Better Auth](https://better-auth.com/) is a modern, open-source authentication solution for web apps. It's built with TypeScript and provides a simple and extensible auth experience with support for multiple database adapters, including Prisma.
 
-In this guide, you'll wire Better Auth into a brand-new [Astro](https://astro.build/) app and persist users in a [Prisma Postgres](https://prisma.io/postgres) database. You can find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/betterauth-astro).
+在本指南中, you'll wire Better Auth into a brand-new [Astro](https://astro.build/) app and persist users in a [Prisma Postgres](https://prisma.io/postgres) database. 您可以 find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/betterauth-astro).
 
 ## 前置需求
 
@@ -57,7 +57,7 @@ npm install @prisma/client @prisma/adapter-pg dotenv pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -71,7 +71,7 @@ npx prisma init --db --output ../prisma/generated
 You'll need to answer a few questions while setting up your Prisma Postgres database. Select the region closest to your location and a memorable name for your database like "My Better Auth Astro Project"
 :::
 
-This will create:
+這將 create:
 
 - A `prisma` directory with a `schema.prisma` file
 - A Prisma Postgres database
@@ -103,7 +103,7 @@ export default defineConfig({
 
 ### 2.3. Generate the Prisma Client
 
-Run the following command to generate the Prisma Client:
+Run 以下 command to generate the Prisma Client:
 
 ```terminal
 npx prisma generate
@@ -111,7 +111,7 @@ npx prisma generate
 
 ### 2.4. Set up a global Prisma client
 
-In the `src` directory, create a `lib` folder and a `prisma.ts` file inside it. This file will be used to create and export your Prisma Client instance.
+In the `src` directory, create a `lib` folder and a `prisma.ts` file inside it. This file will be used 建立 and export your Prisma Client instance.
 
 ```terminal
 mkdir -p src/lib
@@ -138,7 +138,7 @@ export default prisma;
 :::warning
 We recommend using a connection pooler (like [Prisma Accelerate](https://www.prisma.io/accelerate)) to manage database connections efficiently.
 
-If you choose not to use one, **avoid** instantiating `PrismaClient` globally in long-lived environments. Instead, create and dispose of the client per request to prevent exhausting your database connections.
+If you choose not 使用 one, **avoid** instantiating `PrismaClient` globally in long-lived environments. Instead, create and dispose of the client per request to prevent exhausting your database connections.
 :::
 
 ## 3. Set up Better Auth
@@ -182,7 +182,7 @@ Now, create a configuration file for Better Auth. In the `src/lib` directory, cr
 touch src/lib/auth.ts
 ```
 
-In this file, you'll configure Better Auth to use the Prisma adapter, which allows it to persist user and session data in your database. You will also enable email and password authentication.
+In this file, you'll configure Better Auth 使用 the Prisma adapter, which allows it to persist user and session data in your database. You will also enable email and password authentication.
 
 ```ts file=src/lib/auth.ts
 import { betterAuth } from "better-auth";
@@ -199,13 +199,13 @@ export const auth = betterAuth({
 });
 ```
 
-Better Auth also supports other sign-in methods like social logins (Google, GitHub, etc.), which you can explore in their [documentation](https://www.better-auth.com/docs/authentication/email-password).
+Better Auth also supports other sign-in methods like social logins (Google, GitHub, etc.), which 您可以 explore in their [documentation](https://www.better-auth.com/docs/authentication/email-password).
 
 ### 3.2. Add Better Auth models to your schema
 
 Better Auth provides a CLI command to automatically add the necessary authentication models (`User`, `Session`, `Account`, and `Verification`) to your `schema.prisma` file.
 
-Run the following command:
+Run 以下 command:
 
 ```terminal
 npx @better-auth/cli generate
@@ -215,7 +215,7 @@ npx @better-auth/cli generate
 It will ask for confirmation to overwrite your existing Prisma schema. Select `y`.
 :::
 
-This will add the following models:
+這將 add 以下 models:
 
 ```prisma
 model User {
@@ -281,7 +281,7 @@ model Verification {
 
 ### 3.3. Migrate the database
 
-With the new models in your schema, you need to update your database. Run a migration to create the corresponding tables:
+With the new models in your schema, 您需要 update your database. Run a migration 建立 the corresponding tables:
 
 ```terminal
 npx prisma migrate dev --name add-auth-models
@@ -301,7 +301,7 @@ mkdir -p src/pages/api/auth
 touch 'src/pages/api/auth/[...all].ts'
 ```
 
-Add the following code to the newly created `[...all].ts` file. This code uses the Better Auth handler to process authentication requests.
+Add 以下 code to the newly created `[...all].ts` file. This code uses the Better Auth handler to process authentication requests.
 
 ```ts file=src/pages/api/auth/[...all].ts
 import { auth } from "../../../lib/auth";
@@ -320,7 +320,7 @@ Next, you'll need a client-side utility to interact with these endpoints from yo
 touch src/lib/auth-client.ts
 ```
 
-Add the following code, which creates the client functions you'll use in your UI:
+Add 以下 code, which creates the client functions you'll use in your UI:
 
 ```ts file=src/lib/auth-client.ts
 import { createAuthClient } from "better-auth/client";
@@ -338,7 +338,7 @@ In the `src` directory, create an `env.d.ts` file to provide TypeScript definiti
 touch src/env.d.ts
 ```
 
-Add the following type definitions:
+Add 以下 type definitions:
 
 ```ts file=src/env.d.ts
 /// <reference path="../.astro/types.d.ts" />
@@ -361,13 +361,13 @@ interface ImportMeta {
 
 ## 6. Set up authentication middleware
 
-In the `src` directory, create a `middleware.ts` file to check authentication status on every request. This will make the user and session data available to all your pages.
+In the `src` directory, create a `middleware.ts` file to check authentication status on every request. 這將 make the user and session data available to all your pages.
 
 ```terminal
 touch src/middleware.ts
 ```
 
-Add the following code:
+Add 以下 code:
 
 ```ts file=src/middleware.ts
 import { auth } from "./lib/auth";
@@ -389,7 +389,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
 ## 7. Set up your pages
 
-Now, let's build the user interface for authentication. In the `src/pages` directory, create the following folder structure:
+Now, let's build the user interface for authentication. In the `src/pages` directory, create 以下 folder structure:
 
 - `sign-up/index.astro`
 - `sign-in/index.astro`
@@ -402,7 +402,7 @@ touch src/pages/{sign-up,sign-in,dashboard}/index.astro
 
 ### 7.1. Sign up page
 
-This page allows new users to create an account. Start with the basic HTML structure in `src/pages/sign-up/index.astro`.
+This page allows new users 建立 an account. Start with the basic HTML structure in `src/pages/sign-up/index.astro`.
 
 ```html file=src/pages/sign-up/index.astro
 ---
@@ -839,7 +839,7 @@ if (!Astro.locals.user?.id) return Astro.redirect("/sign-in");
 
 ### 7.4. Home page
 
-Finally, update the home page to provide simple navigation. Replace the contents of `src/pages/index.astro` with the following:
+Finally, update the home page to provide simple navigation. Replace the contents of `src/pages/index.astro` with 以下:
 
 ```html file=src/pages/index.astro
 ---
@@ -883,17 +883,17 @@ Your application is now fully configured.
 npm run dev
 ```
 
-2. Navigate to `http://localhost:4321` in your browser. You should see the home page with "Sign Up" and "Sign In" links.
+2. Navigate to `http://localhost:4321` in your browser. 您應該 參見 home page with "Sign Up" and "Sign In" links.
 
-3. Click on **Sign Up**, create a new account, and you should be redirected to the dashboard. You can then sign out and sign back in.
+3. Click on **Sign Up**, create a new account, and 您應該 be redirected to the dashboard. 您可以 then sign out and sign back in.
 
-4. To view the user data directly in your database, you can use Prisma Studio.
+4. To view the user data directly in your database, 您可以 use Prisma Studio.
 
 ```terminal
 npx prisma studio
 ```
 
-5. This will open a new tab in your browser where you can see the `User`, `Session`, and `Account` tables and their contents.
+5. 這將 open a new tab in your browser where 您可以 參見 `User`, `Session`, and `Account` tables and their contents.
 
 :::success
 
@@ -909,7 +909,7 @@ Congratulations! You now have a fully functional authentication system built wit
 - Deploy to Vercel or Netlify and secure your environment variables
 - Extend your Prisma schema with custom application models
 
-## Further reading
+## 延伸閱讀
 
 - [Better Auth documentation](https://www.better-auth.com/docs)
 - [Prisma documentation](/orm/overview/introduction)

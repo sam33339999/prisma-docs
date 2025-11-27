@@ -6,7 +6,7 @@ tocDepth: 3
 toc: true
 ---
 
-Prisma ORM v6 introduces a number of **breaking changes** when you upgrade from an earlier Prisma ORM version. This guide explains how this upgrade might affect your application and gives instructions on how to handle any changes.
+Prisma ORM v6 introduces a number of **breaking changes** when you upgrade from an earlier Prisma ORM version. 本指南說明 how this upgrade might affect your application and gives instructions on 如何 handle any changes.
 
 <details>
 <summary>Questions answered in this page</summary>
@@ -19,7 +19,7 @@ Prisma ORM v6 introduces a number of **breaking changes** when you upgrade from 
 
 ## 升級 the `prisma` and `@prisma/client` packages to v6
 
-To upgrade to Prisma ORM v6 from an earlier version, you need to update both the `prisma` and `@prisma/client` packages:
+To upgrade to Prisma ORM v6 from an earlier version, 您需要 update both the `prisma` and `@prisma/client` packages:
 
 <TabbedContent code>
 
@@ -95,12 +95,12 @@ If you are using CockroachDB, you do not need to take any action—the schema fo
 
 If you're using PostgreSQL and are defining [implicit many-to-many relations](/orm/prisma-schema/data-model/relations/many-to-many-relations#implicit-many-to-many-relations) in your Prisma schema, Prisma ORM maintains the [relation table](/orm/prisma-schema/data-model/relations/many-to-many-relations#relation-tables) for you under the hood. This relation table has `A` and `B` columns to represent the tables of the models that are part of this relation.
 
-Previous versions of Prisma ORM used to create a _unique index_ on these two columns. In Prisma v6, this unique index is changing to a _primary key_ in order to [simplify for the default replica identity behaviour](https://github.com/prisma/prisma/issues/25196).
+Previous versions of Prisma ORM used 建立 a _unique index_ on these two columns. In Prisma v6, this unique index is changing to a _primary key_ in order to [simplify for the default replica identity behaviour](https://github.com/prisma/prisma/issues/25196).
 
 <details>
 <summary>Expand for an example</summary>
 
-As an example, consider the following Prisma schema with an implicit m-n relation between `Post` and `Tag` models:
+As an example, consider 以下 Prisma schema with an implicit m-n relation between `Post` and `Tag` models:
 
 ```prisma
 model Post {
@@ -116,7 +116,7 @@ model Tag {
 }
 ```
 
-In this case, Prisma ORM maintains the following relation table for you under the hood:
+In this case, Prisma ORM maintains 以下 relation table for you under the hood:
 
 ```sql
 -- CreateTable
@@ -183,7 +183,7 @@ That way, you have a single, dedicated migration that takes care of this schema 
 
 ### Full-text search on PostgreSQL
 
-The [`fullTextSearch`](/orm/prisma-client/queries/full-text-search) Preview feature is promoted to General Availability only for MySQL. This means that if you're using PostgreSQL and currently make use of this Preview feature, you now need to use the new [`fullTextSearchPostgres`](/orm/prisma-client/queries/full-text-search#enabling-full-text-search-for-postgresql) Preview feature:
+The [`fullTextSearch`](/orm/prisma-client/queries/full-text-search) Preview feature is promoted to General Availability only for MySQL. This means that if you're using PostgreSQL and currently make use of this Preview feature, you now need 使用 the new [`fullTextSearchPostgres`](/orm/prisma-client/queries/full-text-search#enabling-full-text-search-for-postgresql) Preview feature:
 
 #### Before
 
@@ -226,7 +226,7 @@ Prisma v6 replaces the usage of [`Buffer`](https://nodejs.org/api/buffer.html)  
 
 ### Conversion from `Buffer` to `Uint8Array`
 
-You can directly use the `Buffer` instance as a `Uint8Array`:
+您可以 directly use the `Buffer` instance as a `Uint8Array`:
 
 ```ts
 const buffer: Buffer = Buffer.from([1, 2, 3, 4]);
@@ -235,7 +235,7 @@ const uint8Array: Uint8Array = buffer; // No conversion needed
 
 ### Conversion from `Uint8Array` to `Buffer`
 
-You can create a `Buffer` from a `Uint8Array` using `Buffer.from`:
+您可以 create a `Buffer` from a `Uint8Array` using `Buffer.from`:
 
 ```ts
 const uint8Array: Uint8Array = new Uint8Array([1, 2, 3, 4]);
@@ -337,7 +337,7 @@ model User {
 
 ### Removed `NotFoundError`
 
-In Prisma v6, we removed the `NotFoundError` in favor of `PrismaClientKnownRequestError` with error code [`P2025`](/orm/reference/error-reference#p2025) in [`findUniqueOrThrow()`](/orm/reference/prisma-client-reference#finduniqueorthrow) and [`findFirstOrThrow()`](/orm/reference/prisma-client-reference#findfirstorthrow). If you've relied on catching `NotFoundError` instances in your code, you need to adjust the code accordingly.
+In Prisma v6, we removed the `NotFoundError` in favor of `PrismaClientKnownRequestError` with error code [`P2025`](/orm/reference/error-reference#p2025) in [`findUniqueOrThrow()`](/orm/reference/prisma-client-reference#finduniqueorthrow) and [`findFirstOrThrow()`](/orm/reference/prisma-client-reference#findfirstorthrow). If you've relied on catching `NotFoundError` instances in your code, 您需要 adjust the code accordingly.
 
 #### Before
 
@@ -390,7 +390,7 @@ try {
 
 ### New keywords that can't be used as 模型 names: `async`, `await`, `using`
 
-With this release, you can't use `async`, `await` and `using` as model names any more.
+With this release, 您可以't use `async`, `await` and `using` as model names any more.
 
 
 ## 預覽 功能 promoted to General Availability
@@ -399,7 +399,7 @@ In this release, we are promoting a number of [Preview](/orm/more/releases#previ
 
 ### `fullTextIndex`
 
-If you use the [full-text index](/orm/prisma-schema/data-model/indexes#full-text-indexes-mysql-and-mongodb) feature in your app, you can now remove `fullTextIndex` from the `previewFeatures` in your Prisma schema:
+If you use the [full-text index](/orm/prisma-schema/data-model/indexes#full-text-indexes-mysql-and-mongodb) feature in your app, 您可以 now remove `fullTextIndex` from the `previewFeatures` in your Prisma schema:
 
 ```prisma
 generator client {
@@ -411,7 +411,7 @@ generator client {
 
 ### `fullTextSearch`
 
-If you use the [full-text search](/orm/prisma-client/queries/full-text-search) feature with **MySQL** in your app, you can now remove `fullTextSearch` from the `previewFeatures` in your Prisma schema:
+If you use the [full-text search](/orm/prisma-client/queries/full-text-search) feature with **MySQL** in your app, 您可以 now remove `fullTextSearch` from the `previewFeatures` in your Prisma schema:
 
 ```prisma
 generator client {
@@ -421,7 +421,7 @@ generator client {
 }
 ```
 
-If you are using it with **PostgreSQL**, you need to update the name of the feature flag to `fullTextSearchPostgres`:
+If you are using it with **PostgreSQL**, 您需要 update the name of the feature flag to `fullTextSearchPostgres`:
 
 ```prisma
 generator client {

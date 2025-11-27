@@ -12,7 +12,7 @@ community_section: true
 
 Prisma ORM provides type-safe database access, and [Cloudflare Workers](https://workers.cloudflare.com/) enables you to deploy serverless code at the edge. Together with [Prisma Postgres](https://www.prisma.io/postgres), you get a globally distributed backend with low-latency database access.
 
-In this guide, you'll learn to integrate Prisma ORM with a Prisma Postgres database in a Cloudflare Workers project. You can find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/cloudflare-workers).
+在本指南中, you'll learn to integrate Prisma ORM with a Prisma Postgres database in a Cloudflare Workers project. 您可以 find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/cloudflare-workers).
 
 ## 前置需求
 - [Node.js 20+](https://nodejs.org)
@@ -36,7 +36,7 @@ cd prisma-cloudflare-worker
 
 ### 2.1. Install dependencies
 
-To get started with Prisma, you'll need to install a few dependencies:
+開始使用 with Prisma, you'll need 安裝 a few dependencies:
 
 ```terminal
 npm install prisma dotenv-cli @types/pg --save-dev
@@ -45,7 +45,7 @@ npm install @prisma/client @prisma/adapter-pg dotenv pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -59,7 +59,7 @@ npx prisma init --db
 You'll need to answer a few questions while setting up your Prisma Postgres database. Select the region closest to your location and a memorable name for your database like "My Cloudflare Workers Project"
 :::
 
-This will create:
+這將 create:
 
 - A `prisma/` directory with a `schema.prisma` file
 - A `prisma.config.ts` file with your Prisma configuration
@@ -84,7 +84,7 @@ Cloudflare Workers needs Node.js compatibility enabled to work with Prisma. Add 
 ### 2.3. Define your Prisma Schema
 
 
-In the `prisma/schema.prisma` file, add the following `User` model and set the runtime to `cloudflare`:
+In the `prisma/schema.prisma` file, add 以下 `User` model and set the runtime to `cloudflare`:
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -109,15 +109,15 @@ model User {
 
 :::note
 
-Both the `cloudflare` and `workerd` runtimes are supported. Read more about runtimes [here](/orm/prisma-schema/overview/generators#field-reference).
+Both the `cloudflare` and `workerd` runtimes are supported. 閱讀更多 about runtimes [here](/orm/prisma-schema/overview/generators#field-reference).
 
 :::
 
-This creates a `User` model with an auto-incrementing ID, email, and name.
+這會建立 a `User` model with an auto-incrementing ID, email, and name.
 
 ### 2.4. Configure Prisma scripts
 
-Add the following scripts to your `package.json` to work with Prisma in the Cloudflare Workers environment:
+Add 以下 scripts to your `package.json` to work with Prisma in the Cloudflare Workers environment:
 
 ```json file=package.json
 {
@@ -134,7 +134,7 @@ Add the following scripts to your `package.json` to work with Prisma in the Clou
 
 ### 2.5. Run migrations and generate Prisma Client
 
-Now, run the following command to create the database tables:
+Now, run 以下 command 建立 the database tables:
 
 ```terminal
 npm run migrate
@@ -148,7 +148,7 @@ Then generate the Prisma Client:
 npm run generate
 ```
 
-This generates the Prisma Client in the `src/generated/prisma/client` directory.
+這會產生 the Prisma Client in the `src/generated/prisma/client` directory.
 
 ## 3. Integrate Prisma into Cloudflare Workers
 
@@ -249,7 +249,7 @@ In edge environments like Cloudflare Workers, you create a new Prisma Client ins
 
 ### 3.4. Create a user and query the database
 
-Now use Prisma Client to create a new user and count the total number of users:
+Now use Prisma Client 建立 a new user and count the total number of users:
 
 ```typescript file=src/index.ts
 import { PrismaClient } from './generated/prisma/client';
@@ -294,7 +294,7 @@ export default {
 } satisfies ExportedHandler<Env>;
 ```
 
-### 3.5. Return the results
+### 3.5. Return 結果s
 
 Finally, update the response to display the newly created user and the total user count:
 
@@ -358,7 +358,7 @@ Then start the development server:
 npm run dev
 ```
 
-Open [`http://localhost:8787`](http://localhost:8787) in your browser. Each time you refresh the page, a new user will be created. You should see output similar to:
+Open [`http://localhost:8787`](http://localhost:8787) in your browser. Each time you refresh the page, a new user will be created. 您應該 see output similar to:
 
 ```
 Created new user: Jon Doe (Prisma-Postgres-User-742@gmail.com).
@@ -373,13 +373,13 @@ To view your database contents, open Prisma Studio:
 npm run studio
 ```
 
-This will open a browser window where you can view and edit your `User` table data.
+這將 open a browser window where 您可以 view and edit your `User` table data.
 
 ## 4. Deploy to Cloudflare Workers
 
 ### 4.1. Set your database URL as a secret
 
-Before deploying, you need to set your `DATABASE_URL` as a secret in Cloudflare Workers. This keeps your database connection string secure in production.
+Before deploying, 您需要 set your `DATABASE_URL` as a secret in Cloudflare Workers. This keeps your database connection string secure in production.
 
 ```terminal
 npx wrangler secret put DATABASE_URL
@@ -405,7 +405,7 @@ You've successfully created a Cloudflare Workers application with Prisma ORM con
 
 ## 後續步驟
 
-Now that you have a working Cloudflare Workers app connected to a Prisma Postgres database, you can:
+Now that you have a working Cloudflare Workers app connected to a Prisma Postgres database, 您可以:
 
 - Add routes to handle different HTTP methods (GET, POST, PUT, DELETE)
 - Extend your Prisma schema with more models and relationships

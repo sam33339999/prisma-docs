@@ -8,7 +8,7 @@ metaDescription: '學習 to configure your 建置 處理 on Vercel to avoid cach
 
 ## Problem
 
-If you deploy an application using Prisma ORM to [Vercel](https://vercel.com/), you may run into the following error message on deployment:
+If you deploy an application using Prisma ORM to [Vercel](https://vercel.com/), you may run into 以下 error message on deployment:
 
 ```
 Prisma has detected that this project was built on Vercel, which caches dependencies.
@@ -22,13 +22,13 @@ This occurs because Vercel caches the dependencies of your project until one of 
 
 Prisma ORM uses a `postinstall` hook to generate Prisma Client when dependencies are installed. Because Vercel uses cached modules, this `postinstall` hook never gets run in subsequent deployments after the initial deployment. This results in Prisma Client becoming out of sync with your database schema.
 
-This error message prevents this situation from happening and directs you here to learn how to fix the root issue.
+This error message prevents this situation from happening and directs you here to 學習如何 fix the root issue.
 
 <details>
 
 <summary>Prisma Client versions below 4.13.0</summary>
 
-On Prisma Client versions lower than 4.13.0, you may encounter error messages that look like the following:
+On Prisma Client versions lower than 4.13.0, you may encounter error messages that look like 以下:
 
 ```
 // 1: When adding a field:
@@ -44,7 +44,7 @@ Invalid `prisma.user.deleteMany()` invocation: The table `public.User` does not 
 Cannot read properties of undefined (reading 'create')
 ```
 
-The solutions described in this guide are meant to solve these problems.
+The solutions described 在本指南中 are meant to solve these problems.
 
 </details>
 
@@ -52,7 +52,7 @@ The solutions described in this guide are meant to solve these problems.
 
 This issue can be solved by explicitly generating Prisma Client on every deployment. Running `prisma generate` before each deployment will ensure Prisma Client is up-to-date.
 
-You can configure the deployment to run this command in multiple different ways:
+您可以 configure the deployment to run this command in multiple different ways:
 
 ### A custom `postinstall` script
 
@@ -92,7 +92,7 @@ Within the `scripts` section of your project's `package.json` file, within the `
 
 ### Vercel UI's build script field
 
-Another way to configure `prisma generate` to be run on every deployment is to add the command to the build settings via Vercel's UI.
+Another way 配置 `prisma generate` to be run on every deployment is 添加 the command to the build settings via Vercel's UI.
 
 Within your project's dashboard, go to the **Settings** tab and find the **General** section. In that section you will find a box labeled **Build & Development Settings** that contains an input field named **Build Command**:
 

@@ -10,11 +10,11 @@ toc: true
 
 Prisma Postgres is the perfect choice for your applications, whether you connect to it via [Prisma ORM](/orm) or any other ORM, database library / tool of your choice. If you use it with Prisma ORM, Prisma Postgres comes with built-in connection pooling, and an integrated caching layer (powered by [Prisma Accelerate](/accelerate/)). 
 
-If you connect to it via another tool, you can do so with a [direct connection string](#connection-string) following the conventional PostgreSQL format.
+If you connect to it via another tool, 您可以 do so with a [direct connection string](#connection-string) following the conventional PostgreSQL format.
 
 ## 如何 connect to Prisma Postgres via direct TCP
 
-In order to get a direct connection string, you need to:
+In order to get a direct connection string, 您需要:
 
 1. Open a project in your [Prisma Console](https://console.prisma.io) account (or create a new one)
 1. Navigate to your active Prisma Postgres instance.
@@ -43,7 +43,7 @@ DATABASE_URL="postgres://2f9881cc7eef46f094ac913df34c1fb441502fe66cbe28cc48998d4
 
 ### SSL mode
 
-SSL mode is required when connecting to Prisma Postgres via direct TCP, so you need to append `sslmode=require` to your TCP connection string.
+SSL mode is required when connecting to Prisma Postgres via direct TCP, so 您需要 append `sslmode=require` to your TCP connection string.
 
 ## Billing
 
@@ -53,7 +53,7 @@ When using direct TCP to connect to a Prisma Postgres instance, every request is
 
 ### Closing idle connections
 
-Prisma Postgres closes idle connections after an extended period of time. If that happens in your application, you can re-open a new connection. (Most database clients re-connect automatically.)
+Prisma Postgres closes idle connections after an extended period of time. If that happens in your application, 您可以 re-open a new connection. (Most database clients re-connect automatically.)
 
 ### 連線 limit
 
@@ -70,7 +70,7 @@ Prisma Postgres closes idle connections after an extended period of time. If tha
 
 ### Limited user permissions
 
-User permissions are limited to read, write and schema changes. It is not possible to create separate databases, manage users and roles, or perform other administrative actions.
+User permissions are limited to read, write and schema changes. It is not possible 建立 separate databases, manage users and roles, or perform other administrative actions.
 
 ## TCP tunnel (已棄用)
 
@@ -97,7 +97,7 @@ While in Early Access, usage of the TCP tunnel will be free of charge.
 
 ### Exporting environment variables
 
-The tunnel expects you to have the following `DATABASE_URL` environment variable set to the connection URL of your Prisma Postgres instance. If you are running the tunnel command from your project where an `.env` file has `DATABASE_URL` already set, you can skip this step as the tunnel will automatically pick it up.
+The tunnel expects you to have 以下 `DATABASE_URL` environment variable set to the connection URL of your Prisma Postgres instance. If you are running the tunnel command from your project where an `.env` file has `DATABASE_URL` already set, 您可以 skip this step as the tunnel will automatically pick it up.
 
 To export the `DATABASE_URL` environment variable temporarily in a terminal session:
 
@@ -133,7 +133,7 @@ Replace the `API_KEY` placeholder with the API key value of your Prisma Postgres
 
 ### Starting the TCP tunnel
 
-To start the proxy server, run the following command:
+To start the proxy server, run 以下 command:
 
 <CodeWithResult outputResultText="" expanded={true}>
 
@@ -165,13 +165,13 @@ password:  <none>
 
 </CodeWithResult>
 
-This will start the tunnel on a randomly assigned TCP port. The proxy automatically handles authentication, so any database credentials are accepted. The tunnel also encrypts traffic, meaning clients should be set to not require SSL.
+這將 start the tunnel on a randomly assigned TCP port. The proxy automatically handles authentication, so any database credentials are accepted. The tunnel also encrypts traffic, meaning clients should be set to not require SSL.
 
-You can now connect to your Prisma Postgres editor using your favorite PostgreSQL client, e.g. `psql` or a GUI like [TablePlus](/postgres/integrations/viewing-data#2a-connect-to-prisma-postgres-using-tableplus) or [DataGrip](/postgres/integrations/viewing-data#2b-connect-to-prisma-postgres-using-datagrip). To do so, you only need to provide the **`host`** and **`port`** from the output above. The TCP tunnel will handle authentication via the API key in your Prisma Postgres connection URL, so you can omit the values for **`username`** and **`password`.**
+您可以 now connect to your Prisma Postgres editor using your favorite PostgreSQL client, e.g. `psql` or a GUI like [TablePlus](/postgres/integrations/viewing-data#2a-connect-to-prisma-postgres-using-tableplus) or [DataGrip](/postgres/integrations/viewing-data#2b-connect-to-prisma-postgres-using-datagrip). To do so, you only need to provide the **`host`** and **`port`** from 輸出 above. The TCP tunnel will handle authentication via the API key in your Prisma Postgres connection URL, so 您可以 omit the values for **`username`** and **`password`.**
 
 ### 自訂 host and port
 
-By default, the tunnel listens on `127.0.0.1` and assigns a random port. Since it provides access to your Prisma Postgres database, it should only be exposed within a trusted network. You can specify a custom host and port using the `--host` and `--port` flags:
+預設情況下, the tunnel listens on `127.0.0.1` and assigns a random port. Since it provides access to your Prisma Postgres database, it should only be exposed within a trusted network. 您可以 specify a custom host and port using the `--host` and `--port` flags:
 
 ```terminal
 npx @prisma/ppg-tunnel --host 127.0.0.1 --port 5432
@@ -183,7 +183,7 @@ The local tunnel enables you to access Prisma Postgres from 3rd party database e
 
 ### Security considerations
 
-When using the TCP tunnel, keep the following in mind:
+When using the TCP tunnel, keep 以下 in mind:
 
 - The tunnel does not support schema management (i.e., DDL queries outside of Prisma Migrate).
 - The tunnel should not be exposed to untrusted networks.

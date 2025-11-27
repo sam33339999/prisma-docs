@@ -6,7 +6,7 @@ metaDescription: '學習 如何 升級 your MongoDB application running Prisma 1
 
 ## 介紹
 
-This guide helps you migrate from the Prisma 1 MongoDB Beta to MongoDB on Prisma ORM 2 or later. To learn more about the differences between Prisma 1 and Prisma ORM 2.x and later, refer to [this document](/orm/more/upgrade-guides/upgrade-from-prisma-1/how-to-upgrade#main-differences-between-prisma-1-and-prisma-orm-version-2x-and-later).
+This guide helps you migrate from the Prisma 1 MongoDB Beta to MongoDB on Prisma ORM 2 or later. To learn more about the differences between Prisma 1 and Prisma ORM 2.x and later, 參閱 [this document](/orm/more/upgrade-guides/upgrade-from-prisma-1/how-to-upgrade#main-differences-between-prisma-1-and-prisma-orm-version-2x-and-later).
 
 The scope of this guide is to give you the workflow necessary to perform the migration and highlight some of the problems you might encounter.
 
@@ -20,26 +20,26 @@ We unfortunately can't cover all possible scenarios or changes required, but thi
 ## 需求
 
 - Must be running MongoDB 4.2+ as a replica set (MongoDB Atlas does this for you automatically)
-- Node.js: see [system requirements](/orm/reference/system-requirements)
-- TypeScript: see [system requirements](/orm/reference/system-requirements)
+- Node.js: see [system 需求](/orm/reference/system-需求)
+- TypeScript: see [system 需求](/orm/reference/system-需求)
 
 ## Installing Prisma ORM 3.12.0 or later
 
-In your project directory run the following commands:
+In your project directory run 以下 commands:
 
 ```terminal
 npm install prisma@latest && npm install @prisma/client
 npx prisma init --datasource-provider=mongodb
 ```
 
-This should create the following files:
+This should create 以下 files:
 
 - `prisma/schema.prisma`: An initial Prisma schema
 - `.env`: Environment file where you'll store your connection string
 
 :::info
 
-If you see the following error:
+If you see 以下 error:
 
 ```
 ERROR  File schema.prisma already exists in your project.
@@ -52,7 +52,7 @@ You have likely a `prisma/` directory in your project already. Rename that direc
 
 ## Find the 連線 String to your MongoDB 資料庫
 
-Next you'll want to find the connection string to your MongoDB database. You should be able to find it in your `docker-compose.yml` file or on MongoDB Atlas. It's what you'd pass to MongoDB Compass. The connection string should look something like this:
+Next you'll want to find the connection string to your MongoDB database. 您應該 be able to find it in your `docker-compose.yml` file or on MongoDB Atlas. It's what you'd pass to MongoDB Compass. The connection string should look something like this:
 
 ```bash
 mongodb://<user>:<pass>@<host>:27017
@@ -72,17 +72,17 @@ You're now ready to pull the structure of your database down into your Prisma Sc
 $ npx prisma db pull
 ```
 
-And you should see your Prisma schema in `prisma/schema.prisma` populated with your models.
+And 您應該 see your Prisma schema in `prisma/schema.prisma` populated with your models.
 
 :::info
 
-If you see the following error: `Error in connector: SCRAM failure: Authentication failed.`, try adding `?authSource=admin` to the end of your connection string and trying again.
+If you see 以下 error: `Error in connector: SCRAM failure: Authentication failed.`, try adding `?authSource=admin` to the end of your connection string and trying again.
 
 :::
 
 ## Touching up your Prisma 綱要
 
-The generated Prisma Client from a freshly introspected Prisma 1 based MongoDB database may not have the best API. You can adjust the model names and fields, just be sure to `@map` and `@@map` the original name to the underlying database collection and field names:
+The generated Prisma Client from a freshly introspected Prisma 1 based MongoDB database may not have the best API. 您可以 adjust the model names and fields, just be sure to `@map` and `@@map` the original name to the underlying database collection and field names:
 
 ```diff
 - model posts {
@@ -106,7 +106,7 @@ The generated Prisma Client from a freshly introspected Prisma 1 based MongoDB d
   }
 ```
 
-Take caution in doing these renames because you need to make sure the Prisma Schema still maps properly to the underlying database collections and field names.
+Take caution in doing these renames because 您需要 make sure the Prisma Schema still maps properly to the underlying database collections and field names.
 
 Unlike SQL databases, MongoDB doesn't have an explicit understanding of relationships between data. This means that Prisma ORM's introspection is unable to infer those relationships for you.
 
@@ -128,7 +128,7 @@ $ npx prisma generate
 
 ## Testing Reads
 
-Create a simple `test.ts` script to verify that Prisma Client can read and write to your application. Note that this guide is using the example in the [Prisma 1 examples repository](https://github.com/prisma/prisma1-examples/tree/master/typescript/docker-mongodb), but the code will change depending on your application.
+Create a simple `test.ts` script to verify that Prisma Client can read and write to your application. 請注意 this guide is using the example in the [Prisma 1 examples repository](https://github.com/prisma/prisma1-examples/tree/master/typescript/docker-mongodb), but the code will change depending on your application.
 
 ```ts
 import { PrismaClient } from '@prisma/client'
@@ -151,7 +151,7 @@ Make sure `ts-node` is installed globally and run:
 ts-node test.ts
 ```
 
-You should see a list of your data:
+您應該 see a list of your data:
 
 ```bash
 [
@@ -187,7 +187,7 @@ You should see a list of your data:
 
 ## Testing Writes
 
-You can then alter your `test.ts` to try writes:
+您可以 then alter your `test.ts` to try writes:
 
 ```ts
 import { PrismaClient } from '@prisma/client'
@@ -209,23 +209,23 @@ main()
   .finally(() => prisma.$disconnect())
 ```
 
-And you should see a user was created.
+And 您應該 see a user was created.
 
 :::warning
 
-If you see the following error:
+If you see 以下 error:
 
 ```no-lines wrap
 Prisma needs to perform transactions, which requires your MongoDB server to be run as a replica set. https://pris.ly/d/mongodb-replica-set
 ```
 
-This means that your MongoDB database isn't running as a replica set. Refer to [the link above](https://pris.ly/d/mongodb-replica-set) for steps to resolve this issue.
+This means that your MongoDB database isn't running as a replica set. 參閱 [the link above](https://pris.ly/d/mongodb-replica-set) for steps to resolve this issue.
 
 :::
 
 ## 升級 your Application
 
-Now that you have a working Prisma Client, you can start replacing Prisma Client 1 queries with the latest Prisma Client queries. The [Prisma Client Reference](/orm/reference/prisma-client-reference#filter-conditions-and-operators) is a helpful resource for learning how to use the latest Prisma Client.
+Now that you have a working Prisma Client, 您可以 start replacing Prisma Client 1 queries with the latest Prisma Client queries. The [Prisma Client Reference](/orm/reference/prisma-client-reference#filter-conditions-and-operators) is a helpful resource for learning 如何使用 the latest Prisma Client.
 
 ## Conclusion
 

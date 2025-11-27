@@ -519,7 +519,7 @@ const id = new ObjectId()
 
 MongoDB 只允許您在副本集上啟動交易。Prisma ORM 在內部使用交易來避免巢狀查詢的部分寫入。這意味著我們繼承了需要配置副本集的要求。
 
-當您嘗試在沒有配置副本集的部署上使用 Prisma ORM 的 MongoDB 連接器時，Prisma ORM 會顯示訊息 `Error: Transactions are not supported by this deployment`。錯誤訊息的完整文字如下：
+當您嘗試在沒有配置副本集的部署上使用 Prisma ORM 的 MongoDB 連接器時，Prisma ORM 會顯示訊息 `Error: Transactions are not 支援 this deployment`。錯誤訊息的完整文字如下：
 
 ```
 PrismaClientUnknownRequestError2 [PrismaClientUnknownRequestError]:

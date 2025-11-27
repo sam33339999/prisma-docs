@@ -13,7 +13,7 @@ This guide helps resolve common issues when working with Prisma Postgres.
 
 ### Problem
 
-Running the following command fails because the `--db` option is not recognized:
+Running 以下 command fails because the `--db` option is not recognized:
 
 ```terminal
 npx prisma init --db
@@ -43,7 +43,7 @@ When running the command:
 npx prisma@latest init --db
 ```
 
-You may encounter the following error message in your logs:
+You may encounter 以下 error message in your logs:
 
 ```
 Workspace plan limit reached for feature "Project".
@@ -55,11 +55,11 @@ Your default [workspace](/platform/about#workspace) project limit has been reach
 
 ### Solution
 
-To resolve this issue, consider the following options:
+To resolve this issue, consider 以下 options:
 
 - Configure a different Workspace as your default—one that has available capacity for additional projects.
 - Delete unused projects or databases from your current default Workspace to free up space.
-- Ensure that you are logged into the correct account in the Prisma CLI. For more details on authentication and account management, please refer to the [Prisma CLI documentation](/platform/platform-cli/commands#authentication).
+- Ensure that you are logged into the correct account in the Prisma CLI. For more details on authentication and account management, please 參閱 the [Prisma CLI documentation](/platform/platform-cli/commands#authentication).
 - [Upgrade to a plan](/platform/about#billing) that supports more projects in your default Workspace.
 
 Implementing one or more of these solutions should help you overcome the plan limit issue.

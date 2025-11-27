@@ -7,15 +7,15 @@ metaDescription: '學習 如何 升級 existing Prisma 1 projects with prisma-bi
 ## 概述
 
 :::info
-This guide is not fully up-to-date as it currently uses the [deprecated](https://github.com/graphql-nexus/nexus-plugin-prisma/issues/1039) version of the [`nexus-plugin-prisma`](https://github.com/graphql-nexus/nexus-plugin-prisma). While this is still functional, it is recommended to use the new [`nexus-prisma`](https://github.com/graphql-nexus/nexus-prisma) library or an alternative code-first GraphQL library like [Pothos](https://pothos-graphql.dev/) going forward. If you have any questions, join us on our [Discord](https://pris.ly/discord?utm_source=docs&utm_medium=intro_text).
+This guide is not fully up-to-date as it currently uses the [deprecated](https://github.com/graphql-nexus/nexus-plugin-prisma/issues/1039) version of the [`nexus-plugin-prisma`](https://github.com/graphql-nexus/nexus-plugin-prisma). While this is still functional, it is recommended 使用 the new [`nexus-prisma`](https://github.com/graphql-nexus/nexus-prisma) library or an alternative code-first GraphQL library like [Pothos](https://pothos-graphql.dev/) going forward. If you have any questions, join us on our [Discord](https://pris.ly/discord?utm_source=docs&utm_medium=intro_text).
 
 :::
 
-This upgrade guide describes how to migrate a Node.js project that's based on [Prisma 1](https://github.com/prisma/prisma1) and uses `prisma-binding` to implement a GraphQL server.
+This upgrade guide describes 如何 migrate a Node.js project that's based on [Prisma 1](https://github.com/prisma/prisma1) and uses `prisma-binding` to implement a GraphQL server.
 
-The code will be migrated to [`@nexus/schema`](https://github.com/graphql-nexus/nexus) and the [`nexus-plugin-prisma`](https://github.com/graphql-nexus/nexus-plugin-prisma). As opposed to the _SDL-first_ approach that's used with `prisma-binding`, Nexus follows a code-first approach to construct GraphQL schemas. You can learn about the main differences of these two approaches in this [article](https://www.prisma.io/blog/the-problems-of-schema-first-graphql-development-x1mn4cb0tyl3). If you want to continue using the SDL-first approach, you can follow the [guide](/orm/more/upgrade-guides/upgrade-from-prisma-1/upgrading-prisma-binding-to-sdl-first) to upgrade from `prisma-binding` to an SDL-first setup.
+The code will be migrated to [`@nexus/schema`](https://github.com/graphql-nexus/nexus) and the [`nexus-plugin-prisma`](https://github.com/graphql-nexus/nexus-plugin-prisma). As opposed to the _SDL-first_ approach that's used with `prisma-binding`, Nexus follows a code-first approach to construct GraphQL schemas. 您可以 學習關於 主要 differences of these two approaches in this [article](https://www.prisma.io/blog/the-problems-of-schema-first-graphql-development-x1mn4cb0tyl3). If you want to continue using the SDL-first approach, 您可以 follow the [guide](/orm/more/upgrade-guides/upgrade-from-prisma-1/upgrading-prisma-binding-to-sdl-first) to upgrade from `prisma-binding` to an SDL-first setup.
 
-This guide also explains how to migrate from JavaScript to TypeScript, it therefore basically assumes a **full rewrite** of your existing app. If you want to keep running your application in JavaScript, you can ignore the instructions that relate to the TypeScript setup keep using JavaScript as before.
+This guide also explains 如何 migrate from JavaScript to TypeScript, it therefore basically assumes a **full rewrite** of your existing app. If you want to keep running your application in JavaScript, 您可以 ignore the instructions that relate to the TypeScript setup keep using JavaScript as before.
 
 The guide assumes that you already went through the [guide for upgrading the Prisma ORM layer](/orm/more/upgrade-guides/upgrade-from-prisma-1/upgrading-the-prisma-layer-postgresql). This means you already:
 
@@ -53,7 +53,7 @@ If this is not what your project structure looks like, you'll need to adjust the
 
 ### 1.1. Install Nexus dependencies
 
-The first step is to install the Nexus dependency in your project:
+The first step is 安裝 the Nexus dependency in your project:
 
 ```terminal copy
 npm install @nexus/schema
@@ -65,13 +65,13 @@ Next, install the the Prisma ORM plugin for Nexus which will allow you to expose
 npm install nexus-plugin-prisma
 ```
 
-The `nexus-plugin-prisma` dependency bundles all required Prisma ORM dependencies. You should therefore remove the dependencies that you installed when you upgraded the Prisma ORM layer of your app:
+The `nexus-plugin-prisma` dependency bundles all required Prisma ORM dependencies. 您應該 therefore remove the dependencies that you installed when you upgraded the Prisma ORM layer of your app:
 
 ```terminal copy
 npm uninstall @prisma/cli @prisma/client
 ```
 
-Note however that you can still invoke the Prisma ORM 2.0 CLI with the familiar command:
+Note however that 您可以 still invoke the Prisma ORM 2.0 CLI with the familiar command:
 
 ```terminal
 npx prisma
@@ -79,7 +79,7 @@ npx prisma
 
 ### 1.2. Configure TypeScript
 
-Since you'll be using TypeScript in this guide, you need to add the required dependencies:
+Since you'll be using TypeScript 在本指南中, 您需要 add the required dependencies:
 
 ```terminal copy
 npm install typescript ts-node-dev --save-dev
@@ -91,7 +91,7 @@ Create a new file named `tsconfig.json` in the root directory of your project:
 touch tsconfig.json
 ```
 
-Now add the following contents to the new file:
+Now add 以下 contents to the new file:
 
 ```json copy file=tsconfig.json showLineNumbers
 {
@@ -113,7 +113,7 @@ Create the root source file of your API called `index.ts` inside the `src` direc
 touch src/index.ts
 ```
 
-Note that for this guide, you'll write the entire application inside of `index.ts`. In practice, you probably want to split your GraphQL types across different files as shown in this [example](https://pris.ly/e/ts/graphql-auth).
+請注意 for this guide, you'll write the entire application inside of `index.ts`. In practice, you probably want to split your GraphQL types across different files as shown in this [example](https://pris.ly/e/ts/graphql-auth).
 
 For some basic setup, add this code to `index.ts`:
 
@@ -158,7 +158,7 @@ new GraphQLServer({ schema, context: createContext() }).start(() =>
 )
 ```
 
-Note that this setup already contains the configuration of the Prisma ORM plugin for Nexus. This will enable the `t.model` and `t.crud` functionality that you'll get to know later in this guide.
+請注意 this setup already contains the configuration of the Prisma ORM plugin for Nexus. 這將 enable the `t.model` and `t.crud` functionality that you'll get to know later 在本指南中.
 
 In the `typegenAutoConfig` setting, you're providing additional types that help your editor to provide your autocompletion as you develop your app. Right now it references a file named `context.ts` that you don't have in your project yet. This file will contain the type of your `context` object that's passed through your GraphQL resolver chain.
 
@@ -168,7 +168,7 @@ Create the new `context.ts` file inside the `src` directory:
 touch src/context.ts
 ```
 
-Now add the following code to it:
+Now add 以下 code to it:
 
 ```ts
 import { PrismaClient } from '@prisma/client'
@@ -184,7 +184,7 @@ export function createContext(): Context {
 }
 ```
 
-Next, adjust the `scripts` section inside your `package.json` to include the following commands:
+Next, adjust the `scripts` section inside your `package.json` to include 以下 commands:
 
 ```json
 {
@@ -202,19 +202,19 @@ Next, adjust the `scripts` section inside your `package.json` to include the fol
 
 The `dev` script starts a development server that you **always** should have running in the background when developing your app. This is important because of the code generation Nexus performs in the background.
 
-You can start the development server using the following command:
+您可以 start the development server using 以下 command:
 
 ```copy
 npm run dev
 ```
 
-You should see the following CLI output:
+您應該 see 以下 CLI output:
 
 ```terminal
 Server ready at: http://localhost:4000
 ```
 
-Your GraphQL server is now running at [http://localhost:4000](http://localhost:4000). So far it implements a single GraphQL query that you can send as follows:
+Your GraphQL server is now running at [http://localhost:4000](http://localhost:4000). So far it implements a single GraphQL query that 您可以 send as follows:
 
 ```graphql
 {
@@ -222,13 +222,13 @@ Your GraphQL server is now running at [http://localhost:4000](http://localhost:4
 }
 ```
 
-In the following steps, we'll explain how you can migrate your existing SDL-first GraphQL schema that's implemented with `prisma-binding` to an equivalent setup using Nexus.
+In 以下 steps, we'll explain how 您可以 migrate your existing SDL-first GraphQL schema that's implemented with `prisma-binding` to an equivalent setup using Nexus.
 
 ## 2. Create your GraphQL types
 
-The next step of the upgrade process is to create your _GraphQL types_. In this case, your GraphQL types will mirror the Prisma models (as it likely was the case in your `prisma-binding` setup as well). If a GraphQL type deviates from a Prisma model, you'll be able to easily adjust the exposed GraphQL type accordingly using the Nexus API.
+The next step of the upgrade process is 建立 your _GraphQL types_. In this case, your GraphQL types will mirror the Prisma models (as it likely was the case in your `prisma-binding` setup as well). If a GraphQL type deviates from a Prisma model, you'll be able to easily adjust the exposed GraphQL type accordingly using the Nexus API.
 
-For the purpose of this guide, you'll keep all the code in a single file. However, you can structure the files to your personal preference and `import` accordingly.
+For the purpose of this guide, you'll keep all the code in a single file. However, 您可以 structure the files to your personal preference and `import` accordingly.
 
 In Nexus, GraphQL types are defined via the `objectType` function. Import `objectType` and then start with the skeleton for your first GraphQL type. In this case, we're starting by mapping Prisma schema's `User` model to GraphQL:
 
@@ -243,13 +243,13 @@ const User = objectType({
 })
 ```
 
-With this code in place, you can start exposing the _fields_ of the `User` model one by one. You can use your editor's autocompletion to save some typing. Inside the body of the `definition` function, type `t.model.` and then hit <kbd>CTRL</kbd>+<kbd>SPACE</kbd>. This will bring up the autocompletion and suggest all fields that are defined on the `User` model:
+With this code in place, 您可以 start exposing the _fields_ of the `User` model one by one. 您可以 use your editor's autocompletion to save some typing. Inside the body of the `definition` function, type `t.model.` and then hit <kbd>CTRL</kbd>+<kbd>SPACE</kbd>. 這將 bring up the autocompletion and suggest all fields that are defined on the `User` model:
 
 ![Exposing Prisma model fields with t.model](./images/expose-prisma-model-fields-with-t-model.png)
 
-Note that the `model` property on `t` is provided by the `nexus-plugin-prisma`. It leverages the type information from your Prisma schema and lets you expose your Prisma models via GraphQL.
+請注意 the `model` property on `t` is provided by the `nexus-plugin-prisma`. It leverages the type information from your Prisma schema and lets you expose your Prisma models via GraphQL.
 
-In that manner, you can start completing your object type definition until you exposed all the fields of the model:
+In that manner, 您可以 start completing your object type definition until you exposed all the fields of the model:
 
 ```ts
 const User = objectType({
@@ -270,7 +270,7 @@ At this point, any _relation fields_ might give you TypeScript errors (in this c
 
 > **Note**: Be sure to have your Nexus development server that you started with `npm run dev` running all the time. It constantly updates the generated Nexus types that enable the autocompletion in the background as you save a file.
 
-Note that the `t.model.posts` relation exposes a _list_ of `Post` objects. By default, Nexus exposes only _pagination_ properties for that list – if you want to add _ordering_ and _filtering_ for that relation as well, you'll need to explicitly enable those:
+請注意 the `t.model.posts` relation exposes a _list_ of `Post` objects. 預設情況下, Nexus exposes only _pagination_ properties for that list – if you want 添加 _ordering_ and _filtering_ for that relation as well, you'll need to explicitly enable those:
 
 ```ts line-number highlight=10-13;add
 const User = objectType({
@@ -292,7 +292,7 @@ const User = objectType({
 })
 ```
 
-After defining a type using the `objectType` function, you also need to manually add it to your GraphQL schema that you're building with Nexus. You can do it by adding it to the `types` which are provided as an option to the `makeSchema` function:
+After defining a type using the `objectType` function, you also need to manually add it to your GraphQL schema that you're building with Nexus. 您可以 do it by adding it to the `types` which are provided as an option to the `makeSchema` function:
 
 ```ts line-number
 export const schema = makeSchema({
@@ -313,13 +313,13 @@ export const schema = makeSchema({
 })
 ```
 
-Once you're done with the first type, you can start defining the remaining ones.
+Once you're done with the first type, 您可以 start defining the remaining ones.
 
 <details>
 
 <summary>Expand to view the full version of the sample data model</summary>
 
-To expose all sample Prisma models with Nexus, the following code is needed:
+To expose all sample Prisma models with Nexus, 以下 code is needed:
 
 ```ts
 const User = objectType({
@@ -403,13 +403,13 @@ export const schema = makeSchema({
 })
 ```
 
-You can view the current version of your GraphQL schema in SDL in the generated GraphQL schema file in `./schema.graphql`.
+您可以 view the current version of your GraphQL schema in SDL in the generated GraphQL schema file in `./schema.graphql`.
 
 ## 3. Migrate GraphQL operations
 
-As a next step, you can start migrating all the GraphQL _queries_ and _mutations_ from the "previous" GraphQL API to the new one that's built with Nexus.
+As a next step, 您可以 start migrating all the GraphQL _queries_ and _mutations_ from the "previous" GraphQL API to the new one that's built with Nexus.
 
-For this guide, the following sample GraphQL schema will be used:
+For this guide, 以下 sample GraphQL schema will be used:
 
 ```graphql
 # import Post from './generated/prisma.graphql'
@@ -437,7 +437,7 @@ type Mutation {
 
 ### 3.1. Migrate GraphQL 查詢
 
-In this section, you'll migrate all GraphQL _queries_ from `prisma-binding` to Nexus.
+在本節中, you'll migrate all GraphQL _queries_ from `prisma-binding` to Nexus.
 
 #### 3.1.1. Migrate the `users` 查詢 (which uses `forwardTo`)
 
@@ -463,15 +463,15 @@ const resolvers = {
 }
 ```
 
-To mirror the same behaviour with Nexus, you can use the `crud` property on the `t` variable inside the `definition` function.
+To mirror the same behaviour with Nexus, 您可以 use the `crud` property on the `t` variable inside the `definition` function.
 
-Similar to `model`, this property is available because you're using the `nexus-prisma-plugin` which leverages type information from your Prisma models and auto-generates resolvers under the hood. The `crud` property also supports autocompletion, so you can explore all available queries in your editor again:
+Similar to `model`, this property is available because you're using the `nexus-prisma-plugin` which leverages type information from your Prisma models and auto-generates resolvers under the hood. The `crud` property also supports autocompletion, so 您可以 explore all available queries in your editor again:
 
 ![Using t.crud to generate resolvers](./images/use-t-crud-to-generate-resolvers.png)
 
 ##### Forwarding the 查詢 with the `Nexus-prisma-plugin`
 
-To add the `users` query to your GraphQL API, add the following lines to the query type definition:
+添加 the `users` query to your GraphQL API, add 以下 lines to the query type definition:
 
 ```ts line-number highlight=3-6;add
 const Query = queryType({
@@ -486,7 +486,7 @@ const Query = queryType({
 })
 ```
 
-If you have the Nexus development server running, you can save the file and your GraphQL API will be updated to expose the new `users` query. You can also observe this by looking at the `Query` type inside the generated `schema.graphql` file:
+If you have the Nexus development server running, 您可以 save the file and your GraphQL API will be updated to expose the new `users` query. 您可以 also observe this by looking at the `Query` type inside the generated `schema.graphql` file:
 
 ```graphql
 type Query {
@@ -494,7 +494,7 @@ type Query {
 }
 ```
 
-You can now write your first query against the new API, e.g.:
+您可以 now write your first query against the new API, e.g.:
 
 ```graphql
 {
@@ -517,7 +517,7 @@ You can now write your first query against the new API, e.g.:
 }
 ```
 
-If your application exposes all CRUD operations from Prisma ORM using `forwardTo`, you can now continue adding all remaining ones using the same approach via `t.crud`. To learn how "custom" queries can be defined and resolved using Nexus, move on to the next sections.
+If your application exposes all CRUD operations from Prisma ORM using `forwardTo`, 您可以 now continue adding all remaining ones using the same approach via `t.crud`. To learn how "custom" queries can be defined and resolved using Nexus, move on to the next sections.
 
 #### 3.1.2. Migrate the `posts(searchString: String): [Post!]!` 查詢
 
@@ -557,7 +557,7 @@ const resolvers = {
 
 ##### Code-first 綱要 definition with `Nexus`
 
-To get the same behavior with Nexus, you'll need to add a `t.field` definition to the `queryType`:
+To get the same behavior with Nexus, you'll need 添加 a `t.field` definition to the `queryType`:
 
 ```ts line-number highlight=5-9;add
 const Query = queryType({
@@ -575,7 +575,7 @@ const Query = queryType({
 })
 ```
 
-Although this code gives probably gives you a type error in your editor, you can already look at the generated SDL version of your GraphQL schema inside `schema.graphql`. You'll notice that this has added the correct _definition_ to your GraphQL schema already:
+Although this code gives probably gives you a type error in your editor, 您可以 already look at the generated SDL version of your GraphQL schema inside `schema.graphql`. You'll notice that this has added the correct _definition_ to your GraphQL schema already:
 
 ```graphql line-number
 type Query {
@@ -585,11 +585,11 @@ type Query {
 }
 ```
 
-However, the code is missing the actual resolver logic. This is what you're going to add next.
+However, the code is missing the actual resolver logic. This is what you're going 添加 next.
 
 ##### Resolver implementation with `Nexus`
 
-You can add the resolver with Nexus as follows:
+您可以 add the resolver with Nexus as follows:
 
 ```ts line-number highlight=9-21;add
 const Query = queryType({
@@ -621,7 +621,7 @@ const Query = queryType({
 })
 ```
 
-To validate the implementation, you can now e.g. send the following example query to your GraphQL server:
+To validate the implementation, 您可以 now e.g. send 以下範例 query to your GraphQL server:
 
 ```graphql
 {
@@ -654,7 +654,7 @@ input UserUniqueInput {
 }
 ```
 
-Note that this is a bit of a contrived example to demonstrate the usage of `input` types with Nexus.
+請注意 this is a bit of a contrived example to demonstrate the usage of `input` types with Nexus.
 
 ##### Resolver implementation with `prisma-binding`
 
@@ -676,7 +676,7 @@ const resolvers = {
 
 ##### Code-first 綱要 definition with `Nexus`
 
-To get the same behavior with Nexus, you'll need to add a `t.field` definition to the `queryType` and define an `inputObjectType` that includes the two `@unique` fields of your `User` model:
+To get the same behavior with Nexus, you'll need 添加 a `t.field` definition to the `queryType` and define an `inputObjectType` that includes the two `@unique` fields of your `User` model:
 
 ```ts line-number highlight=1,3-9,15-23;add
 //add-next-line
@@ -711,7 +711,7 @@ const Query = queryType({
 })
 ```
 
-Since `UserUniqueInput` is a new type in your GraphQL schema, you again need to add it to the `types` option that's passed to `makeSchema`:
+Since `UserUniqueInput` is a new type in your GraphQL schema, you again need 添加 it to the `types` option that's passed to `makeSchema`:
 
 ```ts line-number highlight=2;normal
 export const schema = makeSchema({
@@ -751,7 +751,7 @@ input UserUniqueInput {
 //highlight-end
 ```
 
-You can even send the respective query via the GraphQL Playground already:
+您可以 even send the respective query via the GraphQL Playground already:
 
 ```graphql
 {
@@ -766,7 +766,7 @@ However, because the resolver is not yet implemented you will not get any data b
 
 ##### Code-first resolver implementation with `Nexus`
 
-That's because you're still missing the _resolver_ implementation for that query. You can add the resolver with Nexus as follows:
+That's because you're still missing the _resolver_ implementation for that query. 您可以 add the resolver with Nexus as follows:
 
 ```ts line-number highlight=22-29;add
 const UserUniqueInput = inputObjectType({
@@ -809,11 +809,11 @@ If you're re-sending the same query from before, you'll find that it now returns
 
 ### 3.2. Migrate GraphQL mutations
 
-In this section, you'll migrate the GraphQL mutations from the sample schema to the Nexus.
+在本節中, you'll migrate the GraphQL mutations from the sample schema to the Nexus.
 
 #### 3.2.1. Define the `Mutation` type
 
-The first step to migrate any mutations is to define the `Mutation` type of your GraphQL API. Once that's done, you can gradually add operations to it. Add the following definition to `index.ts`:
+The first step to migrate any mutations is to define the `Mutation` type of your GraphQL API. Once that's done, 您可以 gradually add operations to it. Add 以下 definition to `index.ts`:
 
 ```ts
 import { mutationType } from '@nexus/schema'
@@ -825,7 +825,7 @@ const Mutation = mutationType({
 })
 ```
 
-In order to make sure that the new `Mutation` type is picked by up Nexus, you need to add it to the `types` that are provided to `makeSchema`:
+In order to make sure that the new `Mutation` type is picked by up Nexus, 您需要 add it to the `types` that are provided to `makeSchema`:
 
 ```ts line-number highlight=2;normal
 export const schema = makeSchema({
@@ -871,15 +871,15 @@ const resolvers = {
 }
 ```
 
-Similar to forwarding GraphQL queries, you can use the `crud` property on the `t` variable inside the `definition` function in order to expose full CRUD capabilities for Prisma models.
+Similar to forwarding GraphQL queries, 您可以 use the `crud` property on the `t` variable inside the `definition` function in order to expose full CRUD capabilities for Prisma models.
 
-Similar to `model`, this property is available because you're using the `nexus-prisma-plugin` which leverages type information from your Prisma models and auto-generates resolvers under the hood. The `crud` property supports autocompletion when defining mutations as well, so you can explore all available operations in your editor again:
+Similar to `model`, this property is available because you're using the `nexus-prisma-plugin` which leverages type information from your Prisma models and auto-generates resolvers under the hood. The `crud` property supports autocompletion when defining mutations as well, so 您可以 explore all available operations in your editor again:
 
 ![Generating resolvers with t.crud](./images/regenerate-resolvers-with-t-crud.png)
 
 ##### Forwarding the mutation with the `Nexus-prisma-plugin`
 
-To add the `createUser` mutation to your GraphQL API, add the following lines to the query type definition:
+添加 the `createUser` mutation to your GraphQL API, add 以下 lines to the query type definition:
 
 ```ts line-number highlight=3-5;add
 const Mutation = mutationType({
@@ -893,9 +893,9 @@ const Mutation = mutationType({
 })
 ```
 
-Note that the default name for the mutation in your GraphQL schema is `createOneUser` (named after the function which is exposed by `t.crud`). In order to rename it to `createUser`, you need to provide the `alias` property.
+請注意 the default name for the mutation in your GraphQL schema is `createOneUser` (named after the function which is exposed by `t.crud`). In order to rename it to `createUser`, 您需要 provide the `alias` property.
 
-If you have the Nexus development server running, you can save the file and your GraphQL API will be updated to expose the new `createUser` mutation. You can also observe this by looking at the `Mutation` type inside the generated `schema.graphql` file:
+If you have the Nexus development server running, 您可以 save the file and your GraphQL API will be updated to expose the new `createUser` mutation. 您可以 also observe this by looking at the `Mutation` type inside the generated `schema.graphql` file:
 
 ```graphql
 type Mutation {
@@ -903,7 +903,7 @@ type Mutation {
 }
 ```
 
-You can now write your first mutation against the new API, e.g.:
+您可以 now write your first mutation against the new API, e.g.:
 
 ```graphql
 mutation {
@@ -913,7 +913,7 @@ mutation {
 }
 ```
 
-If your application exposes all CRUD operations from Prisma Client using `forwardTo`, you can now continue adding all remaining ones using the same approach via `t.crud`. To learn how "custom" mutations can be defined and resolved using Nexus, move on to the next sections.
+If your application exposes all CRUD operations from Prisma Client using `forwardTo`, 您可以 now continue adding all remaining ones using the same approach via `t.crud`. To learn how "custom" mutations can be defined and resolved using Nexus, move on to the next sections.
 
 #### 3.2.3. Migrate the `createDraft(title: String!, content: String, authorId: String!): Post!` 查詢
 
@@ -956,7 +956,7 @@ const resolvers = {
 
 ##### Code-first 綱要 definition with `Nexus`
 
-To get the same behavior with Nexus, you'll need to add a `t.field` definition to the `mutationType`:
+To get the same behavior with Nexus, you'll need 添加 a `t.field` definition to the `mutationType`:
 
 ```ts line-number highlight=5-12;add
 const Mutation = mutationType({
@@ -987,7 +987,7 @@ type Mutation {
 }
 ```
 
-You can even send the respective mutation via the GraphQL Playground already:
+您可以 even send the respective mutation via the GraphQL Playground already:
 
 ```graphql
 mutation {
@@ -1006,7 +1006,7 @@ However, because the resolver is not yet implemented, no new `Post` record will 
 
 ##### Resolver implementation with `Nexus`
 
-That's because you're still missing the _resolver_ implementation for that mutation. You can add the resolver with Nexus as follows:
+That's because you're still missing the _resolver_ implementation for that mutation. 您可以 add the resolver with Nexus as follows:
 
 ```ts line-number highlight=12-22;add
 const Mutation = mutationType({
@@ -1078,7 +1078,7 @@ const resolvers = {
 
 ##### Code-first 綱要 definition with `Nexus`
 
-To get the same behavior with Nexus, you'll need to add a `t.field` definition to the `mutationType`:
+To get the same behavior with Nexus, you'll need 添加 a `t.field` definition to the `mutationType`:
 
 ```ts line-number highlight=5-14;add
 const Mutation = mutationType({
@@ -1112,7 +1112,7 @@ type Mutation {
 }
 ```
 
-You can even send the respective mutation via the GraphQL Playground already:
+您可以 even send the respective mutation via the GraphQL Playground already:
 
 ```graphql
 mutation {
@@ -1134,7 +1134,7 @@ However, because the resolver is not yet implemented, nothing will be updated in
 
 ##### Resolver implementation with `Nexus`
 
-That's because you're still missing the _resolver_ implementation for that query. You can add the resolver with Nexus as follows:
+That's because you're still missing the _resolver_ implementation for that query. 您可以 add the resolver with Nexus as follows:
 
 ```ts line-number highlight=14-26;add
 const Mutation = mutationType({
@@ -1213,7 +1213,7 @@ const resolvers = {
 
 ##### Code-first 綱要 definition with `Nexus`
 
-To get the same behavior with Nexus, you'll need to add a `t.field` definition to the `mutationType`:
+To get the same behavior with Nexus, you'll need 添加 a `t.field` definition to the `mutationType`:
 
 ```ts line-number highlight=5-14;add
 const Mutation = mutationType({
@@ -1248,7 +1248,7 @@ type Mutation {
 }
 ```
 
-You can even send the respective query via the GraphQL Playground already:
+您可以 even send the respective query via the GraphQL Playground already:
 
 ```graphql
 mutation {
@@ -1270,7 +1270,7 @@ However, because the resolver is not yet implemented, nothing will be updated in
 
 ##### Resolver implementation with `Nexus`
 
-That's because you're still missing the _resolver_ implementation for that query. You can add the resolver with Nexus as follows:
+That's because you're still missing the _resolver_ implementation for that query. 您可以 add the resolver with Nexus as follows:
 
 ```ts line-number highlight=13-23;add
 const Mutation = mutationType({
@@ -1307,11 +1307,11 @@ If you're re-sending the same query from before, you'll find that it now returns
 
 ## 4. Cleaning up
 
-Since the entire app has now been upgrade to Prisma ORM 2.0 and Nexus, you can delete all unnecessary files and remove the no longer needed dependencies.
+Since the entire app has now been upgrade to Prisma ORM 2.0 and Nexus, 您可以 delete all unnecessary files and remove the no longer needed dependencies.
 
 ### 4.1. Clean up npm dependencies
 
-You can start by removing npm dependencies that were related to the Prisma 1 setup:
+您可以 start by removing npm dependencies that were related to the Prisma 1 setup:
 
 ```copy
 npm uninstall graphql-cli prisma-binding prisma1
@@ -1325,8 +1325,8 @@ Next, delete the files of your Prisma 1 setup:
 rm prisma1/datamodel.prisma prisma1/prisma.yml
 ```
 
-You can also delete any remaining `.js` files, the old `schema.graphql` and `prisma.graphql` files.
+您可以 also delete any remaining `.js` files, the old `schema.graphql` and `prisma.graphql` files.
 
 ### 4.3. Stop the Prisma ORM server
 
-Finally, you can stop running your Prisma ORM server.
+Finally, 您可以 stop running your Prisma ORM server.

@@ -6,7 +6,7 @@ toc_max_heading_level: 4
 ---
 
 :::info Quick summary
-This page explains how Prisma ORM manages database connections using a connection pool, and how you can configure limits and timeouts for optimal performance.
+本頁說明 how Prisma ORM manages database connections using a connection pool, and how 您可以 configure limits and timeouts for optimal performance.
 :::
 
 
@@ -29,18 +29,18 @@ Relational database connectors use Prisma ORM's own connection pool, and the Mon
 
 ## Relational databases
 
-Starting with Prisma ORM v7, relational datasources instantiate Prisma Client with [driver adapters](/orm/overview/databases/database-drivers) by default. Driver adapters rely on the Node.js driver you supply, so connection pooling defaults (and configuration) now come from the driver itself. 
+Starting with Prisma ORM v7, relational datasources instantiate Prisma Client with [driver adapters](/orm/overview/databases/database-drivers) 預設情況下. Driver adapters rely on the Node.js driver you supply, so connection pooling defaults (and configuration) now come from the driver itself. 
 
 Use the tables below to translate Prisma ORM v6 connection URL parameters to the Prisma ORM v7 driver adapter fields alongside their defaults.
 
 
 ### Prisma ORM v7 driver adapter defaults
 
-The following tables document the default connection pool settings for each driver adapter.
+以下 tables document the default connection pool settings for each driver adapter.
 
 :::tip[Prisma timeouts]
 
-Prisma ORM also has its own configurable timeouts that are separate from the database driver timeouts. If you see a timeout error and are unsure whether it comes from the driver or from Prisma Client, see the [Prisma Client timeouts and transaction options documentation](/orm/prisma-client/queries/transactions#transaction-options).
+Prisma ORM also has its own configurable timeouts that are separate from the database driver timeouts. If you see a timeout error and are unsure whether it comes from the driver or from Prisma Client, 參見 [Prisma Client timeouts and transaction options documentation](/orm/prisma-client/queries/transactions#transaction-options).
 
 :::
 
@@ -57,7 +57,7 @@ Here are the default connection pool settings for the `pg` driver adapter:
 | Connection lifetime | `max_connection_lifetime` | `0` (no timeout) | `maxLifetimeSeconds` | `0` (no timeout) |
 
 :::tip
-See the [node-postgres pool documentation](https://node-postgres.com/apis/pool) for details on every available option.
+參見 [node-postgres pool documentation](https://node-postgres.com/apis/pool) for details on every available option.
 :::
 
 #### MySQL or MariaDB (using the `mariadb` driver)
@@ -72,7 +72,7 @@ Here are the default connection pool settings for the `mariadb` driver adapter:
 | Idle timeout | `max_idle_connection_lifetime` | `300s` | `idleTimeout` | `1800s` |
 
 :::tip
-Refer to the [MariaDB Connector/Node.js pool options](https://mariadb.com/docs/connectors/mariadb-connector-nodejs/connector-nodejs-promise-api#pool-options) for configuration and tuning guidance.
+參閱 the [MariaDB Connector/Node.js pool options](https://mariadb.com/docs/connectors/mariadb-connector-nodejs/connector-nodejs-promise-api#pool-options) for configuration and tuning guidance.
 :::
 
 #### SQL Server (using the `mssql` driver)
@@ -86,7 +86,7 @@ Here are the default connection pool settings for the `mssql` driver adapter:
 | Idle timeout | `max_idle_connection_lifetime` | `300s` | `pool.idleTimeoutMillis` | `30s` |
 
 :::tip
-See the [`node-mssql` pool docs](https://tediousjs.github.io/node-mssql/#general-same-for-all-drivers) for details on these fields.
+參見 [`node-mssql` pool docs](https://tediousjs.github.io/node-mssql/#general-same-for-all-drivers) for details on these fields.
 :::
 
 ## MongoDB
@@ -95,7 +95,7 @@ The MongoDB connector does not use the Prisma ORM connection pool. The connectio
 
 ## External connection poolers
 
-You cannot increase the `connection_limit` beyond what the underlying database can support. This is a particular challenge in serverless environments, where each function manages an instance of `PrismaClient` - and its own connection pool.
+您可以not increase the `connection_limit` beyond what the underlying database can support. This is a particular challenge in serverless environments, where each function manages an instance of `PrismaClient` - and its own connection pool.
 
 Consider introducing [an external connection pooler like PgBouncer](/orm/prisma-client/setup-and-configuration/databases-connections#pgbouncer) to prevent your application or functions from exhausting the database connection limit.
 
@@ -107,22 +107,22 @@ When using Prisma ORM, the database connections are handled on an [engine](https
 
 ### How the connection pool works
 
-The following steps describe how the query engine uses the connection pool:
+以下 steps describe how the query engine uses the connection pool:
 
 1. The query engine instantiates a connection pool with a [configurable pool size](#setting-the-connection-pool-size) and [pool timeout](#setting-the-connection-pool-timeout).
 1. The query engine creates one connection and adds it to the connection pool.
 1. When a query comes in, the query engine reserves a connection from the pool to process query.
-1. If there are no idle connections available in the connection pool, the query engine opens additional database connections and adds them to the connection pool until the number of database connections reaches the limit defined by `connection_limit`.
+1. If there are no idle connections 可用於 the connection pool, the query engine opens additional database connections and adds them to the connection pool until the number of database connections reaches the limit defined by `connection_limit`.
 1. If the query engine cannot reserve a connection from the pool, queries are added to a FIFO (First In First Out) queue in memory. FIFO means that queries are processed in the order they enter the queue.
 1. If the query engine cannot process a query in the queue for **before the [time limit](#default-pool-timeout)**, it throws an exception with error code `P2024` for that query and moves on to the next one in the queue.
 
-If you consistently experience pool timeout errors, you need to [optimize the connection pool](/orm/prisma-client/setup-and-configuration/databases-connections#optimizing-the-connection-pool) .
+If you consistently experience pool timeout errors, 您需要 [optimize the connection pool](/orm/prisma-client/setup-and-configuration/databases-connections#optimizing-the-connection-pool) .
 
 ### 連線池 size
 
 #### Default connection pool size
 
-The default number of connections (pool size) is calculated with the following formula:
+The default number of connections (pool size) is calculated with 以下 formula:
 
 ```bash
 num_physical_cpus * 2 + 1
@@ -134,7 +134,7 @@ Although the formula represents a good starting point, the [recommended connecti
 
 #### Setting the connection pool size
 
-You can specify the number of connections by explicitly setting the `connection_limit` parameter in your database connection URL. For example, with the following `datasource` configuration in your [Prisma schema](/orm/prisma-schema) the connection pool will have exactly five connections:
+您可以 specify the number of connections by explicitly setting the `connection_limit` parameter in your database connection URL. 例如, with 以下 `datasource` configuration in your [Prisma schema](/orm/prisma-schema) the connection pool will have exactly five connections:
 
 ```prisma
 datasource db {
@@ -147,9 +147,9 @@ datasource db {
 
 The number of connections Prisma Client uses can be viewed using [logging](/orm/prisma-client/observability-and-logging/logging) and built-in APIs provided by the driver adapter being used.
 
-Using the `info` [logging level](/orm/reference/prisma-client-reference#log-levels), you can log the number of connections in a connection pool that are opened when Prisma Client is instantiated.
+Using the `info` [logging level](/orm/reference/prisma-client-reference#log-levels), 您可以 log the number of connections in a connection pool that are opened when Prisma Client is instantiated.
 
-For example, consider the following Prisma Client instance and invocation:
+例如, consider 以下 Prisma Client instance and invocation:
 
 <CodeWithResult expanded="{true}">
 <cmd>
@@ -182,13 +182,13 @@ When the `PrismaClient` class was instantiated, the logging notified `stdout` th
 
 :::warning
 
-Note that the output generated by `log: ['info']` can change in any release without notice. Be aware of this in case you are relying on the output in your application or a tool that you're building.
+請注意 輸出 generated by `log: ['info']` can change in any release without notice. Be aware of this in case you are relying on 輸出 in your application or a tool that you're building.
 
 :::
 
-If you need even more insights into the size of your connection pool and the amount of in-use and idle connection, you can use the [metrics](/orm/prisma-client/observability-and-logging/metrics) feature (which is currently in Preview).
+If you need even more insights into the size of your connection pool and the amount of in-use and idle connection, 您可以 use the [metrics](/orm/prisma-client/observability-and-logging/metrics) feature (which is currently in Preview).
 
-Consider the following example:
+Consider 以下範例:
 
 <CodeWithResult expanded="{true}">
 <cmd>
@@ -254,7 +254,7 @@ main()
 
 :::info
 
-For more details on what is available in the metrics output, see the [About metrics](/orm/prisma-client/observability-and-logging/metrics#about-metrics) section.
+For more details on 什麼是 可用於 the metrics output, 參見 [About metrics](/orm/prisma-client/observability-and-logging/metrics#about-metrics) section.
 
 :::
 
@@ -266,7 +266,7 @@ The default connection pool timeout is 10 seconds. If the Query Engine does not 
 
 #### Setting the connection pool timeout
 
-You can specify the pool timeout by explicitly setting the `pool_timeout` parameter in your database connection URL. In the following example, the pool times out after `2` seconds:
+您可以 specify the pool timeout by explicitly setting the `pool_timeout` parameter in your database connection URL. In 以下範例, the pool times out after `2` seconds:
 
 ```prisma
 datasource db {
@@ -286,5 +286,5 @@ datasource db {
 }
 ```
 
-You can choose to [disable the connection pool timeout if queries **must** remain in the queue](/orm/prisma-client/setup-and-configuration/databases-connections#disabling-the-pool-timeout) - for example, if you are importing a large number of records in parallel and are confident that the queue will not use up all available RAM before the job is complete.
+您可以 choose to [disable the connection pool timeout if queries **must** remain in the queue](/orm/prisma-client/setup-and-configuration/databases-connections#disabling-the-pool-timeout) - 例如, if you are importing a large number of records in parallel and are confident that the queue will not use up all available RAM before the job is complete.
 

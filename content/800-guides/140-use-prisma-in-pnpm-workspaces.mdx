@@ -12,18 +12,18 @@ tags:
 community_section: true
 ---
 
-Prisma is a powerful ORM for managing your database, and when combined with [pnpm Workspaces](https://pnpm.io/workspaces), you can maintain a lean and modular monorepo architecture. In this guide, we’ll walk through setting up Prisma in its own package within a pnpm Workspaces monorepo, enabling maintainable type sharing and efficient database management across your apps.
+Prisma is a powerful ORM for managing your database, and when combined with [pnpm Workspaces](https://pnpm.io/workspaces), 您可以 maintain a lean and modular monorepo architecture. 在本指南中, we’ll walk through setting up Prisma in its own package within a pnpm Workspaces monorepo, enabling maintainable type sharing and efficient database management across your apps.
 
 ### What you'll learn:
 
-- How to initialize a monorepo using pnpm Workspaces.
+- 如何 initialize a monorepo using pnpm Workspaces.
 - Steps to integrate Prisma as a standalone package.
-- How to generate and share the Prisma Client across packages.
+- 如何 generate and share the Prisma Client across packages.
 - Integrating the Prisma package into an application within your workspace.
 
 ## 1. Prepare your project and configure pnpm workspaces
 
-Before integrating Prisma, you need to set up your project structure. Start by creating a new directory for your project (for example, `my-monorepo`) and initialize a Node.js project:
+Before integrating Prisma, 您需要 set up your project structure. Start by creating a new directory for your project (例如, `my-monorepo`) and initialize a Node.js project:
 
 ```terminal
 mkdir my-monorepo
@@ -37,7 +37,7 @@ Next, create a `pnpm-workspace.yaml` file to define your workspace structure and
 touch pnpm-workspace.yaml
 ```
 
-Add the following configuration to `pnpm-workspace.yaml`:
+Add 以下 configuration to `pnpm-workspace.yaml`:
 
 ```yaml file=pnpm-workspace.yaml
 packages:
@@ -50,7 +50,7 @@ catalogs:
 
 :::note 
 
-The `catalogs` help you pin a certain version of prisma across your repositories. You can learn more about them [here](https://pnpm.io/catalogs). *Explictly* pin the lastest version of [prisma](https://www.npmjs.com/package/prisma) in the `pnpm-workspace.yaml` file. At the time of writing, this is version `6.3.1`.
+The `catalogs` help you pin a certain version of prisma across your repositories. 您可以 learn more about them [here](https://pnpm.io/catalogs). *Explictly* pin the lastest version of [prisma](https://www.npmjs.com/package/prisma) in the `pnpm-workspace.yaml` file. At the time of writing, this is version `6.3.1`.
 
 :::
 
@@ -63,7 +63,7 @@ mkdir -p packages/database
 
 ## 2. Setup the shared database package
 
-This section covers creating a standalone database package that uses Prisma. The package will house all database models and the generated Prisma Client, making it reusable across your monorepo.
+本節涵蓋 creating a standalone database package that uses Prisma. The package will house all database models and the generated Prisma Client, making it reusable across your monorepo.
 
 ### 2.1. Initialize the package and install dependencies
 
@@ -99,7 +99,7 @@ pnpm add @prisma/adapter-pg pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -111,7 +111,7 @@ pnpm tsc --init
 
 ### 2.2. Setup Prisma ORM in your database package
 
-Initialize Prisma ORM with an instance of [Prisma Postgres](/postgres) in the `database` package by running the following command: 
+Initialize Prisma ORM with an instance of [Prisma Postgres](/postgres) in the `database` package by running 以下 command: 
 
 ```terminal
 pnpm prisma init --db
@@ -121,7 +121,7 @@ Enter a name for your project and choose a database region.
 
 :::info
 
-We're going to be using [Prisma Postgres](/postgres/getting-started) in this guide. If you're not using a Prisma Postgres database, you won't need to add the `--db` flag.
+We're going to be using [Prisma Postgres](/postgres/getting-started) 在本指南中. If you're not using a Prisma Postgres database, you won't need 添加 the `--db` flag.
 
 :::
 
@@ -155,7 +155,7 @@ model User {
 //add-end
 ```
 
-Now, create a `prisma.config.ts` file in the `database` package to configure Prisma:
+Now, create a `prisma.config.ts` file in the `database` package 配置 Prisma:
 
 ```typescript file=database/prisma.config.ts
 // add-start
@@ -176,7 +176,7 @@ export default defineConfig({
 
 :::note
 
-You'll need to install the `dotenv` package to load environment variables from the `.env` file:
+You'll need 安裝 the `dotenv` package to load environment variables from the `.env` file:
 
 ```terminal
 pnpm add dotenv
@@ -269,7 +269,7 @@ pnpm create next-app@latest web --yes
 
 :::note[important]
 
-The `--yes` flag uses default configurations to bootstrap the Next.js app (which in this guide uses the app router without a `src/` directory and `pnpm` as the installer). 
+The `--yes` flag uses default configurations to bootstrap the Next.js app (which 在本指南中 uses the app router without a `src/` directory and `pnpm` as the installer). 
 
 Additionally, the flag may automatically initialize a Git repository in the `web` folder. If that happens, please remove the `.git` directory by running `rm -r .git`.
 
@@ -299,7 +299,7 @@ Open the `package.json` file of your Next.js app and add the shared `database` p
 }
 ```
 
-Run the following command to install the `database` package:
+Run 以下 command 安裝 the `database` package:
 
 ```terminal
 pnpm install
@@ -307,7 +307,7 @@ pnpm install
 
 ### 3.2. Integrate the shared `database` package in your app code
 
-Modify your Next.js application code to use Prisma Client from the database package. Update `app/page.tsx` as follows:
+Modify your Next.js application code 使用 Prisma Client from the database package. Update `app/page.tsx` as follows:
 
 ```tsx file=app/page.tsx
 // add-start
@@ -334,7 +334,7 @@ This code demonstrates importing and using the shared Prisma Client to query you
 
 ### 3.3. Add helper scripts and run your application
 
-Add the following scripts to the root `package.json` of your monorepo. They ensure that database migrations, type generation, and app builds run in the proper order:
+Add 以下 scripts to the root `package.json` of your monorepo. They ensure that database migrations, type generation, and app builds run in the proper order:
 
 ```package.json
 "scripts": {
@@ -365,10 +365,10 @@ Open your browser at [`http://localhost:3000`](http://localhost:3000) to see you
 
 ### 3.5. (Optional) Add data to your database using Prisma Studio
 
-There shouldn't be data in your database yet. You can execute `pnpm run studio` in your CLI to start a [Prisma Studio](/orm/tools/prisma-studio) in [`http://localhost:5555`](http://localhost:5555) to interact with your database and add data to it.
+There shouldn't be data in your database yet. 您可以 execute `pnpm run studio` in your CLI to start a [Prisma Studio](/orm/tools/prisma-studio) in [`http://localhost:5555`](http://localhost:5555) to interact with your database and add data to it.
 
-## Next Steps
+## 後續步驟
 
 You have now created a monorepo that uses Prisma ORM effectively, with a shared database package integrated into a Next.js application. 
 
-For further exploration and to enhance your setup, consider reading the [How to use Prisma ORM with Turborepo](/guides/turborepo) guide.
+For further exploration and to enhance your setup, consider reading the [如何使用 Prisma ORM with Turborepo](/guides/turborepo) guide.

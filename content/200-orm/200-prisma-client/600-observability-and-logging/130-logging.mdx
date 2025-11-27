@@ -6,7 +6,7 @@ metaDescription: '學習 如何 configure Prisma 客戶端 to log the 原始 SQL
 
 <TopBlock>
 
-Use the `PrismaClient` [`log`](/orm/reference/prisma-client-reference#log) parameter to configure [log levels](/orm/reference/prisma-client-reference#log-levels) , including warnings, errors, and information about the queries sent to the database.
+Use the `PrismaClient` [`log`](/orm/reference/prisma-client-reference#log) parameter 配置 [log levels](/orm/reference/prisma-client-reference#log-levels) , including warnings, errors, and information about the queries sent to the database.
 
 Prisma Client supports two types of logging:
 
@@ -15,7 +15,7 @@ Prisma Client supports two types of logging:
 
 :::info
 
-You can also use the `DEBUG` environment variable to enable debugging output in Prisma Client. See [Debugging](/orm/prisma-client/debugging-and-troubleshooting/debugging) for more information.
+您可以 also use the `DEBUG` environment variable 啟用 debugging output in Prisma Client. See [Debugging](/orm/prisma-client/debugging-and-troubleshooting/debugging) 欲了解更多資訊.
 
 :::
 
@@ -64,12 +64,12 @@ const prisma = new PrismaClient({
 
 ## Event-based logging
 
-To use event-based logging:
+使用 event-based logging:
 
 1. Set `emit` to `event` for a specific log level, such as query
 2. Use the `$on()` method to subscribe to the event
 
-The following example subscribes to all `query` events and write the `duration` and `query` to console:
+以下範例 subscribes to all `query` events and write the `duration` and `query` to console:
 
 <TabbedContent code>
 

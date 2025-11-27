@@ -287,7 +287,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Error creating user:", error)
     return NextResponse.json(
-      { error: "Failed to create user" },
+      { error: "Failed 建立 user" },
       { status: 500 }
     )
   }
@@ -506,7 +506,7 @@ npx prisma generate --no-engine
 npm run db:studio
 ```
 
-Prisma Studio opens at `localhost:5555` where you can inspect your `User` table and see the test user stored in your database.
+Prisma Studio opens at `localhost:5555` where 您可以 inspect your `User` table and 參見 test user stored in your database.
 
 **3. Start your Next.js development server:**
 

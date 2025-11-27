@@ -4,17 +4,17 @@ metaTitle: '排除欄位'
 metaDescription: '本頁說明 如何 exclude sensitive fields from Prisma 客戶端'
 ---
 
-By default Prisma Client returns all fields from a model. You can use [`select`](/orm/prisma-client/queries/select-fields) to narrow the result set, but that can be unwieldy if you have a large model and you only want to exclude a small number of fields.
+預設情況下 Prisma Client returns all fields from a model. 您可以 use [`select`](/orm/prisma-client/queries/select-fields) to narrow 結果 set, but that can be unwieldy if you have a large model and you only want to exclude a small number of fields.
 
 :::info
 
-As of Prisma ORM 6.2.0, excluding fields is supported via the `omit` option that you can pass to Prisma Client. From versions 5.16.0 through 6.1.0, you must use the `omitApi` Preview feature to access this option.
+As of Prisma ORM 6.2.0, excluding fields is supported via the `omit` option that 您可以 pass to Prisma Client. From versions 5.16.0 through 6.1.0, 您必須 use the `omitApi` Preview feature to access this option.
 
 :::
 
 ## Excluding a field globally using `omit`
 
-The following is a type-safe way to exclude a field _globally_ (i.e. for _all_ queries against a given model):
+以下 is a type-safe way to exclude a field _globally_ (i.e. for _all_ queries against a given model):
 
 <TabbedContent code>
 
@@ -55,7 +55,7 @@ model User {
 
 ## Excluding a field locally using `omit`
 
-The following is a type-safe way to exclude a field _locally_ (i.e. for a _single_ query):
+以下 is a type-safe way to exclude a field _locally_ (i.e. for a _single_ query):
 
 <TabbedContent code>
 
@@ -96,10 +96,10 @@ model User {
 
 </TabbedContent>
 
-## How to omit multiple fields
+## 如何 omit multiple fields
 
 Omitting multiple fields works the same as selecting multiple fields: add multiple key-value pairs to the omit option.
-Using the same schema as before, you could omit password and email with the following:
+Using the same schema as before, you could omit password and email with 以下:
 
 ```tsx
 const prisma = new PrismaClient()
@@ -118,9 +118,9 @@ const user = await prisma.user.findUnique({
 
 Multiple fields can be omitted locally and globally.
 
-## How to select a previously omitted field
+## 如何 select a previously omitted field
 
-If you [omit a field globally](#excluding-a-field-globally-using-omit), you can "override" by either selecting the field specifically or by setting `omit` to `false` in a query.
+If you [omit a field globally](#excluding-a-field-globally-using-omit), 您可以 "override" by either selecting the field specifically or by setting `omit` to `false` in a query.
 
 <TabbedContent code>
 
@@ -164,7 +164,7 @@ While the `omit` option correctly removes fields from the runtime result, TypeSc
 
 If you define your omit config in a separate variable and do not use `as const`, TypeScript infers the type as `{ [key: string]: boolean }`, which is too broad for Prisma to know which fields are truly omitted. This results in the omitted fields still appearing in the type system, even though they are not present at runtime.
 
-The recommended fix is to use `as const` to ensure the type is exact:
+建議 fix is 使用 `as const` to ensure the type is exact:
 
 ```tsx
 const omitConfig = {
@@ -177,11 +177,11 @@ const prisma = new PrismaClient({ omit: omitConfig });
 
 This ensures TypeScript knows exactly which fields are omitted and will reflect that in the types.
 
-## When to use `omit` globally or locally
+## 何時使用 `omit` globally or locally
 
 It's important to understand when to omit a field globally or locally:
 
-- If you are omitting a field in order to prevent it from accidentally being included in a query, it's best to omit it _globally_. For example: Globally omitting the `password` field from a `User` model so that sensitive information doesn't accidentally get exposed.
+- If you are omitting a field in order to prevent it from accidentally being included in a query, it's best to omit it _globally_. 例如： Globally omitting the `password` field from a `User` model so that sensitive information doesn't accidentally get exposed.
 - If you are omitting a field because it's not needed in a query, it's best to omit it _locally_.
 
 Local omit (when an `omit` option is provided in a query) only applies to the query it is defined in, while a global omit applies to every query made with the same Prisma Client instance, [unless a specific select is used or the omit is overridden](#how-to-select-a-previously-omitted-field).

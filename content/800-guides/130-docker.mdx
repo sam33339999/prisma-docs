@@ -15,20 +15,20 @@ community_section: true
 <details>
 <summary>Questions answered in this page</summary>
 
-- How to run Prisma in Docker containers?
-- How to configure Docker Compose with Prisma?
-- How to handle migrations in Docker?
+- 如何 run Prisma in Docker containers?
+- How 配置 Docker Compose with Prisma?
+- 如何 handle migrations in Docker?
 
 </details>
 
-This guide walks you through setting up a Prisma ORM application within a Docker environment. You'll learn how to configure a Node.js project, integrate Prisma for database management, and orchestrate the application using Docker Compose. By the end, you'll have a fully functional Prisma application running in a Docker container.
+This guide walks you through setting up a Prisma ORM application within a Docker environment. You'll 學習如何 configure a Node.js project, integrate Prisma for database management, and orchestrate the application using Docker Compose. By the end, you'll have a fully functional Prisma application running in a Docker container.
 
 ## 前置需求
 
 - [Docker](https://docs.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) installed
 - Node.js version: A [compatible Node.js version](/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-6#minimum-supported-nodejs-versions), required for Prisma 6.  
 
-Before starting, ensure that no PostgreSQL services are running locally, and that the following ports are free to avoid conflicts: `5432` (PostgreSQL), `3000` (application server) or `5555` (Prisma Studio server).
+Before starting, ensure that no PostgreSQL services are running locally, and that 以下 ports are free to avoid conflicts: `5432` (PostgreSQL), `3000` (application server) or `5555` (Prisma Studio server).
 
 To stop existing PostgreSQL services, use:
 
@@ -58,7 +58,7 @@ cd docker-test
 npm init -y 
 ```
 
-This will generate a `package.json` file:
+這將 generate a `package.json` file:
 
 ```json file=package.json
 {
@@ -84,7 +84,7 @@ npm install @prisma/client @prisma/adapter-pg pg dotenv express
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -96,7 +96,7 @@ Now, initialize Prisma to generate the necessary files:
 npx prisma init --output ../generated/prisma
 ```
 
-This creates:  
+這會建立:  
 
 - A `prisma` folder containing `schema.prisma`, where you will define your database schema.  
 - An `.env` file in the project root, which stores environment variables.  
@@ -127,7 +127,7 @@ model User {
 
 :::note
 
-In the `schema.prisma` file, we specify a [custom `output` path](/orm/prisma-client/setup-and-configuration/generating-prisma-client#using-a-custom-output-path) where Prisma will generate its types. This ensures Prisma's types are resolved correctly across different package managers and can be accessed by application consistently inside the container without any permission issues. In this guide, the types will be generated in the `./generated/prisma_client` directory.
+In the `schema.prisma` file, we specify a [custom `output` path](/orm/prisma-client/setup-and-configuration/generating-prisma-client#using-a-custom-output-path) where Prisma will generate its types. This ensures Prisma's types are resolved correctly across different package managers and can be accessed by application consistently inside the container without any permission issues. 在本指南中, the types will be generated in the `./generated/prisma_client` directory.
 
 :::
 
@@ -150,7 +150,7 @@ export default defineConfig({
 
 :::note
 
-You'll need to install the `dotenv` package to load environment variables:
+You'll need 安裝 the `dotenv` package to load environment variables:
 
 ```bash
 npm install dotenv
@@ -166,7 +166,7 @@ With the Prisma schema in place, let's create an Express.js server to interact w
 touch index.js
 ```
 
-Add the following code to set up a basic Express server:
+Add 以下 code 設定 a basic Express server:
 
 ```js file=index.js
 //add-start
@@ -265,7 +265,7 @@ volumes:
 
 ### 2.2. Start the PostgreSQL container
 
-Run the following command to start the database:
+Run 以下 command to start the database:
 
 ```terminal
 docker compose -f docker-compose.postgres.yml up -d
@@ -273,14 +273,14 @@ docker compose -f docker-compose.postgres.yml up -d
 
 ### 2.3. Perform database migrations
 
-With the database running, update the `.env` file with the following database connection url:
+With the database running, update the `.env` file with 以下 database connection url:
 
 ```.env file=.env
 // edit-next-line
 DATABASE_URL="postgresql://postgres:prisma@localhost:5432/postgres?schema=public"
 ```
 
-Run the migration to create the database schema:
+Run the migration 建立 the database schema:
 
 ```terminal
 npx prisma migrate dev --name init
@@ -302,7 +302,7 @@ Start the server and verify it works:
 npm run dev
 ```
 
-Visit [`http://localhost:3000`](http://localhost:3000) to see the message:
+Visit [`http://localhost:3000`](http://localhost:3000) to 參見 message:
 
 ```terminal
 No users have been added yet.
@@ -337,13 +337,13 @@ To do that create a `Dockerfile` in project root:
 touch Dockerfile
 ```
 
-For the next step, you'll need to choose between two options for the base image: `node:alpine` (lightweight) or `node:slim` (stable). Both options are fully supported by Prisma ORM, but may have to be configured differently.
+For the next step, you'll need to choose between two options for the base image: `node:alpine` (lightweight) or `node:slim` (stable). Both options are fully 支援 Prisma ORM, but may have to be configured differently.
 
 ### 3.1. Option 1: Use Linux Alpine (`node:alpine`) as a base image
 
 The node:alpine image is based on Alpine Linux, a lightweight Linux distribution that uses the `musl` C standard library. It's perfect if you want to keep your container small and efficient. Prisma supports Alpine on `amd64` out of the box, and supports it on `arm64` since `prisma@4.10.0`.
 
-Add the following content to the `Dockerfile`:
+Add 以下 content to the `Dockerfile`:
 
 ```shell file=Dockerfile
 FROM node:lts-alpine3.17
@@ -373,9 +373,9 @@ Related Docker images:
 
 ### 3.1. Option 2: Use Linux Debian (`node:slim`) as a base image
 
-The `node:slim` image is based on Linux Debian, a stable and widely supported distribution that uses the `glibc` C standard library. It is mostly supported out of the box on `amd64` and `arm64`, making it a good choice if you're running into compatibility issues with Alpine or need a more production-ready environment. However, some older versions of this image may come without `libssl` installed, so it's sometimes necessary to install it manually.
+The `node:slim` image is based on Linux Debian, a stable and widely supported distribution that uses the `glibc` C standard library. It is mostly supported out of the box on `amd64` and `arm64`, making it a good choice if you're running into compatibility issues with Alpine or need a more production-ready environment. However, some older versions of this image may come without `libssl` installed, so it's sometimes necessary 安裝 it manually.
 
-Add the following content to the `Dockerfile`:
+Add 以下 content to the `Dockerfile`:
 
 ```shell file=Dockerfile
 FROM node:slim
@@ -411,7 +411,7 @@ Create a `docker-compose.yml` file in your project folder:
 touch docker-compose.yml
 ```
 
-Add the following configuration to the file:
+Add 以下 configuration to the file:
 
 ```yml file=docker-compose.yml
 // add-start
@@ -460,13 +460,13 @@ networks:
 
 ### 3.3. Configure environment variable for the container 
 
-Before running the app, we need to configure the environment variables. Create a `.env.prod` file:
+Before running the app, we need 配置 the environment variables. Create a `.env.prod` file:
 
 ```
 touch .env.prod
 ```
 
-Add the following database connection url to the `.env.prod` file:
+Add 以下 database connection url to the `.env.prod` file:
 
 ```.env file=.env.prod
 // edit-next-line
@@ -475,7 +475,7 @@ DATABASE_URL="postgresql://postgres:prisma@postgres_db:5432/postgres?schema=publ
 
 ### 3.4. Build and run the application
 
-With everything set up, it's time to build and run the app using Docker Compose. Run the following command:
+With everything set up, it's time to build and run the app using Docker Compose. Run 以下 command:
 
 ```terminal
 docker compose -f docker-compose.yml up --build -d
@@ -491,7 +491,7 @@ No users have been added yet.
 
 [Prisma Studio](/orm/tools/prisma-studio) offers a graphical user interface (GUI) that allows you to view and manage your database directly in the browser. It's a great tool for debugging and managing your data during development.
 
-To add Prisma Studio to your Docker setup, update the `docker-compose.yml` file:
+添加 Prisma Studio to your Docker setup, update the `docker-compose.yml` file:
 
 ```yml file=docker.compose.yml
 version: '3.7'
@@ -555,9 +555,9 @@ networks:
     name: prisma-network
 ```
 
-This will start Prisma Studio at [`http://localhost:5555`](http://localhost:5555) alongside the main app at [`http://localhost:3000`](http://localhost:3000). You can use Prisma Studio to manage your database with a GUI.
+這將 start Prisma Studio at [`http://localhost:5555`](http://localhost:5555) alongside 主要 app at [`http://localhost:3000`](http://localhost:3000). 您可以 use Prisma Studio to manage your database with a GUI.
 
-Run the following command to start everything:
+Run 以下 command to start everything:
 
 ```terminal
 docker compose -f docker-compose.yml up --build -d

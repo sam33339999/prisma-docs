@@ -8,7 +8,7 @@ toc: true
 
 When working with Prisma Postgres, you may encounter errors often highlighted by specific error codes during development and operations. 
 
-It is important to understand the meaning of these errors, why they occur, and how to resolve them in order to ensure the smooth operation of your applications. This guide aims to provide insights and steps to troubleshoot specific error codes encountered with Prisma Postgres.
+It is important to understand the meaning of these errors, why they occur, and 如何 resolve them in order to ensure the smooth operation of your applications. This guide aims to provide insights and steps to troubleshoot specific error codes encountered with Prisma Postgres.
 
 
 ## [`P6009`](/orm/reference/error-reference#p6009-responsesizelimitexceeded) (`ResponseSizeLimitExceeded`)
@@ -59,7 +59,7 @@ If the application is receiving very high traffic and there are not a sufficient
 
 **Suggested solution**: Review and possibly increase the `connection_limit` specified in the connection string parameter when setting up Accelerate in a platform environment ([reference](/postgres/database/connection-pooling#configuring-the-connection-pool-size)). This limit should align with your database's maximum number of connections.
 
-By default, the connection limit is set to 10 unless a different `connection_limit` is specified in your database connection string.
+預設情況下, the connection limit is set to 10 unless a different `connection_limit` is specified in your database connection string.
 
 #### Long-running queries
 
@@ -112,7 +112,7 @@ If your application retries queries immediately or with minimal delay, especiall
 
 #### Sudden traffic spikes
 
-Unpredicted traffic surges (for example, during product launches, flash sales, or viral growth events) can cause the threshold to be met and result into `P5011`.
+Unpredicted traffic surges (例如, during product launches, flash sales, or viral growth events) can cause the threshold to be met and result into `P5011`.
 
 **Suggested solution:**
 - Monitor traffic and resource usage. If you anticipate a surge, please contact [support](/platform/support) for capacity planning and potential configuration adjustments.

@@ -27,7 +27,7 @@ sidebar_class_name: preview-badge
    ```
     :::tip[Using driver adapters with TypedSQL]
 
-    If you are deploying Prisma in serverless or edge environments, you can use [driver adapters](/orm/overview/databases/database-drivers#driver-adapters) to connect through JavaScript database drivers. Driver adapters are compatible with TypedSQL, with the exception of `@prisma/adapter-better-sqlite3`. For SQLite support, use [`@prisma/adapter-libsql`](https://www.npmjs.com/package/@prisma/adapter-libsql) instead. All other driver adapters are supported.
+    If you are deploying Prisma in serverless or edge environments, 您可以 use [driver adapters](/orm/overview/databases/database-drivers#driver-adapters) to connect through JavaScript database drivers. Driver adapters are 相容於 TypedSQL, with the exception of `@prisma/adapter-better-sqlite3`. For SQLite support, use [`@prisma/adapter-libsql`](https://www.npmjs.com/package/@prisma/adapter-libsql) instead. All other driver adapters are supported.
 
     :::
 
@@ -39,7 +39,7 @@ sidebar_class_name: preview-badge
 
    :::note[Custom SQL folder location]
 
-   Starting with Prisma 6.12.0, you can configure a custom location for your SQL files using the Prisma config file. Create a `prisma.config.ts` file in your project root and specify the `typedSql.path` option:
+   Starting with Prisma 6.12.0, 您可以 configure a custom location for your SQL files using the Prisma config file. Create a `prisma.config.ts` file in your project root and specify the `typedSql.path` option:
 
    ```typescript title="prisma.config.ts"
    import 'dotenv/config'
@@ -55,9 +55,9 @@ sidebar_class_name: preview-badge
 
    :::
 
-1. Create a new `.sql` file in your `prisma/sql` directory. For example, `getUsersWithPosts.sql`. Note that the file name must be a valid JS identifier and cannot start with a `$`.
+1. Create a new `.sql` file in your `prisma/sql` directory. 例如, `getUsersWithPosts.sql`. 請注意 the file name must be a valid JS identifier and cannot start with a `$`.
 
-1. Write your SQL queries in your new `.sql` file. For example:
+1. Write your SQL queries in your new `.sql` file. 例如：
 
    ```sql title="prisma/sql/getUsersWithPosts.sql"
    SELECT u.id, u.name, COUNT(p.id) as "postCount"
@@ -78,13 +78,13 @@ sidebar_class_name: preview-badge
    prisma generate --sql
    ```
 
-   If you don't want to regenerate the client after every change, this command also works with the existing `--watch` flag:
+   If you don't want to regenerate the client after every change, this command also 適用於 the existing `--watch` flag:
 
    ```terminal
    prisma generate --sql --watch
    ```
 
-1. Now you can import and use your SQL queries in your TypeScript code:
+1. Now 您可以 import and use your SQL queries in your TypeScript code:
 
   ```typescript title="/src/index.ts"
   import { PrismaClient } from './generated/prisma/client'
@@ -98,13 +98,13 @@ sidebar_class_name: preview-badge
 
    :::note
 
-   If you do not customize the generator `output`, you can import from `@prisma/client` and `@prisma/client/sql` instead.
+   If you do not customize the generator `output`, 您可以 import from `@prisma/client` and `@prisma/client/sql` instead.
 
    :::
 
 ## Passing Arguments to TypedSQL 查詢
 
-To pass arguments to your TypedSQL queries, you can use parameterized queries. This allows you to write flexible and reusable SQL statements while maintaining type safety. Here's how to do it:
+To pass arguments to your TypedSQL queries, 您可以 use parameterized queries. This allows you to write flexible and reusable SQL statements while maintaining type safety. Here's 如何 do it:
 
 1. In your SQL file, use placeholders for the parameters you want to pass. The syntax for placeholders depends on your database engine:
 
@@ -128,7 +128,7 @@ To pass arguments to your TypedSQL queries, you can use parameterized queries. T
    ```
    </TabItem>
    <TabItem value="SQLite">
-   In SQLite, there are a number of different placeholders you can use. Positional placeholders (`$1`, `$2`, etc.), general placeholders (`?`), and named placeholders (`:minAge`, `:maxAge`, etc.) are all available. For this example, we'll use named placeholders `:minAge` and `:maxAge`:
+   In SQLite, there are a number of different placeholders 您可以 use. Positional placeholders (`$1`, `$2`, etc.), general placeholders (`?`), and named placeholders (`:minAge`, `:maxAge`, etc.) are all available. For this example, we'll use named placeholders `:minAge` and `:maxAge`:
 
    ```sql title="prisma/sql/getUsersByAge.sql"
    SELECT id, name, age
@@ -140,7 +140,7 @@ To pass arguments to your TypedSQL queries, you can use parameterized queries. T
 
    :::note
    
-   See below for information on how to [define argument types in your SQL files](#defining-argument-types-in-your-sql-files).
+   See below for information on 如何 [define argument types in your SQL files](#defining-argument-types-in-your-sql-files).
 
    :::
 
@@ -199,7 +199,7 @@ Argument typing in TypedSQL is accomplished via specific comments in your SQL fi
 
 Where `Type` is a valid database type, `N` is the position of the argument in the query, and `alias` is an optional alias for the argument that is used in the TypeScript type.
 
-As an example, if you needed to type a single string argument with the alias `name` and the description "The name of the user", you would add the following comment to your SQL file:
+As an example, if you needed to type a single string argument with the alias `name` and the description "The name of the user", you would add 以下 comment to your SQL file:
 ```sql
 -- @param {String} $1:name The name of the user
 ```
@@ -232,7 +232,7 @@ Manual argument type definitions are not supported for array arguments. For thes
 
 ## 範例
 
-For practical examples of how to use TypedSQL, please refer to the [TypedSQL example in the Prisma Examples repo](https://github.com/prisma/prisma-examples/tree/latest/generator-prisma-client/basic-typedsql).
+For practical examples of 如何使用 TypedSQL, please 參閱 the [TypedSQL example in the Prisma Examples repo](https://github.com/prisma/prisma-examples/tree/latest/generator-prisma-client/basic-typedsql).
 
 ## 限制 of TypedSQL
 
@@ -244,11 +244,11 @@ TypedSQL does not work with MongoDB, as it is specifically designed for SQL data
 
 ### Active 資料庫 連線 Required
 
-TypedSQL requires an active database connection to function properly. This means you need to have a running database instance that Prisma can connect to when generating the client with the `--sql` flag. TypedSQL uses the connection string defined in `prisma.config.ts` (`datasource.url`) to establish this connection.
+TypedSQL 需要 an active database connection to function properly. This means 您需要 have a running database instance that Prisma can connect to when generating the client with the `--sql` flag. TypedSQL uses the connection string defined in `prisma.config.ts` (`datasource.url`) to establish this connection.
 
 ### Dynamic SQL 查詢 with Dynamic Columns
 
-TypedSQL does not natively support constructing SQL queries with dynamically added columns. When you need to create a query where the columns are determined at runtime, you must use the `$queryRaw` and `$executeRaw` methods. These methods allow for the execution of raw SQL, which can include dynamic column selections.
+TypedSQL does not natively support constructing SQL queries with dynamically added columns. When 您需要 create a query where the columns are determined at runtime, 您必須 use the `$queryRaw` and `$executeRaw` methods. These methods allow for the execution of raw SQL, which can include dynamic column selections.
 
 **Example of a query using dynamic column selection:**
 
@@ -259,7 +259,7 @@ const result = await prisma.$queryRawUnsafe(
 );
 ```
 
-In this example, the columns to be selected are defined dynamically and included in the SQL query. While this approach provides flexibility, it requires careful attention to security, particularly to [avoid SQL injection vulnerabilities](/orm/prisma-client/using-raw-sql/raw-queries#sql-injection-prevention). Additionally, using raw SQL queries means foregoing the type-safety and DX of TypedSQL.
+In this example, the columns to be selected are defined dynamically and included in the SQL query. While this approach provides flexibility, it 需要 careful attention to security, particularly to [avoid SQL injection vulnerabilities](/orm/prisma-client/using-raw-sql/raw-queries#sql-injection-prevention). Additionally, using raw SQL queries means foregoing the type-safety and DX of TypedSQL.
 
 ## Acknowledgements
 

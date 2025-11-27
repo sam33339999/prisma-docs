@@ -4,11 +4,11 @@ metaTitle: '計算欄位'
 metaDescription: '本頁說明 如何 use 客戶端 extensions to 添加 computed fields to Prisma models.'
 ---
 
-Computed fields allow you to derive a new field based on existing data. A common example is when you want to compute a full name. In your database, you may only store the first and last name, but you can define a function that computes a full name by combining the first and last name. Computed fields are read-only and stored in your application's memory, not in your database.
+Computed fields allow you to derive a new field based on existing data. A common example is when you want to compute a full name. In your database, you may only store the first and last name, but 您可以 define a function that computes a full name by combining the first and last name. Computed fields are read-only and stored in your application's memory, not in your database.
 
 ## Using a Prisma Client extension
 
-The following example illustrates how to create a [Prisma Client extension](/orm/prisma-client/client-extensions) that adds a `fullName` computed field at runtime to the `User` model in a Prisma schema.
+以下範例 illustrates how 建立 a [Prisma Client extension](/orm/prisma-client/client-extensions) that adds a `fullName` computed field at runtime to the `User` model in a Prisma schema.
 
 <TabbedContent code>
 
@@ -105,11 +105,11 @@ The computed fields are type-safe and can return anything from a concatenated va
 
 :::warning
 
-With Prisma Client extensions Generally Available as of Prisma ORM version 4.16.0, the following steps are not recommended. Please use [a client extension](#using-a-prisma-client-extension) to accomplish this.
+With Prisma Client extensions Generally Available as of Prisma ORM version 4.16.0, 以下 steps are not recommended. Please use [a client extension](#using-a-prisma-client-extension) to accomplish this.
 
 :::
 
-Prisma Client does not yet natively support computed fields, but, you can define a function that accepts a generic type as an input then extend that generic to ensure it conforms to a specific structure. Finally, you can return that generic with additional computed fields. Let's see how that might look:
+Prisma Client does not yet natively support computed fields, but, 您可以 define a function that accepts a generic type as an input then extend that generic to ensure it conforms to a specific structure. Finally, 您可以 return that generic with additional computed fields. Let's see how that might look:
 
 <TabbedContent code>
 
@@ -175,6 +175,6 @@ With this function, any object that contains `firstName` and `lastName` keys can
 
 ### Going further
 
-- Learn how you can use [Prisma Client extensions](/orm/prisma-client/client-extensions) to add a computed field to your schema — [example](https://github.com/prisma/prisma-client-extensions/tree/main/computed-fields).
-- Learn how you can move the `computeFullName` function into [a custom model](/orm/prisma-client/queries/custom-models).
-- There's an [open feature request](https://github.com/prisma/prisma/issues/3394) to add native support to Prisma Client. If you'd like to see that happen, make sure to upvote that issue and share your use case!
+- Learn how 您可以 use [Prisma Client extensions](/orm/prisma-client/client-extensions) 添加 a computed field to your schema — [example](https://github.com/prisma/prisma-client-extensions/tree/main/computed-fields).
+- Learn how 您可以 move the `computeFullName` function into [a custom model](/orm/prisma-client/queries/custom-models).
+- There's an [open feature request](https://github.com/prisma/prisma/issues/3394) 添加 native support to Prisma Client. If you'd like to see that happen, make sure to upvote that issue and share your use case!

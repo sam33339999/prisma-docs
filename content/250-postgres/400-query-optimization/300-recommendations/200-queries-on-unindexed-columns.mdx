@@ -8,7 +8,7 @@ toc: true
 
 Optimize provides recommendations to help you identify and resolve performance issues caused by missing database indexes.
 
-The following queries targeting the `User` model use a [`where` property](/orm/prisma-client/queries/filtering-and-sorting) to filter on columns that do not have indexes:
+以下 queries targeting the `User` model use a [`where` property](/orm/prisma-client/queries/filtering-and-sorting) to filter on columns that do not have indexes:
 
 ```ts
 await prisma.user.findFirst({
@@ -61,21 +61,21 @@ Indexes create a data structure that stores the indexed column's values along wi
 
 ### The trade-offs of indexing
 
-- **Space vs. time:** Indexing requires additional storage space to save index data, but it significantly speeds up data retrieval.
+- **Space vs. time:** Indexing 需要 additional storage space to save index data, but it significantly speeds up data retrieval.
 - **Update overhead:** Every time data is added to, updated in, or removed from your table, there is an overhead to keep the indexes up to date, which can slow down write operations.
 
-### When to use indexes
+### 何時使用 indexes
 
 - **Large datasets:** Indexes are particularly beneficial for tables with a large number of rows.
 - **Frequent queries with filtering or sorting:** Use indexes on columns that are frequently used for [filtering or sorting](/orm/prisma-client/queries/filtering-and-sorting#filtering).
 - **Looking up related data:** Use indexes on foreign key columns to speed up the retrieval of related records, such as when using [`include`](/orm/prisma-client/queries/relation-queries#include-a-relation).
 
-### When not to use indexes
+### When not 使用 indexes
 
 - **Small tables:** For tables with very few rows, the overhead of maintaining indexes might not be worth the performance gain.
 - **Write-heavy tables:** Indexes can slow down write operations (`create`, `update`, `delete`) because the index needs to be updated as well. Avoid excessive indexing on models with frequent write operations.
 - **Infrequently accessed tables:** If a table is rarely accessed, the benefits of indexing may not justify the overhead.
-- **Columns with large data:** Indexing columns with large data can lead to higher storage requirements and might not provide significant performance improvements.
+- **Columns with large data:** Indexing columns with large data can lead to higher storage 需求 and might not provide significant performance improvements.
 - **Rarely filtered columns:** If a table is often accessed but rarely filtered by a specific column, creating an index on that column may not be beneficial.
 
 :::warning

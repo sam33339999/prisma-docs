@@ -12,7 +12,7 @@ This document describes different environment variables and their use cases.
 
 ### `DEBUG`
 
-`DEBUG` is used to enable debugging output in Prisma Client.
+`DEBUG` is used 啟用 debugging output in Prisma Client.
 
 Example setting Prisma Client level debugging output:
 
@@ -21,13 +21,13 @@ Example setting Prisma Client level debugging output:
 export DEBUG="prisma:client"
 ```
 
-See [Debugging](/orm/prisma-client/debugging-and-troubleshooting/debugging) for more information.
+See [Debugging](/orm/prisma-client/debugging-and-troubleshooting/debugging) 欲了解更多資訊.
 
 ### `NO_COLOR`
 
 `NO_COLOR` if [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) will activate the `colorless` setting for error formatting and strip colors from error messages.
 
-See [Formatting via environment variables](/orm/prisma-client/setup-and-configuration/error-formatting#formatting-via-environment-variables) for more information.
+See [Formatting via environment variables](/orm/prisma-client/setup-and-configuration/error-formatting#formatting-via-environment-variables) 欲了解更多資訊.
 
 ## Prisma Studio
 
@@ -39,13 +39,13 @@ See [Formatting via environment variables](/orm/prisma-client/setup-and-configur
 BROWSER=firefox prisma studio --port 5555
 ```
 
-Alternatively you can set this when starting Studio from the CLI as well:
+Alternatively 您可以 set this when starting Studio from the CLI as well:
 
 ```terminal
 prisma studio --browser firefox
 ```
 
-See [Studio](/orm/reference/prisma-cli-reference#studio) documentation for more information.
+See [Studio](/orm/reference/prisma-cli-reference#studio) documentation 欲了解更多資訊.
 
 ## Prisma CLI
 
@@ -106,11 +106,11 @@ This environment variable is available since version `5.3.0`
 
 :::
 
-`PRISMA_SCHEMA_DISABLE_ADVISORY_LOCK` can be set to a truthy value to disable the [advisory locking](/orm/prisma-migrate/workflows/development-and-production#advisory-locking) used by Prisma Migrate. This might be needed, depending on the database configuration, for example, for a Percona-XtraDB-Cluster or MariaDB Galera Cluster.
+`PRISMA_SCHEMA_DISABLE_ADVISORY_LOCK` can be set to a truthy value to disable the [advisory locking](/orm/prisma-migrate/workflows/development-and-production#advisory-locking) used by Prisma Migrate. This might be needed, depending on the database configuration, 例如, for a Percona-XtraDB-Cluster or MariaDB Galera Cluster.
 
 ## Proxy environment variables
 
-The Prisma CLI supports custom HTTP(S) proxies to download the Prisma engines. These can be helpful to use when working behind a corporate firewall. See [Using a HTTP proxy for the CLI](/orm/reference/prisma-cli-reference#using-a-http-proxy-for-the-cli) for more information.
+The Prisma CLI supports custom HTTP(S) proxies to download the Prisma engines. These can be helpful 使用 when working behind a corporate firewall. See [Using a HTTP proxy for the CLI](/orm/reference/prisma-cli-reference#using-a-http-proxy-for-the-cli) 欲了解更多資訊.
 
 ### `NO_PROXY`
 
@@ -168,7 +168,7 @@ This environment variable is only supported in Prisma 6.19 and earlier. It will 
 PRISMA_CLIENT_ENGINE_TYPE=binary
 ```
 
-Note: You need to generate your Prisma Client after setting this variable for the configuration to take effect and the libraries to be downloaded. Otherwise, Prisma Client will be missing the appropriate query engine library and you will _have to_ define their location using [`PRISMA_QUERY_ENGINE_LIBRARY`](#prisma_query_engine_library).
+注意： 您需要 generate your Prisma Client after setting this variable for the configuration to take effect and the libraries to be downloaded. Otherwise, Prisma Client will be missing the appropriate query engine library and you will _have to_ define their location using [`PRISMA_QUERY_ENGINE_LIBRARY`](#prisma_query_engine_library).
 
 It is the environment variable equivalent for the [`engineType` property of the `generator` block](/orm/more/under-the-hood/engines#configuring-the-query-engine) which enables you to define the same setting in your Prisma Schema.
 
@@ -182,9 +182,9 @@ It is the environment variable equivalent for the [`engineType` property of the 
 PRISMA_ENGINES_MIRROR=https://example.org/custom-engines/
 ```
 
-See [Prisma engines](/orm/more/under-the-hood/engines#hosting-engines) for a conceptual overview of how to use this environment variable.
+See [Prisma engines](/orm/more/under-the-hood/engines#hosting-engines) for a conceptual overview of 如何使用 this environment variable.
 
-Note: This environment variable used to be available as `PRISMA_BINARIES_MIRROR`, which was deprecated in Prisma ORM 3.0.1. It is discouraged to use anymore and will be removed in the future.
+注意： This environment variable used to be available as `PRISMA_BINARIES_MIRROR`, which was deprecated in Prisma ORM 3.0.1. It is discouraged 使用 anymore and will be removed in the future.
 
 #### `PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING`
 
@@ -201,11 +201,11 @@ This is particularly useful when deploying to an offline system environment wher
 PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
 ```
 
-Note: we might change the overall download behavior in a future release in a way that this environment variable will not be needed anymore in a offline environment case.
+注意： we might change the overall download behavior in a future release in a way that this environment variable will not be needed anymore in a offline environment case.
 
 ### Custom engine file locations
 
-By default, all engine files are downloaded when you install Prisma CLI, copied when generating Prisma Client, and put into known locations. There are however situations where you may want to use a custom engine file from custom locations:
+預設情況下, all engine files are downloaded when you install Prisma CLI, copied when generating Prisma Client, and put into known locations. There are however situations where you may want 使用 a custom engine file from custom locations:
 
 #### `PRISMA_QUERY_ENGINE_BINARY`
 
@@ -225,7 +225,7 @@ PRISMA_QUERY_ENGINE_BINARY=custom/query-engine-<target>
 For Prisma CLI it allows you to define the query engine file to be used.  
 For Prisma Client, on build time (during `prisma generate`), it defines where the query engine file will be copied from into Prisma Client. At run time (when using the generated Client) it can be used to define the specific query engine file to be used instead of the included one.
 
-Note: This can only have an effect if the engine type of CLI or Client are set to `binary`. If the engine type is `library` (the default), use PRISMA_QUERY_ENGINE_LIBRARY instead.
+注意： This can only have an effect if the engine type of CLI or Client are set to `binary`. If the engine type is `library` (the default), use PRISMA_QUERY_ENGINE_LIBRARY instead.
 
 #### `PRISMA_QUERY_ENGINE_LIBRARY`
 
@@ -245,7 +245,7 @@ PRISMA_QUERY_ENGINE_LIBRARY=custom/libquery_engine-<target>.so.node
 For Prisma CLI it allows you to define the query engine file to be used.  
 For Prisma Client, on build time (during `prisma generate`), it defines where the query engine file will be copied from into Prisma Client. At run time (when using the generated Client) it can be used to define the specific query engine file to be used instead of the included one.
 
-Note: This can only have an effect if the engine type of CLI or Client are set to `library` (the default)
+注意： This can only have an effect if the engine type of CLI or Client are set to `library` (the default)
 
 #### `PRISMA_SCHEMA_ENGINE_BINARY`
 

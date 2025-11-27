@@ -9,10 +9,10 @@ toc: true
 
 ## 前置需求
 
-To get started with Accelerate, you will need the following:
+開始使用 with Accelerate, you will need 以下:
 
 - A [Prisma Data Platform account](https://console.prisma.io)
-- A project that uses [Prisma Client](/orm/prisma-client) `4.16.1` or higher. If your project is using interactive transactions, you need to use `5.1.1` or higher. (We always recommend using the latest version of Prisma.)
+- A project that uses [Prisma Client](/orm/prisma-client) `4.16.1` or higher. If your project is using interactive transactions, 您需要 use `5.1.1` or higher. (We always recommend using the latest version of Prisma.)
 - A hosted PostgreSQL, MySQL/MariaDB, PlanetScale, CockroachDB, or MongoDB database
 
 ## 1. Enable Accelerate
@@ -21,7 +21,7 @@ Navigate to your Prisma Data Platform project, choose an environment, and enable
 
 :::note
 
-If you require IP allowlisting or firewall configurations with trusted IP addresses, enable Static IP for enhanced security. Learn more on [how to enable static IP for Accelerate in the Platform Console](/accelerate/static-ip).
+If you require IP allowlisting or firewall configurations with trusted IP addresses, enable Static IP for enhanced security. Learn more on [how 啟用 static IP for Accelerate in the Platform Console](/accelerate/static-ip).
 
 :::
 
@@ -66,7 +66,7 @@ export default defineConfig({
 
 Migrations and introspections will use the `directUrl` connection string rather than the one defined in `url` when this configuration is provided.
 
-> `directUrl` is useful for you to carry out migrations and introspections. However, you don't need `directUrl` to use Accelerate in your application.
+> `directUrl` is useful for you to carry out migrations and introspections. However, you don't need `directUrl` 使用 Accelerate in your application.
 
 :::note
 If you are using Prisma with PostgreSQL, there is no need for `directUrl`, as Prisma Migrate and Introspection work with the `prisma+postgres://` connection string.
@@ -76,9 +76,9 @@ If you are using Prisma with PostgreSQL, there is no need for `directUrl`, as Pr
 
 :::info
 
-💡 Accelerate requires [Prisma Client](/orm/prisma-client) version `4.16.1` or higher and [`@prisma/extension-accelerate`](https://www.npmjs.com/package/@prisma/extension-accelerate) version `1.0.0` or higher.
+💡 Accelerate 需要 [Prisma Client](/orm/prisma-client) version `4.16.1` or higher and [`@prisma/extension-accelerate`](https://www.npmjs.com/package/@prisma/extension-accelerate) version `1.0.0` or higher.
 
-💡 Accelerate extension [`@prisma/extension-accelerate`](https://www.npmjs.com/package/@prisma/extension-accelerate) version `2.0.0` and above requires Node.js version `18` or higher.
+💡 Accelerate extension [`@prisma/extension-accelerate`](https://www.npmjs.com/package/@prisma/extension-accelerate) version `2.0.0` and above 需要 Node.js version `18` or higher.
 
 :::
 
@@ -92,13 +92,13 @@ npm install @prisma/client@latest @prisma/extension-accelerate
 
 If you're using Prisma version `5.2.0` or greater, Prisma Client will automatically determine how it should connect to the database depending on the protocol in the database connection string. If the connection string in the `DATABASE_URL` starts with `prisma://`, Prisma Client will try to connect to your database using Prisma Accelerate.
 
-When using Prisma Accelerate in long-running application servers, such as a server deployed on AWS EC2, you can generate the Prisma Client by executing the following command:
+When using Prisma Accelerate in long-running application servers, such as a server deployed on AWS EC2, 您可以 generate the Prisma Client by executing 以下 command:
 
 ```terminal
 npx prisma generate
 ```
 
-When using Prisma Accelerate in a Serverless or an Edge application, we recommend you to run the following command to generate Prisma Client:
+When using Prisma Accelerate in a Serverless or an Edge application, we recommend you to run 以下 command to generate Prisma Client:
 
 ```terminal
 npx prisma generate --no-engine
@@ -124,7 +124,7 @@ npx prisma generate --data-proxy
 
 ### 2.4. Extend your Prisma Client instance with the Accelerate extension
 
-Add the following to extend your existing Prisma Client instance with the Accelerate extension:
+Add 以下 to extend your existing Prisma Client instance with the Accelerate extension:
 
 ```ts
 import { PrismaClient } from '@prisma/client'
@@ -146,13 +146,13 @@ const prisma = new PrismaClient({
 }).$extends(withAccelerate())
 ```
 
-If VS Code does not recognize the `$extends` method, refer to [this section](/accelerate/faq#vs-code-does-not-recognize-the-extends-method) on how to resolve the issue.
+If VS Code does not recognize the `$extends` method, 參閱 [this section](/accelerate/faq#vs-code-does-not-recognize-the-extends-method) on 如何 resolve the issue.
 
 #### Using the Accelerate extension with other extensions
 
 Since [extensions are applied one after another](/orm/prisma-client/client-extensions#conflicts-in-combined-extensions), make sure you apply them in the correct order. Extensions cannot share behavior and the last extension applied takes precedence.
 
-If you are using [Prisma Optimize](/optimize) in your application, make sure you apply it _before_ the Accelerate extension. For example:
+If you are using [Prisma Optimize](/optimize) in your application, make sure you apply it _before_ the Accelerate extension. 例如：
 
 ```ts
 const prisma = new PrismaClient({
@@ -173,7 +173,7 @@ The `withAccelerate` extension primarily does two things:
 
 If you simply want to take advantage of Accelerate's connection pooling feature without applying a cache strategy, you may run your query the same way you would have without Accelerate.
 
-By enabling Accelerate and supplying the Accelerate connection string, your queries now use the connection pooler by default.
+By enabling Accelerate and supplying the Accelerate connection string, your queries now use the connection pooler 預設情況下.
 
 #### Define a cache strategy
 
@@ -192,7 +192,7 @@ const user = await prisma.user.findMany({
 
 In the example above, `swr: 60` and `ttl: 60` means Accelerate will serve cached data for 60 seconds and then another 60 seconds while Accelerate fetches fresh data in the background.
 
-You should now see improved performance for your cached queries.
+您應該 now see improved performance for your cached queries.
 
 <Admonition type="info">
 
@@ -202,17 +202,17 @@ For information about which strategy best serves your application, see [Select a
 
 :::info
 
-As of Prisma version `5.2.0` you can use Prisma Studio with the Accelerate connection string.
+As of Prisma version `5.2.0` 您可以 use Prisma Studio with the Accelerate connection string.
 
 :::
 
 #### Invalidate the cache and keep your cached query results up-to-date
 
-If your application requires real-time or near-real-time data, cache invalidation ensures that users see the most current data, even when using a large `ttl` (Time-To-Live) or `swr` (Stale-While-Revalidate) [cache strategy](/postgres/database/caching#cache-strategies). By invalidating your cache, you can bypass extended caching periods to show live data whenever it's needed.
+If your application 需要 real-time or near-real-time data, cache invalidation ensures that users 參見 most current data, even when using a large `ttl` (Time-To-Live) or `swr` (Stale-While-Revalidate) [cache strategy](/postgres/database/caching#cache-strategies). By invalidating your cache, 您可以 bypass extended caching periods to show live data whenever it's needed.
 
-For example, if a dashboard displays customer information and a customer’s contact details change, cache invalidation allows you to refresh only that data instantly, ensuring support staff always see the latest information without waiting for the cache to expire.
+例如, if a dashboard displays customer information and a customer’s contact details change, cache invalidation allows you to refresh only that data instantly, ensuring support staff always 參見 latest information without waiting for the cache to expire.
 
-To invalidate a cached query result, you can add tags and then use the `$accelerate.invalidate` API.
+To invalidate a cached query result, 您可以 add tags and then use the `$accelerate.invalidate` API.
 
 :::note
 
@@ -239,7 +239,7 @@ await prisma.user.findMany({
 });
 ```
 
-You need to provide the cache tag in the `$accelerate.invalidate` API:
+您需要 provide the cache tag in the `$accelerate.invalidate` API:
 
 ```ts
 try {

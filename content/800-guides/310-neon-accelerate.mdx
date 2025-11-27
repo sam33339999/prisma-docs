@@ -10,9 +10,9 @@ community_section: true
 
 ## Introduction
 
-This guides teaches you how to add connection pooling to a PostgreSQL database hosted on [Neon](https://neon.tech/) using [Prisma Accelerate](/accelerate). 
+This guides teaches you 如何 add connection pooling to a PostgreSQL database hosted on [Neon](https://neon.tech/) using [Prisma Accelerate](/accelerate). 
 
-Prisma Accelerate is a robust and mature connection pooler enabling your database to function properly during traffic spikes and high load scenarios. Check out this [video](https://www.youtube.com/watch?v=cnL75if6Aq0) demonstrating how it performs in a load test or [learn why connection pooling is important](https://www.prisma.io/blog/saving-black-friday-with-connection-pooling).
+Prisma Accelerate is a robust and mature connection pooler enabling your database to function properly during traffic spikes and high load scenarios. 查看 this [video](https://www.youtube.com/watch?v=cnL75if6Aq0) demonstrating how it performs in a load test or [learn why connection pooling is important](https://www.prisma.io/blog/saving-black-friday-with-connection-pooling).
 
 ## 前置需求
 
@@ -22,7 +22,7 @@ To successfully complete this guide, you need **a connection string for a Postgr
 postgresql://neondb_owner:[YOUR-PASSWORD]@ep-lingering-hat-a2e7tkt3.eu-central-1.aws.neon.tech/neondb?sslmode=require
 ```
 
-If you already have a project using Prisma ORM, you can skip the first two steps and jump ahead to [Step 3. Install the Accelerate extension](#3-install-the-accelerate-extension).
+If you already have a project using Prisma ORM, 您可以 skip the first two steps and jump ahead to [Step 3. Install the Accelerate extension](#3-install-the-accelerate-extension).
 
 ## 1. Set up Prisma ORM
 
@@ -32,13 +32,13 @@ Start by installing the Prisma CLI in your project:
 npm install prisma --save-dev
 ```
 
-Then, run the following command to initialize a new project:
+Then, run 以下 command to initialize a new project:
 
 ```
 npx prisma init
 ```
 
-This will create a new `prisma` directory with a `schema.prisma` file and add a `.env` file with the `DATABASE_URL` environment variable.
+這將 create a new `prisma` directory with a `schema.prisma` file and add a `.env` file with the `DATABASE_URL` environment variable.
 
 Update the file and set the `DATABASE_URL` to your Neon connection string:
 
@@ -46,7 +46,7 @@ Update the file and set the `DATABASE_URL` to your Neon connection string:
 DATABASE_URL="postgresql://neondb_owner:[YOUR-PASSWORD]@ep-lingering-hat-a2e7tkt3.eu-central-1.aws.neon.tech/neondb?sslmode=require"
 ```
 
-Create a `prisma.config.ts` file to configure Prisma:
+Create a `prisma.config.ts` file 配置 Prisma:
 
 ```typescript file=prisma.config.ts
 import 'dotenv/config'
@@ -65,7 +65,7 @@ export default defineConfig({
 
 :::note
 
-You'll need to install the `dotenv` package to load environment variables:
+You'll need 安裝 the `dotenv` package to load environment variables:
 
 ```bash
 npm install dotenv
@@ -75,7 +75,7 @@ npm install dotenv
 
 ## 2. Introspect your database
 
-Next, run the following command to introspect your database and create your data model:
+Next, run 以下 command to introspect your database and create your data model:
 
 ```terminal
 npx prisma db pull
@@ -85,7 +85,7 @@ This command reads your database schema and creates new models in your `schema.p
 
 :::note
 
-If you want to use Prisma Migrate in the future, you also need to [baseline your database](/orm/prisma-migrate/workflows/baselining).
+If you want 使用 Prisma Migrate in the future, you also need to [baseline your database](/orm/prisma-migrate/workflows/baselining).
 
 :::
 
@@ -101,7 +101,7 @@ This is needed to access Prisma Accelerate's connection pool.
 
 ## 4. Set up Accelerate in the Prisma Console
 
-To set up Accelerate in the Prisma Console, follow these steps:
+設定 Accelerate in the Prisma Console, follow these steps:
 
 1. Log into the [Prisma Console](https://console.prisma.io).
 1. Select **New project**
@@ -112,7 +112,7 @@ To set up Accelerate in the Prisma Console, follow these steps:
 1. Click **Create project**
 1. On the next screen, click **Enable Accelerate**
 
-Once you went through these steps, you'll be redirected to another page where you need to the click the **Generate API key** button.
+Once you went through these steps, you'll be redirected to another page where 您需要 the click the **Generate API key** button.
 
 You'll then be shown a new connection URL which enables you to connect to Prisma Accelerate's connection pool. This needs to be set as the new `DATABASE_URL` in your `.env` file:
 
@@ -122,7 +122,7 @@ DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=ey..."
 
 :::note
 
-If you want to use Prisma Migrate with Prisma Accelerate, you need to provide a direct database URL in your `prisma.config.ts` file. The Accelerate URL (starting with `prisma://`) is used for queries via PrismaClient, while the direct database URL is used for migrations.
+If you want 使用 Prisma Migrate with Prisma Accelerate, 您需要 provide a direct database URL in your `prisma.config.ts` file. The Accelerate URL (starting with `prisma://`) is used for queries via PrismaClient, while the direct database URL is used for migrations.
 
 Update your `prisma.config.ts`:
 
@@ -152,7 +152,7 @@ DIRECT_URL="postgresql://neondb_owner:[YOUR-PASSWORD]@ep-lingering-hat-a2e7tkt3.
 
 ## 5. Generate Prisma Client
 
-With your Prisma schema in place, you can go ahead and generate Prisma Client:
+With your Prisma schema in place, 您可以 go ahead and generate Prisma Client:
 
 ```
 npx prisma generate
@@ -177,4 +177,4 @@ const prisma = new PrismaClient({
 }).$extends(withAccelerate())
 ```
 
-At this point, you can now start sending queries which will be routed through the connection pool to your database.
+At this point, 您可以 now start sending queries which will be routed through the connection pool to your database.

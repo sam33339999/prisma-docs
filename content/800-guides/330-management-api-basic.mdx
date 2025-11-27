@@ -10,7 +10,7 @@ community_section: true
 
 ## Overview
 
-This guide walks you through setting up a basic TypeScript project that uses the [Prisma Postgres Management API](/postgres/introduction/management-api) to create a new [Prisma Console project](/platform/about#project) with a [Prisma Postgres](/postgres/introduction/overview) database, and print out all connection details. 
+This guide walks you through setting up a basic TypeScript project that uses the [Prisma Postgres Management API](/postgres/introduction/management-api) 建立 a new [Prisma Console project](/platform/about#project) with a [Prisma Postgres](/postgres/introduction/overview) database, and print out all connection details. 
 
 You'll authenticate via a [service token](/postgres/introduction/management-api#service-tokens), set up your environment, and run a script to interact with the API.
 
@@ -25,7 +25,7 @@ The API reference is also available via an [OpenAPI 3.1. spec](https://api.prism
 
 ## 1. Create a service token in Prisma Console
 
-First, you need to create a service token to be able to access the Management API:
+First, 您需要 create a service token to be able to access the Management API:
 
 1. Open the [Prisma Console](https://console.prisma.io/)
 2. Navigate to the **Settings** page of your workspace and select **Service Tokens**
@@ -37,7 +37,7 @@ First, you need to create a service token to be able to access the Management AP
 
 ### 2.1. Create a basic TypeScript project
 
-Open your terminal and run the following commands:
+Open your terminal and run 以下 commands:
 
 ```terminal
 mkdir management-api-demo
@@ -52,7 +52,7 @@ npm install tsx typescript @types/node --save-dev
 touch index.ts
 ```
 
-You now have an `index.ts` file that you can execute with `npx tsx index.ts`. It's still empty, you'll start writing code in step 3.
+You now have an `index.ts` file that 您可以 execute with `npx tsx index.ts`. It's still empty, you'll start writing code in step 3.
 
 ### 2.2. Configure service token environment variable
 
@@ -76,17 +76,17 @@ PRISMA_SERVICE_TOKEN="ey..."
 
 ### 2.3. Install the `axios` library for HTTP request
 
-You're going to use [`axios`](https://github.com/axios/axios/tree/main) as your HTTP client to interact with the Management API. Install it as follows:
+You're going 使用 [`axios`](https://github.com/axios/axios/tree/main) as your HTTP client to interact with the Management API. Install it as follows:
 
 ```terminal
 npm install axios
 ```
 
-You're all set, let's write some code to create a project and provision a Prisma Postgres database!
+You're all set, let's write some code 建立 a project and provision a Prisma Postgres database!
 
 ## 3. Programmatically create a new project with a database
 
-Paste the following code into `index.ts`:
+Paste 以下 code into `index.ts`:
 
 ```ts
 import axios from 'axios';
@@ -144,7 +144,7 @@ main().catch((e) => {
 });
 ```
 
-You can run your script with the following command:
+您可以 run your script with 以下 command:
 
 <CodeWithResult expanded={true}>
 
@@ -193,8 +193,8 @@ Database details
 
 </CodeWithResult>
 
-Your output of the command should look similar to the output above.
+Your output of the command should look similar to 輸出 above.
 
 ## Conclusion
 
-You have now set up a TypeScript project that interacts with the Prisma Management API, creates a new project and database, and prints out all connection strings. You can extend this script to manage more resources or automate other tasks using the Management API.
+You have now set up a TypeScript project that interacts with the Prisma Management API, creates a new project and database, and prints out all connection strings. 您可以 extend this script to manage more resources or automate other tasks using the Management API.

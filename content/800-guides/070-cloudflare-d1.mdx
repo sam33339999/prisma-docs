@@ -10,7 +10,7 @@ community_section: true
 
 ## Introduction
 
-This guide shows you how to use Prisma ORM with Cloudflare D1, a serverless SQL database that runs on Cloudflare's edge network. You'll learn how to set up Prisma ORM with D1, handle migrations, and deploy your application to Cloudflare Workers. You can find a [deployment-ready example on GitHub](https://github.com/prisma/prisma-examples/blob/latest/deployment-platforms/edge/cloudflare-workers/with-d1).
+本指南向您展示如何 use Prisma ORM with Cloudflare D1, a serverless SQL database that runs on Cloudflare's edge network. You'll 學習如何 set up Prisma ORM with D1, handle migrations, and deploy your application to Cloudflare Workers. 您可以 find a [deployment-ready example on GitHub](https://github.com/prisma/prisma-examples/blob/latest/deployment-platforms/edge/cloudflare-workers/with-d1).
 
 ## 前置需求
 
@@ -23,7 +23,7 @@ Before starting this guide, make sure you have:
 
 ## 1. Create a new Cloudflare Worker and initialize Prisma ORM
 
-Run the following command to create a [new Cloudflare Worker project](https://developers.cloudflare.com/d1/get-started/#1-create-a-worker):
+Run 以下 command 建立 a [new Cloudflare Worker project](https://developers.cloudflare.com/d1/get-started/#1-create-a-worker):
 
 ```bash
 npm create cloudflare@latest d1-tutorial -- --type=hello-world --ts=true --git=true --deploy=false
@@ -49,7 +49,7 @@ npm install --save-dev prisma
 
 ## 2. Configure Prisma schema
 
-In your Prisma schema, set the `provider` of the `datasource` to `sqlite`. If you just bootstrapped the Prisma schema with `prisma init`, also be sure to add the `runtime = "cloudflare"` to the generator block and the following `User` model:
+In your Prisma schema, set the `provider` of the `datasource` to `sqlite`. If you just bootstrapped the Prisma schema with `prisma init`, also be sure 添加 the `runtime = "cloudflare"` to the generator block and 以下 `User` model:
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -79,11 +79,11 @@ Next, install the required packages:
 npm install @prisma/client @prisma/adapter-d1 dotenv
 ```
 
-Also, be sure to use a version of the Wrangler CLI that's above [`wrangler@^3.39.0`](https://github.com/cloudflare/workers-sdk/releases/tag/wrangler%403.39.0), otherwise the `--remote` flag that's used in the next sections won't be available.
+Also, be sure 使用 a version of the Wrangler CLI that's above [`wrangler@^3.39.0`](https://github.com/cloudflare/workers-sdk/releases/tag/wrangler%403.39.0), otherwise the `--remote` flag that's used in the next sections won't be available.
 
 ## 4. Create a D1 database
 
-Run the following command to create a new D1 database:
+Run 以下 command 建立 a new D1 database:
 
 ```bash
 npx wrangler@latest d1 create __YOUR_D1_DATABASE_NAME__
@@ -91,7 +91,7 @@ npx wrangler@latest d1 create __YOUR_D1_DATABASE_NAME__
 
 :::note
 
-The `__YOUR_D1_DATABASE_NAME__` is a placeholder that should be replaced with the name you want to give your D1 database. For example, you can use `prisma-d1-example`.
+The `__YOUR_D1_DATABASE_NAME__` is a placeholder that should be replaced with the name you want to give your D1 database. 例如, 您可以 use `prisma-d1-example`.
 
 :::
 
@@ -112,10 +112,10 @@ Created your new D1 database.
 }
 ```
 
-Copy the terminal output and add the content to your `wrangler.jsonc` file. This file is used to configure your Cloudflare Worker and its bindings.
+Copy the terminal output and add the content to your `wrangler.jsonc` file. This file is used 配置 your Cloudflare Worker and its bindings.
 
 
-To connect your Workers with the D1 instance, add the following binding to your `wrangler.jsonc`:
+To connect your Workers with the D1 instance, add 以下 binding to your `wrangler.jsonc`:
 
 ```json file=wrangler.jsonc
 {
@@ -138,7 +138,7 @@ To connect your Workers with the D1 instance, add the following binding to your 
 
 The `__YOUR_D1_DATABASE_NAME__` and `__YOUR_D1_DATABASE_ID__` in the snippet above are placeholders that should be replaced with the database name and ID of your own D1 instance.
 
-If you weren't able to grab the database ID from the terminal output, you can also find it in the Cloudflare Dashboard or by running `npx wrangler d1 list` and `npx wrangler d1 info __YOUR_D1_DATABASE_NAME__` in your terminal.
+If you weren't able to grab the database ID from the terminal output, 您可以 also find it in the Cloudflare Dashboard or by running `npx wrangler d1 list` and `npx wrangler d1 info __YOUR_D1_DATABASE_NAME__` in your terminal.
 
 :::
 
@@ -179,7 +179,7 @@ First, create a migrations directory inside the `prisma` folder and create a fil
 mkdir -p prisma/migrations
 ```
 
-Now use `prisma migrate diff` to generate the SQL needed to create your database schema:
+Now use `prisma migrate diff` to generate the SQL needed 建立 your database schema:
 
 ```terminal
 npx prisma migrate diff \
@@ -188,7 +188,7 @@ npx prisma migrate diff \
   --script > prisma/migrations/0001_init.sql
 ```
 
-This command generates a SQL file that contains the statements needed to create your database tables. You can inspect the generated SQL in `prisma/migrations/0001_init.sql`.
+This command generates a SQL file that contains the statements needed 建立 your database tables. 您可以 inspect the generated SQL in `prisma/migrations/0001_init.sql`.
 
 ### 5.3 Apply migrations to D1
 
@@ -222,7 +222,7 @@ npx wrangler d1 execute __YOUR_D1_DATABASE_NAME__ --command "INSERT INTO \"User\
 
 :::info
 
-For future schema changes, you can generate new migration files using:
+For future schema changes, 您可以 generate new migration files using:
 
 ```terminal
 npx prisma migrate diff \
@@ -237,19 +237,19 @@ Then apply them using the same `wrangler d1 execute` commands as shown above.
 
 ## 6. Implement the Worker
 
-Before adding a Prisma Client query to your Worker, you need to generate Prisma Client with the following command:
+Before adding a Prisma Client query to your Worker, 您需要 generate Prisma Client with 以下 command:
 
 ```
 npx prisma generate
 ```
 
-In order to query your database from the Worker using Prisma ORM, you need to:
+In order to query your database from the Worker using Prisma ORM, 您需要:
 
-1. Add the `DB` binding to the `Env` interface. This `DB` name matches the binding name you configured in `wrangler.jsonc`. (Alternatively, you can run [`npx wrangler types`](https://developers.cloudflare.com/workers/wrangler/commands/#types) to generate the `Env` type from the binding in a separate file called `worker-configuration.d.ts`.)
+1. Add the `DB` binding to the `Env` interface. This `DB` name matches the binding name you configured in `wrangler.jsonc`. (Alternatively, 您可以 run [`npx wrangler types`](https://developers.cloudflare.com/workers/wrangler/commands/#types) to generate the `Env` type from the binding in a separate file called `worker-configuration.d.ts`.)
 2. Instantiate `PrismaClient` using the `PrismaD1` driver adapter, passing `env.DB` which accesses your D1 database binding.
-3. Send a query using Prisma Client and return the result.
+3. Send a query using Prisma Client and return 結果.
 
-Open `src/index.ts` and replace the entire content with the following:
+Open `src/index.ts` and replace the entire content with 以下:
 
 ```typescript file=src/index.ts
 import { PrismaClient } from './generated/prisma/client';
@@ -273,7 +273,7 @@ export default {
 
 ## 7. Run the Worker locally
 
-With the database query in place and Prisma Client generated, you can run the Worker locally.
+With the database query in place and Prisma Client generated, 您可以 run the Worker locally.
 
 If your Worker needs any environment variables, create a `.dev.vars` file in the root of your project. For this example, we don't need any additional environment variables since the D1 binding is already configured in `wrangler.jsonc`.
 
@@ -283,7 +283,7 @@ Now run the Worker locally:
 npm run dev
 ```
 
-Now you can open your browser at [`http://localhost:8787`](http://localhost:8787/) to see the result of the database query:
+Now 您可以 open your browser at [`http://localhost:8787`](http://localhost:8787/) to see 結果 of the database query:
 
 ```js no-copy
 ;[{ id: 1, email: 'jane@prisma.io', name: 'Jane Doe (Local)' }]
@@ -291,13 +291,13 @@ Now you can open your browser at [`http://localhost:8787`](http://localhost:8787
 
 ## 8. Deploy the Worker
 
-To deploy the Worker, run the following command:
+To deploy the Worker, run 以下 command:
 
 ```
 npm run deploy
 ```
 
-Your deployed Worker is accessible via `https://d1-tutorial.USERNAME.workers.dev` (replace `USERNAME` with your Cloudflare account username). If you navigate your browser to that URL, you should see the following data that's queried from your remote D1 database:
+Your deployed Worker is accessible via `https://d1-tutorial.USERNAME.workers.dev` (replace `USERNAME` with your Cloudflare account username). If you navigate your browser to that URL, 您應該 see 以下 data that's queried from your remote D1 database:
 
 ```js no-copy
 ;[{ id: 1, email: 'jane@prisma.io', name: 'Jane Doe (Remote)' }]
@@ -305,14 +305,14 @@ Your deployed Worker is accessible via `https://d1-tutorial.USERNAME.workers.dev
 
 ## 後續步驟
 
-Now that you've set up Prisma ORM with Cloudflare D1, you can:
+Now that you've set up Prisma ORM with Cloudflare D1, 您可以:
 
 - Add more complex queries using Prisma's powerful query API
 - Set up Prisma Studio for database management
 - Implement database monitoring
 - Add automated tests
 
-For more information:
+欲了解更多資訊:
 - [Prisma ORM documentation](/orm)
 - [Prisma Client API reference](/orm/prisma-client)
 - [Cloudflare D1 documentation](https://developers.cloudflare.com/d1)

@@ -16,7 +16,7 @@ Case sensitivity affects **filtering** and **sorting** of data, and is determine
 
 If you use a **relational database connector**, [Prisma Client](/orm/prisma-client) respects your database collation. Options and recommendations for supporting **case-insensitive** filtering and sorting with Prisma Client depend on your [database provider](#options-for-case-insensitive-filtering).
 
-If you use the MongoDB connector, [Prisma Client](/orm/prisma-client/queries) uses RegEx rules to enable case-insensitive filtering. The connector _does not_ use [MongoDB collation](https://www.mongodb.com/docs/manual/reference/collation/).
+If you use the MongoDB connector, [Prisma Client](/orm/prisma-client/queries) uses RegEx rules 啟用 case-insensitive filtering. The connector _does not_ use [MongoDB collation](https://www.mongodb.com/docs/manual/reference/collation/).
 
 > **Note**: Follow the progress of [case-insensitive sorting on GitHub](https://github.com/prisma/prisma-client-js/issues/841).
 
@@ -26,13 +26,13 @@ If you use the MongoDB connector, [Prisma Client](/orm/prisma-client/queries) us
 
 :::info
 
-In the context of Prisma Client, the following section refers to relational database connectors only.
+In the context of Prisma Client, 以下 section refers to relational database connectors only.
 
 :::
 
 Collation specifies how data is **sorted and compared** in a database, which includes casing. Collation is something you choose when you set up a database.
 
-The following example demonstrates how to view the collation of a MySQL database:
+以下範例 demonstrates 如何 view the collation of a MySQL database:
 
 <CodeWithResult expanded={true}>
 
@@ -108,11 +108,11 @@ const users = await prisma.user.findMany({
 
 ## Options for case-insensitive filtering
 
-The recommended way to support case-insensitive filtering with Prisma Client depends on your underlying provider.
+建議 way to support case-insensitive filtering with Prisma Client depends on your underlying provider.
 
 ### PostgreSQL provider
 
-PostgreSQL uses [deterministic collation](https://www.postgresql.org/docs/current/collation.html#COLLATION-NONDETERMINISTIC) by default, which means that filtering is **case-sensitive**. To support case-insensitive filtering, use the `mode: 'insensitive'` property on a per-field basis.
+PostgreSQL uses [deterministic collation](https://www.postgresql.org/docs/current/collation.html#COLLATION-NONDETERMINISTIC) 預設情況下, which means that filtering is **case-sensitive**. To support case-insensitive filtering, use the `mode: 'insensitive'` property on a per-field basis.
 
 Use the `mode` property on a filter as shown:
 
@@ -127,11 +127,11 @@ const users = await prisma.user.findMany({
 })
 ```
 
-See also: [Filtering (Case-insensitive filtering)](/orm/prisma-client/queries/filtering-and-sorting#case-insensitive-filtering)
+另請參閱: [Filtering (Case-insensitive filtering)](/orm/prisma-client/queries/filtering-and-sorting#case-insensitive-filtering)
 
 #### Caveats
 
-- You cannot use case-insensitive filtering with C collation
+- 您可以not use case-insensitive filtering with C collation
 - [`citext`](https://www.postgresql.org/docs/12/citext.html) columns are always case-insensitive and are not affected by `mode`
 
 #### Performance
@@ -143,9 +143,9 @@ If you rely heavily on case-insensitive filtering, consider [creating indexes in
 
 ### MySQL provider
 
-MySQL uses **case-insensitive collation** by default. Therefore, filtering with Prisma Client and MySQL is case-insensitive by default.
+MySQL uses **case-insensitive collation** 預設情況下. Therefore, filtering with Prisma Client and MySQL is case-insensitive 預設情況下.
 
-`mode: 'insensitive'` property is not required and therefore not available in the generated Prisma Client API.
+`mode: 'insensitive'` property is not required and therefore not 可用於 the generated Prisma Client API.
 
 #### Caveats
 
@@ -170,15 +170,15 @@ The MongoDB uses a RegEx rule for case-insensitive filtering.
 
 ### SQLite provider
 
-By default, text fields created by Prisma Client in SQLite databases do not support case-insensitive filtering. In SQLite, only [case-insensitive comparisons of ASCII characters](https://www.sqlite.org/faq.html#q18) are possible.
+預設情況下, text fields created by Prisma Client in SQLite databases do not support case-insensitive filtering. In SQLite, only [case-insensitive comparisons of ASCII characters](https://www.sqlite.org/faq.html#q18) are possible.
 
-To enable limited support (ASCII only) for case-insensitive filtering on a per-column basis, you will need to add `COLLATE NOCASE` when you define a text column.
+啟用 limited support (ASCII only) for case-insensitive filtering on a per-column basis, you will need 添加 `COLLATE NOCASE` when you define a text column.
 
 #### Adding case-insensitive filtering to a new column.
 
-To add case-insensitive filtering to a new column, you will need to modify the migration file that is created by Prisma Client.
+添加 case-insensitive filtering to a new column, you will need to modify the migration file that is created by Prisma Client.
 
-Taking the following Prisma Schema model:
+Taking 以下 Prisma Schema model:
 
 ```prisma
 model User {
@@ -187,7 +187,7 @@ model User {
 }
 ```
 
-and using `prisma migrate dev --create-only` to create the following migration file:
+and using `prisma migrate dev --create-only` 建立 以下 migration file:
 
 ```sql
 -- CreateTable
@@ -197,7 +197,7 @@ CREATE TABLE "User" (
 );
 ```
 
-You would need to add `COLLATE NOCASE` to the `email` column in order to make case-insensitive filtering possible:
+You would need 添加 `COLLATE NOCASE` to the `email` column in order to make case-insensitive filtering possible:
 
 ```sql
 -- CreateTable
@@ -212,7 +212,7 @@ CREATE TABLE "User" (
 
 Since columns cannot be updated in SQLite, `COLLATE NOCASE` can only be added to an existing column by creating a blank migration file and migrating data to a new table.
 
-Taking the following Prisma Schema model:
+Taking 以下 Prisma Schema model:
 
 ```prisma
 model User {
@@ -221,7 +221,7 @@ model User {
 }
 ```
 
-and using `prisma migrate dev --create-only` to create an empty migration file, you will need to rename the current `User` table and create a new `User` table with `COLLATE NOCASE`.
+and using `prisma migrate dev --create-only` 建立 an empty migration file, you will need to rename the current `User` table and create a new `User` table with `COLLATE NOCASE`.
 
 ```sql
 -- UpdateTable
@@ -240,6 +240,6 @@ DROP TABLE "User_old";
 
 ### Microsoft SQL Server provider
 
-Microsoft SQL Server uses **case-insensitive collation** by default. Therefore, filtering with Prisma Client and Microsoft SQL Server is case-insensitive by default.
+Microsoft SQL Server uses **case-insensitive collation** 預設情況下. Therefore, filtering with Prisma Client and Microsoft SQL Server is case-insensitive 預設情況下.
 
-`mode: 'insensitive'` property is not required and therefore not available in the generated Prisma Client API.
+`mode: 'insensitive'` property is not required and therefore not 可用於 the generated Prisma Client API.

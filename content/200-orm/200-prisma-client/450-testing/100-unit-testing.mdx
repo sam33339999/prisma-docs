@@ -17,7 +17,7 @@ In the context of Prisma ORM, this generally means testing a function which make
 
 A single test should focus on how your function logic handles different inputs (such as a null value or an empty list).
 
-This means that you should aim to remove as many dependencies as possible, such as external services and databases, to keep the tests and their environments as lightweight as possible.
+This means that 您應該 aim 移除 as many dependencies as possible, such as external services and databases, to keep the tests and their environments as lightweight as possible.
 
 </TopBlock>
 
@@ -29,7 +29,7 @@ This guide assumes you have the JavaScript testing library [`Jest`](https://jest
 
 ## Mocking Prisma Client
 
-To ensure your unit tests are isolated from external factors you can mock Prisma Client, this means you get the benefits of being able to use your schema (**_type-safety_**), without having to make actual calls to your database when your tests are run.
+To ensure your unit tests are isolated from external factors 您可以 mock Prisma Client, this means you get the benefits of being able 使用 your schema (**_type-safety_**), without having to make actual calls to your database when your tests are run.
 
 This guide will cover two approaches to mocking Prisma Client, a singleton instance and dependency injection. Both have their merits depending on your use cases. To help with mocking Prisma Client the [`jest-mock-extended`](https://github.com/marchaos/jest-mock-extended) package will be used.
 
@@ -45,9 +45,9 @@ At the time of writing, this guide uses `jest-mock-extended` version `^2.0.4`.
 
 ### Singleton
 
-The following steps guide you through mocking Prisma Client using a singleton pattern.
+以下 steps guide you through mocking Prisma Client using a singleton pattern.
 
-1. Create a file at your projects root called `client.ts` and add the following code. This will instantiate a Prisma Client instance.
+1. Create a file at your projects root called `client.ts` and add 以下 code. 這將 instantiate a Prisma Client instance.
 
    ```ts file=client.ts
    import { PrismaClient } from '@prisma/client'
@@ -56,7 +56,7 @@ The following steps guide you through mocking Prisma Client using a singleton pa
    export default prisma
    ```
 
-2. Next create a file named `singleton.ts` at your projects root and add the following:
+2. Next create a file named `singleton.ts` at your projects root and add 以下:
 
    ```ts file=singleton.ts
    import { PrismaClient } from '@prisma/client'
@@ -76,7 +76,7 @@ The following steps guide you through mocking Prisma Client using a singleton pa
    export const prismaMock = prisma as unknown as DeepMockProxy<PrismaClient>
    ```
 
-The singleton file tells Jest to mock a default export (the Prisma Client instance in `./client.ts`), and uses the `mockDeep` method from `jest-mock-extended` to enable access to the objects and methods available on Prisma Client. It then resets the mocked instance before each test is run.
+The singleton file tells Jest to mock a default export (the Prisma Client instance in `./client.ts`), and uses the `mockDeep` method from `jest-mock-extended` 啟用 access to the objects and methods available on Prisma Client. It then resets the mocked instance before each test is run.
 
 Next, add the `setupFilesAfterEnv` property to your `jest.config.js` file with the path to your `singleton.ts` file.
 
@@ -94,7 +94,7 @@ module.exports = {
 
 Another popular pattern that can be used is dependency injection.
 
-1. Create a `context.ts` file and add the following:
+1. Create a `context.ts` file and add 以下:
 
    ```ts file=context.ts
    import { PrismaClient } from '@prisma/client'
@@ -122,7 +122,7 @@ to your `tsconfig.json`.
 
 :::
 
-2. To use the context, you would do the following in your test file:
+2. 使用 the context, you would do 以下 in your test file:
 
    ```ts
    import { MockContext, Context, createMockContext } from '../context'
@@ -136,13 +136,13 @@ to your `tsconfig.json`.
    })
    ```
 
-This will create a new context before each test is run via the `createMockContext` function. This (`mockCtx`) context will be used to make a mock call to Prisma Client and run a query to test. The `ctx` context will be used to run a scenario query that is tested against.
+這將 create a new context before each test is run via the `createMockContext` function. This (`mockCtx`) context will be used to make a mock call to Prisma Client and run a query to test. The `ctx` context will be used to run a scenario query that is tested against.
 
 ## Example unit tests
 
 A real world use case for unit testing Prisma ORM might be a signup form. Your user fills in a form which calls a function, which in turn uses Prisma Client to make a call to your database.
 
-All of the examples that follow use the following schema model:
+All of the examples that follow use 以下 schema model:
 
 ```prisma file=schema.prisma showLineNumbers
 model User {
@@ -153,11 +153,11 @@ model User {
 }
 ```
 
-The following unit tests will mock the process of
+以下 unit tests will mock the process of
 
 - Creating a new user
 - Updating a users name
-- Failing to create a user if terms are not accepted
+- Failing 建立 a user if terms are not accepted
 
 The functions that use the dependency injection pattern will have the context injected (passed in as a parameter) into them, whereas the functions that use the singleton pattern will use the singleton instance of Prisma Client.
 

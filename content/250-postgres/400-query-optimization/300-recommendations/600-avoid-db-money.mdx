@@ -8,7 +8,7 @@ toc: true
 
 Optimize provides recommendations to help you identify and resolve performance issues caused by the use of `@db.Money` type.
 
-The following model uses the `@db.Money` native type:
+以下 model uses the `@db.Money` native type:
 
 ```prisma
 model Item {
@@ -24,5 +24,5 @@ The `@db.Money` data type in PostgreSQL is not ideal for storing monetary values
 
 Additionally, the `@db.Money` type does not store any information about the associated currency. Instead, it relies on the global `lc_monetary` locale setting, which may not be suitable for all use cases.
 
-For more information, refer to the [PostgreSQL documentation](https://wiki.postgresql.org/wiki/Don't_Do_This#Don.27t_use_money).
+欲了解更多資訊, 參閱 the [PostgreSQL documentation](https://wiki.postgresql.org/wiki/Don't_Do_This#Don.27t_use_money).
 

@@ -23,11 +23,11 @@ To begin, create a new TanStack Start project.
 
 :::note
 
-For the purpose of this guide, we're using the same setup instructions that you can find in the [TanStart Start docs](https://tanstack.com/start/latest/docs/framework/react/build-from-scratch).
+For the purpose of this guide, we're using the same setup instructions that 您可以 find in the [TanStart Start docs](https://tanstack.com/start/latest/docs/framework/react/build-from-scratch).
 
 :::
 
-In the directory where you'd like to create your project, run the following commands:
+In the directory where you'd like 建立 your project, run 以下 commands:
 
 ```terminal
 mkdir tanstack-start-prisma
@@ -35,9 +35,9 @@ cd tanstack-start-prisma
 npm init -y
 ```
 
-This will create a new folder called `tanstack-start-prisma`, navigate into it, and initialize a new Node.js project.
+這將 create a new folder called `tanstack-start-prisma`, navigate into it, and initialize a new Node.js project.
 
-Open the directory in your IDE and create a `tsconfig.json` file with the following configuration:
+Open the directory in your IDE and create a `tsconfig.json` file with 以下 configuration:
 
 ```json file=tsconfig.json
 {
@@ -60,7 +60,7 @@ node_modules
 app/generated
 ```
 
-Next, install TanStack Router and Vinxi, as TanStack Start currently requires them:
+Next, install TanStack Router and Vinxi, as TanStack Start currently 需要 them:
 
 ```terminal
 npm install @tanstack/react-start @tanstack/react-router vinxi
@@ -74,7 +74,7 @@ npm install --save-dev @vitejs/plugin-react vite-tsconfig-paths
 npm install --save-dev typescript @types/react @types/react-dom
 ```
 
-Update your `package.json` to use Vinxi's CLI. Add `"type": "module"` and modify the scripts to use Vinxi's CLI:
+Update your `package.json` 使用 Vinxi's CLI. Add `"type": "module"` and modify the scripts 使用 Vinxi's CLI:
 
 ```json file=package.json
 {
@@ -135,7 +135,7 @@ For TanStack Start to function, we need 5 files in `~/app/`:
 - `routes/__root.tsx` (The root of the app)
 - `routes/index.tsx` (The home page)
 
-You can create them with these commands:
+您可以 create them with these commands:
 
 ```terminal
 mkdir app
@@ -171,7 +171,7 @@ declare module '@tanstack/react-router' {
 
 :::note
 
-You should be seeing an error about `routeTree.gen.ts` not existing. This is expected. It will be generated when you run TanStack Start for the first time.
+您應該 be seeing an error about `routeTree.gen.ts` not existing. This is expected. It will be generated when you run TanStack Start for the first time.
 
 :::
 
@@ -280,7 +280,7 @@ Now, run:
 npm run dev
 ```
 
-This will generate the `routeTree.gen.ts` file and resolve any routing errors.
+這將 generate the `routeTree.gen.ts` file and resolve any routing errors.
 
 Your file tree should look like this (without `node_modules`):
 
@@ -304,7 +304,7 @@ Your file tree should look like this (without `node_modules`):
 
 ### 2.1. Install dependencies
 
-To get started with Prisma, you'll need to install a few dependencies:
+開始使用 with Prisma, you'll need 安裝 a few dependencies:
 
 ```terminal
 npm install prisma tsx @types/pg --save-dev
@@ -313,7 +313,7 @@ npm install @prisma/client @prisma/adapter-pg dotenv pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -327,7 +327,7 @@ npx prisma init --db --output ../app/generated/prisma
 You'll need to answer a few questions while setting up your Prisma Postgres database. Select the region closest to your location and a memorable name for your database like "My __________ Project"
 :::
 
-This will create:
+這將 create:
 
 - A `prisma` directory with a `schema.prisma` file.
 - A `prisma.config.ts` file for configuring Prisma
@@ -337,7 +337,7 @@ This will create:
 
 ### 2.2. Define your Prisma Schema
 
-In `schema.prisma`, create a model for our posts and change the generator to use the [`prisma-client`](/orm/prisma-schema/overview/generators#prisma-client) provider:
+In `schema.prisma`, create a model for our posts and change the generator 使用 the [`prisma-client`](/orm/prisma-schema/overview/generators#prisma-client) provider:
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -368,7 +368,7 @@ model Post {
 //add-end
 ```
 
-This creates two models: `User` and `Post`, with a one-to-many relationship between them.
+這會建立 two models: `User` and `Post`, with a one-to-many relationship between them.
 
 ### 2.3 Add `dotenv` to `prisma.config.ts`
 
@@ -393,7 +393,7 @@ export default defineConfig({
 
 ### 2.4. Configure the Prisma Client generator
 
-Now, run the following command to create the database tables and generate the Prisma Client:
+Now, run 以下 command 建立 the database tables and generate the Prisma Client:
 
 ```terminal
 npx prisma migrate dev --name init
@@ -457,7 +457,7 @@ export async function main() {
 main();
 ```
 
-Now, tell Prisma how to run this script by updating your `prisma.config.ts`:
+Now, tell Prisma 如何 run this script by updating your `prisma.config.ts`:
 
 ```ts file=prisma.config.ts
 import 'dotenv/config'
@@ -494,7 +494,7 @@ npx prisma studio
 
 Instead of creating a new Prisma Client instance in each file, create a single instance in a shared file to be used globally.
 
-Create a `/lib` directory and a `prisma.ts` file inside it. This file will be used to create and export your Prisma Client instance.
+Create a `/lib` directory and a `prisma.ts` file inside it. This file will be used 建立 and export your Prisma Client instance.
 
 Set up the Prisma client like this:
 
@@ -516,7 +516,7 @@ export default prisma;
 :::warning
 We recommend using a connection pooler (like [Prisma Accelerate](https://www.prisma.io/accelerate)) to manage database connections efficiently.
 
-If you choose not to use one, **avoid** instantiating `PrismaClient` globally in long-lived environments. Instead, create and dispose of the client per request to prevent exhausting your database connections.
+If you choose not 使用 one, **avoid** instantiating `PrismaClient` globally in long-lived environments. Instead, create and dispose of the client per request to prevent exhausting your database connections.
 :::
 
 ### 3.2 Fetch users and posts on load
@@ -586,7 +586,7 @@ function Home() {
 }
 ```
 
-Store the response from the loader in the main component using [`Route.useLoaderData()`](https://tanstack.com/router/latest/docs/framework/react/api/router/useLoaderDataHook):
+Store the response from the loader in 主要 component using [`Route.useLoaderData()`](https://tanstack.com/router/latest/docs/framework/react/api/router/useLoaderDataHook):
 
 ```typescript file=app/routes/index.tsx
 import { prisma } from "../lib/prisma";
@@ -676,12 +676,12 @@ This setup will display the posts on your page, fetched directly from your datab
 
 ## 後續步驟
 
-You've successfully integrated Prisma ORM with TanStack Start, creating a seamless full-stack application. Here are a few suggestions for what you can do next:
+You've successfully integrated Prisma ORM with TanStack Start, creating a seamless full-stack application. Here are a few suggestions for what 您可以 do next:
 
 - Expand your Prisma models to handle more complex data relationships.
 - Implement additional CRUD operations to enhance your application's functionality.
 - Explore more features of Prisma and TanStack Start to deepen your understanding.
-- Check out [Prisma Postgres](https://www.prisma.io/postgres) to see how you can scale your application.
+- 查看 [Prisma Postgres](https://www.prisma.io/postgres) to see how 您可以 scale your application.
 
 ## More info
 

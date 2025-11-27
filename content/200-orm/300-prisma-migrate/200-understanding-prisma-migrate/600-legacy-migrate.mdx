@@ -8,7 +8,7 @@ unlisted: true
 
 <TopBlock>
 
-> **Important!** This page documents legacy Prisma Migrate (Experimental) available in version 2.12.0 and earlier. [Prisma Migrate](/orm/prisma-migrate) is available in version [2.13.0](https://github.com/prisma/prisma/releases/tag/2.13.0) and Generally Available in [2.19.0](https://github.com/prisma/prisma/releases/tag/2.19.0).
+> **Important!** This page documents legacy Prisma Migrate (Experimental) 可用於 version 2.12.0 and earlier. [Prisma Migrate](/orm/prisma-migrate) is 可用於 version [2.13.0](https://github.com/prisma/prisma/releases/tag/2.13.0) and Generally 可用於 [2.19.0](https://github.com/prisma/prisma/releases/tag/2.19.0).
 
 Legacy Prisma Migrate is a tool that lets you _change your database schema_, e.g. by creating new tables or adding columns to existing tables. These changes are called _schema migrations_. legacy Prisma Migrate is available as part of the [Prisma CLI](/orm/tools/prisma-cli#installation) via the `legacy Prisma Migrate` command.
 
@@ -27,9 +27,9 @@ Legacy Prisma Migrate is a _declarative_ migration system, as opposed to SQL whi
 - **SQL (imperative)**: Provide the individual _steps_ to get from the current schema to the desired schema.
 - **legacy Prisma Migrate (declarative)**: Define the desired schema as a [Prisma schema data model](/orm/prisma-schema/data-model/models) (legacy Prisma Migrate takes care of generating the necessary _steps_).
 
-Here's a quick comparison. Assume you have the following scenario:
+Here's a quick comparison. Assume you have 以下 scenario:
 
-1. You need to create the `User` table to store user information (name, email, ...)
+1. 您需要 create the `User` table to store user information (name, email, ...)
 1. Create two new tables `Post` and `Profile` with foreign keys to `User`
 1. Add a new column with a default value to the `Post` table
 
@@ -131,7 +131,7 @@ model Post {
 }
 ```
 
-Notice that in addition to the [annotated relation fields](/orm/prisma-schema/data-model/relations#annotated-relation-fields) and its relation scalar field (which represent the foreign keys), you must also specify the Prisma-level [relation fields](/orm/prisma-schema/data-model/relations#relation-fields) on the other side of the relation.
+Notice that in addition to the [annotated relation fields](/orm/prisma-schema/data-model/relations#annotated-relation-fields) and its relation scalar field (which represent the foreign keys), 您必須 also specify the Prisma-level [relation fields](/orm/prisma-schema/data-model/relations#relation-fields) on the other side of the relation.
 
 Now run the two commands mentioned above:
 
@@ -178,7 +178,7 @@ prisma migrate up --experimental
 
 ### Supported operations
 
-The following table shows which SQL operations are currently supported by legacy Prisma Migrate.
+以下 table shows which SQL operations are currently 支援 legacy Prisma Migrate.
 
 | Operation                         | SQL                             |                                       Supported                                       |
 | :-------------------------------- | :------------------------------ | :-----------------------------------------------------------------------------------: |
@@ -199,7 +199,7 @@ The following table shows which SQL operations are currently supported by legacy
 | Cascading updates                 | `ON UPDATE`                     |                                          No                                           |
 | Data validation                   | `CHECK`                         | No ([workaround](/orm/more/help-and-troubleshooting/check-constraints)) |
 
-Note that this table assumes that the operation is also supported by the underlying database. For example, `ENUM` is not supported in SQLite. This means that you also can't use `enum` when using legacy Prisma Migrate.
+請注意 this table assumes that the operation is also 支援 the underlying database. 例如, `ENUM` is not supported in SQLite. This means that you also can't use `enum` when using legacy Prisma Migrate.
 
 ### 遷移 history
 
@@ -210,7 +210,7 @@ legacy Prisma Migrate stores the migration history of your project in two places
 
 #### The `migrations` directory
 
-The `migrations` directory stores information about the migrations that have been or will be executed against your database. You should never make any manual changes to the files in `migrations`. The only way to change the content of this directory should be using the `legacy Prisma Migrate save` command.
+The `migrations` directory stores information about the migrations that have been or will be executed against your database. 您應該 never make any manual changes to the files in `migrations`. The only way to change the content of this directory should be using the `legacy Prisma Migrate save` command.
 
 The `migrations` directory should be checked into version control (e.g. Git).
 
@@ -245,21 +245,21 @@ TRUNCATE _Migration;
 
 ## CLI 參考
 
-> Warning: The `migrate` command is still considered Experimental. As such, there are no guarantees about API stability or production-readiness. Access to this command is provided for evaluation and experimentation. To access Experimental commands, you must add the `--experimental` flag.
+> 警告： The `migrate` command is still considered Experimental. As such, there are no guarantees about API stability or production-readiness. Access to this command is provided for evaluation and experimentation. To access Experimental commands, 您必須 add the `--experimental` flag.
 
-The `migrate` command creates and manages database migrations. It can be used to create, apply, and rollback database schema updates in a controlled manner.
+The `migrate` command creates and manages database migrations. It can be used 建立, apply, and rollback database schema updates in a controlled manner.
 
 The `migrate` command includes a number of subcommands to specify the desired action.
 
 ### `migrate save`
 
-Saves a migration that defines the steps necessary to update your current schema.
+Saves a migration that defines the steps necessary 更新 your current schema.
 
 #### 前置需求
 
-Before using the `migrate save` command, you must define a valid [`datasource`](/orm/prisma-schema/overview/data-sources) within your `schema.prisma` file.
+Before using the `migrate save` command, 您必須 define a valid [`datasource`](/orm/prisma-schema/overview/data-sources) within your `schema.prisma` file.
 
-For example, the following `datasource` defines a SQLite database file within the current directory:
+例如, 以下 `datasource` defines a SQLite database file within the current directory:
 
 ```prisma
 datasource db {
@@ -270,7 +270,7 @@ datasource db {
 
 #### 選項
 
-The `migrate save` command recognizes the following options to modify its behavior:
+The `migrate save` command recognizes 以下 options to modify its behavior:
 
 | Option              | Required | Description                                                                                                                                         | Default                                     |
 | ------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
@@ -282,7 +282,7 @@ The `migrate save` command recognizes the following options to modify its behavi
 
 #### Generated Assets
 
-The `migrate save` command generates the following directories and files as necessary:
+The `migrate save` command generates 以下 directories and files as necessary:
 
 - `migrations`: A directory within the current project to store migrations. This directory will be created if it does not exist.
 - `migrations/migrate.lock`: A lock file created specifying the current migration applied to the database. This file will be created if it does not exist.
@@ -325,9 +325,9 @@ Migrate the database up to a specific state.
 
 #### 前置需求
 
-Before using the `migrate up` command, you must define a valid [`datasource`](/orm/prisma-schema/overview/data-sources) within your `schema.prisma` file.
+Before using the `migrate up` command, 您必須 define a valid [`datasource`](/orm/prisma-schema/overview/data-sources) within your `schema.prisma` file.
 
-For example, the following `datasource` defines a SQLite database file within the current directory:
+例如, 以下 `datasource` defines a SQLite database file within the current directory:
 
 ```prisma
 datasource db {
@@ -338,7 +338,7 @@ datasource db {
 
 #### Arguments
 
-The point to migrate the database up to can be defined in any of the following three ways:
+The point to migrate the database up to can be defined in any of 以下 three ways:
 
 | Argument  | Required | Description                                                                        | Default |
 | --------- | -------- | ---------------------------------------------------------------------------------- | ------- |
@@ -348,7 +348,7 @@ The point to migrate the database up to can be defined in any of the following t
 
 #### 選項
 
-Additionally, the following options modify the behavior of the `migrate up` command:
+Additionally, 以下 options modify the behavior of the `migrate up` command:
 
 | Option              | Required | Description                                                                                                                                         | Default                                     |
 | ------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
@@ -402,9 +402,9 @@ Migrate the database down to a specific state.
 
 #### 前置需求
 
-Before using the `migrate down` command, you must define a valid [`datasource`](/orm/prisma-schema/overview/data-sources) within your `schema.prisma` file.
+Before using the `migrate down` command, 您必須 define a valid [`datasource`](/orm/prisma-schema/overview/data-sources) within your `schema.prisma` file.
 
-For example, the following `datasource` defines a SQLite database file within the current directory:
+例如, 以下 `datasource` defines a SQLite database file within the current directory:
 
 ```prisma
 datasource db {
@@ -415,7 +415,7 @@ datasource db {
 
 #### Arguments
 
-The point to migrate back to can be defined in any of the following three ways:
+The point to migrate back to can be defined in any of 以下 three ways:
 
 | Argument  | Required | Description                                                                             | Default |
 | --------- | -------- | --------------------------------------------------------------------------------------- | ------- |
@@ -425,7 +425,7 @@ The point to migrate back to can be defined in any of the following three ways:
 
 #### 選項
 
-Additionally, the following options modify the behavior of the `migrate down` command:
+Additionally, 以下 options modify the behavior of the `migrate down` command:
 
 | Option            | Required | Description                                                                                                                                         | Default                                     |
 | ----------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |

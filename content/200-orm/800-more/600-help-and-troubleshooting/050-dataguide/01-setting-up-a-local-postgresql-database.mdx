@@ -7,9 +7,9 @@ authors: ['justinellingwood']
 toc: false
 ---
 
-This page explains how to install and configure a [PostgreSQL database server](https://www.postgresql.org/docs/current/intro-whatis.html) and the [`psql` command line client](https://www.postgresql.org/docs/current/app-psql.html). This guide will cover how to install and set up these components on your computer for local access.
+本頁說明 how 安裝 and configure a [PostgreSQL database server](https://www.postgresql.org/docs/current/intro-whatis.html) and the [`psql` command line client](https://www.postgresql.org/docs/current/app-psql.html). This guide will cover how 安裝 and set up these components on your computer for local access.
 
-This guide will cover the following platforms:
+This guide will cover 以下 platforms:
 
 - [Setting up PostgreSQL on Windows](#setting-up-postgresql-on-windows)
 - [Setting up PostgreSQL on macOS](#setting-up-postgresql-on-macos)
@@ -21,13 +21,13 @@ Navigate to the sections that match the platforms you will be working with.
 
 ## Setting up PostgreSQL on Windows
 
-The PostgreSQL project provides a native Windows installer to install and configure your database.
+The PostgreSQL project provides a native Windows installer 安裝 and configure your database.
 
 Visit the [PostgreSQL Windows installation page](https://www.postgresql.org/download/windows/) to find a link to the installer. Click **Download the installer** at the start of the page:
 
 ![PostgreSQL initial download page](/img/orm/dataguide/setting-up-a-local-database/windows/initial_download_page.png)
 
-On the page that follows, in the Windows x86-64 or Windows x86-32 columns (depending on your computer's architecture), choose the PostgreSQL version you'd like to install:
+On the page that follows, in the Windows x86-64 or Windows x86-32 columns (depending on your computer's architecture), choose the PostgreSQL version you'd like 安裝:
 
 ![PostgreSQL available versions](/img/orm/dataguide/setting-up-a-local-database/windows/installer_download.png)
 
@@ -45,7 +45,7 @@ On the next page, choose your installation directory:
 
 Click **Next** to accept the default location.
 
-The next page allows you to choose which components you wish to install. You need the **PostgreSQL Server** and **Command Line Tools** selected at a minimum:
+The next page allows you to choose which components you wish 安裝. You need the **PostgreSQL Server** and **Command Line Tools** selected at a minimum:
 
 ![PostgreSQL choose components](/img/orm/dataguide/setting-up-a-local-database/windows/choose_components.png)
 
@@ -73,9 +73,9 @@ Now, pick the locale that your database will use:
 
 ![PostgreSQL locale](/img/orm/dataguide/setting-up-a-local-database/windows/set_locale.png)
 
-Click **Next** to use the default locale of your computer.
+Click **Next** 使用 the default locale of your computer.
 
-The configuration portion of the installation is now complete. You can review a summary of the choices you've made:
+The configuration portion of the installation is now complete. 您可以 review a summary of the choices you've made:
 
 ![PostgreSQL installation summary](/img/orm/dataguide/setting-up-a-local-database/windows/installation_summary.png)
 
@@ -83,13 +83,13 @@ If everything looks correct, click **Next**.
 
 Finally, PostgreSQL is ready to be installed:
 
-![PostgreSQL ready to install](/img/orm/dataguide/setting-up-a-local-database/windows/ready_to_install.png)
+![PostgreSQL ready 安裝](/img/orm/dataguide/setting-up-a-local-database/windows/ready_to_install.png)
 
 Click **Next** to begin the installation process.
 
-Once the installation is complete, you can verify the installation using the `psql` command line tool.
+Once the installation is complete, 您可以 verify the installation using the `psql` command line tool.
 
-In your start menu, type `psql` and click on the tool to launch the program. You will be prompted to enter the connection details that you wish to use.
+In your start menu, type `psql` and click on the tool to launch the program. You will be prompted to enter the connection details that you wish 使用.
 
 ![Running psql client](/img/orm/dataguide/setting-up-a-local-database/windows/psql.png)
 
@@ -105,13 +105,13 @@ When you are finished, exit the session by typing:
 
 ## Setting up PostgreSQL on macOS
 
-The PostgreSQL project provides a native macOS installer to install and configure your database.
+The PostgreSQL project provides a native macOS installer 安裝 and configure your database.
 
 Visit the [PostgreSQL macOS installation page](https://www.postgresql.org/download/macosx/) to find a link to the installer. Click **Download the installer** at the start of the **Interactive Installer by EnterpriseDB** section:
 
 ![PostgreSQL initial download page](/img/orm/dataguide/setting-up-a-local-database/macos/initial_download_page.png)
 
-On the page that follows, in the Mac OS X column, choose the PostgreSQL version you'd like to install:
+On the page that follows, in the Mac OS X column, choose the PostgreSQL version you'd like 安裝:
 
 ![PostgreSQL available versions](/img/orm/dataguide/setting-up-a-local-database/macos/installer_download.png)
 
@@ -137,7 +137,7 @@ On the next page, choose your installation directory:
 
 Click **Next** to accept the default location.
 
-The next page allows you to choose which components you wish to install. You need the **PostgreSQL Server** and **Command Line Tools** selected at a minimum:
+The next page allows you to choose which components you wish 安裝. You need the **PostgreSQL Server** and **Command Line Tools** selected at a minimum:
 
 ![PostgreSQL choose components](/img/orm/dataguide/setting-up-a-local-database/macos/choose_components.png)
 
@@ -155,7 +155,7 @@ On the next page, select and confirm an administrative password for the PostgreS
 
 Click **Next** when you are finished.
 
-The following page lets you choose the port that the server will listen to:
+以下 page lets you choose the port that the server will listen to:
 
 ![PostgreSQL set port](/img/orm/dataguide/setting-up-a-local-database/macos/choose_port.png)
 
@@ -165,9 +165,9 @@ Now, pick the locale that your database will use:
 
 ![PostgreSQL locale](/img/orm/dataguide/setting-up-a-local-database/macos/choose_locale.png)
 
-Click **Next** to use the default locale of your computer.
+Click **Next** 使用 the default locale of your computer.
 
-The configuration portion of the installation is now complete. You can review a summary of the choices you've made:
+The configuration portion of the installation is now complete. 您可以 review a summary of the choices you've made:
 
 ![PostgreSQL installation summary](/img/orm/dataguide/setting-up-a-local-database/macos/installation_summary.png)
 
@@ -175,7 +175,7 @@ If everything looks correct, click **Next**.
 
 PostgreSQL is ready to be installed:
 
-![PostgreSQL ready to install](/img/orm/dataguide/setting-up-a-local-database/macos/ready_to_install.png)
+![PostgreSQL ready 安裝](/img/orm/dataguide/setting-up-a-local-database/macos/ready_to_install.png)
 
 Click **Next** to begin the installation process.
 
@@ -183,7 +183,7 @@ The installer will confirm completion when the process completes:
 
 ![PostgreSQL installation complete](/img/orm/dataguide/setting-up-a-local-database/macos/installation_complete.png)
 
-Now that PostgreSQL is installed, you can verify the installation using the `psql` command line tool. While this client is installed, we need to modify our terminal's `PATH` variable to access it easily.
+Now that PostgreSQL is installed, 您可以 verify the installation using the `psql` command line tool. While this client is installed, we need to modify our terminal's `PATH` variable to access it easily.
 
 Open a new terminal window to begin. First, find the PostgreSQL `bin` directory by typing:
 
@@ -191,13 +191,13 @@ Open a new terminal window to begin. First, find the PostgreSQL `bin` directory 
 ls -d /Library/PostgreSQL/*/bin
 ```
 
-The response will be the directory of your PostgreSQL `bin` directory. For example:
+The response will be the directory of your PostgreSQL `bin` directory. 例如：
 
 ```
 /Library/PostgreSQL/12/bin
 ```
 
-Now that you know the directory to use, edit the `/etc/paths` file by typing:
+Now that you know the directory 使用, edit the `/etc/paths` file by typing:
 
 ```
 sudo nano /etc/paths
@@ -213,7 +213,7 @@ Add the path to `bin` directory that you found to the bottom of the file:
 
 When you are finished, save and close the file by typing <kbd>CTL-X</kbd>, <kbd>Y</kbd>, and hitting <kbd>ENTER</kbd>.
 
-To use the new `PATH` settings, open a new terminal window. In the new window, type:
+使用 the new `PATH` settings, open a new terminal window. In the new window, type:
 
 ```
 psql -U postgres
@@ -244,23 +244,23 @@ Installation methods differ depending on the Linux distribution you are using. F
 
 ### Debian and Ubuntu
 
-You can either choose to use the version of PostgreSQL available in your distribution's default repositories or use repositories provided by the PostgreSQL project. Packages in the default repository are tested to work with all other software provided for your distribution, but may be older. Packages from the PostgreSQL project will be more up-to-date but may require extra configuration.
+您可以 either choose 使用 the version of PostgreSQL 可用於 your distribution's default repositories or use repositories provided by the PostgreSQL project. Packages in the default repository are tested to work with all other software provided for your distribution, but may be older. Packages from the PostgreSQL project will be more up-to-date but may require extra configuration.
 
 - [Install using Debian or Ubuntu's default repositories](#install-using-debian-or-ubuntus-default-repositories)
 - [Install using the PostgreSQL project's Debian and Ubuntu repositories](#install-using-the-postgresql-projects-debian-and-ubuntu-repositories)
 
 #### Install using Debian or Ubuntu's default repositories
 
-Both Ubuntu and Debian provide versions of PostgreSQL server as packages within their default repositories. The PostgreSQL version may be older than those found on the PostgreSQL website, but this is the simplest way to install on these distributions.
+Both Ubuntu and Debian provide versions of PostgreSQL server as packages within their default repositories. The PostgreSQL version may be older than those found on the PostgreSQL website, but this is the simplest way 安裝 on these distributions.
 
-To install PostgreSQL server, update your computer's local package cache with the latest set of packages. Afterwards, install the `postgresql` package:
+安裝 PostgreSQL server, update your computer's local package cache with the latest set of packages. Afterwards, install the `postgresql` package:
 
 ```
 sudo apt update
 sudo apt install postgresql
 ```
 
-By default, PostgreSQL is configured to use [peer authentication](https://www.postgresql.org/docs/10/auth-methods.html#AUTH-PEER), which allows users to log in if their operating system user name matches a PostgreSQL internal name.
+預設情況下, PostgreSQL is configured 使用 [peer authentication](https://www.postgresql.org/docs/10/auth-methods.html#AUTH-PEER), which allows users to log in if their operating system user name matches a PostgreSQL internal name.
 
 The installation process created an operating system user called `postgres` to match the `postgres` database administrative account. To log into PostgreSQL with the `psql` client, use `sudo` to run the command as the `postgres` user:
 
@@ -268,7 +268,7 @@ The installation process created an operating system user called `postgres` to m
 sudo -u postgres psql
 ```
 
-When you are finished, you can exit the `psql` session by typing:
+When you are finished, 您可以 exit the `psql` session by typing:
 
 ```
 \quit
@@ -276,7 +276,7 @@ When you are finished, you can exit the `psql` session by typing:
 
 #### Install using the PostgreSQL project's Debian and Ubuntu repositories
 
-If you need a more up-to-date version of PostgreSQL, you can use the repositories maintained by the PostgreSQL project instead of those provided by your Linux distribution.
+If you need a more up-to-date version of PostgreSQL, 您可以 use the repositories maintained by the PostgreSQL project instead of those provided by your Linux distribution.
 
 First, add a new repository definition to your system by typing:
 
@@ -290,14 +290,14 @@ Next, add the PostgreSQL package signing key to `apt` so that it trusts the pack
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 ```
 
-With the repository set up, you can update your local package index and then install PostgreSQL by typing:
+With the repository set up, 您可以 update your local package index and then install PostgreSQL by typing:
 
 ```
 sudo apt update
 sudo apt install postgresql
 ```
 
-By default, PostgreSQL is configured to use [peer authentication](https://www.postgresql.org/docs/10/auth-methods.html#AUTH-PEER), which allows users to log in if their operating system user name matches a PostgreSQL internal name.
+預設情況下, PostgreSQL is configured 使用 [peer authentication](https://www.postgresql.org/docs/10/auth-methods.html#AUTH-PEER), which allows users to log in if their operating system user name matches a PostgreSQL internal name.
 
 The installation process created an operating system user called `postgres` to match the `postgres` database administrative account. To log into PostgreSQL with the `psql` client, use `sudo` to run the command as the `postgres` user:
 
@@ -305,7 +305,7 @@ The installation process created an operating system user called `postgres` to m
 sudo -u postgres psql
 ```
 
-When you are finished, you can exit the `psql` session by typing:
+When you are finished, 您可以 exit the `psql` session by typing:
 
 ```
 \quit
@@ -313,16 +313,16 @@ When you are finished, you can exit the `psql` session by typing:
 
 ### CentOS and Fedora
 
-You can either choose to use the version of PostgreSQL available in your distribution's default repositories or use repositories provided by the PostgreSQL project. Packages in the default repository are tested to work with all other software provided for your distribution, but may be older. Packages from the PostgreSQL project will be more up-to-date but may require extra configuration.
+您可以 either choose 使用 the version of PostgreSQL 可用於 your distribution's default repositories or use repositories provided by the PostgreSQL project. Packages in the default repository are tested to work with all other software provided for your distribution, but may be older. Packages from the PostgreSQL project will be more up-to-date but may require extra configuration.
 
 - [Install using CentOS or Fedora's default repositories](#install-using-centos-or-fedoras-default-repositories)
 - [Install using the PostgreSQL project's CentOS and Fedora repositories](#install-using-the-postgresql-projects-centos-and-fedora-repositories)
 
 #### Install using CentOS or Fedora's default repositories
 
-Both CentOS and Fedora provide versions of PostgreSQL server as packages within their default repositories. The PostgreSQL version may be older than those found on the PostgreSQL website, but this is the simplest way to install on these distributions.
+Both CentOS and Fedora provide versions of PostgreSQL server as packages within their default repositories. The PostgreSQL version may be older than those found on the PostgreSQL website, but this is the simplest way 安裝 on these distributions.
 
-To install PostgreSQL server, use your distribution's package manager to install the `mysql-server` package:
+安裝 PostgreSQL server, use your distribution's package manager 安裝 the `mysql-server` package:
 
 For **CentOS** use the `yum` package manager:
 
@@ -348,13 +348,13 @@ Afterwards, start up the service by typing:
 sudo systemctl start postgresql.service
 ```
 
-Optionally, you can automatically start PostgreSQL on boot by typing:
+Optionally, 您可以 automatically start PostgreSQL on boot by typing:
 
 ```
 sudo systemctl enable postgresql.service
 ```
 
-By default, PostgreSQL is configured to use [peer authentication](https://www.postgresql.org/docs/10/auth-methods.html#AUTH-PEER), which allows users to log in if their operating system user name matches a PostgreSQL internal name.
+預設情況下, PostgreSQL is configured 使用 [peer authentication](https://www.postgresql.org/docs/10/auth-methods.html#AUTH-PEER), which allows users to log in if their operating system user name matches a PostgreSQL internal name.
 
 The installation process created an operating system user called `postgres` to match the `postgres` database administrative account. To log into PostgreSQL with the `psql` client, use `sudo` to run the command as the `postgres` user:
 
@@ -362,7 +362,7 @@ The installation process created an operating system user called `postgres` to m
 sudo -u postgres psql
 ```
 
-When you are finished, you can exit the `psql` session by typing:
+When you are finished, 您可以 exit the `psql` session by typing:
 
 ```
 \quit
@@ -370,11 +370,11 @@ When you are finished, you can exit the `psql` session by typing:
 
 #### Install using the PostgreSQL project's CentOS and Fedora repositories
 
-If you need a more up-to-date version of PostgreSQL, you can use the repositories maintained by the PostgreSQL project instead of those provided by your Linux distribution.
+If you need a more up-to-date version of PostgreSQL, 您可以 use the repositories maintained by the PostgreSQL project instead of those provided by your Linux distribution.
 
-To configure the PostgreSQL project's repository, download and install the repository setup package with in your terminal.
+配置 the PostgreSQL project's repository, download and install the repository setup package with in your terminal.
 
-For **CentOS** execute the following command:
+For **CentOS** execute 以下 command:
 
 ```
 sudo yum install "https://download.postgresql.org/pub/repos/yum/reporpms/EL-$(. /etc/os-release; echo $VERSION_ID)-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
@@ -386,7 +386,7 @@ For **Fedora** use this command:
 sudo dnf install "https://download.postgresql.org/pub/repos/yum/reporpms/F-$(. /etc/os-release; echo $VERSION_ID)-x86_64/pgdg-fedora-repo-latest.noarch.rpm"
 ```
 
-If you are using **CentOS 8**, you must also disable the system's PostgreSQL module to prevent it from interfering with the repository's PostgreSQL version. To do so, type:
+If you are using **CentOS 8**, 您必須 also disable the system's PostgreSQL module to prevent it from interfering with the repository's PostgreSQL version. To do so, type:
 
 ```
 sudo yum module disable postgresql
@@ -406,15 +406,15 @@ For **Fedora** use the `dnf` package manager:
 dnf list postgresql*-server
 ```
 
-After deciding which version to use, you can install it using your package manager.
+After deciding which version 使用, 您可以 install it using your package manager.
 
-For **CentOS** use the `yum` package manager. For example, to install PostgreSQL 12, type:
+For **CentOS** use the `yum` package manager. 例如, 安裝 PostgreSQL 12, type:
 
 ```
 sudo yum install postgresql12-server
 ```
 
-For **Fedora** use the `dnf` package manager. For example, to install PostgreSQL 12, type:
+For **Fedora** use the `dnf` package manager. 例如, 安裝 PostgreSQL 12, type:
 
 ```
 sudo dnf install postgresql12-server
@@ -432,19 +432,19 @@ Find the name of the systemd unit file for your version of PostgreSQL:
 systemctl list-unit-files | grep postgresql
 ```
 
-Start up the service using the unit file you found. For example, for PostgreSQL 12, it would be:
+Start up the service using the unit file you found. 例如, for PostgreSQL 12, it would be:
 
 ```
 sudo systemctl start postgresql-12.service
 ```
 
-Optionally, you can also automatically start PostgreSQL on boot with the `enable`:
+Optionally, 您可以 also automatically start PostgreSQL on boot with the `enable`:
 
 ```
 sudo systemctl enable postgresql-12.service
 ```
 
-By default, PostgreSQL is configured to use [peer authentication](https://www.postgresql.org/docs/10/auth-methods.html#AUTH-PEER), which allows users to log in if their operating system user name matches a PostgreSQL internal name.
+預設情況下, PostgreSQL is configured 使用 [peer authentication](https://www.postgresql.org/docs/10/auth-methods.html#AUTH-PEER), which allows users to log in if their operating system user name matches a PostgreSQL internal name.
 
 The installation process created an operating system user called `postgres` to match the `postgres` database administrative account. To log into PostgreSQL with the `psql` client, use `sudo` to run the command as the `postgres` user:
 
@@ -452,7 +452,7 @@ The installation process created an operating system user called `postgres` to m
 sudo -u postgres psql
 ```
 
-When you are finished, you can exit the `psql` session by typing:
+When you are finished, 您可以 exit the `psql` session by typing:
 
 ```
 \quit

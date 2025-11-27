@@ -35,7 +35,7 @@ The way that the application models are represented on both levels might differ 
 
 #### Relational databases
 
-In relational databases, models are represented by _tables_. For example, you might define a `users` table to store information about the users of your application. Using PostgreSQL, you'd define it as follows:
+In relational databases, models are represented by _tables_. 例如, you might define a `users` table to store information about the users of your application. Using PostgreSQL, you'd define it as follows:
 
 ```sql
 CREATE TABLE users (
@@ -54,7 +54,7 @@ A visual representation of the `users` table with some random data might look as
 | `2`       | `Bob`   | `bob@prisma.io`   | `false`   |
 | `3`       | `Sarah` | `sarah@prisma.io` | `true`    |
 
-It has the following columns:
+It has 以下 columns:
 
 - `user_id`: An integer that increments with every new record in the `users` table. It also represents the [primary key](https://en.wikipedia.org/wiki/Primary_key) for each record.
 - `name`: A string with at most 255 characters.
@@ -81,9 +81,9 @@ Prisma Client currently expects a consistent model and [normalized model design]
 
 ### 資料模型ing on the application level
 
-In addition to creating the tables that represent the entities from your application domain, you also need to create application models in your programming language. In object-oriented languages, this is often done by creating _classes_ to represent your models. Depending on the programming language, this might also be done with _interfaces_ or _structs_.
+In addition to creating the tables that represent the entities from your application domain, you also need 建立 application models in your programming language. In object-oriented languages, this is often done by creating _classes_ to represent your models. Depending on the programming language, this might also be done with _interfaces_ or _structs_.
 
-There often is a strong correlation between the tables in your database and the models you define in your code. For example, to represent records from the aforementioned `users` table in your application, you might define a JavaScript (ES6) class looking similar to this:
+There often is a strong correlation between the tables in your database and the models you define in your code. 例如, to represent records from the aforementioned `users` table in your application, you might define a JavaScript (ES6) class looking similar to this:
 
 ```js
 class User {
@@ -109,7 +109,7 @@ interface User {
 
 Notice how the `User` model in both cases has the same properties as the `users` table in the previous example. While it's often the case that there's a 1:1 mapping between database tables and application models, it can also happen that models are represented completely differently in the database and your application.
 
-With this setup, you can retrieve records from the `users` table and store them as instances of your `User` type. The following example code snippet uses [`pg`](https://node-postgres.com/) as the driver for PostgreSQL and creates a `User` instance based on the above defined JavaScript class:
+With this setup, 您可以 retrieve records from the `users` table and store them as instances of your `User` type. 以下範例 code snippet uses [`pg`](https://node-postgres.com/) as the driver for PostgreSQL and creates a `User` instance based on the above defined JavaScript class:
 
 ```js
 const resultRows = await client.query('SELECT * FROM users WHERE user_id = 1')
@@ -134,7 +134,7 @@ Notice that in these examples, the application models are "dumb", meaning they d
 
 ORMs are commonly used in object-oriented languages to make it easier for developers to work with a database. The key characteristic of an ORM is that it lets you model your application data in terms of _classes_ which are mapped to _tables_ in the underlying database.
 
-The main difference compared to the approaches explained above is these classes not only carry data but also implement a substantial amount of logic. Mostly for storage, retrieval, serialization, and deserialization, but sometimes they also implement business logic that's specific to your application.
+主要 difference compared to the approaches explained above is these classes not only carry data but also implement a substantial amount of logic. Mostly for storage, retrieval, serialization, and deserialization, but sometimes they also implement business logic that's specific to your application.
 
 This means, you don't write SQL statements to read and write data in the database, but instead the instances of your model classes provide an API to store and retrieve data.
 
@@ -160,12 +160,12 @@ User.init(
 )
 ```
 
-To get an example with this `User` class to work, you still need to create the corresponding table in the database. With Sequelize, you have two ways of doing this:
+To get an example with this `User` class to work, you still need 建立 the corresponding table in the database. With Sequelize, you have two ways of doing this:
 
 - Run `User.sync()` (typically not recommended for production)
 - Use [Sequelize migrations](https://sequelize.org/v5/manual/migrations.html) to change your database schema
 
-Note that you'll never instantiate the `User` class manually (using `new User(...)`) as was shown in the previous section, but rather call _static_ methods on the `User` class which then return the `User` model instances:
+請注意 you'll never instantiate the `User` class manually (using `new User(...)`) as was shown in the previous section, but rather call _static_ methods on the `User` class which then return the `User` model instances:
 
 ```js
 const user = await User.findByPk(42)
@@ -173,11 +173,11 @@ const user = await User.findByPk(42)
 
 The call to `findByPk` creates a SQL statement to retrieve the `User` record that's identified by the ID value `42`.
 
-The resulting `user` object is an instance of Sequelize's `Model` class (because `User` inherits from `Model`). It's not a POJO, but an object that implements additional behavior from Sequelize.
+結果ing `user` object is an instance of Sequelize's `Model` class (because `User` inherits from `Model`). It's not a POJO, but an object that implements additional behavior from Sequelize.
 
 ## 資料模型ing with Prisma ORM
 
-Depending on which parts of Prisma ORM you want to use in your application, the data modeling flow looks slightly different. The following two sections explain the workflows for using [**only Prisma Client**](#using-only-prisma-client) and using [**Prisma Client and Prisma Migrate**](#using-prisma-client-and-prisma-migrate).
+Depending on which parts of Prisma ORM you want 使用 in your application, the data modeling flow looks slightly different. 以下 two sections explain the workflows for using [**only Prisma Client**](#using-only-prisma-client) and using [**Prisma Client and Prisma Migrate**](#using-prisma-client-and-prisma-migrate).
 
 No matter which approach though, with Prisma ORM you never create application models in your programming language by manually defining classes, interfaces, or structs. Instead, the application models are defined in your [Prisma schema](/orm/prisma-schema):
 
@@ -197,7 +197,7 @@ model User {
 
 Once the application models are in your Prisma schema (whether they were added through introspection or manually by you), the next step typically is to generate Prisma Client which provides a programmatic and type-safe API to read and write data in the shape of your application models.
 
-Prisma Client uses TypeScript [type aliases](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-aliases) to represent your application models in your code. For example, the `User` model would be represented as follows in the generated Prisma Client library:
+Prisma Client uses TypeScript [type aliases](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-aliases) to represent your application models in your code. 例如, the `User` model would be represented as follows in the generated Prisma Client library:
 
 ```ts
 export type User = {
@@ -208,7 +208,7 @@ export type User = {
 }
 ```
 
-In addition to the generated types, Prisma Client also provides a data access API that you can use once you've installed the `@prisma/client` package:
+In addition to the generated types, Prisma Client also provides a data access API that 您可以 use once you've installed the `@prisma/client` package:
 
 ```js
 import { PrismaClient } from '../prisma/generated/client'
@@ -228,19 +228,19 @@ await prisma.user.upsert(...)
 
 ### Using only Prisma Client
 
-When using only Prisma Client and _not_ using Prisma Migrate in your application, data modeling needs to happen on the database level via SQL. Once your SQL schema is ready, you use Prisma's introspection feature to add the application models to your Prisma schema. Finally, you generate Prisma Client which creates the types as well as the programmatic API for you to read and write data in your database.
+When using only Prisma Client and _not_ using Prisma Migrate in your application, data modeling needs to happen on the database level via SQL. Once your SQL schema is ready, you use Prisma's introspection feature 添加 the application models to your Prisma schema. Finally, you generate Prisma Client which creates the types as well as the programmatic API for you to read and write data in your database.
 
-Here is an overview of the main workflow:
+Here is an overview of 主要 workflow:
 
 1. Change your database schema using SQL (e.g. `CREATE TABLE`, `ALTER TABLE`, ...)
 1. Run `prisma db pull` to introspect the database and add application models to the Prisma schema
-1. Run `prisma generate` to update your Prisma Client API
+1. Run `prisma generate` 更新 your Prisma Client API
 
 ### Using Prisma Client and Prisma Migrate
 
-When using [Prisma Migrate](/orm/prisma-migrate), you define your application model in the Prisma schema and with relational databases use the `prisma migrate` subcommand to generate plain SQL migration files, which you can edit before applying. With MongoDB, you use `prisma db push` instead which applies the changes to your database directly.
+When using [Prisma Migrate](/orm/prisma-migrate), you define your application model in the Prisma schema and with relational databases use the `prisma migrate` subcommand to generate plain SQL migration files, which 您可以 edit before applying. With MongoDB, you use `prisma db push` instead which applies the changes to your database directly.
 
-Here is an overview of the main workflow:
+Here is an overview of 主要 workflow:
 
 1. Manually change your application models in the Prisma schema (e.g. add a new model, remove an existing one, ...)
-1. Run `prisma migrate dev` to create and apply a migration or run `prisma db push` to apply the changes directly (in both cases Prisma Client is automatically generated)
+1. Run `prisma migrate dev` 建立 and apply a migration or run `prisma db push` to apply the changes directly (in both cases Prisma Client is automatically generated)

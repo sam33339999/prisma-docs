@@ -8,7 +8,7 @@ metaDescription: "This page gives an 概述 of the most 重要 things to be awar
 
 _Module bundlers_ bundle JavaScript modules into a single JavaScript file. Most bundlers work by copying over the JavaScript code from a variety of source files into the target file.
 
-Since Prisma Client is not only based on JavaScript code, but also relies on the [**query engine binary file**](/orm/more/under-the-hood/engines#the-query-engine-file) to be available, you need to make sure that your bundled code has access to the binary file.
+Since Prisma Client is not only based on JavaScript code, but also relies on the [**query engine binary file**](/orm/more/under-the-hood/engines#the-query-engine-file) to be available, 您需要 make sure that your bundled code has access to the binary file.
 
 :::note
 
@@ -24,13 +24,13 @@ generator client {
 }
 ```
 
-Note that [driver adapters](/orm/overview/databases/database-drivers#driver-adapters) are required if you want to use Prisma ORM without Rust engines.
+請注意 [driver adapters](/orm/overview/databases/database-drivers#driver-adapters) are required if you want 使用 Prisma ORM without Rust engines.
 
-You can [read about the performance and DX improvements](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks) of this change on our blog.
+您可以 [read about the performance and DX improvements](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks) of this change on our blog.
 
 :::
 
-To do so, you can use plugins that let you copy over static assets:
+To do so, 您可以 use plugins that let you copy over static assets:
 
 | Bundler                                                                                                               | Plugin                                                                                                         |
 | :-------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- |

@@ -20,11 +20,11 @@ A full list of Prisma ORM 5 changes can be found [in our release notes](https://
 
 ## Replacing `rejectOnNotFound` enabled at the 查詢 level
 
-If you previously enabled `rejectOnNotFound` on a per-query basis, you will need to replace your usage at the _query level_. You can use our `*OrThrow` query variants, `findFirstOrThrow` or `findUniqueOrThrow` instead of supplying the parameter to `findFirst` and `findUnique()`.
+If you previously enabled `rejectOnNotFound` on a per-query basis, you will need to replace your usage at the _query level_. 您可以 use our `*OrThrow` query variants, `findFirstOrThrow` or `findUniqueOrThrow` instead of supplying the parameter to `findFirst` and `findUnique()`.
 
 ### Simple `rejectOnNotFound` usage
 
-The following example:
+以下範例:
 
 ```js
 prisma.user.findFirst({
@@ -43,7 +43,7 @@ prisma.user.findFirstOrThrow({
 
 ### `rejectOnNotFound` usage with custom error handler
 
-If you use a custom error handler like the following:
+If you use a custom error handler like 以下:
 
 ```js
 prisma.user.findFirst({
@@ -67,7 +67,7 @@ try {
 }
 ```
 
-If your error handler is used in multiple places, you can also create a reusable error adapter which could then be used within a `.catch()` called on your function.
+If your error handler is used in multiple places, 您可以 also create a reusable error adapter which could then be used within a `.catch()` called on your function.
 
 ```js
 const adaptError = (customThrowFn) => (error) => {
@@ -86,7 +86,7 @@ const user = await prisma.user.findFirstOrThrow({
 
 ### `rejectOnNotFound` via Prisma Client Constructor
 
-If you previously enabled `rejectOnNotFound` globally via configuration in the Prisma Client constructor, like in these examples:
+If you previously enabled `rejectOnNotFound` globally via configuration in the Prisma Client constructor, like in these 範例：
 
 ```js
 // Example 1
@@ -102,11 +102,11 @@ const prisma = new PrismaClient({
 })
 ```
 
-You will need to update your codebase to use `findUniqueOrThrow` and `findFirstOrThrow` instead of `findUnique()` and `findFirst`, depending on which calls you would like to throw.
+You will need 更新 your codebase 使用 `findUniqueOrThrow` and `findFirstOrThrow` instead of `findUnique()` and `findFirst`, depending on which calls you would like to throw.
 
 ### `rejectOnNotFound` via Prisma Client Constructor with custom error handler
 
-If instead you use a custom error handler with the `rejectOnNotFound` property, like these examples:
+If instead you use a custom error handler with the `rejectOnNotFound` property, like these 範例：
 
 ```js
 // Example 3
@@ -136,9 +136,9 @@ const prisma = new PrismaClient({
 })
 ```
 
-You will need to update your method usage to `...OrThrow` and then use a [Client Extension](/orm/prisma-client/client-extensions) in order to get the same behavior.
+You will need 更新 your method usage to `...OrThrow` and then use a [Client Extension](/orm/prisma-client/client-extensions) in order to get the same behavior.
 
-As an example, the following extension would give the same behavior in Prisma ORM 5 that `Example 5` gave in Prisma ORM 4 and lower.
+As an example, 以下 extension would give the same behavior in Prisma ORM 5 that `Example 5` gave in Prisma ORM 4 and lower.
 
 ```js
 import { PrismaClient } from '@prisma/client';

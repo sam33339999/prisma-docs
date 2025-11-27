@@ -7,14 +7,14 @@ metaDescription: '如何 include unsupported 資料庫 功能 for projects that 
 
 <TopBlock>
 
-Prisma Migrate uses the Prisma schema to determine what features to create in the database. However, some database features [cannot be represented in the Prisma schema](/orm/prisma-schema/data-model/unsupported-database-features) , including but not limited to:
+Prisma Migrate uses the Prisma schema to determine what features 建立 in the database. However, some database features [cannot be represented in the Prisma schema](/orm/prisma-schema/data-model/unsupported-database-features) , including but not limited to:
 
 - Stored procedures
 - Triggers
 - Views
 - Partial indexes
 
-To add an unsupported feature to your database, you must [customize a migration](/orm/prisma-migrate/workflows/customizing-migrations) to include that feature before you apply it.
+添加 an unsupported feature to your database, 您必須 [customize a migration](/orm/prisma-migrate/workflows/customizing-migrations) to include that feature before you apply it.
 
 :::tip
 
@@ -41,7 +41,7 @@ To customize a migration to include an unsupported feature:
    npx prisma migrate dev --create-only
    ```
 
-1. Open the generated `migration.sql` file and add the unsupported feature - for example, a partial index:
+1. Open the generated `migration.sql` file and add the unsupported feature - 例如, a partial index:
 
    ```sql
    CREATE UNIQUE INDEX tests_success_constraint

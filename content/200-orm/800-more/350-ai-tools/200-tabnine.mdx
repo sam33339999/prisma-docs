@@ -17,7 +17,7 @@ community_section: true
 
 ### 為什麼使用 Prisma ORM with Tabnine?
 
-AI editors like Tabnine are powerful tools that can drastically improve developer productivity. It works especially well with the following workflows:
+AI editors like Tabnine are powerful tools that can drastically improve developer productivity. It works especially well with 以下 workflows:
 
 - Data modeling and database schema design
 - Constructing and optimizing database queries
@@ -46,7 +46,7 @@ Tabnine can accelerate this process by:
 - Auto-completing model and field definitions based on common database patterns.
 - Suggesting relationships and field types based on naming conventions.
 
-### Example: Defining a Prisma 綱要
+### 範例： Defining a Prisma 綱要
 
 #### Prompt
 
@@ -109,7 +109,7 @@ Tabnine can help by:
 - Suggesting `where` clauses for filters and `skip` / `take` options for pagination logic.
 - Helping with efficiency and performance optimizations.
 
-### Example: fetching data with relationships
+### 範例： fetching data with relationships
 
 #### Prompt
 
@@ -136,7 +136,7 @@ const activeUsers = await prisma.user.findMany({
 
 ### How Tabnine helps
 
-Most applications require basic CRUD operations or other boilerplate code that's usually derived from the structure of the database schema. For example, an API layer may expose a set of HTTP endpoints that allow to create, read, update or delete records of a certain model. Similarly, a frontend will data fetching and state management logic to interact with these API endpoints and update the UI accordingly.
+Most applications require basic CRUD operations or other boilerplate code that's usually derived from the structure of the database schema. 例如, an API layer may expose a set of HTTP endpoints that allow 建立, read, update or delete records of a certain model. Similarly, a frontend will data fetching and state management logic to interact with these API endpoints and update the UI accordingly.
 
 Instead of writing this code manually, Tabnine can speed up this process by:
 
@@ -144,7 +144,7 @@ Instead of writing this code manually, Tabnine can speed up this process by:
 - Auto-completing function names and argument types.
 - Write boilerplate code while following best practices for using DTOs, error handling, consistent API design, ...
 
-### Example: Generating CRUD functionality with Next.js
+### 範例： Generating CRUD functionality with Next.js
 
 #### Prompt
 
@@ -297,7 +297,7 @@ Tabnine can assist by:
 - Structuring complex aggregations without manual trial and error.
 - Integrating the queries in your application code.
 
-### Example: Calculating the percentages of active, expired, and paused subscriptions  
+### 範例： Calculating the percentages of active, expired, and paused subscriptions  
 
 #### Prompt
 
@@ -329,7 +329,7 @@ console.log(usersWithPostCounts)
 
 ### How Tabnine helps
 
-Writing tests ensures that Prisma-based applications function correctly and behave according to requirements and expectations. However, writing tests is a time-consuming activity that often follows predictable and repetitive patterns.
+Writing tests ensures that Prisma-based applications function correctly and behave according to 需求 and expectations. However, writing tests is a time-consuming activity that often follows predictable and repetitive patterns.
 
 Tabnine can drastically speed up writing tests by:
 
@@ -338,7 +338,7 @@ Tabnine can drastically speed up writing tests by:
 - Helping structure test cases to follow best practices.
 - Providing integration test scaffolding for testing Prisma with a real or in-memory database.
 
-### Example: Writing a unit test for a Prisma service  
+### 範例： Writing a unit test for a Prisma service  
 
 #### Prompt
 
@@ -377,7 +377,7 @@ Tabnine can assist during refactorings by:
 - Providing function rewrites to simplify and optimize logic.
 - Suggesting breaking changes that need to be handled across your codebase.
 
-### Example: Refactoring a Prisma 查詢 after a 綱要 change  
+### 範例： Refactoring a Prisma 查詢 after a 綱要 change  
 
 #### Prompt
 
@@ -403,11 +403,11 @@ const users = await prisma.user.findMany({
 
 Seeding a database with realistic test data can be cumbersome. Realistic seed data is helpful during development because it gives the developer a better impression of the application when it's used in the real-world. Tabnine can help with database seeding by:
 
-- Generating scripts with structured seed data based on the schema and with specific requirements.
+- Generating scripts with structured seed data based on the schema and with specific 需求.
 - Creating real-looking placeholder data that can be used to test the app.
 - Generate specific data to cover edge cases.
 
-### Example: Creating a seed script
+### 範例： Creating a seed script
 
 #### Prompt
 
@@ -455,7 +455,7 @@ main()
 
 ## Using the Prisma VS Code extension to manage your 資料庫
 
-The [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) is a powerful tool for building applications with [Prisma Postgres](/postgres). If you are using Tabnine in an editor that allows you to install the Prisma VS Code extension and you are using Prisma Postgres, you should use it. The extension provides a dedicated UI for managing Prisma Postgres instances, both local and remote, making it easy to view, create, and delete instances, push local databases to the cloud, and visualize your schema.
+The [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) is a powerful tool for building applications with [Prisma Postgres](/postgres). If you are using Tabnine in an editor that allows you 安裝 the Prisma VS Code extension and you are using Prisma Postgres, 您應該 use it. The extension provides a dedicated UI for managing Prisma Postgres instances, both local and remote, making it easy to view, create, and delete instances, push local databases to the cloud, and visualize your schema.
 
 ### 資料庫 management UI
 
@@ -463,7 +463,7 @@ With its built-in database management interface, the [Prisma VS Code extension](
 
 #### 工作流程
 
-The UI enables the following workflows:
+The UI enables 以下 workflows:
 
 - Authenticate with the [Prisma Console](https://console.prisma.io)
 - View, create and delete Prisma Postgres instances (local & remote)
@@ -477,9 +477,9 @@ To manage Prisma Postgres instances via the UI in the Prisma VS Code extension:
 
 1. Ensure you have the latest version of the [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) installed
 1. Find the Prisma logo in the **Activity Bar**
-1. Click the **Sign in to get started** button
+1. Click the **Sign in 開始使用** button
 1. Authenticate with the [Prisma Console](https://console.prisma.io) using the sign-in prompt, then select a target [workspace](/platform/about#workspace)
 
 ### Prisma Studio built-in
 
-Beyond managing your database instances, the Prisma VS Code extension embeds Prisma Studio directly in your editor, making it easy to perform create, update, and delete operations on your database right inside Windsurf. Follow these [easy steps](/postgres/database/prisma-studio/studio-in-vs-code) to get started.
+Beyond managing your database instances, the Prisma VS Code extension embeds Prisma Studio directly in your editor, making it easy to perform create, update, and delete operations on your database right inside Windsurf. Follow these [easy steps](/postgres/database/prisma-studio/studio-in-vs-code) 開始使用.

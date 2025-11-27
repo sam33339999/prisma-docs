@@ -19,7 +19,7 @@ The Prisma Postgres serverless driver is currently in [Early Access](/orm/more/r
 
 The serverless driver uses HTTP and WebSocket protocols instead of TCP, enabling database access in environments where traditional PostgreSQL drivers cannot run:
 
-- Compatible with Cloudflare Workers, Vercel Edge Functions, Deno Deploy, AWS Lambda, Bun, and browsers
+- 相容於 Cloudflare Workers, Vercel Edge Functions, Deno Deploy, AWS Lambda, Bun, and browsers
 - Stream results row-by-row to handle large datasets with constant memory usage
 - Pipeline multiple queries over a single connection, reducing latency by up to 3x
 - SQL template literals with automatic parameterization and full TypeScript support
@@ -31,7 +31,7 @@ For standard Node.js environments, use the [`node-postgres` driver](/orm/overvie
 
 ## Prerequisite: Get your connection string
 
-The serverless driver requires a Prisma Postgres Direct TCP connection URL:
+The serverless driver 需要 a Prisma Postgres Direct TCP connection URL:
 
 ```
 postgres://identifier:key@db.prisma.io:5432/postgres?sslmode=require
@@ -150,7 +150,7 @@ With 100ms network latency, 3 sequential queries take 300ms (3 x RTT), but pipel
 
 ### Parameter streaming
 
-Parameters over 1KB are automatically streamed without buffering in memory. For large binary parameters, you must use `boundedByteStreamParameter()` which creates a `BoundedByteStreamParameter` object that carries the total byte size, required by the PostgreSQL protocol:
+Parameters over 1KB are automatically streamed without buffering in memory. For large binary parameters, 您必須 use `boundedByteStreamParameter()` which creates a `BoundedByteStreamParameter` object that carries the total byte size, required by the PostgreSQL protocol:
 
 ```ts
 import { client, defaultClientConfig, boundedByteStreamParameter, BINARY } from "@prisma/ppg"
@@ -181,7 +181,7 @@ const param = byteArrayParameter(bytes, BINARY)
 await cl.query("INSERT INTO files (data) VALUES ($1)", param)
 ```
 
-The `boundedByteStreamParameter()` function is provided by the `@prisma/ppg` library and requires the total byte size to be known in advance due to PostgreSQL protocol requirements.
+The `boundedByteStreamParameter()` function is provided by the `@prisma/ppg` library and 需要 the total byte size to be known in advance due to PostgreSQL protocol 需求.
 
 ### Transactions and batch operations
 
@@ -268,7 +268,7 @@ const cl = client({
 await cl.query("INSERT INTO locations (point) VALUES ($1)", new Point(10, 20))
 ```
 
-See the [npm package documentation](https://www.npmjs.com/package/@prisma/ppg) for more details.
+參見 [npm package documentation](https://www.npmjs.com/package/@prisma/ppg) for more details.
 
 ## Platform compatibility
 
@@ -299,7 +299,7 @@ High-level API with SQL template literals, transactions, and batch operations. R
 
 Low-level API with explicit parameter passing and session management. Use when you need fine-grained control.
 
-See the [npm package](https://www.npmjs.com/package/@prisma/ppg) for complete API documentation.
+參見 [npm package](https://www.npmjs.com/package/@prisma/ppg) for complete API documentation.
 
 ## Error handling
 
@@ -319,7 +319,7 @@ try {
 
 ## Limitations
 
-- Requires a Prisma Postgres instance and does not work with [local development](/postgres/database/local-development) databases
+- 需要 a Prisma Postgres instance and does not work with [local development](/postgres/database/local-development) databases
 - Currently in Early Access and not yet recommended for production
 - Connection pooling is not currently supported and is planned to be supported when [`@prisma/ppg`](https://www.npmjs.com/package/@prisma/ppg) reaches [General Availability](/orm/more/releases#generally-available-ga)
 

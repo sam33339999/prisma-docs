@@ -6,11 +6,11 @@ metaDescription: "學習 如何 use Prisma ORM without Rust engines"
 
 As of [v6.16.0](https://pris.ly/release/6.16.0), usage of Prisma ORM without [Rust engine](/orm/more/under-the-hood/engines) binaries on PostgreSQL, CockroachDB, Neon, MySQL, PlanetScale, SQLite, D1 & MS SQL Server databases has been [Generally Available](/orm/more/releases#generally-available-ga).
 
-This page gives an overview of how to use this version of Prisma ORM.
+This page gives an overview of 如何使用 this version of Prisma ORM.
 
 ## Prisma ORM without Rust engines
 
-The main technical differences if you're using Prisma ORM without a Rust engine are:
+主要 technical differences if you're using Prisma ORM without a Rust engine are:
 
 - no `binaryTargets` field on the `generator` block
 - no query engine binary that's downloaded into the directory with your generated Prisma Client
@@ -47,7 +47,7 @@ npx prisma generate
 
 ### 3. Install the driver adapter
 
-Depending on the database you use, you need to install a different driver adapter library:
+Depending on the database you use, 您需要 install a different driver adapter library:
 
 <TabbedContent code>
 <TabItem value="PostgreSQL">
@@ -94,7 +94,7 @@ npm install @prisma/adapter-neon
 
 ### 4. Instantiate Prisma Client
 
-Finally, instantiate Prisma Client which you can do using the driver adapter and the connection URL for the database instance you're using:
+Finally, instantiate Prisma Client which 您可以 do using the driver adapter and the connection URL for the database instance you're using:
 
 <TabbedContent code>
 <TabItem value="PostgreSQL">
@@ -212,11 +212,11 @@ const prisma = new PrismaClient({ adapter })
 
 ### 5. Query your database
 
-If you went through the previous steps, you can query your database as you're used to with Prisma Client. No other changes are needed.
+If you went through the previous steps, 您可以 query your database as you're used to with Prisma Client. No other changes are needed.
 
 ## Usage with Prisma Accelerate or Prisma Postgres
 
-When using the Rust-free version of Prisma ORM with [Prisma Accelerate](/accelerate) or [Prisma Postgres](/postgres), you **should not** use driver adapters. Instead, you can directly instantiate Prisma Client with the appropriate extension.
+When using the Rust-free version of Prisma ORM with [Prisma Accelerate](/accelerate) or [Prisma Postgres](/postgres), you **should not** use driver adapters. Instead, 您可以 directly instantiate Prisma Client with the appropriate extension.
 
 ### 1. Set `engineType` on the `generator` block
 
@@ -248,7 +248,7 @@ const prisma = new PrismaClient().$extends(withAccelerate());
 ```
 ### 4. Query your database
 
-If you went through the previous steps, you can query your database as you're used to with Prisma Client. No other changes are needed.
+If you went through the previous steps, 您可以 query your database as you're used to with Prisma Client. No other changes are needed.
 
 ## Usage with older versions (預覽)
 
@@ -264,7 +264,7 @@ The Rust-free version of Prisma ORM has been in Preview from versions v6.7.0 to 
 
 ### 1. Set feature flags
 
-Usage of the new architecture requires the `driverAdapters` and `queryCompiler` feature flags to be set:
+Usage of the new architecture 需要 the `driverAdapters` and `queryCompiler` feature flags to be set:
 
 ```prisma file=schema.prisma
 generator client {
@@ -284,7 +284,7 @@ npx prisma generate
 
 ### 3. Install the driver adapter
 
-Depending on the database you use, you need to install a different driver adapter library:
+Depending on the database you use, 您需要 install a different driver adapter library:
 
 <TabbedContent code>
 <TabItem value="PostgreSQL">
@@ -331,7 +331,7 @@ npm install @prisma/adapter-neon
 
 ### 4. Instantiate Prisma Client
 
-Finally, you need to instantiate Prisma Client which you can do using the driver adapter and the connection URL for the database instance you're using.
+Finally, 您需要 instantiate Prisma Client which 您可以 do using the driver adapter and the connection URL for the database instance you're using.
 
 <TabbedContent code>
 <TabItem value="PostgreSQL">
@@ -449,7 +449,7 @@ const prisma = new PrismaClient({ adapter })
 
 ### 5. Query your database
 
-If you went through the previous steps, you can query your database as you're used to with Prisma Client. No other changes are needed.
+If you went through the previous steps, 您可以 query your database as you're used to with Prisma Client. No other changes are needed.
 
 </details>
 

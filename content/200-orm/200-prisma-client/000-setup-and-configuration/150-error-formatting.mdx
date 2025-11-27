@@ -6,9 +6,9 @@ metaDescription: '本頁說明 如何 configure the formatting of errors when �
 
 <TopBlock>
 
-By default, Prisma Client uses [ANSI escape characters](https://en.wikipedia.org/wiki/ANSI_escape_code) to pretty print the error stack and give recommendations on how to fix a problem. While this is very useful when using Prisma Client from the terminal, in contexts like a GraphQL API, you only want the minimal error without any additional formatting.
+預設情況下, Prisma Client uses [ANSI escape characters](https://en.wikipedia.org/wiki/ANSI_escape_code) to pretty print the error stack and give recommendations on 如何 fix a problem. While this is very useful when using Prisma Client from the terminal, in contexts like a GraphQL API, you only want the minimal error without any additional formatting.
 
-This page explains how error formatting can be configured with Prisma Client.
+本頁說明 how error formatting can be configured with Prisma Client.
 
 </TopBlock>
 
@@ -20,7 +20,7 @@ There are 3 error formatting levels:
 2. **Colorless Error**: Same as pretty errors, just without colors.
 3. **Minimal Error**: The raw error message.
 
-In order to configure these different error formatting levels, there are two options:
+In order 配置 these different error formatting levels, there are two options:
 
 - Setting the config options via environment variables
 - Providing the config options to the `PrismaClient` constructor

@@ -14,17 +14,17 @@ Instead of `migrate dev`, [`db push`](/orm/prisma-migrate/workflows/prototyping-
 
 :::
 
-In some scenarios, you need to edit a migration file before you apply it. For example, to [change the direction of a 1-1 relation](#example-change-the-direction-of-a-1-1-relation) (moving the foreign key from one side to another) without data loss, you need to move data as part of the migration - this SQL is not part of the default migration, and must be written by hand.
+In some scenarios, 您需要 edit a migration file before you apply it. 例如, to [change the direction of a 1-1 relation](#example-change-the-direction-of-a-1-1-relation) (moving the foreign key from one side to another) without data loss, 您需要 move data as part of the migration - this SQL is not part of the default migration, and must be written by hand.
 
-This guide explains how to edit migration files and gives some examples of use cases where you may want to do this.
+本指南說明如何 edit migration files and gives some examples of use cases where you may want to do this.
 
 </TopBlock>
 
 ## 如何 edit a 遷移 file
 
-To edit a migration file before applying it, the general procedure is the following:
+To edit a migration file before applying it, the general procedure is 以下:
 
-1. Make a schema change that requires custom SQL (for example, to preserve existing data)
+1. Make a schema change that 需要 custom SQL (例如, to preserve existing data)
 1. Create a draft migration using:
 
    ```terminal
@@ -38,14 +38,14 @@ To edit a migration file before applying it, the general procedure is the follow
    npx prisma migrate dev
    ```
 
-### Example: Rename a field
+### 範例： Rename a field
 
-By default, renaming a field in the schema results in a migration that will:
+預設情況下, renaming a field in the schema results in a migration that will:
 
-- `CREATE` a new column (for example, `fullname`)
-- `DROP` the existing column (for example, `name`) and the data in that column
+- `CREATE` a new column (例如, `fullname`)
+- `DROP` the existing column (例如, `name`) and the data in that column
 
-To actually **rename** a field and avoid data loss when you run the migration in production, you need to modify the generated migration SQL before applying it to the database. Consider the following schema fragment - the `biograpy` field is spelled wrong.
+To actually **rename** a field and avoid data loss when you run the migration in production, 您需要 modify the generated migration SQL before applying it to the database. Consider 以下 schema fragment - the `biograpy` field is spelled wrong.
 
 ```prisma highlight=3;normal;
 model Profile {
@@ -73,7 +73,7 @@ To rename the `biograpy` field to `biography`:
    }
    ```
 
-1. Run the following command to create a **draft migration** that you can edit before applying to the database:
+1. Run 以下 command 建立 a **draft migration** that 您可以 edit before applying to the database:
 
    ```terminal
    npx prisma migrate dev --name rename-migration --create-only
@@ -98,7 +98,7 @@ To rename the `biograpy` field to `biography`:
    ALTER TABLE "Profile"
    RENAME COLUMN "biograpy" TO "biography"
    ```
-   For SQL Server, you should use the stored procedure `sp_rename` instead of `ALTER TABLE RENAME COLUMN`.
+   For SQL Server, 您應該 use the stored procedure `sp_rename` instead of `ALTER TABLE RENAME COLUMN`.
    ```sql file=./prisma/migrations/20210308092620_rename_migration/migration.sql
     EXEC sp_rename 'dbo.Profile.biograpy', 'biography', 'COLUMN';
    ```
@@ -113,13 +113,13 @@ To rename the `biograpy` field to `biography`:
    npx prisma migrate dev
    ```
 
-You can use the same technique to rename a `model` - edit the generated SQL to _rename_ the table rather than drop and re-create it.
+您可以 use the same technique to rename a `model` - edit the generated SQL to _rename_ the table rather than drop and re-create it.
 
-### Example: Use the expand and contract pattern to evolve the 綱要 without downtime
+### 範例： Use the expand and contract pattern to evolve the 綱要 without downtime
 
 Making schema changes to existing fields, e.g., renaming a field can lead to downtime. It happens in the time frame between applying a migration that modifies an existing field, and deploying a new version of the application code which uses the modified field.
 
-You can prevent downtime by breaking down the steps required to alter a field into a series of discrete steps designed to introduce the change gradually. This pattern is known as the _expand and contract pattern_.
+您可以 prevent downtime by breaking down the steps required to alter a field into a series of discrete steps designed to introduce the change gradually. This pattern is known as the _expand and contract pattern_.
 
 The pattern involves two components: your application code accessing the database and the database schema you intend to alter.
 
@@ -152,7 +152,7 @@ With the _expand and contract_ pattern, renaming the field `bio` to `biography` 
 4. Verify the integrity of the `biography` field in the database
 5. Update application code to **read** from the new `biography` field
 6. Update application code to **stop writing** to the `bio` field
-7. _Contract_: remove the `bio` from the Prisma schema, and create a migration to remove the `bio` field
+7. _Contract_: remove the `bio` from the Prisma schema, and create a migration 移除 the `bio` field
 
    ```prisma highlight=3;delete;
    model Profile {
@@ -171,11 +171,11 @@ With the _expand and contract_ pattern, renaming the field `bio` to `biography` 
 
 By using this approach, you avoid potential downtime that altering existing fields that are used in the application code are prone to, and reduce the amount of coordination required between applying the migration and deploying the updated application code.
 
-Note that this pattern is applicable in any situation involving a change to a column that has data and is in use by the application code. Examples include combining two fields into one, or transforming a `1:n` relation to a `m:n` relation.
+請注意 this pattern is applicable in any situation involving a change to a column that has data and is in use by the application code. Examples include combining two fields into one, or transforming a `1:n` relation to a `m:n` relation.
 
-To learn more, check out the Data Guide article on [the expand and contract pattern](https://www.prisma.io/dataguide/types/relational/expand-and-contract-pattern)
+To learn more, 查看 the Data Guide article on [the expand and contract pattern](https://www.prisma.io/dataguide/types/relational/expand-and-contract-pattern)
 
-### Example: Change the direction of a 1-1 relation
+### 範例： Change the direction of a 1-1 relation
 
 To change the direction of a 1-1 relation:
 
@@ -197,7 +197,7 @@ To change the direction of a 1-1 relation:
    }
    ```
 
-1. Run the following command to create a **draft migration** that you can edit before applying to the database:
+1. Run 以下 command 建立 a **draft migration** that 您可以 edit before applying to the database:
 
    <CodeWithResult expanded={true}>
 

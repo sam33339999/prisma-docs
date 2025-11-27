@@ -7,15 +7,15 @@ tocDepth: 3
 
 <TopBlock>
 
-This guide describes how to generate a down migration SQL file that reverses a given [migration file](/orm/prisma-migrate/understanding-prisma-migrate/migration-histories).
+This guide describes 如何 generate a down migration SQL file that reverses a given [migration file](/orm/prisma-migrate/understanding-prisma-migrate/migration-histories).
 
 </TopBlock>
 
 ## 關於 down migrations
 
-When generating a migration SQL file, you may wish to also create a "down migration" SQL file that reverses the schema changes in the corresponding "up migration" file. Note that "down migrations" are also sometimes called "migration rollbacks".
+When generating a migration SQL file, you may wish to also create a "down migration" SQL file that reverses the schema changes in the corresponding "up migration" file. 請注意 "down migrations" are also sometimes called "migration rollbacks".
 
-This guide explains how to use Prisma Migrate's [`migrate diff` command](/orm/reference/prisma-cli-reference#migrate-diff) to create a down migration, and how to apply it to your production database with the [`db execute`](/orm/reference/prisma-cli-reference#db-execute) command in the case of a failed up migration.
+本指南說明如何 use Prisma Migrate's [`migrate diff` command](/orm/reference/prisma-cli-reference#migrate-diff) 建立 a down migration, and 如何 apply it to your production database with the [`db execute`](/orm/reference/prisma-cli-reference#db-execute) command in the case of a failed up migration.
 
 :::warning
 
@@ -25,7 +25,7 @@ This guide applies to generating SQL down migrations for relational databases on
 
 :::info
 
-The `migrate diff` and `db execute` commands are available in Preview in versions `3.9.0` and later, and are generally available in versions `3.13.0` and later.
+The `migrate diff` and `db execute` commands are 可用於 Preview in versions `3.9.0` and later, and are generally 可用於 versions `3.13.0` and later.
 
 :::
 
@@ -33,9 +33,9 @@ The `migrate diff` and `db execute` commands are available in Preview in version
 
 When generating a down migration file, there are some considerations to be aware of:
 
-- The down migration can be used to revert your database schema after a failed migration using the steps in [How to apply your down migration to a failed migration](#how-to-apply-your-down-migration-to-a-failed-migration). This requires the use of the `migrate resolve` command, which can only be used on failed migrations. If your up migration was successful and you want to revert it, you will instead need to revert your `schema.prisma` file to its state before the up migration, and generate a new migration with the `migrate dev` command.
-- The down migration will revert your database schema, but other changes to data and application code that are carried out as part of the up migration will not be reverted. For example, if you have a script that changes data during the migration, this data will not be changed back when you run the down migration.
-- You will not be able to use `migrate diff` to revert manually changed or added SQL in your migration files. If you have any custom additions, such as a view or trigger, you will need to:
+- The down migration can be used to revert your database schema after a failed migration using the steps in [如何 apply your down migration to a failed migration](#how-to-apply-your-down-migration-to-a-failed-migration). This 需要 the use of the `migrate resolve` command, which can only be used on failed migrations. If your up migration was successful and you want to revert it, you will instead need to revert your `schema.prisma` file to its state before the up migration, and generate a new migration with the `migrate dev` command.
+- The down migration will revert your database schema, but other changes to data and application code that are carried out as part of the up migration will not be reverted. 例如, if you have a script that changes data during the migration, this data will not be changed back when you run the down migration.
+- You will not be able 使用 `migrate diff` to revert manually changed or added SQL in your migration files. If you have any custom additions, such as a view or trigger, you will need to:
   - Create the down migration following [the instructions below](#how-to-generate-and-run-down-migrations)
   - Create the up migration using [`migrate dev --create-only`](/orm/reference/prisma-cli-reference#options-6), so that it can be edited before it is applied to the database
   - Manually add your custom SQL to the up migration (e.g. adding a view)
@@ -43,9 +43,9 @@ When generating a down migration file, there are some considerations to be aware
 
 ## 如何 generate and run down migrations
 
-This section describes how to generate a down migration SQL file along with the corresponding up migration, and then run it to revert your database schema after a failed up migration on production.
+本節描述 如何 generate a down migration SQL file along with the corresponding up migration, and then run it to revert your database schema after a failed up migration on production.
 
-As an example, take the following Prisma schema with a `User` and `Post` model as a starting point:
+As an example, take 以下 Prisma schema with a `User` and `Post` model as a starting point:
 
 ```prisma file=schema.prisma showLineNumbers
 model Post {
@@ -63,7 +63,7 @@ model User {
 }
 ```
 
-You will need to create the down migration first, before creating the corresponding up migration.
+You will need 建立 the down migration first, before creating the corresponding up migration.
 
 ### Generating the migrations
 
@@ -105,7 +105,7 @@ You will need to create the down migration first, before creating the correspond
 
    There are two potential options for specifying the 'to' state:
 
-   - Using `--to-migrations`: this makes a comparison to the state of the migrations given in the migrations directory. This is the preferred option, as it is more robust, but it requires a [shadow database](/orm/prisma-migrate/understanding-prisma-migrate/shadow-database). To use this option, run:
+   - Using `--to-migrations`: this makes a comparison to the state of the migrations given in the migrations directory. This is the preferred option, as it is more robust, but it 需要 a [shadow database](/orm/prisma-migrate/understanding-prisma-migrate/shadow-database). 使用 this option, run:
 
      ```terminal wrap
      npx prisma migrate diff \
@@ -115,7 +115,7 @@ You will need to create the down migration first, before creating the correspond
       --script > down.sql
      ```
 
-   - Using `--to-schema-datasource`: this makes a comparison to the state of the database. This does not require a shadow database, but it does rely on the database having an up-to-date schema. To use this option, run:
+   - Using `--to-schema-datasource`: this makes a comparison to the state of the database. This does not require a shadow database, but it does rely on the database having an up-to-date schema. 使用 this option, run:
 
      ```terminal wrap
      npx prisma migrate diff \
@@ -130,13 +130,13 @@ You will need to create the down migration first, before creating the correspond
    npx prisma migrate dev --name add_profile
    ```
 
-   This will create a new `<timestamp>_add_profile` directory inside the `prisma/migrations` directory, with your new `migration.sql` up migration file inside.
+   這將 create a new `<timestamp>_add_profile` directory inside the `prisma/migrations` directory, with your new `migration.sql` up migration file inside.
 
 4. Copy your `down.sql` file into the new directory along with the up migration file.
 
 ### 如何 apply your down 遷移 to a failed 遷移
 
-If your previous up migration failed, you can apply your down migration on your production database with the following steps:
+If your previous up migration failed, 您可以 apply your down migration on your production database with 以下 steps:
 
 To apply the down migration on your production database after a failed up migration:
 

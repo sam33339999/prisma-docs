@@ -12,13 +12,13 @@ tags:
 community_section: true
 ---
 
-Prisma is a powerful ORM for managing databases, and [Turborepo](https://turbo.build/) simplifies monorepo workflows. By combining these tools, you can create a scalable, modular architecture for your projects. 
+Prisma is a powerful ORM for managing databases, and [Turborepo](https://turbo.build/) simplifies monorepo workflows. By combining these tools, 您可以 create a scalable, modular architecture for your projects. 
 
-This guide will show you how to set up Prisma as a standalone package in a Turborepo monorepo, enabling efficient configuration, type sharing, and database management across multiple apps.
+This guide will show you how 設定 Prisma as a standalone package in a Turborepo monorepo, enabling efficient configuration, type sharing, and database management across multiple apps.
 
 #### What you'll learn:
 
-- How to set up Prisma in a Turborepo monorepo.
+- How 設定 Prisma in a Turborepo monorepo.
 - Steps to generate and reuse PrismaClient across packages.
 - Integrating the Prisma package into other applications in the monorepo.
 
@@ -27,7 +27,7 @@ This guide will show you how to set up Prisma as a standalone package in a Turbo
 
 ## 1. Set up your project
 
-To set up a Turborepo monorepo named `turborepo-prisma`, run the following command:
+設定 a Turborepo monorepo named `turborepo-prisma`, run 以下 command:
 
 ```terminal
 npx create-turbo@latest turborepo-prisma
@@ -37,7 +37,7 @@ You'll be prompted to select your package manager, this guide will use `npm`:
 
 :::info
 
-- *Which package manager do you want to use?* `npm`
+- *Which package manager do you want 使用?* `npm`
 
 :::
 
@@ -63,7 +63,7 @@ After the setup, choose a package manager for the project. Navigate to the proje
   </TabItem>
 </TabbedContent>
 
-For more information about installing Turborepo, refer to the [official Turborepo guide](https://turbo.build/repo/docs/getting-started/installation).
+欲了解更多資訊 about installing Turborepo, 參閱 the [official Turborepo guide](https://turbo.build/repo/docs/getting-started/installation).
 
 ## 2. Add a new `database` package to the monorepo
 
@@ -87,7 +87,7 @@ Define the `package.json` file as follows:
 }
 ```
 
-Next, install the required dependencies to use Prisma ORM. Use your preferred package manager:
+Next, install the required dependencies 使用 Prisma ORM. Use your preferred package manager:
 
 <TabbedContent code groupId="packageManager">
 <TabItem value="npm">
@@ -120,7 +120,7 @@ pnpm add @prisma/client @prisma/adapter-pg dotenv pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -156,7 +156,7 @@ Inside the `database` directory, initialize prisma by running:
 
 </TabbedContent>
 
-This will create several files inside `packages/database`:
+這將 create several files inside `packages/database`:
 
 - A `prisma` directory with a `schema.prisma` file.
 - A `prisma.config.ts` file for configuring Prisma
@@ -164,7 +164,7 @@ This will create several files inside `packages/database`:
 - A `.env` file containing the `DATABASE_URL` at the project root.
 - An `output` directory for the generated Prisma Client as `generated/prisma`.
 
-In the `packages/database/prisma/schema.prisma` file, add the following models:
+In the `packages/database/prisma/schema.prisma` file, add 以下 models:
 
 ```prisma file=packages/database/prisma/schema.prisma
 generator client {
@@ -214,7 +214,7 @@ export default defineConfig({
 
 :::warning
 
-It is recommended to add `../generated/prisma` to the `.gitignore` file because it contains platform-specific binaries that can cause compatibility issues across different environments.
+It is recommended 添加 `../generated/prisma` to the `.gitignore` file because it contains platform-specific binaries that can cause compatibility issues across different environments.
 
 :::
 
@@ -224,7 +224,7 @@ In the `schema.prisma` file, we specify a custom [`output`](/orm/prisma-client/s
 
 :::info
 
-In this guide, the types will be generated in the `database/generated/prisma` directory.
+在本指南中, the types will be generated in the `database/generated/prisma` directory.
 
 :::
 
@@ -294,7 +294,7 @@ Let's also add these scripts to `turbo.json` in the root and ensure that `DATABA
 
 Migrate your `prisma.schema` and generate types
 
-Navigate to the project root and run the following command to automatically migrate our database:
+Navigate to the project root and run 以下 command to automatically migrate our database:
 
 <TabbedContent code>
 
@@ -511,7 +511,7 @@ Run your package manager's install command inside the `apps/web` directory:
 
 Let's import the instantiated `prisma` client from the `database` package in the `web` app.
 
-In the `apps/web/app` directory, open the `page.tsx` file and add the following code:
+In the `apps/web/app` directory, open the `page.tsx` file and add 以下 code:
 
 ```tsx file=apps/web/app/page.tsx
 import styles from "./page.module.css";
@@ -536,11 +536,11 @@ DATABASE_URL="Same database url as used in the database directory"
 
 :::note
 
-If you want to use a single `.env` file in the root directory across your apps and packages in a Turborepo setup, consider using a package like [`dotenvx`](https://dotenvx.com/docs/monorepos/turborepo).
+If you want 使用 a single `.env` file in the root directory across your apps and packages in a Turborepo setup, consider using a package like [`dotenvx`](https://dotenvx.com/docs/monorepos/turborepo).
 
-To implement this, update the `package.json` files for each package or app to ensure they load the required environment variables from the shared `.env` file. For detailed instructions, refer to the [`dotenvx` guide for Turborepo](https://dotenvx.com/docs/monorepos/turborepo).
+To implement this, update the `package.json` files for each package or app to ensure they load the required environment variables from the shared `.env` file. For detailed instructions, 參閱 the [`dotenvx` guide for Turborepo](https://dotenvx.com/docs/monorepos/turborepo).
 
-Keep in mind that Turborepo [recommends using separate `.env` files for each package](https://turbo.build/repo/docs/crafting-your-repository/using-environment-variables#use-env-files-in-packages) to promote modularity and avoid potential conflicts.
+請記住 that Turborepo [recommends using separate `.env` files for each package](https://turbo.build/repo/docs/crafting-your-repository/using-environment-variables#use-env-files-in-packages) to promote modularity and avoid potential conflicts.
 
 
 :::
@@ -551,7 +551,7 @@ The `db:generate` and `db:deploy` scripts are not yet optimized for the monorepo
 
 If a new developer runs `turbo dev` on an application without first running `db:generate`, they will encounter errors. 
 
-To prevent this, ensure that `db:generate` is always executed before running `dev` or `build`. Additionally, make sure both `db:deploy` and `db:generate` are executed before `db:build`. Here's how to configure this in your `turbo.json` file:
+To prevent this, ensure that `db:generate` is always executed before running `dev` or `build`. Additionally, make sure both `db:deploy` and `db:generate` are executed before `db:build`. Here's how 配置 this in your `turbo.json` file:
 
 ```json file=turbo.json
 {
@@ -597,7 +597,7 @@ To prevent this, ensure that `db:generate` is always executed before running `de
 
 :::warning
 
-Before starting the development server, note that if you are using Next.js v15.2.0, do not use Turbopack as there is a known [issue](https://github.com/vercel/next.js/issues/76497). Remove Turbopack from your dev script by updating your `apps/web/package.json`
+Before starting the development server, 請注意 if you are using Next.js v15.2.0, do not use Turbopack as there is a known [issue](https://github.com/vercel/next.js/issues/76497). Remove Turbopack from your dev script by updating your `apps/web/package.json`
 ```json file=apps/web/package.json
 "script":{
     //edit-next-line
@@ -637,7 +637,7 @@ Then from the project root run the project:
 
 </TabbedContent>
 
-Navigate to the `http://localhost:3000` and you should see the message:
+Navigate to the `http://localhost:3000` and 您應該 參見 message:
 
 ```
 No user added yet
@@ -645,9 +645,9 @@ No user added yet
 
 :::note
 
-You can add users to your database by creating a seed script or manually by using [Prisma Studio](/orm/tools/prisma-studio). 
+您可以 add users to your database by creating a seed script or manually by using [Prisma Studio](/orm/tools/prisma-studio). 
 
-To use Prisma Studio to add manually data via a GUI, navigate inside the `packages/database` directory and run `prisma studio` using your package manager:
+使用 Prisma Studio 添加 manually data via a GUI, navigate inside the `packages/database` directory and run `prisma studio` using your package manager:
 
 <TabbedContent code>
 
@@ -682,11 +682,11 @@ This command starts a server with a GUI at http://localhost:5555, allowing you t
 
 Congratulations, you're done setting up Prisma for Turborepo!
 
-## Next Steps
+## 後續步驟
 
 - Expand your Prisma models to handle more complex data relationships.
 - Implement additional CRUD operations to enhance your application's functionality.
-- Check out [Prisma Postgres](https://www.prisma.io/postgres) to see how you can scale your application.
+- 查看 [Prisma Postgres](https://www.prisma.io/postgres) to see how 您可以 scale your application.
 
 ### More Info
 

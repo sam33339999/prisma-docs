@@ -8,7 +8,7 @@ metaDescription: '學習如何在 Prisma 客戶端 中使用原始 SQL 查詢。
 
 這可能出於各種原因,例如需要優化特定查詢的效能,或者您的資料需求無法完全透過 Prisma Client 的查詢 API 表達。
 
-In most cases, [TypedSQL](#writing-type-safe-queries-with-prisma-client-and-typedsql) allows you to express your query in SQL while still benefiting from Prisma Client's excellent user experience. However, since TypedSQL is statically typed, it may not handle certain scenarios, such as dynamically generated `WHERE` clauses. In these cases, you will need to use [`$queryRaw`](/orm/prisma-client/using-raw-sql/raw-queries#queryraw) or [`$executeRaw`](/orm/prisma-client/using-raw-sql/raw-queries#executeraw), or their unsafe counterparts.
+In most cases, [TypedSQL](#writing-type-safe-queries-with-prisma-client-and-typedsql) allows you to express your query in SQL while still benefiting from Prisma Client's excellent user experience. However, since TypedSQL is statically typed, it may not handle certain scenarios, such as dynamically generated `WHERE` clauses. In these cases, you will need 使用 [`$queryRaw`](/orm/prisma-client/using-raw-sql/raw-queries#queryraw) or [`$executeRaw`](/orm/prisma-client/using-raw-sql/raw-queries#executeraw), or their unsafe counterparts.
 
 ## 使用 Prisma Client 和 TypedSQL 編寫型別安全的查詢
 
@@ -37,7 +37,7 @@ TypedSQL 特別適用於:
 
 透過使用 TypedSQL,您可以編寫高效、型別安全的資料庫查詢,而不會犧牲原始 SQL 的強大功能和靈活性。此功能允許您無縫地將自訂 SQL 查詢整合到 Prisma 驅動的應用程式中,確保型別安全並提高開發者生產力。
 
-For a detailed guide on how to get started with TypedSQL, including setup instructions and usage examples, please refer to our [TypedSQL documentation](/orm/prisma-client/using-raw-sql/typedsql).
+For a detailed guide on how 開始使用 with TypedSQL, including setup instructions and 使用範例, please 參閱 our [TypedSQL documentation](/orm/prisma-client/using-raw-sql/typedsql).
 
 ## Raw queries
 
@@ -64,7 +64,7 @@ For MongoDB, Prisma ORM supports three methods to execute raw queries:
 - [`<model>.findRaw`](/orm/prisma-client/using-raw-sql/raw-queries#findraw)
 - [`<model>.aggregateRaw`](/orm/prisma-client/using-raw-sql/raw-queries#aggregateraw)
 
-These methods allow you to execute raw MongoDB commands and queries, providing flexibility when you need to use MongoDB-specific features or optimizations.
+These methods allow you to execute raw MongoDB commands and queries, providing flexibility when 您需要 use MongoDB-specific features or optimizations.
 
 `$runCommandRaw` is used to execute database commands, `<model>.findRaw` is used to find documents that match a filter, and `<model>.aggregateRaw` is used for aggregation operations. All three methods are available from Prisma version 3.9.0 and later.
 

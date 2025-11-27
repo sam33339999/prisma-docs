@@ -6,7 +6,7 @@ metaDescription: '學習 如何 升級 a REST API from Prisma 1 to Prisma ORM 2.
 
 ## 概述
 
-This upgrade guide describes how to migrate a Node.js project that's based on [Prisma 1](https://github.com/prisma/prisma1) and uses the [Prisma 1 client](https://v1.prisma.io/docs/1.34/prisma-client/) to implement a REST API.
+This upgrade guide describes 如何 migrate a Node.js project that's based on [Prisma 1](https://github.com/prisma/prisma1) and uses the [Prisma 1 client](https://v1.prisma.io/docs/1.34/prisma-client/) to implement a REST API.
 
 The guide assumes that you already went through the [guide for upgrading the Prisma ORM layer](/orm/more/upgrade-guides/upgrade-from-prisma-1/upgrading-the-prisma-layer-postgresql). This means you already:
 
@@ -44,7 +44,7 @@ The important parts are:
 
 If this is not what your project structure looks like, you'll need to adjust the instructions in the guide to match your own setup.
 
-## 1. Adjust the application to use Prisma Client 2
+## 1. Adjust the application 使用 Prisma Client 2
 
 For the purpose of this guide, we'll use the sample API calls from the [`express`](https://github.com/prisma/prisma1-examples/tree/master/typescript/rest-express) example in the [`prisma1-examples`](https://github.com/prisma/prisma1-examples/) repository.
 
@@ -124,7 +124,7 @@ app.listen(3000, () =>
 )
 ```
 
-Consider each occurrence of the Prisma Client instance `prisma` and replacing with the respective usage of Prisma Client 2. You can learn more in the [API Reference](/orm/prisma-client).
+Consider each occurrence of the Prisma Client instance `prisma` and replacing with the respective usage of Prisma Client 2. 您可以 learn more in the [API Reference](/orm/prisma-client).
 
 ### 1.1. Adjusting the import
 
@@ -134,7 +134,7 @@ Import the generated `@prisma/client` node module as shown:
 import { PrismaClient } from '@prisma/client'
 ```
 
-Note that this only imports the `PrismaClient` constructor, so you also need to instantiate a Prisma Client 2 instance:
+請注意 this only imports the `PrismaClient` constructor, so you also need to instantiate a Prisma Client 2 instance:
 
 ```ts
 const prisma = new PrismaClient()

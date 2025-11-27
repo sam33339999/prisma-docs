@@ -19,7 +19,7 @@ Prisma ORM 5.20.0 introduces a new Preview feature called `strictUndefinedChecks
 
 ### Enabling strict undefined checks
 
-To enable this feature, add the following to your Prisma schema:
+啟用 this feature, add 以下 to your Prisma schema:
 
 ```prisma
 generator client {
@@ -144,7 +144,7 @@ This section will cover how `undefined` and `null` values affect the behavior of
 
 #### Null
 
-Consider the following Prisma Client query which searches for all users whose `name` value matches the provided `null` value:
+Consider 以下 Prisma Client query which searches for all users whose `name` value matches the provided `null` value:
 
 <CodeWithResult outputResultText="query" expanded={true}>
 
@@ -257,7 +257,7 @@ The query behavior when using `null` and `undefined` in the filter criteria of a
 
 #### Null
 
-Consider the following query where `null` is used to filter the `name` column:
+Consider 以下 query where `null` is used to filter the `name` column:
 
 <CodeWithResult outputResultText="query" expanded={true}>
 
@@ -337,7 +337,7 @@ Although this section's examples focused on the `findFirst` function, the same c
 
 ### `null` and `undefined` in a GraphQL resolver
 
-For this example, consider a database based on the following Prisma schema:
+For this example, consider a database based on 以下 Prisma schema:
 
 ```prisma
 model User {
@@ -347,7 +347,7 @@ model User {
 }
 ```
 
-In the following GraphQL mutation that updates a user, both `authorEmail` and `name` accept `null`. From a GraphQL perspective, this means that fields are **optional**:
+In 以下 GraphQL mutation that updates a user, both `authorEmail` and `name` accept `null`. From a GraphQL perspective, this means that fields are **optional**:
 
 ```ts
 type Mutation {
@@ -356,7 +356,7 @@ type Mutation {
 }
 ```
 
-However, if you pass `null` values for `authorEmail` or `authorName` on to Prisma Client, the following will happen:
+However, if you pass `null` values for `authorEmail` or `authorName` on to Prisma Client, 以下 will happen:
 
 - If `args.authorEmail` is `null`, the query will **fail**. `email` does not accept `null`.
 - If `args.authorName` is `null`, Prisma Client changes the value of `name` to `null`. This is probably not how you want an update to work.
@@ -395,7 +395,7 @@ updateUser: (parent, args, ctx: Context) => {
 
 There are some caveats to filtering with conditionals which might produce unexpected results. When filtering with conditionals you might expect one result but receive another given how Prisma Client treats nullable values.
 
-The following table provides a high-level overview of how the different operators handle 0, 1 and `n` filters.
+以下 table provides a high-level overview of how the different operators handle 0, 1 and `n` filters.
 
 | Operator | 0 filters         | 1 filter               | n filters            |
 | -------- | ----------------- | ---------------------- | -------------------- |
@@ -403,7 +403,7 @@ The following table provides a high-level overview of how the different operator
 | `AND`    | return all items  | validate single filter | validate all filters |
 | `NOT`    | return all items  | validate single filter | validate all filters |
 
-This example shows how an `undefined` parameter impacts the results returned by a query that uses the [`OR`](/orm/reference/prisma-client-reference#or) operator.
+This example shows how an `undefined` parameter impacts 結果s returned by a query that uses the [`OR`](/orm/reference/prisma-client-reference#or) operator.
 
 ```ts
 interface FormData {

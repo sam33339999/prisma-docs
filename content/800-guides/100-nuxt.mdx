@@ -12,17 +12,17 @@ tags:
 community_section: true
 ---
 
-This guide explains how to set up a Nuxt application, configure [Prisma Postgres](https://prisma.io/postgres) with Prisma ORM, and deploy the project to [Vercel](https://vercel.com/) for production.
+本指南說明如何 set up a Nuxt application, configure [Prisma Postgres](https://prisma.io/postgres) with Prisma ORM, and deploy the project to [Vercel](https://vercel.com/) for production.
 
 Here's what you'll learn:
 
-- How to set up a Nuxt project that uses Prisma ORM directly.
-- How to configure and use Prisma Postgres with Prisma ORM in your Nuxt app.
-- How to deploy the project to Vercel.
+- How 設定 a Nuxt project that uses Prisma ORM directly.
+- How 配置 and use Prisma Postgres with Prisma ORM in your Nuxt app.
+- 如何 deploy the project to Vercel.
 
 ## 前置需求
 
-To follow this guide, ensure you have the following:  
+To follow this guide, ensure you have 以下:  
 
 - Node.js version: A [compatible Node.js version](/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-6#minimum-supported-nodejs-versions) required for Prisma 6.  
 - Accounts:  
@@ -69,9 +69,9 @@ export default defineConfig({
 
 ## 3. Set up Prisma ORM
 
-With Prisma initialized, define your data model and run a migration to create the PostgreSQL database.
+With Prisma initialized, define your data model and run a migration 建立 the PostgreSQL database.
 
-1. Update the `prisma/schema.prisma` file with the following configuration:
+1. Update the `prisma/schema.prisma` file with 以下 configuration:
     ```prisma file=prisma/schema.prisma
     // This is your Prisma schema file,
     // learn more about it in the docs: https://pris.ly/d/prisma-schema
@@ -113,7 +113,7 @@ With Prisma initialized, define your data model and run a migration to create th
 
 ## 4. Update the application code
 
-With Prisma configured, the next step is to update your application code to fetch and display data from your database.
+With Prisma configured, the next step is 更新 your application code to fetch and display data from your database.
 
 1. In the root directory of your project, create a folder named `lib` and add a `prisma.ts` file to share a single Prisma Client instance that connects through the PostgreSQL adapter:
     ```ts file=lib/prisma.ts
@@ -157,7 +157,7 @@ With Prisma configured, the next step is to update your application code to fetc
    </template>
    ```
 
-4. Run the following command to start the development server again:  
+4. Run 以下 command to start the development server again:  
    ```terminal
    npm run dev
    ```
@@ -172,7 +172,7 @@ By completing these steps, your application is now capable of fetching data from
 
 ## 5. Seed your database (optional)
 
-If you want sample data, create a `prisma/seed.ts` file. The following script uses the PostgreSQL adapter:
+If you want sample data, create a `prisma/seed.ts` file. 以下 script uses the PostgreSQL adapter:
 
 ```ts file=prisma/seed.ts
 import 'dotenv/config'
@@ -260,7 +260,7 @@ npx prisma db seed
 
 To store your app's data, you'll create a Prisma Postgres database instance using the Prisma Data Platform.
 
-Follow these steps to create your Prisma Postgres database:
+Follow these steps 建立 your Prisma Postgres database:
 
 1. Log in to [Prisma Data Platform](https://console.prisma.io/) and open the Console.
 1. In a [workspace](/platform/about#workspace) of your choice, click the **New project** button.
@@ -271,7 +271,7 @@ Follow these steps to create your Prisma Postgres database:
 
 At this point, you'll be redirected to the **Database** page where you will need to wait for a few seconds while the status of your database changes from **`PROVISIONING`** to **`CONNECTED`**.
 
-Once the green **`CONNECTED`** label appears, your database is ready to use!
+Once the green **`CONNECTED`** label appears, your database is ready 使用!
 
 Then, find your database credentials in the **Set up database access** section, copy the `DATABASE_URL` environment variable`.
 
@@ -279,11 +279,11 @@ Then, find your database credentials in the **Set up database access** section, 
 DATABASE_URL=<your-database-url>
 ```
 
-The `DATABASE_URL` environment variable will be required in the next steps. 
+The `DATABASE_URL` environment variable will be required in the 後續步驟. 
 
 ## 7. Set up Prisma Postgres in your Nuxt app
 
-Now that the Prisma Postgres instance is ready, update your Nuxt application to use this database:
+Now that the Prisma Postgres instance is ready, update your Nuxt application 使用 this database:
 
 1. Update the `.env` file by replacing the existing `DATABASE_URL` value with the one you previously copied. It will look similar to this:
     ```terminal file=.env
@@ -303,7 +303,7 @@ Now that the Prisma Postgres instance is ready, update your Nuxt application to 
    ```terminal
    npm run dev
    ```
-5. Verify the data in the application by opening `https://localhost:3000`. If you seeded the database, you should see the first user's name displayed.
+5. Verify the data in the application by opening `https://localhost:3000`. If you seeded the database, 您應該 參見 first user's name displayed.
 
 Congratulations, your Nuxt app is now fully integrated with Prisma Postgres!
 
@@ -311,7 +311,7 @@ Congratulations, your Nuxt app is now fully integrated with Prisma Postgres!
 
 Deploy your Nuxt application with Prisma Postgres integration to Vercel by following these steps:
 
-1. Ensure your project is version-controlled and pushed to a GitHub repository. If you don't have a repository yet, [create one on GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository). Once the repository is ready, run the following commands:
+1. Ensure your project is version-controlled and pushed to a GitHub repository. If you don't have a repository yet, [create one on GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository). Once the repository is ready, run 以下 commands:
    ```terminal
    git add .
    git commit -m "Initial commit with Prisma Postgres integration"
@@ -339,7 +339,7 @@ Deploy your Nuxt application with Prisma Postgres integration to Vercel by follo
      ```
      No user has been added yet.
      ```
-7. To add or manage data:
+7. 添加 or manage data:
    1. Open Prisma Studio via [the Prisma Data Platform](https://prisma.io/blog/studio-for-prisma-postgres-view-and-edit-your-data-online) or local instance.
    2. Add or update user data in the database.
    3. Refresh your live site to confirm the changes.

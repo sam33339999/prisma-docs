@@ -7,13 +7,13 @@ tocDepth: 3
 toc: true
 ---
 
-Prisma Postgres supports built-in query caching to reduce database load and improve query performance. You can configure cache behavior using the `cacheStrategy` option available in all read queries.
+Prisma Postgres supports built-in query caching to reduce database load and improve query performance. 您可以 configure cache behavior using the `cacheStrategy` option 可用於 all read queries.
 
 This feature is powered by an internal caching layer enabled through [Prisma Accelerate](/accelerate), but you do not need to interact with Accelerate directly unless you're using your own database.
 
 ## Setting up 快取 in Prisma Postgres
 
-To enable query caching in your Prisma Postgres project, you need to configure Accelerate caching and set up the client extension. Follow these steps:
+啟用 query caching in your Prisma Postgres project, you need 配置 Accelerate caching and set up the client extension. Follow these steps:
 
 ### 1. Enable 快取 in the 平台 控制台
 
@@ -40,7 +40,7 @@ npm install @prisma/extension-accelerate
 
 ### 3. Configure Prisma Client with 快取
 
-Update your Prisma Client setup to use the Accelerate extension:
+Update your Prisma Client setup 使用 the Accelerate extension:
 
 <TabbedContent code>
 
@@ -74,7 +74,7 @@ const prisma = new PrismaClient({
 
 ### 4. Start 快取 your 查詢
 
-Once configured, you can add caching to any read query using the `cacheStrategy` option:
+Once configured, 您可以 add caching to any read query using the `cacheStrategy` option:
 
 ```ts
 await prisma.user.findMany({
@@ -84,18 +84,18 @@ await prisma.user.findMany({
 })
 ```
 
-Your caching setup is now complete! Continue reading to learn about different cache strategies and how to optimize them for your use case.
+Your caching setup is now complete! Continue reading to 學習關於 different cache strategies and 如何 optimize them for your use case.
 
 ## Cache strategies
 
-For all read queries in Prisma Client, you can define the `cacheStrategy` parameter that configures cache behavior. The cache strategy allows you to define two main characteristics of the cache:
+For all read queries in Prisma Client, 您可以 define the `cacheStrategy` parameter that configures cache behavior. The cache strategy allows you to define two main characteristics of the cache:
 
 - **Time-to-live (TTL):** Duration in seconds a cached response is considered _fresh_.
 - **Stale-while-Revalidating (SWR):** Duration in seconds a stale cache response is considered acceptable while the cache is refreshed in the background
 
 ## Time-to-live (TTL)
 
-Time-to-Live (TTL) determines how long cached data is considered fresh. By specifying the `ttl` in seconds, you can control the duration for which data in the cache remains valid. When a read query is executed, if the cached response is within the `ttl` limit, Prisma Client retrieves the data from the cache without querying the database. If the cached data is not available or has expired, Prisma Client queries the database and stores the results in the cache for future requests.
+Time-to-Live (TTL) determines how long cached data is considered fresh. By specifying the `ttl` in seconds, 您可以 control the duration for which data in the cache remains valid. When a read query is executed, if the cached response is within the `ttl` limit, Prisma Client retrieves the data from the cache without querying the database. If the cached data is not available or has expired, Prisma Client queries the database and stores 結果s in the cache for future requests.
 
 Use `ttl` in `cacheStrategy` and specify the TTL of the query in seconds:
 
@@ -117,14 +117,14 @@ TTL is useful for reducing database load and latency for data that does not requ
 
 ### Invalidate the TTL and keep your cached 查詢 results up-to-date
 
-If your application requires real-time or near-real-time data, cache invalidation ensures that users see the most current data, even when using a large `ttl` (Time-To-Live). By invalidating your cache, you can bypass extended caching periods to show live data whenever it's needed.
+If your application 需要 real-time or near-real-time data, cache invalidation ensures that users 參見 most current data, even when using a large `ttl` (Time-To-Live). By invalidating your cache, 您可以 bypass extended caching periods to show live data whenever it's needed.
 
-For example, if a dashboard displays customer information and a customer’s contact details change, TTL (Time-To-Live) settings ensure the cache automatically expires after a set duration. This allows the system to refresh only the updated data at the next access, ensuring support staff always see the latest information without manually refreshing the cache.
+例如, if a dashboard displays customer information and a customer’s contact details change, TTL (Time-To-Live) settings ensure the cache automatically expires after a set duration. This allows the system to refresh only the updated data at the next access, ensuring support staff always 參見 latest information without manually refreshing the cache.
 
 However, in cases where immediate updates are required before the TTL expires, cache invalidation allows the system to proactively clear specific data from the cache. This forces a refresh of the updated information instantly, so support staff always have the most current details without waiting for the TTL to trigger.
 
 
-To invalidate a cached query result, you can add tags and then use the `$accelerate.invalidate` API.
+To invalidate a cached query result, 您可以 add tags and then use the `$accelerate.invalidate` API.
 
 :::note
 
@@ -132,7 +132,7 @@ On-demand cache invalidation is available with our paid plans. For more details,
 
 :::
 
-To invalidate the query below, you need to provide the cache tag in the `$accelerate.invalidate` API:
+To invalidate the query below, 您需要 provide the cache tag in the `$accelerate.invalidate` API:
 
 ```ts
 await prisma.user.findMany({
@@ -172,13 +172,13 @@ When specifying a SWR of 60 seconds, the cache serves stale data until the cache
 
 ### Invalidate the SWR and keep your cached 查詢 results up-to-date
 
-If your application requires real-time or near-real-time data, cache invalidation ensures that users see the most current data, even when using a large `swr` (Stale-While-Revalidate). By invalidating your cache, you can bypass extended caching periods to show live data whenever it's needed.
+If your application 需要 real-time or near-real-time data, cache invalidation ensures that users 參見 most current data, even when using a large `swr` (Stale-While-Revalidate). By invalidating your cache, 您可以 bypass extended caching periods to show live data whenever it's needed.
 
-For example, consider a dashboard that displays stock levels for products in a warehouse. With SWR (Stale-While-Revalidate) settings, the dashboard can immediately display the last known stock data, even if it’s slightly outdated, while new data is fetched in the background. This ensures that staff can continue working with recent information without waiting, with the stock levels updating as soon as revalidation completes.
+例如, consider a dashboard that displays stock levels for products in a warehouse. With SWR (Stale-While-Revalidate) settings, the dashboard can immediately display the last known stock data, even if it’s slightly outdated, while new data is fetched in the background. This ensures that staff can continue working with recent information without waiting, with the stock levels updating as soon as revalidation completes.
 
-However, in cases where stock data needs to be updated immediately—for instance, if a product is low in stock and the count needs real-time accuracy—cache invalidation allows the system to proactively clear specific data from the cache. This forces a refresh of the latest stock data instantly, so staff always have the most up-to-date information without waiting for SWR to complete the revalidation.
+However, in cases where stock data needs to be updated immediately—例如, if a product is low in stock and the count needs real-time accuracy—cache invalidation allows the system to proactively clear specific data from the cache. This forces a refresh of the latest stock data instantly, so staff always have the most up-to-date information without waiting for SWR to complete the revalidation.
 
-To invalidate a cached query result, you can add tags and then use the `$accelerate.invalidate` API.
+To invalidate a cached query result, 您可以 add tags and then use the `$accelerate.invalidate` API.
 
 :::note
 
@@ -186,7 +186,7 @@ On-demand cache invalidation is available with our paid plans. For more details,
 
 :::
 
-To invalidate the query below, you need to provide the cache tag in the `$accelerate.invalidate` API:
+To invalidate the query below, 您需要 provide the cache tag in the `$accelerate.invalidate` API:
 
 ```ts
 await prisma.user.findMany({
@@ -207,7 +207,7 @@ await prisma.$accelerate.invalidate({
 
 ## Selecting a cache strategy
 
-Caching helps you improve query response times and reduce database load. However, it also means you might serve stale data to the client. Whether or not serving stale data is acceptable and to what extent depends on your use case. `ttl` and `swr` are parameters you can use the tweak the cache behavior.
+Caching helps you improve query response times and reduce database load. However, it also means you might serve stale data to the client. Whether or not serving stale data is acceptable and to what extent depends on your use case. `ttl` and `swr` are parameters 您可以 use the tweak the cache behavior.
 
 ### Cache strategy using TTL
 
@@ -227,11 +227,11 @@ Use SWR to respond quickly to requests with minimal stale data. While it does no
 
 Imagine a social media platform where user profiles are frequently accessed. By leveraging `swr` with a duration of, let's say, 5 minutes, Prisma Postgres can serve the cached user profile information quickly, reducing the latency for profile pages. Meanwhile, in the background, it refreshes the cache after every request, ensuring that any updates made to the profile are eventually reflected for subsequent requests.
 
-**When to invalidate:** If a user makes significant updates to their profile, such as changing their profile picture or bio, the cache should be [invalidated](/postgres/database/caching#on-demand-cache-invalidation) immediately to ensure that followers see the latest updates without waiting for the SWR refresh.
+**When to invalidate:** If a user makes significant updates to their profile, such as changing their profile picture or bio, the cache should be [invalidated](/postgres/database/caching#on-demand-cache-invalidation) immediately to ensure that followers 參見 latest updates without waiting for the SWR refresh.
 
 ### Cache strategy using TTL + SWR
 
-For very fast response times and reduced database load, use both TTL and SWR. You can use this strategy to fine-tune your application’s tolerance for stale data.
+For very fast response times and reduced database load, use both TTL and SWR. 您可以 use this strategy to fine-tune your application’s tolerance for stale data.
 
 Use `ttl` and `swr` in `cacheStrategy` and specify the TTL and SWR of the query in seconds:
 
@@ -254,13 +254,13 @@ When specifying a TTL of 30 seconds and SWR of 60 seconds, the cache serves fres
 
 Consider a news application where articles are frequently accessed but don't require real-time updates. By setting a `ttl` of 2 hours and an `swr` duration of 5 minutes, Prisma Client can serve cached articles quickly, reducing latency for readers. As long as the articles are within the `ttl`, users get fast responses. After the `ttl` expires, Prisma Client continues to serve the stale articles for up to an additional 5 minutes, revalidating the cache with the latest news from the database in response to a new query. This helps maintain a balance between performance and freshness.
 
-**When to invalidate:** If a critical update or breaking news article is published, the cache should be [invalidated](/postgres/database/caching#on-demand-cache-invalidation) immediately to ensure readers see the latest information without delay. This approach is especially useful for applications where certain news items may need to override the normal cache cycle for timeliness.
+**When to invalidate:** If a critical update or breaking news article is published, the cache should be [invalidated](/postgres/database/caching#on-demand-cache-invalidation) immediately to ensure readers 參見 latest information without delay. This approach is especially useful for applications where certain news items may need to override the normal cache cycle for timeliness.
 
 ## On-demand cache invalidation
 
-If your application requires real-time or near-real-time data, cache invalidation ensures that users see the most current data, even when using a large `ttl` (Time-To-Live) or `swr` (Stale-While-Revalidate) [cache strategy](/postgres/database/caching#cache-strategies). By invalidating your cache, you can bypass extended caching periods to show live data whenever it's needed.
+If your application 需要 real-time or near-real-time data, cache invalidation ensures that users 參見 most current data, even when using a large `ttl` (Time-To-Live) or `swr` (Stale-While-Revalidate) [cache strategy](/postgres/database/caching#cache-strategies). By invalidating your cache, 您可以 bypass extended caching periods to show live data whenever it's needed.
 
-You can invalidate the cache using the [`$accelerate.invalidate` API](/accelerate/api-reference#accelerateinvalidate):
+您可以 invalidate the cache using the [`$accelerate.invalidate` API](/accelerate/api-reference#accelerateinvalidate):
 
 :::note
 
@@ -285,7 +285,7 @@ await prisma.user.findMany({
 });
 ```
 
-You need to provide the cache tag in the `$accelerate.invalidate` API:
+您需要 provide the cache tag in the `$accelerate.invalidate` API:
 
 ```ts
 try {
@@ -313,9 +313,9 @@ Explore the [demo app](https://pris.ly/test-cache-invalidation) to see how cache
 
 Prisma Postgres defaults to **no cache** to avoid unexpected issues. While caching can improve performance, incorrect usage may lead to errors.
 
-For instance, if a query is executed on a critical path without specifying a cache strategy, the result may be incorrect, with no clear explanation. This issue often arises when implicit caching is unintentionally left enabled.
+例如, if a query is executed on a critical path without specifying a cache strategy, 結果 may be incorrect, with no clear explanation. This issue often arises when implicit caching is unintentionally left enabled.
 
-To avoid such problems, you must explicitly opt-in to caching. This ensures you are aware that caching is not enabled by default, preventing potential errors.
+To avoid such problems, 您必須 explicitly opt-in to caching. This ensures you are aware that caching is not enabled 預設情況下, preventing potential errors.
 
 :::note
 

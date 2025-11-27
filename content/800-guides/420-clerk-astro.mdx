@@ -12,7 +12,7 @@ community_section: true
 
 [Clerk](https://clerk.com/) is a drop-in auth provider that handles sign-up, sign-in, user management, and webhooks so you don't have to.
 
-In this guide you'll wire Clerk into a brand-new [Astro](https://astro.build/) app and persist users in a [Prisma Postgres](https://prisma.io/postgres) database. You can find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/clerk-astro).
+在本指南中 you'll wire Clerk into a brand-new [Astro](https://astro.build/) app and persist users in a [Prisma Postgres](https://prisma.io/postgres) database. 您可以 find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/clerk-astro).
 
 ## 前置需求
 
@@ -167,7 +167,7 @@ import {
 
 ### 3.1. Install dependencies
 
-To get started with Prisma, you'll need to install a few dependencies:
+開始使用 with Prisma, you'll need 安裝 a few dependencies:
 
 ```terminal
 npm install prisma tsx @types/pg --save-dev
@@ -176,7 +176,7 @@ npm install @prisma/client @prisma/adapter-pg dotenv pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -190,7 +190,7 @@ npx prisma init --db
 You'll need to answer a few questions while setting up your Prisma Postgres database. Select the region closest to your location and a memorable name for the database like "My Clerk Astro Project"
 :::
 
-This will create:
+這將 create:
 
 - A `prisma/` directory with a `schema.prisma` file
 - A `prisma.config.ts` file with your Prisma configuration
@@ -220,7 +220,7 @@ model User {
 //add-end
 ```
 
-Run the following command to create the database tables:
+Run 以下 command 建立 the database tables:
 
 ```terminal
 npx prisma migrate dev --name init
@@ -232,7 +232,7 @@ After the migration is complete, generate the Prisma Client:
 npx prisma generate
 ```
 
-This generates the Prisma Client in the `src/generated/prisma` directory.
+這會產生 the Prisma Client in the `src/generated/prisma` directory.
 
 ### 3.3. Create TypeScript environment definitions
 
@@ -332,7 +332,7 @@ export const POST: APIRoute = async ({ request }) => {
 
 When a new user is created, they need to be stored in the database.
 
-You'll do that by checking if the event type is `user.created` and then using Prisma's `upsert` method to create a new user if they don't exist:
+You'll do that by checking if the event type is `user.created` and then using Prisma's `upsert` method 建立 a new user if they don't exist:
 
 ```typescript file=src/pages/api/webhooks/clerk.ts
 import { verifyWebhook } from "@clerk/astro/webhooks";
@@ -413,7 +413,7 @@ export const POST: APIRoute = async ({ request }) => {
 
 ### 4.2. Expose your local app for webhooks
 
-You'll need to expose your local app for webhooks with [ngrok](https://ngrok.com/). This will allow Clerk to reach your `/api/webhooks/clerk` route to push events like `user.created`.
+You'll need to expose your local app for webhooks with [ngrok](https://ngrok.com/). 這將 allow Clerk to reach your `/api/webhooks/clerk` route to push events like `user.created`.
 
 Start your development server:
 
@@ -428,7 +428,7 @@ npm install --global ngrok
 ngrok http 4321
 ```
 
-Copy the ngrok `Forwarding URL` (e.g., `https://a65a60261342.ngrok-free.app`). This will be used to configure the webhook URL in Clerk.
+Copy the ngrok `Forwarding URL` (e.g., `https://a65a60261342.ngrok-free.app`). 這將 be used 配置 the webhook URL in Clerk.
 
 ### 4.3. Configure Astro to allow ngrok connections
 
@@ -453,7 +453,7 @@ export default defineConfig({
 
 :::note
 
-Replace `<your-ngrok-subdomain>` with the subdomain from your ngrok URL. For example, if your ngrok URL is `https://a65a60261342.ngrok-free.app`, use `a65a60261342.ngrok-free.app`.
+Replace `<your-ngrok-subdomain>` with the subdomain from your ngrok URL. 例如, if your ngrok URL is `https://a65a60261342.ngrok-free.app`, use `a65a60261342.ngrok-free.app`.
 
 :::
 
@@ -500,7 +500,7 @@ Open Prisma Studio to verify that the user was created in your database:
 npx prisma studio
 ```
 
-You should see a new user record with the Clerk ID, email, and name from your sign-up.
+您應該 see a new user record with the Clerk ID, email, and name from your sign-up.
 
 :::note
 
@@ -519,11 +519,11 @@ You've successfully built an Astro application with Clerk authentication and Pri
 
 ## 後續步驟
 
-Now that you have a working Astro app with Clerk authentication and Prisma connected to a Prisma Postgres database, you can:
+Now that you have a working Astro app with Clerk authentication and Prisma connected to a Prisma Postgres database, 您可以:
 
 - Add user profile management and update functionality
 - Build protected API routes that require authentication
-- Extend your schema with additional models related to users
+- Extend your schema with additional models related 使用rs
 - Deploy to your preferred hosting platform and set your production webhook URL in Clerk
 - Enable query caching with [Prisma Postgres](/postgres/database/caching) for better performance
 

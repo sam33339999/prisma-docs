@@ -12,11 +12,11 @@ Composite IDs and compound unique constraints can be defined in your Prisma sche
 :::warning
 
 **MongoDB does not support `@@id`**<br />
-MongoDB does not support composite IDs, which means you cannot identify a model with a `@@id` attribute.
+MongoDB does not support composite IDs, which means 您可以not identify a model with a `@@id` attribute.
 
 :::
 
-A composite ID or compound unique constraint uses the combined values of two fields as a primary key or identifier in your database table. In the following example, the `postId` field and `userId` field are used as a composite ID for a `Like` table:
+A composite ID or compound unique constraint uses the combined values of two fields as a primary key or identifier in your database table. In 以下範例, the `postId` field and `userId` field are used as a composite ID for a `Like` table:
 
 ```prisma highlight=22;normal
 model User {
@@ -56,7 +56,7 @@ Querying for records from the `Like` table (e.g. using `prisma.like.findMany()`)
 
 Although there are only two fields in the response, those two fields make up a compound ID named `postId_userId`.
 
-You can also create a named compound ID or compound unique constraint by using the `@@id` or `@@unique` attributes' `name` field. For example:
+您可以 also create a named compound ID or compound unique constraint by using the `@@id` or `@@unique` attributes' `name` field. 例如：
 
 ```prisma highlight=7;normal
 model Like {
@@ -72,7 +72,7 @@ model Like {
 
 </TopBlock>
 
-## Where you can use compound IDs and unique constraints
+## Where 您可以 use compound IDs and unique constraints
 
 Compound IDs and compound unique constraints can be used when working with _unique_ data.
 
@@ -88,7 +88,7 @@ A composite ID and a composite unique constraint is also usable when creating re
 
 ## Filtering records by a compound ID or unique constraint
 
-Although your query results will not display a compound ID or unique constraint as a field, you can use these compound values to filter your queries for unique records:
+Although your query results will not display a compound ID or unique constraint as a field, 您可以 use these compound values to filter your queries for unique records:
 
 ```ts highlight=3-6;normal
 const like = await prisma.like.findUnique({
@@ -103,7 +103,7 @@ const like = await prisma.like.findUnique({
 
 :::info
 
-Note composite ID and compound unique constraint keys are only available as filter options for _unique_ queries such as `findUnique()` and `findUniqueOrThrow`. See the [section](/orm/prisma-client/special-fields-and-types/working-with-composite-ids-and-constraints#where-you-can-use-compound-ids-and-unique-constraints) above for a list of places these fields may be used.
+Note composite ID and compound unique constraint keys are only available as filter options for _unique_ queries such as `findUnique()` and `findUniqueOrThrow`. 參見 [section](/orm/prisma-client/special-fields-and-types/working-with-composite-ids-and-constraints#where-you-can-use-compound-ids-and-unique-constraints) above for a list of places these fields may be used.
 
 :::
 
@@ -162,9 +162,9 @@ await prisma.like.upsert({
 
 ## Filtering relation queries by a compound ID or unique constraint
 
-Compound IDs and compound unique constraint can also be used in the `connect` and `connectOrCreate` keys used when connecting records to create a relationship.
+Compound IDs and compound unique constraint can also be used in the `connect` and `connectOrCreate` keys used when connecting records 建立 a relationship.
 
-For example, consider this query:
+例如, consider this query:
 
 ```ts highlight=6-9;normal
 await prisma.user.create({

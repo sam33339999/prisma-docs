@@ -10,11 +10,11 @@ The Prisma Client API is generated based on the models in your [Prisma schema](/
 
 In some cases, especially when using [introspection](/orm/prisma-schema/introspection), it might be useful to _decouple_ the naming of database tables and columns from the names that are used in your Prisma Client API. This can be done via the [`@map` and `@@map`](/orm/prisma-schema/data-model/models#mapping-model-names-to-tables-or-collections) attributes in your Prisma schema.
 
-You can use `@map` and `@@map` to rename MongoDB fields and collections respectively. This page uses a relational database example.
+您可以 use `@map` and `@@map` to rename MongoDB fields and collections respectively. This page uses a relational database example.
 
 </TopBlock>
 
-## Example: Relational database
+## 範例： Relational database
 
 Assume you have a PostgreSQL relational database schema looking similar to this:
 
@@ -95,7 +95,7 @@ There are a few "issues" with this Prisma schema when the Prisma Client API is g
 
 **Adhering to Prisma ORM's naming conventions**
 
-Prisma ORM has a [naming convention](/orm/reference/prisma-schema-reference#naming-conventions) of **camelCasing** and using the **singular form** for Prisma models. If these naming conventions are not met, the Prisma schema can become harder to interpret and the generated Prisma Client API will feel less natural. Consider the following, generated model:
+Prisma ORM has a [naming convention](/orm/reference/prisma-schema-reference#naming-conventions) of **camelCasing** and using the **singular form** for Prisma models. If these naming conventions are not met, the Prisma schema can become harder to interpret and the generated Prisma Client API will feel less natural. Consider 以下, generated model:
 
 ```prisma
 model users {
@@ -119,7 +119,7 @@ model User {
 }
 ```
 
-Because these fields are "Prisma ORM-level" [relation fields](/orm/prisma-schema/data-model/relations#relation-fields) that do not manifest you can manually rename them in your Prisma schema.
+Because these fields are "Prisma ORM-level" [relation fields](/orm/prisma-schema/data-model/relations#relation-fields) that do not manifest 您可以 manually rename them in your Prisma schema.
 
 **Naming of annotated relation fields**
 
@@ -169,9 +169,9 @@ model users {
 
 ## Using `@map` and `@@map` to rename fields and models in the Prisma Client API
 
-You can "rename" fields and models that are used in Prisma Client by mapping them to the "original" names in the database using the `@map` and `@@map` attributes. For the example above, you could e.g. annotate your models as follows.
+您可以 "rename" fields and models that are used in Prisma Client by mapping them to the "original" names in the database using the `@map` and `@@map` attributes. For the example above, you could e.g. annotate your models as follows.
 
-_After_ you introspected your database with `prisma db pull`, you can manually adjust the resulting Prisma schema as follows:
+_After_ you introspected your database with `prisma db pull`, 您可以 manually adjust 結果ing Prisma schema as follows:
 
 ```prisma
 model Category {
@@ -257,9 +257,9 @@ const userByProfile = await prisma.profile
 
 ## Renaming relation fields
 
-Prisma ORM-level [relation fields](/orm/prisma-schema/data-model/relations#relation-fields) (sometimes referred to as "virtual relation fields") only exist in the Prisma schema, but do not actually manifest in the underlying database. You can therefore name these fields whatever you want.
+Prisma ORM-level [relation fields](/orm/prisma-schema/data-model/relations#relation-fields) (sometimes referred to as "virtual relation fields") only exist in the Prisma schema, but do not actually manifest in the underlying database. 您可以 therefore name these fields whatever you want.
 
-Consider the following example of an ambiguous relation in a SQL database:
+Consider 以下範例 of an ambiguous relation in a SQL database:
 
 ```sql
 CREATE TABLE "User" (
@@ -274,7 +274,7 @@ CREATE TABLE "Post" (
 );
 ```
 
-Prisma ORM's introspection will output the following Prisma schema:
+Prisma ORM's introspection will output 以下 Prisma schema:
 
 ```prisma
 model Post {
@@ -292,7 +292,7 @@ model User {
 }
 ```
 
-Because the names of the virtual relation fields `Post_Post_authorToUser` and `Post_Post_favoritedByToUser` are based on the generated relation names, they don't look very friendly in the Prisma Client API. In that case, you can rename the relation fields. For example:
+Because the names of the virtual relation fields `Post_Post_authorToUser` and `Post_Post_favoritedByToUser` are based on the generated relation names, they don't look very friendly in the Prisma Client API. In that case, 您可以 rename the relation fields. 例如：
 
 ```prisma highlight=11-12;edit
 model Post {

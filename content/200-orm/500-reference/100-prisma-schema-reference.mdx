@@ -13,22 +13,22 @@ Defines a [data source](/orm/prisma-schema/overview/data-sources) in the Prisma 
 
 ### Fields
 
-A `datasource` block accepts the following fields:
+A `datasource` block accepts 以下 fields:
 
 | Name                | Required | Type                                                                            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | ------------------- | -------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `provider`          | **Yes**  | String (`postgresql`, `mysql`, `sqlite`, `sqlserver`, `mongodb`, `cockroachdb`) | Describes which data source connectors to use.                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| `url`               | **Yes**  | String (URL)                                                                    | **Deprecated in Prisma ORM v7.** Configure the connection URL in Prisma Config instead: see [`datasource.url`](/orm/reference/prisma-config-reference#datasourceurl). Existing schemas continue to work, but you should migrate to Prisma Config.                                                                                                                                                                                                                                                                     |
+| `provider`          | **Yes**  | String (`postgresql`, `mysql`, `sqlite`, `sqlserver`, `mongodb`, `cockroachdb`) | Describes which data source connectors 使用.                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `url`               | **Yes**  | String (URL)                                                                    | **Deprecated in Prisma ORM v7.** Configure the connection URL in Prisma Config instead: see [`datasource.url`](/orm/reference/prisma-config-reference#datasourceurl). Existing schemas continue to work, but 您應該 migrate to Prisma Config.                                                                                                                                                                                                                                                                     |
 | `shadowDatabaseUrl` | No       | String (URL)                                                                    | **Deprecated in Prisma ORM v7.** Configure the shadow database URL in Prisma Config instead: see [`datasource.shadowDatabaseUrl`](/orm/reference/prisma-config-reference#datasourceshadowdatabaseurl).                                                                                                                                                                                                                                                                                                               |
 | `directUrl`         | No       | String (URL)                                                                    | **Deprecated in Prisma ORM v7.** Configure the direct connection URL in Prisma Config instead: see [`datasource.directUrl`](/orm/reference/prisma-config-reference#datasourcedirecturl-removed).                                                                                                                                                                                                                                                                                                                             |
 | `relationMode`      | No       | String (`foreignKeys`, `prisma`)                                                | Sets whether [referential integrity](/orm/prisma-schema/data-model/relations/relation-mode) is enforced by foreign keys in the database or emulated in the Prisma Client.<br /><br />In preview in versions 3.1.1 and later. The field is named `relationMode` in versions 4.5.0 and later, and was previously named `referentialIntegrity`.                                                                                                                                                                         |
-| `extensions`        | No       | List of strings (PostgreSQL extension names)                                    | Allows you to [represent PostgreSQL extensions in your schema](/orm/prisma-schema/postgresql-extensions). Available in preview for PostgreSQL only in Prisma ORM versions 4.5.0 and later.                                                                                                                                                                                                                                                              |
+| `extensions`        | No       | List of strings (PostgreSQL extension names)                                    | Allows you to [represent PostgreSQL extensions in your schema](/orm/prisma-schema/postgresql-extensions). 可用於 preview for PostgreSQL only in Prisma ORM versions 4.5.0 and later.                                                                                                                                                                                                                                                              |
 
 ::::note
 As of Prisma ORM v7, the `url`, `directUrl`, and `shadowDatabaseUrl` fields in the Prisma schema `datasource` block are deprecated. Configure these fields in [Prisma Config](/orm/reference/prisma-config-reference) instead.
 ::::
 
-The following providers are available:
+以下 providers are available:
 
 - [`sqlite`](/orm/overview/databases/sqlite)
 - [`postgresql`](/orm/overview/databases/postgresql)
@@ -39,14 +39,14 @@ The following providers are available:
 
 ### Remarks
 
-- You can only have **one** `datasource` block in a schema.
-- `datasource db` is convention - however, you can give your data source any name - for example, `datasource mysql` or `datasource data`.
+- 您可以 only have **one** `datasource` block in a schema.
+- `datasource db` is convention - however, 您可以 give your data source any name - 例如, `datasource mysql` or `datasource data`.
 
 ### Examples
 
 #### Specify a PostgreSQL data source
 
-In this example, the target database is available with the following credentials:
+In this example, the target database is available with 以下 credentials:
 
 - User: `johndoe`
 - Password: `mypassword`
@@ -66,7 +66,7 @@ Learn more about PostgreSQL connection strings [here](/orm/overview/databases/po
 
 #### Specify a PostgreSQL data source via an environment variable
 
-In this example, the target database is available with the following credentials:
+In this example, the target database is available with 以下 credentials:
 
 - User: `johndoe`
 - Password: `mypassword`
@@ -81,9 +81,9 @@ datasource db {
 }
 ```
 
-When running a Prisma CLI command that needs the database connection URL (e.g. `prisma generate`), you need to make sure that the `DATABASE_URL` environment variable is set.
+When running a Prisma CLI command that needs the database connection URL (e.g. `prisma generate`), 您需要 make sure that the `DATABASE_URL` environment variable is set.
 
-One way to do so is by creating a [`.env`](https://github.com/motdotla/dotenv) file with the following contents. Note that the file must be in the same directory as your `schema.prisma` file to automatically picked up the Prisma CLI.
+One way to do so is by creating a [`.env`](https://github.com/motdotla/dotenv) file with 以下 contents. 請注意 the file must be in the same directory as your `schema.prisma` file to automatically picked up the Prisma CLI.
 
 ```
 DATABASE_URL=postgresql://johndoe:mypassword@localhost:5432/mydb?schema=public
@@ -91,7 +91,7 @@ DATABASE_URL=postgresql://johndoe:mypassword@localhost:5432/mydb?schema=public
 
 #### Specify a MySQL data source
 
-In this example, the target database is available with the following credentials:
+In this example, the target database is available with 以下 credentials:
 
 - User: `johndoe`
 - Password: `mypassword`
@@ -140,7 +140,7 @@ Learn more about SQLite connection strings [here](/orm/overview/databases/sqlite
 
 #### Specify a CockroachDB data source
 
-In this example, the target database is available with the following credentials:
+In this example, the target database is available with 以下 credentials:
 
 - User: `johndoe`
 - Password: `mypassword`
@@ -166,11 +166,11 @@ Defines a [generator](/orm/prisma-schema/overview/generators) in the Prisma sche
 
 This is the default generator for Prisma ORM 6.x and earlier versions. Learn more about [generators](/orm/prisma-schema/overview/generators#prisma-client-js-deprecated).
 
-A `generator` block accepts the following fields:
+A `generator` block accepts 以下 fields:
 
 | Name              | Required | Type                                     | Description                                                                                                                                                                                                |
 | :---------------- | :------- | :--------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | 
-| `provider`        | **Yes**  | `prisma-client-js`                       | Describes which [generator](/orm/prisma-schema/overview/generators) to use. This can point to a file that implements a generator or specify a built-in generator directly.                                 |
+| `provider`        | **Yes**  | `prisma-client-js`                       | Describes which [generator](/orm/prisma-schema/overview/generators) 使用. This can point to a file that implements a generator or specify a built-in generator directly.                                 |
 | `output`          | No       | String (file path)                       | Determines the location for the generated client, [learn more](/orm/prisma-client/setup-and-configuration/generating-prisma-client#using-a-custom-output-path). **Default**: `node_modules/.prisma/client` |
 | `previewFeatures` | No       | List of Enums                            | Use intellisense to see list of currently available Preview features (`Ctrl+Space` in Visual Studio Code) **Default**: none                                                                                |    
 | `engineType`      | No       | Enum (`library` or `binary`)             | Defines the [query engine](/orm/more/under-the-hood/engines) type to download and use. **Default**: `library`                                                                                              |
@@ -193,22 +193,22 @@ The `prisma-client` generator will be the default generator in Prisma ORM 7.0 an
 
 :::
 
-A `generator` block accepts the following fields:
+A `generator` block accepts 以下 fields:
 
 | Name                     | Required | Type                                                                                                                                        | Description                                                                                                                                                                                                                 |
 | :----------------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `provider`               | **Yes**  | `prisma-client`                                                                                                                            | Describes which [generator](/orm/prisma-schema/overview/generators) to use. This can point to a file that implements a generator or specify a built-in generator directly.                                                  |
+| `provider`               | **Yes**  | `prisma-client`                                                                                                                            | Describes which [generator](/orm/prisma-schema/overview/generators) 使用. This can point to a file that implements a generator or specify a built-in generator directly.                                                  |
 | `output`                 | **Yes**  | String (file path)                                                                                                                          | Determines the location for the generated client, [learn more](/orm/prisma-client/setup-and-configuration/generating-prisma-client#using-a-custom-output-path).                                                             |
 | `previewFeatures`        | No       | List of Enums                                                                                                                               | Use intellisense to see list of currently available Preview features (`Ctrl+Space` in Visual Studio Code) **Default**: none                                                                                                 |
 | `runtime`                | No       | Enum (`nodejs`, `deno`, `bun`, `workerd` (alias `cloudflare`), `vercel-edge` (alias `edge-light`), `react-native`) | Target runtime environment. **Default**: `nodejs` |
-| `moduleFormat`           | No       | Enum (`esm` or `cjs`)                                                                                                                       | Determines whether the generated code supports ESM (uses `import`) or CommonJS (uses `require(...)`) modules. We always recommend `esm` unless you have a good reason to use `cjs`. **Default**: Inferred from environment. |
+| `moduleFormat`           | No       | Enum (`esm` or `cjs`)                                                                                                                       | Determines whether the generated code supports ESM (uses `import`) or CommonJS (uses `require(...)`) modules. We always recommend `esm` unless you have a good reason 使用 `cjs`. **Default**: Inferred from environment. |
 | `generatedFileExtension` | No       | Enum (`ts` or `mts` or `cts`)                                                                                                               | File extension for generated TypeScript files. **Default**: `ts`                                                                                                                                                            |
 | `importFileExtension`    | No       | Enum (`ts`,`mts`,`cts`,`js`,`mjs`,`cjs`, empty (for bare imports))                                                                          | File extension used in import statements **Default**: Inferred from environment.                                                                                                                                            |
 
 
 #### `binaryTargets` options
 
-The following tables list all supported operating systems with the name of platform to specify in [`binaryTargets`](/orm/prisma-schema/overview/generators#binary-targets).
+以下 tables list all supported operating systems with the name of platform to specify in [`binaryTargets`](/orm/prisma-schema/overview/generators#binary-targets).
 
 Unless specified otherwise, the default supported CPU architecture is x86_64.
 
@@ -232,7 +232,7 @@ Unless specified otherwise, the default supported CPU architecture is x86_64.
 | Alpine (3.17 and newer) | `linux-musl-openssl-3.0.x`\* |  3.0.x  |
 | Alpine (3.16 and older) | `linux-musl`                 |  1.1.x  |
 
-\* Available in Prisma ORM versions 4.8.0 and later.
+\* 可用於 Prisma ORM versions 4.8.0 and later.
 
 ##### Linux (Alpine on ARM64 architectures)
 
@@ -241,7 +241,7 @@ Unless specified otherwise, the default supported CPU architecture is x86_64.
 | Alpine (3.17 and newer) | `linux-musl-arm64-openssl-3.0.x`\* |  3.0.x  |
 | Alpine (3.16 and older) | `linux-musl-arm64-openssl-1.1.x`\* |  1.1.x  |
 
-\* Available in Prisma ORM versions 4.10.0 and later.
+\* 可用於 Prisma ORM versions 4.10.0 and later.
 
 ##### Linux (Debian), x86_64
 
@@ -318,7 +318,7 @@ generator client {
 }
 ```
 
-Note that the above `generator` definition is **equivalent** to the following because it uses the default values for `output`, `engineType` and `binaryTargets` (and implicitly `previewFeatures`):
+請注意 the above `generator` definition is **equivalent** to 以下 because it uses the default values for `output`, `engineType` and `binaryTargets` (and implicitly `previewFeatures`):
 
 ```prisma
 generator client {
@@ -331,7 +331,7 @@ generator client {
 
 #### Specify a custom `output` location for Prisma Client
 
-This example shows how to define a custom `output` location of the generated asset to override the default one.
+This example shows 如何 define a custom `output` location of the generated asset to override the default one.
 
 ```prisma
 generator client {
@@ -342,7 +342,7 @@ generator client {
 
 #### Specify custom `binaryTargets` to ensure compatibility with the OS
 
-This example shows how to configure Prisma Client to run on `Ubuntu 19.04 (disco)` based on the table [above](#linux-ubuntu-x86_64).
+This example shows how 配置 Prisma Client to run on `Ubuntu 19.04 (disco)` based on the table [above](#linux-ubuntu-x86_64).
 
 ```prisma
 generator client {
@@ -353,7 +353,7 @@ generator client {
 
 #### Specify a `provider` pointing to some custom generator implementation
 
-This example shows how to use a custom generator that's located in a directory called `my-generator`.
+This example shows 如何使用 a custom generator that's located in a directory called `my-generator`.
 
 ```prisma
 generator client {
@@ -367,7 +367,7 @@ Defines a Prisma [model](/orm/prisma-schema/data-model/models#defining-models) .
 
 ### Remarks
 
-- Every record of a model must be _uniquely_ identifiable. You must define _at least_ one of the following attributes per model:
+- Every record of a model must be _uniquely_ identifiable. 您必須 define _at least_ one of 以下 attributes per model:
   - [`@unique`](#unique)
   - [`@@unique`](#unique-1)
   - [`@id`](#id)
@@ -375,12 +375,12 @@ Defines a Prisma [model](/orm/prisma-schema/data-model/models#defining-models) .
 
 #### Naming conventions
 
-- Model names must adhere to the following regular expression: `[A-Za-z][A-Za-z0-9_]*`
+- Model names must adhere to 以下 regular expression: `[A-Za-z][A-Za-z0-9_]*`
 - Model names must start with a letter and are typically spelled in [PascalCase](https://wiki.c2.com/?PascalCase)
-- Model names should use the singular form (for example, `User` instead of `user`, `users` or `Users`)
-- Prisma ORM has a number of **reserved words** that are being used by Prisma ORM internally and therefore cannot be used as a model name. You can find the reserved words [here](https://github.com/prisma/prisma/blob/6.5.0/packages/client/src/generation/generateClient.ts#L556-L605) and [here](https://github.com/prisma/prisma-engines/blob/main/psl/parser-database/src/names/reserved_model_names.rs#L44).
+- Model names should use the singular form (例如, `User` instead of `user`, `users` or `Users`)
+- Prisma ORM has a number of **reserved words** that are being used by Prisma ORM internally and therefore cannot be used as a model name. 您可以 find the reserved words [here](https://github.com/prisma/prisma/blob/6.5.0/packages/client/src/generation/generateClient.ts#L556-L605) and [here](https://github.com/prisma/prisma-engines/blob/main/psl/parser-database/src/names/reserved_model_names.rs#L44).
 
-> **Note**: You can use the [`@@map` attribute](#map-1) to map a model (for example, `User`) to a table with a different name that does not match model naming conventions (for example, `users`).
+> **Note**: 您可以 use the [`@@map` attribute](#map-1) to map a model (例如, `User`) to a table with a different name that does not match model naming conventions (例如, `users`).
 
 #### Order of fields
 
@@ -424,9 +424,9 @@ model User {
 
 - Must start with a letter
 - Typically spelled in camelCase
-- Must adhere to the following regular expression: `[A-Za-z][A-Za-z0-9_]*`
+- Must adhere to 以下 regular expression: `[A-Za-z][A-Za-z0-9_]*`
 
-> **Note**: You can use the [`@map` attribute](#map) to [map a field name to a column](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names) with a different name that does not match field naming conventions: e.g. `myField @map("my_field")`.
+> **Note**: 您可以 use the [`@map` attribute](#map) to [map a field name to a column](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names) with a different name that does not match field naming conventions: e.g. `myField @map("my_field")`.
 
 ## `model` field scalar types
 
@@ -474,7 +474,7 @@ Variable length text.
 | `MEDIUMTEXT`         | `@db.MediumText`               |
 | `LONGTEXT`           | `@db.LongText`                 |
 
-You can use Prisma Migrate to map `@db.Bit(1)` to `String`:
+您可以 use Prisma Migrate to map `@db.Bit(1)` to `String`:
 
 ```prisma
 model Model {
@@ -521,7 +521,7 @@ model Model {
 | `UUID`                                   | `@db.Uuid`                     |       |
 | `INET`                                   | `@db.Inet`                     |       |
 
-Note that the `xml` and `citext` types supported in PostgreSQL are not currently supported in CockroachDB.
+請注意 the `xml` and `citext` types supported in PostgreSQL are not currently supported in CockroachDB.
 
 #### Clients
 
@@ -554,7 +554,7 @@ True or false value.
 
 | Native database types | Native database type attribute | Notes                                                                                                                                                     |
 | --------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `TINYINT(1)`          | `@db.TinyInt(1)`               | `TINYINT` maps to `Int` if the max length is greater than 1 (for example, `TINYINT(2)`) _or_ the default value is anything other than `1`, `0`, or `NULL` |
+| `TINYINT(1)`          | `@db.TinyInt(1)`               | `TINYINT` maps to `Int` if the max length is greater than 1 (例如, `TINYINT(2)`) _or_ the default value is anything other than `1`, `0`, or `NULL` |
 | `BIT(1)`              | `@db.Bit`                      |
 
 #### MongoDB
@@ -616,7 +616,7 @@ True or false value.
 | `SMALLINT UNSIGNED`   | `@db.UnsignedSmallInt`         |
 | `MEDIUMINT`           | `@db.MediumInt`                |
 | `MEDIUMINT UNSIGNED`  | `@db.UnsignedMediumInt`        |
-| `TINYINT`             | `@db.TinyInt`                  | `TINYINT` maps to `Int` if the max length is greater than 1 (for example, `TINYINT(2)`) _or_ the default value is anything other than `1`, `0`, or `NULL`. `TINYINT(1)` maps to `Boolean`. |
+| `TINYINT`             | `@db.TinyInt`                  | `TINYINT` maps to `Int` if the max length is greater than 1 (例如, `TINYINT(2)`) _or_ the default value is anything other than `1`, `0`, or `NULL`. `TINYINT(1)` maps to `Boolean`. |
 | `TINYINT UNSIGNED`    | `@db.UnsignedTinyInt`          | `TINYINT(1) UNSIGNED` maps to `Int`, not `Boolean`                                                                                                                                         |
 | `YEAR`                | `@db.Year`                     |
 
@@ -646,7 +646,7 @@ True or false value.
 
 | Native database types        | Native database type attribute       | Notes                                                                                                             |
 | ---------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| `INTEGER` \| `INT` \| `INT8` | `@db.Int8`                           | Note that this differs from PostgreSQL, where `integer` and `int` are aliases for `int4` and map to `@db.Integer` |
+| `INTEGER` \| `INT` \| `INT8` | `@db.Int8`                           | 請注意 this differs from PostgreSQL, where `integer` and `int` are aliases for `int4` and map to `@db.Integer` |
 | `INT4`                       | `@db.Int4`                           |                                                                                                                   |
 | `INT2` \| `SMALLINT`         | `@db.Int2`                           |                                                                                                                   |
 | `SMALLSERIAL` \| `SERIAL2`   | `@db.Int2 @default(autoincrement())` |                                                                                                                   |
@@ -661,7 +661,7 @@ True or false value.
 
 ### `BigInt`
 
-`BigInt` is available in version [2.17.0](https://github.com/prisma/prisma/releases/tag/2.17.0) and later.
+`BigInt` is 可用於 version [2.17.0](https://github.com/prisma/prisma/releases/tag/2.17.0) and later.
 
 #### Default type mappings
 
@@ -706,7 +706,7 @@ True or false value.
 
 | Native database types       | Native database type attribute       | Notes                                                                      |
 | --------------------------- | ------------------------------------ | -------------------------------------------------------------------------- |
-| `BIGINT` \| `INT` \| `INT8` | `@db.Int8`                           | Note that this differs from PostgreSQL, where `int` is an alias for `int4` |
+| `BIGINT` \| `INT` \| `INT8` | `@db.Int8`                           | 請注意 this differs from PostgreSQL, where `int` is an alias for `int4` |
 | `bigserial` \| `serial8`    | `@db.Int8 @default(autoincrement())` |                                                                            |
 
 #### Clients
@@ -719,7 +719,7 @@ True or false value.
 
 Floating point number.
 
-> `Float` maps to `Double` in [2.17.0](https://github.com/prisma/prisma/releases/tag/2.17.0) and later - see [release notes](https://github.com/prisma/prisma/releases/tag/2.17.0) and [Video: Changes to the default mapping of Float in Prisma ORM 2.17.0](https://www.youtube.com/watch?v=OsuGP_xNHco&amp%3Bab_channel=Prisma) for more information about this change.
+> `Float` maps to `Double` in [2.17.0](https://github.com/prisma/prisma/releases/tag/2.17.0) and later - see [release notes](https://github.com/prisma/prisma/releases/tag/2.17.0) and [Video: Changes to the default mapping of Float in Prisma ORM 2.17.0](https://www.youtube.com/watch?v=OsuGP_xNHco&amp%3Bab_channel=Prisma) 欲了解更多資訊 about this change.
 
 #### Default type mappings
 
@@ -827,7 +827,7 @@ Floating point number.
 | Native database types           | Native database type attribute | Notes                                                         |
 | ------------------------------- | ------------------------------ | ------------------------------------------------------------- |
 | `DECIMAL` \| `DEC` \| `NUMERIC` | `@db.Decimal(p, s)`†           |                                                               |
-| `money`                         | Not yet                        | PostgreSQL's `money` type is not yet supported by CockroachDB |
+| `money`                         | Not yet                        | PostgreSQL's `money` type is not yet 支援 CockroachDB |
 
 - † `p` (precision), the maximum total number of decimal digits to be stored. `s` (scale), the number of decimal digits that are stored to the right of the decimal point.
 
@@ -845,7 +845,7 @@ Floating point number.
 - Currently, Prisma ORM [does not support](https://github.com/prisma/prisma/issues/5006) [zero dates](https://dev.mysql.com/doc/refman/8.3/en/date-and-time-types.html#:~:text=The%20following%20table%20shows%20the%20format%20of%20the%20%E2%80%9Czero%E2%80%9D%20value%20for%20each%20type) (`0000-00-00 00:00:00`, `0000-00-00`, `00:00:00`) in MySQL.
 - There currently is a [bug](https://github.com/prisma/prisma/issues/9516) that doesn't allow you to pass in `DateTime` values as strings and produces a runtime error when you do. `DateTime` values need to be passed as [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) objects (i.e. `new Date('2024-12-04')` instead of `'2024-12-04'`).
 
-You can find more info and examples in this section: [Working with `DateTime`](/orm/prisma-client/special-fields-and-types#working-with-datetime).
+您可以 find more info and examples 在本節中: [Working with `DateTime`](/orm/prisma-client/special-fields-and-types#working-with-datetime).
 
 #### Default type mappings
 
@@ -877,7 +877,7 @@ You can find more info and examples in this section: [Working with `DateTime`](/
 | `TIME(x)`             | `@db.Time(x)`                  |
 | `TIMESTAMP(x)`        | `@db.Timestamp(x)`             |
 
-You can also use MySQL's `YEAR` type with `Int`:
+您可以 also use MySQL's `YEAR` type with `Int`:
 
 ```prisma
 yearField     Int    @db.Year
@@ -900,7 +900,7 @@ yearField     Int    @db.Year
 
 #### SQLite
 
-`NUMERIC` or `STRING`. If the underlying data type is `STRING`, you must use one of the following formats:
+`NUMERIC` or `STRING`. If the underlying data type is `STRING`, 您必須 use one of 以下 formats:
 
 - [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) (`1996-12-19T16:39:57-08:00`)
 - [RFC 2822](https://datatracker.ietf.org/doc/html/rfc2822#section-3.3) (`Tue, 1 Jul 2003 10:52:37 +0200`)
@@ -975,7 +975,7 @@ Not supported
 
 ### `Bytes`
 
-`Bytes` is available in version [2.17.0](https://github.com/prisma/prisma/releases/tag/2.17.0) and later.
+`Bytes` is 可用於 version [2.17.0](https://github.com/prisma/prisma/releases/tag/2.17.0) and later.
 
 #### Default type mappings
 
@@ -1044,18 +1044,18 @@ Not supported
 
 :::warning
 
-**Not supported by MongoDB** <br />
+**Not 支援 MongoDB** <br />
 The [MongoDB connector](/orm/overview/databases/mongodb) does not support the `Unsupported` type.
 
 :::
 
-The `Unsupported` type was introduced in [2.17.0](https://github.com/prisma/prisma/releases/tag/2.17.0) and allows you to represent data types in the Prisma schema that are not supported by Prisma Client. Fields of type `Unsupported` can be created during Introspection with `prisma db pull` or written by hand, and created in the database with Prisma Migrate or `db push`.
+The `Unsupported` type was introduced in [2.17.0](https://github.com/prisma/prisma/releases/tag/2.17.0) and allows you to represent data types in the Prisma schema that are not 支援 Prisma Client. Fields of type `Unsupported` can be created during Introspection with `prisma db pull` or written by hand, and created in the database with Prisma Migrate or `db push`.
 
 #### Remarks
 
-- Fields with `Unsupported` types are not available in the generated client.
-- If a model contains a **required** `Unsupported` type, `prisma.model.create(..)`, `prisma.model.update(...)` and `prisma.model.upsert(...)` are not available in Prisma Client.
-- When you introspect a database that contains unsupported types, Prisma ORM will provide the following warning:
+- Fields with `Unsupported` types are not 可用於 the generated client.
+- If a model contains a **required** `Unsupported` type, `prisma.model.create(..)`, `prisma.model.update(...)` and `prisma.model.upsert(...)` are not 可用於 Prisma Client.
+- When you introspect a database that contains unsupported types, Prisma ORM will provide 以下 警告：
 
   ```
   *** WARNING ***
@@ -1083,7 +1083,7 @@ Makes a field a list.
 
 #### Remarks
 
-- Cannot be optional (for example `Post[]?`).
+- Cannot be optional (例如 `Post[]?`).
 
 ##### Relational databases
 
@@ -1124,7 +1124,7 @@ model User {
 
 ##### Define a scalar list with a default value
 
-Available in version 4.0.0 and later.
+可用於 version 4.0.0 and later.
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -1157,7 +1157,7 @@ Makes a field optional.
 
 #### Remarks
 
-- Cannot be used with a list field (for example, `Posts[]`)
+- Cannot be used with a list field (例如, `Posts[]`)
 
 #### Examples
 
@@ -1173,7 +1173,7 @@ model User {
 
 ## Attributes
 
-Attributes modify the behavior of a [field](#model-fields) or block (e.g. [models](#model)). There are two ways to add attributes to your data model:
+Attributes modify the behavior of a [field](#model-fields) or block (e.g. [models](#model)). There are two ways 添加 attributes to your data model:
 
 - _Field_ attributes are prefixed with `@`
 - _Block_ attributes are prefixed with `@@`
@@ -1210,8 +1210,8 @@ Defines a single-field ID on the model.
 - Corresponding database construct: [Any valid BSON type, except arrays](https://www.mongodb.com/docs/manual/core/document/#the-_id-field)
 - Every model must define an `@id` field
 - The [underlying ID field name is always `_id`](https://www.mongodb.com/docs/manual/core/document/#the-_id-field), and must be mapped with `@map("_id")`
-- Can be defined on any scalar field (`String`, `Int`, `enum`) unless you want to use `ObjectId` in your database
-- To use an [`ObjectId`](https://www.mongodb.com/docs/manual/reference/method/ObjectId/) as your ID, you must:
+- Can be defined on any scalar field (`String`, `Int`, `enum`) unless you want 使用 `ObjectId` in your database
+- 使用 an [`ObjectId`](https://www.mongodb.com/docs/manual/reference/method/ObjectId/) as your ID, 您必須:
 
   - Use the `String` or `Bytes` field type
   - Annotate your field with `@db.ObjectId`:
@@ -1258,7 +1258,7 @@ Defines a single-field ID on the model.
 
 #### Examples
 
-In most cases, you want your database to create the ID. To do this, annotate the ID field with the `@default` attribute and initialize the field with a [function](#attribute-functions).
+In most cases, you want your database 建立 the ID. To do this, annotate the ID field with the `@default` attribute and initialize the field with a [function](#attribute-functions).
 
 ##### Generate autoincrementing integers as IDs (Relational databases only)
 
@@ -1302,7 +1302,7 @@ model User {
 
 :::warning
 
-You cannot use `cuid()` to generate a default value if your `id` field is of type `ObjectId`. Use the following syntax to generate a valid `ObjectId`:
+您可以not use `cuid()` to generate a default value if your `id` field is of type `ObjectId`. Use 以下 syntax to generate a valid `ObjectId`:
 
 ```prisma
 id    String  @id @default(auto()) @db.ObjectId @map("_id")
@@ -1339,7 +1339,7 @@ model User {
 
 :::warning
 
-You cannot use `uuid()` to generate a default value if your `id` field is of type `ObjectId`. Use the following syntax to generate a valid `ObjectId`:
+您可以not use `uuid()` to generate a default value if your `id` field is of type `ObjectId`. Use 以下 syntax to generate a valid `ObjectId`:
 
 ```prisma
 id    String  @id @default(auto()) @db.ObjectId @map("_id")
@@ -1376,7 +1376,7 @@ model User {
 
 :::warning
 
-You cannot use `ulid()` to generate a default value if your `id` field is of type `ObjectId`. Use the following syntax to generate a valid `ObjectId`:
+您可以not use `ulid()` to generate a default value if your `id` field is of type `ObjectId`. Use 以下 syntax to generate a valid `ObjectId`:
 
 ```prisma
 id    String  @id @default(auto()) @db.ObjectId @map("_id")
@@ -1389,7 +1389,7 @@ id    String  @id @default(auto()) @db.ObjectId @map("_id")
 
 ##### Single-field IDs _without_ default values
 
-In the following example, `id` does not have a default value:
+In 以下範例, `id` does not have a default value:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -1421,7 +1421,7 @@ name  String
 </TabItem>
 </TabbedContent>
 
-Note that in the above case, you _must_ provide your own ID values when creating new records for the `User` model using Prisma Client, e.g.:
+請注意 in the above case, you _must_ provide your own ID values when creating new records for the `User` model using Prisma Client, e.g.:
 
 ```ts
 const newUser = await prisma.user.create({
@@ -1434,7 +1434,7 @@ const newUser = await prisma.user.create({
 
 ###### Specify an ID on relation scalar field without a default value
 
-In the following example, `authorId` is a both a relation scalar and the ID of `Profile`:
+In 以下範例, `authorId` is a both a relation scalar and the ID of `Profile`:
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -1475,9 +1475,9 @@ model User {
 </TabItem>
 </TabbedContent>
 
-In this scenario, you cannot create a `Profile` only - you must use Prisma Client's [nested writes](/orm/prisma-client/queries/relation-queries#nested-writes) create a `User` **or** connect the profile to an existing user.
+In this scenario, 您可以not create a `Profile` only - 您必須 use Prisma Client's [nested writes](/orm/prisma-client/queries/relation-queries#nested-writes) create a `User` **or** connect the profile to an existing user.
 
-The following example creates a user and a profile:
+以下範例 creates a user and a profile:
 
 ```ts
 const userWithProfile = await prisma.user.create({
@@ -1494,7 +1494,7 @@ const userWithProfile = await prisma.user.create({
 });
 ```
 
-The following example connects a new profile to a user:
+以下範例 connects a new profile to a user:
 
 ```ts
 const profileWithUser = await prisma.profile.create({
@@ -1513,7 +1513,7 @@ const profileWithUser = await prisma.profile.create({
 
 :::warning
 
-**Not supported by MongoDB** <br />
+**Not 支援 MongoDB** <br />
 The [MongoDB connector](/orm/overview/databases/mongodb) does not support composite IDs.
 
 :::
@@ -1527,13 +1527,13 @@ Defines a multi-field ID (composite ID) on the model.
 - Cannot be optional
 - Can be defined on any scalar field (`String`, `Int`, `enum`)
 - Cannot be defined on a relation field
-- The name of the composite ID field in Prisma Client has the following pattern: `field1_field2_field3`
+- The name of the composite ID field in Prisma Client has 以下 pattern: `field1_field2_field3`
 
 #### Arguments
 
 | Name        | Required | Type               | Description                                                                                                                                                                                                                                                    |
 | ----------- | -------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `fields`    | **Yes**  | `FieldReference[]` | A list of field names - for example, `["firstname", "lastname"]`                                                                                                                                                                                               |
+| `fields`    | **Yes**  | `FieldReference[]` | A list of field names - 例如, `["firstname", "lastname"]`                                                                                                                                                                                               |
 | `name`      | **No**   | `String`           | The name that Prisma Client will expose for the argument covering all fields, e.g. `fullName` in `fullName: { firstName: "First", lastName: "Last"}`                                                                                                           |
 | `map`       | **No**   | `String`           | The name of the underlying primary key constraint in the database.<br /><br />Not supported for MySQL.                                                                                                                                                         |
 | `length`    | **No**   | `number`           | Allows you to specify a maximum length for the subpart of the value to be indexed.<br /><br />MySQL only. In preview in versions 3.5.0 and later, and in general availability in versions 4.0.0 and later.                                                     |
@@ -1574,7 +1574,7 @@ model User {
 }
 ```
 
-When you create a user, you must provide a unique combination of `firstName` and `lastName`:
+When you create a user, 您必須 provide a unique combination of `firstName` and `lastName`:
 
 ```ts
 const user = await prisma.user.create({
@@ -1665,13 +1665,13 @@ Defines a [default value for a field](/orm/prisma-schema/data-model/models#defin
 #### Remarks
 
 - Default values that cannot yet be represented in the Prisma schema are represented by the [`dbgenerated()` function](#dbgenerated) when you use [introspection](/orm/prisma-schema/introspection).
-- Default values are not allowed on relation fields in the Prisma schema. Note however that you can still define default values on the fields backing a relation (the ones listed in the `fields` argument in the `@relation` attribute). A default value on the field backing a relation will mean that relation is populated automatically for you.
+- Default values are not allowed on relation fields in the Prisma schema. Note however that 您可以 still define default values on the fields backing a relation (the ones listed in the `fields` argument in the `@relation` attribute). A default value on the field backing a relation will mean that relation is populated automatically for you.
 - Default values can be used with [scalar lists](/orm/prisma-client/special-fields-and-types/working-with-scalar-lists-arrays) in databases that natively support them.
 
 ##### Relational databases
 
 - Corresponding database construct: `DEFAULT`
-- Default values can be a static value (`4`, `"hello"`) or one of the following [functions](#attribute-functions):
+- Default values can be a static value (`4`, `"hello"`) or one of 以下 [functions](#attribute-functions):
   - [`autoincrement()`](#autoincrement)
   - [`sequence()`](#sequence) (CockroachDB only)
   - [`dbgenerated(...)`](#dbgenerated)
@@ -1684,13 +1684,13 @@ Defines a [default value for a field](/orm/prisma-schema/data-model/models#defin
   - [`nanoid()`](#nanoid)
   - [`now()`](#now)
 - Default values that cannot yet be represented in the Prisma schema are represented by the [`dbgenerated(...)` function](#dbgenerated) when you use [introspection](/orm/prisma-schema/introspection).
-- Default values are not allowed on relation fields in the Prisma schema. Note however that you can still define default values on the fields backing a relation (the ones listed in the `fields` argument in the `@relation` attribute). A default value on the field backing a relation will mean that relation is populated automatically for you.
+- Default values are not allowed on relation fields in the Prisma schema. Note however that 您可以 still define default values on the fields backing a relation (the ones listed in the `fields` argument in the `@relation` attribute). A default value on the field backing a relation will mean that relation is populated automatically for you.
 - Default values can be used with [scalar lists](/orm/prisma-client/special-fields-and-types/working-with-scalar-lists-arrays) in databases that natively support them.
-- JSON data. Note that JSON needs to be enclosed with double-quotes inside the `@default` attribute, e.g.: `@default("[]")`. If you want to provide a JSON object, you need to enclose it with double-quotes and then escape any internal double quotes using a backslash, e.g.: `@default("{ \"hello\": \"world\" }")`.
+- JSON data. 請注意 JSON needs to be enclosed with double-quotes inside the `@default` attribute, e.g.: `@default("[]")`. If you want to provide a JSON object, 您需要 enclose it with double-quotes and then escape any internal double quotes using a backslash, e.g.: `@default("{ \"hello\": \"world\" }")`.
 
 ##### MongoDB
 
-- Default values can be a static value (`4`, `"hello"`) or one of the following [functions](#attribute-functions):
+- Default values can be a static value (`4`, `"hello"`) or one of 以下 [functions](#attribute-functions):
   - [`auto()`](#auto) (can only be used with `@db.ObjectId` to generate an `ObjectId` in MongoDB)
   - [`cuid()`](#cuid)
   - [`uuid()`](#uuid)
@@ -1872,7 +1872,7 @@ model User {
 
 ##### Default value for a `DateTime`
 
-Note that static default values for `DateTime` are based on the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
+請注意 static default values for `DateTime` are based on the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -2198,7 +2198,7 @@ Defines a compound [unique constraint](/orm/prisma-schema/data-model/models#defi
 
 ##### General
 
-- All fields that make up the unique constraint **must** be mandatory fields. The following model is **not** valid because `id` could be `null`:
+- All fields that make up the unique constraint **must** be mandatory fields. 以下 model is **not** valid because `id` could be `null`:
 
   ```prisma
   model User {
@@ -2230,13 +2230,13 @@ Defines a compound [unique constraint](/orm/prisma-schema/data-model/models#defi
 ##### MongoDB
 
 - Enforced by a [compound index in MongoDB](https://www.mongodb.com/docs/manual/core/index-compound/)
-- A `@@unique` block cannot be used as the only unique identifier for a model - MongoDB requires an `@id` field
+- A `@@unique` block cannot be used as the only unique identifier for a model - MongoDB 需要 an `@id` field
 
 #### Arguments
 
 | Name        | Required | Type               | Description                                                                                                                                                                                                                                           |
 | ----------- | -------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `fields`    | **Yes**  | `FieldReference[]` | A list of field names - for example, `["firstname", "lastname"]`. Fields must be mandatory - see remarks.                                                                                                                                             |
+| `fields`    | **Yes**  | `FieldReference[]` | A list of field names - 例如, `["firstname", "lastname"]`. Fields must be mandatory - see remarks.                                                                                                                                             |
 | `name`      | **No**   | `String`           | The name of the unique combination of fields - defaults to `fieldName1_fieldName2_fieldName3`                                                                                                                                                         |
 | `map`       | **No**   | `String`           |                                                                                                                                                                                                                                                       |
 | `length`    | **No**   | `number`           | Allows you to specify a maximum length for the subpart of the value to be indexed.<br /><br />MySQL only. In preview in versions 3.5.0 and later, and in general availability in versions 4.0.0 and later.                                            |
@@ -2469,21 +2469,21 @@ Defines an index in the database.
 
 :::info
 
-While you cannot configure these option in your Prisma schema, you can still configure them on the database-level directly.
+While 您可以not configure these option in your Prisma schema, 您可以 still configure them on the database-level directly.
 
 :::
 
 ##### MongoDB
 
-- In version `3.12.0` and later, you can define an index on a field of a [composite type](/orm/prisma-schema/data-model/models#defining-composite-types) using the syntax `@@index([compositeType.field])`. See [Defining composite type indexes](/orm/prisma-schema/data-model/models#defining-composite-type-indexes) for more details.
+- In version `3.12.0` and later, 您可以 define an index on a field of a [composite type](/orm/prisma-schema/data-model/models#defining-composite-types) using the syntax `@@index([compositeType.field])`. See [Defining composite type indexes](/orm/prisma-schema/data-model/models#defining-composite-type-indexes) for more details.
 
 #### Arguments
 
 | Name        | Required | Type                         | Description                                                                                                                                                                                                                                                                                                              |
 | ----------- | -------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `fields`    | **Yes**  | `FieldReference[]`           | A list of field names - for example, `["firstname", "lastname"]`                                                                                                                                                                                                                                                         |
+| `fields`    | **Yes**  | `FieldReference[]`           | A list of field names - 例如, `["firstname", "lastname"]`                                                                                                                                                                                                                                                         |
 | `name`      | **No**   | `String`                     | The name that Prisma Client will expose for the argument covering all fields, e.g. `fullName` in `fullName: { firstName: "First", lastName: "Last"}`                                                                                                                                                                     |
-| `map`       | **No**   | `map`                        | The name of the index in the underlying database (Prisma generates an index name that respects identifier length limits if you do not specify a name. Prisma uses the following naming convention: `tablename.field1_field2_field3_unique`)                                                                              |
+| `map`       | **No**   | `map`                        | The name of the index in the underlying database (Prisma generates an index name that respects identifier length limits if you do not specify a name. Prisma uses 以下 naming convention: `tablename.field1_field2_field3_unique`)                                                                              |
 | `length`    | **No**   | `number`                     | Allows you to specify a maximum length for the subpart of the value to be indexed.<br /><br />MySQL only. In preview in versions 3.5.0 and later, and in general availability in versions 4.0.0 and later.                                                                                                               |
 | `sort`      | **No**   | `String`                     | Allows you to specify in what order the entries of the index or constraint are stored in the database. The available options are `asc` and `desc`.<br /><br />In preview in versions 3.5.0 and later, and in general availability in versions 4.0.0 and later.                                                           |
 | `clustered` | **No**   | `Boolean`                    | Defines whether the index is clustered or non-clustered. Defaults to `false`.<br /><br />SQL Server only. In preview in versions 3.5.0 and later, and in general availability in versions 4.0.0 and later.                                                                                                               |
@@ -2520,7 +2520,7 @@ The `length` and `sort` arguments are added to the relevant field names:
 
 #### Examples
 
-Assume you want to add an index for the `title` field of the `Post` model
+Assume you want 添加 an index for the `title` field of the `Post` model
 
 ##### Define a single-column index (Relational databases only)
 
@@ -2587,7 +2587,7 @@ Defines meta information about the relation. [Learn more](/orm/prisma-schema/dat
 
 ##### MongoDB
 
-- If your model's primary key is of type `ObjectId` in the underlying database, both the primary key _and_ the foreign key must have the `@db.ObjectId` attribute
+- If your model's primary key is of type `ObjectId` in the underlying database, both 主要 key _and_ the foreign key must have the `@db.ObjectId` attribute
 
 #### Arguments
 
@@ -2649,7 +2649,7 @@ Maps a field name or enum value from the Prisma schema to a column or document f
 
 ##### MongoDB
 
-Your `@id` field must include `@map("_id")`. For example:
+Your `@id` field must include `@map("_id")`. 例如：
 
 ```prisma
 model User {
@@ -2806,7 +2806,7 @@ Automatically stores the time when a record was last updated. If you do not supp
 
 #### Remarks
 
-- Compatible with [`DateTime`](#datetime) fields
+- 相容於 [`DateTime`](#datetime) fields
 - Implemented at Prisma ORM level
 
 :::warning
@@ -2817,7 +2817,7 @@ In versions before [4.4.0](https://github.com/prisma/prisma/releases/tag/4.4.0),
 
 :::note
 
-If you pass an empty update clause, the @updatedAt value will remain unchanged. For example:
+If you pass an empty update clause, the @updatedAt value will remain unchanged. 例如：
 
 ```ts
 await prisma.user.update({
@@ -2867,15 +2867,15 @@ model Post {
 
 ### `@ignore`
 
-Add `@ignore` to a field that you want to exclude from Prisma Client (for example, a field that you do not want Prisma Client users to update). Ignored fields are excluded from the generated Prisma Client. The model's `create` method is disabled when doing this for _required_ fields with no `@default` (because the database cannot create an entry without that data).
+Add `@ignore` to a field that you want to exclude from Prisma Client (例如, a field that you do not want Prisma Client users 更新). Ignored fields are excluded from the generated Prisma Client. The model's `create` method is disabled when doing this for _required_ fields with no `@default` (because the database cannot create an entry without that data).
 
 #### Remarks
 
-- In [2.17.0](https://github.com/prisma/prisma/releases/tag/2.17.0) and later, Prisma ORM automatically adds `@ignore` to fields that _refer to_ invalid models when you introspect.
+- In [2.17.0](https://github.com/prisma/prisma/releases/tag/2.17.0) and later, Prisma ORM automatically adds `@ignore` to fields that _參閱_ invalid models when you introspect.
 
 #### Examples
 
-The following example demonstrates manually adding `@ignore` to exclude the `email` field from Prisma Client:
+以下範例 demonstrates manually adding `@ignore` to exclude the `email` field from Prisma Client:
 
 ```prisma file=schema.prisma highlight=4;normal
 model User {
@@ -2888,7 +2888,7 @@ model User {
 
 ### `@@ignore`
 
-Add `@@ignore` to a model that you want to exclude from Prisma Client (for example, a model that you do not want Prisma users to update). Ignored models are excluded from the generated Prisma Client.
+Add `@@ignore` to a model that you want to exclude from Prisma Client (例如, a model that you do not want Prisma users 更新). Ignored models are excluded from the generated Prisma Client.
 
 #### Remarks
 
@@ -2896,7 +2896,7 @@ Add `@@ignore` to a model that you want to exclude from Prisma Client (for examp
 
 #### Examples
 
-In the following example, the `Post` model is invalid because it does not have a unique identifier. Use `@@ignore` to exclude it from the generated Prisma Client API:
+In 以下範例, the `Post` model is invalid because it does not have a unique identifier. Use `@@ignore` to exclude it from the generated Prisma Client API:
 
 ```prisma file=schema.prisma highlight=7;normal
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -2910,7 +2910,7 @@ model Post {
 }
 ```
 
-In the following example, the `Post` model is invalid because it does not have a unique identifier, and the `posts` relation field on `User` is invalid because it refers to the invalid `Post` model. Use `@@ignore` on the `Post` model and `@ignore` on the `posts` relation field in `User` to exclude both the model and the relation field from the generated Prisma Client API:
+In 以下範例, the `Post` model is invalid because it does not have a unique identifier, and the `posts` relation field on `User` is invalid because it refers to the invalid `Post` model. Use `@@ignore` on the `Post` model and `@ignore` on the `posts` relation field in `User` to exclude both the model and the relation field from the generated Prisma Client API:
 
 ```prisma file=schema.prisma highlight=7,13;normal
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -2988,14 +2988,14 @@ model User {
 
 :::info
 
-For more information about using the `multiSchema` feature, refer to [this guide](/orm/prisma-schema/data-model/multi-schema).
+欲了解更多資訊 about using the `multiSchema` feature, 參閱 [this guide](/orm/prisma-schema/data-model/multi-schema).
 
 :::
 
 ### `@shardKey`
 
 :::note
-This features requires the `shardKeys` Preview feature flag on your `generator`:
+This features 需要 the `shardKeys` Preview feature flag on your `generator`:
 ```prisma
 generator client {
   provider = "prisma-client"
@@ -3006,7 +3006,7 @@ generator client {
 :::
 
 
-The `@shardKey` attribute is only compatible with [PlanetScale](http://planetscale.com/) databases. It enables you define a [shard key](https://planetscale.com/docs/vitess/sharding) on a field of your model:
+The `@shardKey` attribute is only 相容於 [PlanetScale](http://planetscale.com/) databases. It enables you define a [shard key](https://planetscale.com/docs/vitess/sharding) on a field of your model:
 
 ```prisma
 model User {
@@ -3018,7 +3018,7 @@ model User {
 ### `@@shardKey`
 
 :::note
-This features requires the `shardKeys` Preview feature flag on your `generator`:
+This features 需要 the `shardKeys` Preview feature flag on your `generator`:
 ```prisma
 generator client {
   provider = "prisma-client"
@@ -3028,7 +3028,7 @@ generator client {
 ```
 :::
 
-The `@shardKey` attribute is only compatible with [PlanetScale](http://planetscale.com/) databases. It enables you define a [shard key](https://planetscale.com/docs/vitess/sharding) on multiple fields of your model:
+The `@shardKey` attribute is only 相容於 [PlanetScale](http://planetscale.com/) databases. It enables you define a [shard key](https://planetscale.com/docs/vitess/sharding) on multiple fields of your model:
 
 ```prisma
 model User {
@@ -3078,7 +3078,7 @@ model User {
 
 :::warning
 
-**Not supported by MongoDB** <br />
+**Not 支援 MongoDB** <br />
 The [MongoDB connector](/orm/overview/databases/mongodb) does not support the `autoincrement()` function.
 
 :::
@@ -3087,7 +3087,7 @@ Create a sequence of integers in the underlying database and assign the incremen
 
 #### Remarks
 
-- Compatible with `Int` on most databases (`BigInt` on CockroachDB)
+- 相容於 `Int` on most databases (`BigInt` on CockroachDB)
 - Implemented on the database-level, meaning that it manifests in the database schema and can be recognized through introspection. Database implementations:
 
   | Database    | Implementation                                                                                    |
@@ -3112,8 +3112,8 @@ model User {
 
 :::info
 
-**Only supported by CockroachDB** <br />
-The sequence function is only supported by [CockroachDB connector](/orm/overview/databases/cockroachdb).
+**Only 支援 CockroachDB** <br />
+The sequence function is only 支援 [CockroachDB connector](/orm/overview/databases/cockroachdb).
 
 :::
 
@@ -3145,14 +3145,14 @@ model User {
 
 Generate a globally unique identifier based on the [`cuid`](https://github.com/ericelliott/cuid) spec.
 
-If you'd like to use [`cuid2`](https://github.com/paralleldrive/cuid2) values, you can pass `2` as an argument to the `cuid` function: `cuid(2)`.
+If you'd like 使用 [`cuid2`](https://github.com/paralleldrive/cuid2) values, 您可以 pass `2` as an argument to the `cuid` function: `cuid(2)`.
 
 #### Remarks
 
-- Compatible with `String`.
-- Implemented by Prisma ORM and therefore not "visible" in the underlying database schema. You can still use `cuid()` when using [introspection](/orm/prisma-schema/introspection) by [manually changing your Prisma schema](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names) and [generating Prisma Client](/orm/prisma-client/setup-and-configuration/generating-prisma-client), in that case the values will be generated by Prisma's [query engine](/orm/more/under-the-hood/engines).
+- 相容於 `String`.
+- Implemented by Prisma ORM and therefore not "visible" in the underlying database schema. 您可以 still use `cuid()` when using [introspection](/orm/prisma-schema/introspection) by [manually changing your Prisma schema](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names) and [generating Prisma Client](/orm/prisma-client/setup-and-configuration/generating-prisma-client), in that case the values will be generated by Prisma's [query engine](/orm/more/under-the-hood/engines).
 - Since the length of `cuid()` output is undefined per the cuid creator, a safe field size is 30 characters, in order to allow for enough characters for very large values. If you set the field size as less than 30, and then a larger value is generated by `cuid()`, you might see Prisma Client errors such as `Error: The provided value for the column is too long for the column's type.`
-- For **MongoDB**: `cuid()` does not generate a valid `ObjectId`. You can use [`@db.ObjectId` syntax](#generate-objectid-as-ids-mongodb-only) if you want to use `ObjectId` in the underlying database. However, you can still use `cuid()` if your `_id` field is not of type `ObjectId`.
+- For **MongoDB**: `cuid()` does not generate a valid `ObjectId`. 您可以 use [`@db.ObjectId` syntax](#generate-objectid-as-ids-mongodb-only) if you want 使用 `ObjectId` in the underlying database. However, 您可以 still use `cuid()` if your `_id` field is not of type `ObjectId`.
 
 #### Examples
 
@@ -3212,10 +3212,10 @@ Generate a globally unique identifier based on the [UUID](https://en.wikipedia.o
 
 #### Remarks
 
-- Compatible with `String`.
-- Implemented by Prisma ORM and therefore not "visible" in the underlying database schema. You can still use `uuid()` when using [introspection](/orm/prisma-schema/introspection) by [manually changing your Prisma schema](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names) and [generating Prisma Client](/orm/prisma-client/setup-and-configuration/generating-prisma-client), in that case the values will be generated by Prisma ORM's [query engine](/orm/more/under-the-hood/engines).
-- For **relational databases**: If you do not want to use Prisma ORM's `uuid()` function, you can use [the native database function with `dbgenerated`](#override-default-value-behavior-for-supported-types).
-- For **MongoDB**: `uuid()` does not generate a valid `ObjectId`. You can use [`@db.ObjectId` syntax](#generate-objectid-as-ids-mongodb-only) if you want to use `ObjectId` in the underlying database. However, you can still use `uuid()` if your `_id` field is not of type `ObjectId`.
+- 相容於 `String`.
+- Implemented by Prisma ORM and therefore not "visible" in the underlying database schema. 您可以 still use `uuid()` when using [introspection](/orm/prisma-schema/introspection) by [manually changing your Prisma schema](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names) and [generating Prisma Client](/orm/prisma-client/setup-and-configuration/generating-prisma-client), in that case the values will be generated by Prisma ORM's [query engine](/orm/more/under-the-hood/engines).
+- For **relational databases**: If you do not want 使用 Prisma ORM's `uuid()` function, 您可以 use [the native database function with `dbgenerated`](#override-default-value-behavior-for-supported-types).
+- For **MongoDB**: `uuid()` does not generate a valid `ObjectId`. 您可以 use [`@db.ObjectId` syntax](#generate-objectid-as-ids-mongodb-only) if you want 使用 `ObjectId` in the underlying database. However, 您可以 still use `uuid()` if your `_id` field is not of type `ObjectId`.
 
 #### Examples
 
@@ -3323,9 +3323,9 @@ There are two main differences between Nano ID and UUID v4:
 
 #### Remarks
 
-- Compatible with `String`.
-- Implemented by Prisma ORM and therefore not "visible" in the underlying database schema. You can still use `uuid()` when using [introspection](/orm/prisma-schema/introspection) by [manually changing your Prisma schema](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names) and [generating Prisma Client](/orm/prisma-client/setup-and-configuration/generating-prisma-client), in that case the values will be generated by Prisma ORM's [query engine](/orm/more/under-the-hood/engines).
-- For **MongoDB**: `nanoid()` does not generate a valid `ObjectId`. You can use [`@db.ObjectId` syntax](#generate-objectid-as-ids-mongodb-only) if you want to use `ObjectId` in the underlying database. However, you can still use `nanoid()` if your `_id` field is not of type `ObjectId`.
+- 相容於 `String`.
+- Implemented by Prisma ORM and therefore not "visible" in the underlying database schema. 您可以 still use `uuid()` when using [introspection](/orm/prisma-schema/introspection) by [manually changing your Prisma schema](/orm/prisma-client/setup-and-configuration/custom-model-and-field-names) and [generating Prisma Client](/orm/prisma-client/setup-and-configuration/generating-prisma-client), in that case the values will be generated by Prisma ORM's [query engine](/orm/more/under-the-hood/engines).
+- For **MongoDB**: `nanoid()` does not generate a valid `ObjectId`. 您可以 use [`@db.ObjectId` syntax](#generate-objectid-as-ids-mongodb-only) if you want 使用 `ObjectId` in the underlying database. However, 您可以 still use `nanoid()` if your `_id` field is not of type `ObjectId`.
 
 #### Examples
 
@@ -3387,7 +3387,7 @@ Set a timestamp of the time when a record is created.
 
 ##### General
 
-- Compatible with [`DateTime`](#datetime)
+- 相容於 [`DateTime`](#datetime)
 
 :::warning
 
@@ -3445,14 +3445,14 @@ Represents **default values** that cannot be expressed in the Prisma schema (suc
 
 ##### Relational databases
 
-- Compatible with any scalar type
+- 相容於 any scalar type
 - Can not be an empty string `dbgenerated("")` in [2.21.0](https://github.com/prisma/prisma/releases/tag/2.21.0) and later
 - Accepts a `String` value in [2.17.0](https://github.com/prisma/prisma/releases/tag/2.17.0) and later, which allows you to:
 
   - [Set default values for `Unsupported` types](#set-default-value-for-unsupported-type)
   - [Override default value behavior for supported types](#override-default-value-behavior-for-supported-types)
 
-- String values in `dbgenerated(...)` might not match what the DB returns as the default value, because values such as strings may be explicitly cast (e.g. `'hello'::STRING`). When a mismatch is present, Prisma Migrate indicates a migration is still needed. You can use `prisma db pull` to infer the correct value to resolve the discrepancy. ([Related issue](https://github.com/prisma/prisma/issues/14917))
+- String values in `dbgenerated(...)` might not match what the DB returns as the default value, because values such as strings may be explicitly cast (e.g. `'hello'::STRING`). When a mismatch is present, Prisma Migrate indicates a migration is still needed. 您可以 use `prisma db pull` to infer the correct value to resolve the discrepancy. ([Related issue](https://github.com/prisma/prisma/issues/14917))
 
 #### Examples
 
@@ -3464,7 +3464,7 @@ circle     Unsupported("circle")?   @default(dbgenerated("'<(10,4),11>'::circle"
 
 ##### Override default value behavior for supported types
 
-You can also use `dbgenerated(...)` to set the default value for supported types. For example, in PostgreSQL you can generate UUIDs at the database level rather than rely on Prisma ORM's `uuid()`:
+您可以 also use `dbgenerated(...)` to set the default value for supported types. 例如, in PostgreSQL 您可以 generate UUIDs at the database level rather than rely on Prisma ORM's `uuid()`:
 
 ```prisma highlight=2;add|3;delete
 model User {
@@ -3509,14 +3509,14 @@ Defines an [enum](/orm/prisma-schema/data-model/models#defining-enums) .
 
 ### Remarks
 
-- Enums are natively supported by [PostgreSQL](https://www.postgresql.org/docs/current/datatype-enum.html) and [MySQL](https://dev.mysql.com/doc/refman/8.0/en/enum.html)
+- Enums are natively 支援 [PostgreSQL](https://www.postgresql.org/docs/current/datatype-enum.html) and [MySQL](https://dev.mysql.com/doc/refman/8.0/en/enum.html)
 - Enums are implemented and enforced at Prisma ORM level in SQLite and MongoDB
 
 ### Naming conventions
 
 - Enum names must start with a letter (they are typically spelled in [PascalCase](http://wiki.c2.com/?PascalCase))
 - Enums must use the singular form (e.g. `Role` instead of `role`, `roles` or `Roles`).
-- Must adhere to the following regular expression: `[A-Za-z][A-Za-z0-9_]*`
+- Must adhere to 以下 regular expression: `[A-Za-z][A-Za-z0-9_]*`
 
 ### Examples
 
@@ -3600,7 +3600,7 @@ Composite types are available **for MongoDB only**.
 
 :::info
 
-Composite types are available in versions 3.12.0 and later, and in versions 3.10.0 and later if you enable the `mongodb` Preview feature flag.
+Composite types are 可用於 versions 3.12.0 and later, and in versions 3.10.0 and later if you enable the `mongodb` Preview feature flag.
 
 :::
 
@@ -3611,7 +3611,7 @@ Defines a [composite type](/orm/prisma-schema/data-model/models#defining-composi
 Type names must:
 
 - start with a letter (they are typically spelled in [PascalCase](http://wiki.c2.com/?PascalCase))
-- adhere to the following regular expression: `[A-Za-z][A-Za-z0-9_]*`
+- adhere to 以下 regular expression: `[A-Za-z][A-Za-z0-9_]*`
 
 ### Examples
 

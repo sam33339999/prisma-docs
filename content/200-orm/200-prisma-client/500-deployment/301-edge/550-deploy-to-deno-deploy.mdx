@@ -6,13 +6,13 @@ metaDescription: '學習如何 to 部署 a TypeScript application to Deno 部署
 
 
 
-With this guide, you can learn how to build and deploy a simple application to [Deno Deploy](https://deno.com/deploy). The application uses Prisma ORM to save a log of each request to a [Prisma Postgres](/postgres) database.
+With this guide, 您可以 學習如何 build and deploy a simple application to [Deno Deploy](https://deno.com/deploy). The application uses Prisma ORM to save a log of each request to a [Prisma Postgres](/postgres) database.
 
 This guide covers the use of Prisma CLI with Deno CLI, Deno Deploy, Prisma Client, and Prisma Postgres.
 
 :::tip Use Prisma ORM without Rust binaries
 
-If Prisma ORM's Rust engine binaries cause large bundle sizes, slow builds, or deployment issues (for example, in serverless or edge environments), you can use it without them using this configuration of your `generator` block:
+If Prisma ORM's Rust engine binaries cause large bundle sizes, slow builds, or deployment issues (例如, in serverless or edge environments), 您可以 use it without them using this configuration of your `generator` block:
 
 ```prisma
 generator client {
@@ -23,7 +23,7 @@ generator client {
 
 Prisma ORM without Rust binaries has been [Generally Available](/orm/more/releases#generally-available-ga) since [v6.16.0](https://pris.ly/release/6.16.0).
 
-Note that you need to use a [driver adapter](/orm/overview/databases/database-drivers#driver-adapters) in this case.
+請注意 您需要 use a [driver adapter](/orm/overview/databases/database-drivers#driver-adapters) in this case.
 
 When using this architecture:
 
@@ -32,7 +32,7 @@ When using this architecture:
 
 This setup can simplify deployments in serverless or edge runtimes. Learn more in the [docs here](/orm/prisma-client/setup-and-configuration/no-rust-engine). 
 
-Curious why we moved away from the Rust engine? Take a look at why we transitioned from Rust binary engines to an all-TypeScript approach for a faster, lighter Prisma ORM in this [blog post](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks).
+Curious why we moved away from the Rust engine? 查看 why we transitioned from Rust binary engines to an all-TypeScript approach for a faster, lighter Prisma ORM in this [blog post](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks).
 
 :::
 
@@ -50,7 +50,7 @@ Curious why we moved away from the Rust engine? Take a look at why we transition
 
 To start, you create a directory for your project, and then use `deno run` to initialize your application with `prisma init` as an [npm package with npm specifiers](https://docs.deno.com/runtime/fundamentals/node/).
 
-To set up your application, open your terminal and navigate to a location of your choice. Then, run the following commands to set up your application:
+設定 your application, open your terminal and navigate to a location of your choice. Then, run 以下 commands 設定 your application:
 
 ```terminal
 mkdir prisma-deno-deploy
@@ -107,7 +107,7 @@ deno install npm:@prisma/client
 deno install npm:@prisma/adapter-pg
 ```
 
-Prisma Client does not read `.env` files by default on Deno, so you must also install `dotenv-cli` locally:
+Prisma Client does not read `.env` files 預設情況下 on Deno, so 您必須 also install `dotenv-cli` locally:
 
 ```terminal
 deno install npm:dotenv-cli
@@ -115,7 +115,7 @@ deno install npm:dotenv-cli
 
 ## 2. Create the database schema
 
-With the data model in place and your database connection configured, you can now apply the data model to your database.
+With the data model in place and your database connection configured, 您可以 now apply the data model to your database.
 
 ```terminal
 deno run -A npm:prisma migrate dev --name init
@@ -130,7 +130,7 @@ At this point, the command has an additional side effects. The command installs 
 
 ## 3. Create your application
 
-You can now create a local Deno application. Create `index.ts` in the root folder of your project and add the content below:
+您可以 now create a local Deno application. Create `index.ts` in the root folder of your project and add the content below:
 
 ```ts file=index.ts
 import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
@@ -170,13 +170,13 @@ serve(handler);
 
 **VS Code error: `An import path cannot end with a '.ts' extension`**<br /><br />
 
-If you use VS Code and see the error `An import path cannot end with a '.ts' extension` for the `import` statements at the beginning of `index.ts`, you need to install the [Deno extension for VS Code](https://docs.deno.com/runtime/reference/vscode/), select **View** > **Command Palette** and run the command **Deno: Initialize Workspace Configuration**. This tells VS Code that the TypeScript files in the current project need to run with Deno, which then triggers the correct validations.
+If you use VS Code and 參見 error `An import path cannot end with a '.ts' extension` for the `import` statements at the beginning of `index.ts`, 您需要 install the [Deno extension for VS Code](https://docs.deno.com/runtime/reference/vscode/), select **View** > **Command Palette** and run the command **Deno: Initialize Workspace Configuration**. This tells VS Code that the TypeScript files in the current project need to run with Deno, which then triggers the correct validations.
 
 :::
 
 ## 4. Test your application locally
 
-You can now start your application locally and test the creation of log entries.
+您可以 now start your application locally and test the creation of log entries.
 
 ```terminal
 npx dotenv -- deno run -A ./index.ts
@@ -201,13 +201,13 @@ This confirms that your application works when you run it from your local enviro
 
 ## 5. Create a repository and push to GitHub
 
-You need a GitHub repository to add your project to Deno Deploy and enable automated deployments whenever you push changes.
+You need a GitHub repository 添加 your project to Deno Deploy and enable automated deployments whenever you push changes.
 
-To set up a GitHub repository:
+設定 a GitHub repository:
 
 1. [Create a private GitHub repository](https://github.com/new).
 
-2. Initialize your repository locally and push your changes to GitHub, with the following commands:
+2. Initialize your repository locally and push your changes to GitHub, with 以下 commands:
 
    ```terminal
    git init -b main
@@ -219,7 +219,7 @@ To set up a GitHub repository:
 
 ## 6. Deploy to Deno Deploy
 
-Use the GitHub repository to add your application to Deno Deploy:
+Use the GitHub repository 添加 your application to Deno Deploy:
 
 1. Go to [https://dash.deno.com/](https://dash.deno.com/).
 1. Select a GitHub organization or user and then select a repository.
@@ -228,7 +228,7 @@ Use the GitHub repository to add your application to Deno Deploy:
 1. Select `index.ts` as the entry point to your project.
 1. Click `Create & Deploy`.
 
-The deployment should fail as you have to add the `DATABASE_URL` environment variable. 
+The deployment should fail as you have 添加 the `DATABASE_URL` environment variable. 
 
 Locate and navigate to the settings for the project.
 
@@ -237,9 +237,9 @@ Locate and navigate to the settings for the project.
    1. For **VALUE**, paste the database connection string.
 1. Click **Save**.<br />
    
-You have to add some code and create another commit to trigger a re-dployment.
+You have 添加 some code and create another commit to trigger a re-dployment.
 
-Add the following code in your `index.ts` file:
+Add 以下 code in your `index.ts` file:
 
 ```ts file=index.ts
 import { serve } from "https://deno.land/std@0.140.0/http/server.ts";

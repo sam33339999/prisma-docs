@@ -33,7 +33,7 @@ VS Code doesn't know the _type_ of the `context` object so it can't provide any 
 
 ## Solution
 
-To overcome this, you need to add a [JSDoc](https://jsdoc.app/) comment named `typedef` to "import" the correct type of your `PrismaClient` instance.
+To overcome this, 您需要 add a [JSDoc](https://jsdoc.app/) comment named `typedef` to "import" the correct type of your `PrismaClient` instance.
 
 ```js
 // Add this to the top of the file
@@ -43,9 +43,9 @@ To overcome this, you need to add a [JSDoc](https://jsdoc.app/) comment named `t
  */
 ```
 
-> **Note**: You can learn more about JSDoc [here](https://devhints.io/jsdoc).
+> **Note**: 您可以 learn more about JSDoc [here](https://devhints.io/jsdoc).
 
-Finally, you need to type your resolver arguments. For simplicity, ignore the `parent` and `args` parameters. So the resolver should now look like this:
+Finally, 您需要 type your resolver arguments. For simplicity, ignore the `parent` and `args` parameters. So the resolver should now look like this:
 
 ```js
 /**
@@ -65,7 +65,7 @@ filterPosts: (parent, args, ctx) => {
 }
 ```
 
-This will tell VS Code that the `context` has a property named `prisma` and the type is `Prisma` which was defined in the `@typedef` above.
+這將 tell VS Code that the `context` has a property named `prisma` and the type is `Prisma` which was defined in the `@typedef` above.
 
 And voilà, autocompletion in plain JavaScript.
 

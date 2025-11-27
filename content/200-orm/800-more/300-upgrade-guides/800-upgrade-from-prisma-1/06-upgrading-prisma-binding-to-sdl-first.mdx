@@ -6,9 +6,9 @@ metaDescription: '學習 如何 升級 existing Prisma 1 projects with prisma-bi
 
 ## 概述
 
-This upgrade guide describes how to migrate a Node.js project that's based on [Prisma 1](https://github.com/prisma/prisma1) and uses `prisma-binding` to implement a GraphQL server.
+This upgrade guide describes 如何 migrate a Node.js project that's based on [Prisma 1](https://github.com/prisma/prisma1) and uses `prisma-binding` to implement a GraphQL server.
 
-The code will keep the [SDL-first approach](https://www.prisma.io/blog/the-problems-of-schema-first-graphql-development-x1mn4cb0tyl3) for constructing the GraphQL schema. When migrating from `prisma-binding` to Prisma Client, the main difference is that the `info` object can't be used to resolve relations automatically any more, instead you'll need to implement your _type resolvers_ to ensure that relations get resolved properly.
+The code will keep the [SDL-first approach](https://www.prisma.io/blog/the-problems-of-schema-first-graphql-development-x1mn4cb0tyl3) for constructing the GraphQL schema. When migrating from `prisma-binding` to Prisma Client, 主要 difference is that the `info` object can't be used to resolve relations automatically any more, instead you'll need to implement your _type resolvers_ to ensure that relations get resolved properly.
 
 The guide assumes that you already went through the [guide for upgrading the Prisma ORM layer](/orm/more/upgrade-guides/upgrade-from-prisma-1/upgrading-the-prisma-layer-postgresql). This means you already:
 
@@ -52,17 +52,17 @@ The easiest way to do so is by downloading the full GraphQL schema from the Grap
 
 ![Downloading the GraphQL schema with GraphQL Playground](./images/download-graphql-schema.png)
 
-Alternatively, you can use the `get-schema` command of the [GraphQL CLI](https://github.com/Urigo/graphql-cli) to download your full schema:
+Alternatively, 您可以 use the `get-schema` command of the [GraphQL CLI](https://github.com/Urigo/graphql-cli) to download your full schema:
 
 ```
 npx graphql get-schema --endpoint __GRAPHQL_YOGA_ENDPOINT__ --output schema.graphql --no-all
 ```
 
-> **Note**: With the above command, you need to replace the `__GRAPHQL_YOGA_ENDPOINT__` placeholder with the actual endpoint of your GraphQL Yoga server.
+> **Note**: With the above command, 您需要 replace the `__GRAPHQL_YOGA_ENDPOINT__` placeholder with the actual endpoint of your GraphQL Yoga server.
 
-Once you obtained the `schema.graphql` file, replace your current version in `src/schema.graphql` with the new contents. Note that the two schemas are 100% equivalent, except that the new one doesn't use [`graphql-import`](https://github.com/ardatan/graphql-import) for importing types from a different file. Instead, it spells out all types in a single file.
+Once you obtained the `schema.graphql` file, replace your current version in `src/schema.graphql` with the new contents. 請注意 the two schemas are 100% equivalent, except that the new one doesn't use [`graphql-import`](https://github.com/ardatan/graphql-import) for importing types from a different file. Instead, it spells out all types in a single file.
 
-Here's a comparison of these two versions of the sample GraphQL schema that we'll migrate in this guide (you can use the tabs to switch between the two versions):
+Here's a comparison of these two versions of the sample GraphQL schema that we'll migrate 在本指南中 (您可以 use the tabs to switch between the two versions):
 
 <TabbedContent code>
 <TabItem value="Before (with graphql-import)">
@@ -766,7 +766,7 @@ You'll notice that the new version of your GraphQL schema not only defines the _
 
 ## 2. Set up your `PrismaClient` instance
 
-`PrismaClient` is your new interface to the database in Prisma ORM 2. It lets you invoke various methods which build SQL queries and send them to the database, returning the results as plain JavaScript objects.
+`PrismaClient` is your new interface to the database in Prisma ORM 2. It lets you invoke various methods which build SQL queries and send them to the database, returning 結果s as plain JavaScript objects.
 
 The `PrismaClient` query API is inspired by the initial `prisma-binding` API, so a lot of the queries you send with Prisma Client will feel familiar.
 
@@ -794,15 +794,15 @@ const server = new GraphQLServer({
 })
 ```
 
-In the code block above, the _red_ lines are the lines to be removed from your current setup, the _green_ lines are the ones that you should add. Of course, it's possible that your previous setup differed from this one (e.g. it's unlikely that your Prisma ORM `endpoint` was `http://localhost:4466` if you're running your API in production), this is just a sample to indicate what it _could_ look like.
+In the code block above, the _red_ lines are the lines to be removed from your current setup, the _green_ lines are the ones that 您應該 add. Of course, it's possible that your previous setup differed from this one (e.g. it's unlikely that your Prisma ORM `endpoint` was `http://localhost:4466` if you're running your API in production), this is just a sample to indicate what it _could_ look like.
 
 When you're now accessing `context.prisma` inside of a resolver, you now have access to Prisma Client queries.
 
 ## 2. Write your GraphQL type 解析器
 
-`prisma-binding` was able to _magically_ resolve relations in your GraphQL schema. When not using `prisma-binding` though, you need to explicitly resolve your relations using so-called _type resolvers_.
+`prisma-binding` was able to _magically_ resolve relations in your GraphQL schema. When not using `prisma-binding` though, 您需要 explicitly resolve your relations using so-called _type resolvers_.
 
-> **Note** You can learn more about the concept of type resolvers and why they're necessary in this article: [GraphQL Server Basics: GraphQL Schemas, TypeDefs & Resolvers Explained](https://www.prisma.io/blog/graphql-server-basics-the-schema-ac5e2950214e)
+> **Note** 您可以 learn more about the concept of type resolvers and why they're necessary in this article: [GraphQL Server Basics: GraphQL Schemas, TypeDefs & Resolvers Explained](https://www.prisma.io/blog/graphql-server-basics-the-schema-ac5e2950214e)
 
 ### 2.1. Implementing the type resolver for the `User` type
 
@@ -835,7 +835,7 @@ This type has two relations:
 
 Since you're not using `prisma-binding` any more, you now need to resolve these relations "manually" in type resolvers.
 
-You can do so by adding a `User` field to your _resolver map_ and implement the resolvers for the `posts` and `profile` relations as follows:
+您可以 do so by adding a `User` field to your _resolver map_ and implement the resolvers for the `posts` and `profile` relations as follows:
 
 ```js line-number highlight=8-23;add
 const resolvers = {
@@ -921,7 +921,7 @@ This type has two relations:
 
 Since you're not using `prisma-binding` any more, you now need to resolve these relations "manually" in type resolvers.
 
-You can do so by adding a `Post` field to your _resolver map_ and implement the resolvers for the `author` and `categories` relations as follows:
+您可以 do so by adding a `Post` field to your _resolver map_ and implement the resolvers for the `author` and `categories` relations as follows:
 
 ```js line-number highlight=11-26;add
 const resolvers = {
@@ -994,7 +994,7 @@ This type has one relation: The `user` field denotes a 1-n relation to `User`.
 
 Since you're not using `prisma-binding` any more, you now need to resolve this relation "manually" in type resolvers.
 
-You can do so by adding a `Profile` field to your _resolver map_ and implement the resolvers for the `owner` relation as follows:
+您可以 do so by adding a `Profile` field to your _resolver map_ and implement the resolvers for the `owner` relation as follows:
 
 ```js line-number highlight=14-22;add
 const resolvers = {
@@ -1052,7 +1052,7 @@ This type has one relation: The `posts` field denotes a m-n relation to `Post`.
 
 Since you're not using `prisma-binding` any more, you now need to resolve this relation "manually" in type resolvers.
 
-You can do so by adding a `Category` field to your _resolver map_ and implement the resolvers for the `posts` and `profile` relations as follows:
+您可以 do so by adding a `Category` field to your _resolver map_ and implement the resolvers for the `posts` and `profile` relations as follows:
 
 ```js line-number highlight=17-25;add
 const resolvers = {
@@ -1089,13 +1089,13 @@ Inside of this resolver, you're using your new `PrismaClient` to perform a query
 
 Thanks to this extra resolver, you'll now be able to nest relations in your GraphQL queries/mutations whenever you're requesting information about a `Category` type in a query.
 
-With all your type resolvers in place, you can start migrating the actual GraphQL API operations.
+With all your type resolvers in place, 您可以 start migrating the actual GraphQL API operations.
 
 ## 3. Migrate GraphQL operations
 
 ### 3.1. Migrate GraphQL 查詢
 
-In this section, you'll migrate all GraphQL _queries_ from `prisma-binding` to Prisma Client.
+在本節中, you'll migrate all GraphQL _queries_ from `prisma-binding` to Prisma Client.
 
 #### 3.1.1. Migrate the `users` 查詢 (which uses `forwardTo`)
 
@@ -1146,13 +1146,13 @@ const resolvers = {
 }
 ```
 
-Note that this approach does **not** work yet because the _structures_ of the incoming arguments is different from the ones expected by `PrismaClient`. To ensure the structures are compatible, you can use the `@prisma/binding-argument-transform` npm package which ensures compatibility:
+請注意 this approach does **not** work yet because the _structures_ of the incoming arguments is different from the ones expected by `PrismaClient`. To ensure the structures are compatible, 您可以 use the `@prisma/binding-argument-transform` npm package which ensures compatibility:
 
 ```copy
 npm install @prisma/binding-argument-transform
 ```
 
-You can now use this package as follows:
+您可以 now use this package as follows:
 
 ```js
 const {
@@ -1188,7 +1188,7 @@ The last remaining issue with this are the pagination arguments. Prisma ORM 2 in
 - The new `cursor` argument replaces `before` and `after`
 - The new `take` argument replaces `first` and `last`
 
-Here is how you can adjust the call to make it compliant with the new Prisma Client pagination API:
+Here is how 您可以 adjust the call to make it compliant with the new Prisma Client pagination API:
 
 ```js
 const {
@@ -1288,7 +1288,7 @@ const resolvers = {
 }
 ```
 
-You can now send the respective query in the GraphQL Playground:
+您可以 now send the respective query in the GraphQL Playground:
 
 ```graphql
 {
@@ -1358,7 +1358,7 @@ const resolvers = {
 }
 ```
 
-You can now send the respective query via the GraphQL Playground:
+您可以 now send the respective query via the GraphQL Playground:
 
 ```graphql
 {
@@ -1371,7 +1371,7 @@ You can now send the respective query via the GraphQL Playground:
 
 ### 3.1. Migrate GraphQL mutations
 
-In this section, you'll migrate the GraphQL mutations from the sample schema.
+在本節中, you'll migrate the GraphQL mutations from the sample schema.
 
 #### 3.1.2. Migrate the `createUser` mutation (which uses `forwardTo`)
 
@@ -1416,7 +1416,7 @@ const resolvers = {
 }
 ```
 
-You can now write your first mutation against the new API, e.g.:
+您可以 now write your first mutation against the new API, e.g.:
 
 ```graphql
 mutation {
@@ -1492,7 +1492,7 @@ const resolvers = {
 }
 ```
 
-You can now send the respective mutation via the GraphQL Playground:
+您可以 now send the respective mutation via the GraphQL Playground:
 
 ```graphql
 mutation {
@@ -1567,7 +1567,7 @@ const resolvers = {
 }
 ```
 
-You can now send the respective mutation via the GraphQL Playground :
+您可以 now send the respective mutation via the GraphQL Playground :
 
 ```graphql
 mutation {
@@ -1649,7 +1649,7 @@ const resolvers = {
 }
 ```
 
-You can now send the respective query via the GraphQL Playground:
+您可以 now send the respective query via the GraphQL Playground:
 
 ```graphql
 mutation {
@@ -1669,11 +1669,11 @@ mutation {
 
 ## 4. Cleaning up
 
-Since the entire app has now been upgraded to Prisma ORM 2, you can delete all unnecessary files and remove the no longer needed dependencies.
+Since the entire app has now been upgraded to Prisma ORM 2, 您可以 delete all unnecessary files and remove the no longer needed dependencies.
 
 ### 4.1. Clean up npm dependencies
 
-You can start by removing npm dependencies that were related to the Prisma 1 setup:
+您可以 start by removing npm dependencies that were related to the Prisma 1 setup:
 
 ```copy
 npm uninstall graphql-cli prisma-binding prisma1
@@ -1689,4 +1689,4 @@ rm prisma1/datamodel.prisma prisma1/prisma.yml
 
 ### 4.3. Stop the Prisma ORM server
 
-Finally, you can stop running your Prisma ORM server.
+Finally, 您可以 stop running your Prisma ORM server.

@@ -10,7 +10,7 @@ community_section: true
 
 ## Introduction
 
-This guide shows you how to migrate your application from Mongoose to Prisma ORM. We'll use a [sample project](https://github.com/prisma/migrate-from-mongoose-to-prisma) to demonstrate the migration steps.
+本指南向您展示如何 migrate your application from Mongoose to Prisma ORM. We'll use a [sample project](https://github.com/prisma/migrate-from-mongoose-to-prisma) to demonstrate the migration steps.
 
 :::warning[MongoDB support for Prisma ORM v7]
 
@@ -20,7 +20,7 @@ This guide uses Prisma ORM v6.19 to ensure full compatibility with MongoDB.
 
 :::
 
-You can learn how Prisma ORM compares to Mongoose on the [Prisma ORM vs Mongoose](/orm/more/comparisons/prisma-and-mongoose) page.
+您可以 learn how Prisma ORM compares to Mongoose on the [Prisma ORM vs Mongoose](/orm/more/comparisons/prisma-and-mongoose) page.
 
 :::warning
 
@@ -63,7 +63,7 @@ npm install @prisma/client@6.19 dotenv
 
 This is the latest stable version of Prisma ORM v6 that fully supports MongoDB. MongoDB support for Prisma ORM v7 is coming soon.
 
-You can also install `prisma@6` and `@prisma/client@6` to automatically get the latest v6 release.
+您可以 also install `prisma@6` and `@prisma/client@6` to automatically get the latest v6 release.
 
 :::
 
@@ -78,7 +78,7 @@ npx prisma init --datasource-provider mongodb --output ../generated/prisma
 This command creates:
 
 - A new directory called `prisma` that contains a `schema.prisma` file; your Prisma schema specifies your database connection and models
-- `.env`: A [`dotenv`](https://github.com/motdotla/dotenv) file at the root of your project (if it doesn't already exist), used to configure your database connection URL as an environment variable
+- `.env`: A [`dotenv`](https://github.com/motdotla/dotenv) file at the root of your project (if it doesn't already exist), used 配置 your database connection URL as an environment variable
 - `prisma.config.ts`: Configuration file for Prisma
 
 The Prisma schema uses the ESM-first `prisma-client` generator:
@@ -98,7 +98,7 @@ datasource db {
 
 :::tip
 
-For an optimal development experience when working with Prisma ORM, refer to [editor setup](/orm/more/development-environment/editor-setup) to learn about syntax highlighting, formatting, auto-completion, and many more cool features.
+For an optimal development experience when working with Prisma ORM, 參閱 [editor setup](/orm/more/development-environment/editor-setup) to 學習關於 syntax highlighting, formatting, auto-completion, and many more cool features.
 
 :::
 
@@ -110,7 +110,7 @@ DATABASE_URL="mongodb+srv://username:password@cluster.mongodb.net/mydb"
 
 :::tip
 
-Replace `username`, `password`, `cluster`, and `mydb` with your actual MongoDB credentials and database name. You can get your connection string from [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) or your MongoDB deployment.
+Replace `username`, `password`, `cluster`, and `mydb` with your actual MongoDB credentials and database name. 您可以 get your connection string from [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) or your MongoDB deployment.
 
 :::
 
@@ -163,13 +163,13 @@ MongoDB is a _schemaless_ database. To incrementally adopt Prisma ORM in your pr
 
 :::
 
-Run Prisma's introspection to create the Prisma schema from your existing database:
+Run Prisma's introspection 建立 the Prisma schema from your existing database:
 
 ```terminal
 npx prisma db pull
 ```
 
-This will create a `schema.prisma` file with your database schema.
+這將 create a `schema.prisma` file with your database schema.
 
 ```prisma file=prisma/schema.prisma showLineNumbers
 type UsersProfile {
@@ -203,7 +203,7 @@ model users {
 
 ### 2.2. Update relations
 
-MongoDB doesn't support relations between different collections. However, you can create references between documents using the [`ObjectId`](/orm/overview/databases/mongodb#using-objectid) field type or from one document to many using an array of `ObjectIds` in the collection. The reference will store id(s) of the related document(s). You can use the `populate()` method that Mongoose provides to populate the reference with the data of the related document.
+MongoDB doesn't support relations between different collections. However, 您可以 create references between documents using the [`ObjectId`](/orm/overview/databases/mongodb#using-objectid) field type or from one document to many using an array of `ObjectIds` in the collection. The reference will store id(s) of the related document(s). 您可以 use the `populate()` method that Mongoose provides to populate the reference with the data of the related document.
 
 Update the 1-n relationship between `posts` \<-> `users` as follows:
 
@@ -315,11 +315,11 @@ Generate Prisma Client based on your schema:
 npx prisma generate
 ```
 
-This creates a type-safe Prisma Client in the `generated/prisma` directory.
+這會建立 a type-safe Prisma Client in the `generated/prisma` directory.
 
 ### 3.2. Replace Mongoose queries
 
-Start replacing your Mongoose queries with Prisma Client. Here's an example of how to convert some common queries:
+Start replacing your Mongoose queries with Prisma Client. Here's an example of 如何 convert some common queries:
 
 <TabbedContent code>
 
@@ -380,7 +380,7 @@ await prisma.user.delete({
 
 ### 3.3. Update your controllers
 
-Update your Express controllers to use Prisma Client. For example, here's how to update a user controller:
+Update your Express controllers 使用 Prisma Client. 例如, here's how 更新 a user controller:
 
 ```typescript
 import { prisma } from '../client'
@@ -403,13 +403,13 @@ export class UserController {
 
 ## 後續步驟
 
-Now that you've migrated to Prisma ORM, you can:
+Now that you've migrated to Prisma ORM, 您可以:
 
 - Add more complex queries using Prisma's powerful query API
 - Set up Prisma Studio for database management
 - Implement database monitoring
 - Add automated tests using Prisma's testing utilities
 
-For more information:
+欲了解更多資訊:
 - [Prisma ORM documentation](/orm)
 - [Prisma Client API reference](/orm/prisma-client)

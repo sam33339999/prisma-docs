@@ -31,7 +31,7 @@ model Tag {
 }
 ```
 
-To create a post and its tags, one can write this with Prisma Client:
+建立 a post and its tags, one can write this with Prisma Client:
 
 ```ts
 await prisma.post.create({
@@ -71,7 +71,7 @@ And the response obtained would be:
 ]
 ```
 
-Another use case for this is if you want to add new tags as well as connect to existing tags to a post. An example for this is where a user has created new tags for their post and has also selected existing tags to be added as well. In this case, we can perform this in the following way:
+Another use case for this is if you want 添加 new tags as well as connect to existing tags to a post. An example for this is where a user has created new tags for their post and has also selected existing tags to be added as well. In this case, we can perform this in 以下 way:
 
 ```ts
 await prisma.post.update({
@@ -85,7 +85,7 @@ await prisma.post.update({
 
 ### Explicit relations
 
-Explicit relations mostly need to be created in cases where you need to store extra fields in the relation table or if you're [introspecting](/orm/prisma-schema/introspection) an existing database that already has many-to-many relations setup. This is the same schema used above but with an explicit relation table:
+Explicit relations mostly need to be created in cases where 您需要 store extra fields in the relation table or if you're [introspecting](/orm/prisma-schema/introspection) an existing database that already has many-to-many relations setup. This is the same schema used above but with an explicit relation table:
 
 ```prisma
 model Post {
@@ -135,7 +135,7 @@ await prisma.post.findMany({
 })
 ```
 
-This will provide the following output:
+這將 provide 以下 output:
 
 ```json
 [
@@ -174,7 +174,7 @@ const result = posts.map((post) => {
 })
 ```
 
-This will provide an output similar to the one you received with implicit relations.
+這將 provide an output similar to the one you received with implicit relations.
 
 ```json
 [
@@ -195,4 +195,4 @@ This will provide an output similar to the one you received with implicit relati
 ]
 ```
 
-This article showed how you can implement implicit and explicit many-to-many relations and query them using Prisma Client.
+This article showed how 您可以 implement implicit and explicit many-to-many relations and query them using Prisma Client.

@@ -13,13 +13,13 @@ community_section: true
 [Permit.io](https://www.permit.io/) is an authorization-as-a-service platform that lets you implement fine-grained access control 
 rules based on real-world relationships.
 
-This guide explains how to connect Permit.io to a new Express + Prisma app, define a 
+本指南說明如何 connect Permit.io to a new Express + Prisma app, define a 
 [Relationship-Based Access Control (ReBAC)](https://www.permit.io/blog/what-is-rebac) policy, 
-and automatically filter Prisma queries so users only see the data they're allowed to access. 
+and automatically filter Prisma queries so users only 參見 data they're allowed to access. 
 
 You'll build a small project-task API to demonstrate access inheritance in action - no manual `WHERE` clauses required.
 
-You can find a complete example of this guide [here](https://www.permit.io/blog/prisma-orm-data-filtering-with-rebac).
+您可以 find a complete example of this guide [here](https://www.permit.io/blog/prisma-orm-data-filtering-with-rebac).
 
 ## 前置需求
 
@@ -53,7 +53,7 @@ npm install -D prisma typescript tsx @types/pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -63,7 +63,7 @@ Then, initialize your Prisma setup:
 npx prisma init
 ```
 
-This creates:
+這會建立:
 
 - A `prisma/` directory with a default `schema.prisma` file
 - A `prisma.config.ts` file for configuring Prisma
@@ -121,7 +121,7 @@ This is a perfect use case for ReBAC, because:
 
 ### Resources
 
-These are the main data entities you'll protect:
+These are 主要 data entities you'll protect:
 
 - `Project`: Represents a team-specific workspace that may contain business-critical data (timelines, budgets, client deliverables).
 - `Task`: Represents an item of work that belongs to a project
@@ -145,7 +145,7 @@ Instance-level roles describe what users can do with specific resources:
 ReBAC lets you **automatically derive roles** based on relationships. In this case:
 
 - If a user is a `project#Member`, they automatically become a `task#Member` for all tasks within that project.
-- New tasks inherit project access—no need to update permissions manually.
+- New tasks inherit project access—no need 更新 permissions manually.
 
 ### Access policies
 
@@ -167,11 +167,11 @@ This model ensures that:
 
 ## 3. Define your data model
 
-To support permission-aware data filtering, you need to structure your database so that relationships are clearly defined. In this case, every `Task` belongs to a `Project`, and users gain access to tasks by being members of the parent project.
+To support permission-aware data filtering, 您需要 structure your database so that relationships are clearly defined. In this case, every `Task` belongs to a `Project`, and users gain access to tasks by being members of the parent project.
 
 ### 3.1 Update your Prisma schema
 
-Open `prisma/schema.prisma` and replace the contents with the following:
+Open `prisma/schema.prisma` and replace the contents with 以下:
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -225,14 +225,14 @@ export default defineConfig({
 
 ### 3.3 Run your first migration
 
-To create the database schema:
+建立 the database schema:
 
 ```terminal
 npx prisma migrate dev --name init
 npx prisma generate
 ```
 
-This will:
+這將:
 
 - Apply your schema to the connected PostgreSQL database
 - Generate your Prisma Client
@@ -240,7 +240,7 @@ This will:
 
 ### 3.3 Confirm the structure
 
-You can open Prisma Studio to inspect your database:
+您可以 open Prisma Studio to inspect your database:
 
 ```terminal
 npx prisma studio
@@ -250,11 +250,11 @@ This structure allows the `@permitio/permit-prisma` extension to filter records 
 
 ## 4. Seed test data with project boundaries
 
-To test your data filtering logic, you'll create two projects, each with its own set of tasks. This separation simulates team ownership and will allow you to validate that users only see the data of their assigned project.
+To test your data filtering logic, you'll create two projects, each with its own set of tasks. This separation simulates team ownership and will allow you to validate that users only 參見 data of their assigned project.
 
 ### 4.1 Create the seed script
 
-Create a new file at `scripts/seed.ts` and add the following:
+Create a new file at `scripts/seed.ts` and add 以下:
 
 ```ts
 import { PrismaClient } from '../src/generated/prisma/client';
@@ -350,11 +350,11 @@ If successful, you'll see:
 
 ✅ Seeded 2 projects and 4 tasks with distinct ownership
 
-At this point, if you run a query like `prisma.task.findMany()`, it will return all tasks. In the next steps, you'll connect Permit.io to filter these results automatically based on the user's access rights.
+At this point, if you run a query like `prisma.task.findMany()`, it will return all tasks. In the 後續步驟, you'll connect Permit.io to filter these results automatically based on the user's access rights.
 
 ## 5. Install and configure ReBAC filtering
 
-In this section, you'll install the `@permitio/permit-prisma` extension and configure it to automatically filter Prisma queries based on your access control policies.
+在本節中, you'll install the `@permitio/permit-prisma` extension and configure it to automatically filter Prisma queries based on your access control policies.
 
 ### 5.1 Install the Permit extension
 
@@ -385,7 +385,7 @@ export const clientExtensionConfig = {
 ```
 
 :::tip API Key  
-You can find your API key and PDP URL in your [Permit.io dashboard](https://app.permit.io/).
+您可以 find your API key and PDP URL in your [Permit.io dashboard](https://app.permit.io/).
 :::
 
 ### 5.3 What this configuration does
@@ -416,7 +416,7 @@ Use the CLI to authenticate:
 permit login
 ```
 
-This opens a browser window where you can log in to your Permit.io account and link your CLI session to an environment.
+This opens a browser window where 您可以 log in to your Permit.io account and link your CLI session to an environment.
 
 ### 6.3 Apply the ReBAC policy template
 
@@ -428,7 +428,7 @@ Apply it using:
 permit env template apply --template orm-data-filtering
 ```
 
-This will create:
+這將 create:
 
 - **Resources**: `project`, `task`
 - **Relationships**: `project` is the parent of `task`
@@ -454,7 +454,7 @@ With your policy in place, you're now ready to wire up user context and filterin
 
 ## 7. Add middleware to set user context
 
-To filter Prisma queries per user, you need to:
+To filter Prisma queries per user, 您需要:
 
 1. Identify the current user (simulated via an email header)
 2. Attach the filtered Prisma Client instance to the request
@@ -531,7 +531,7 @@ You'll now create two endpoints:
 - `GET /api/projects`: returns all projects the user has access to
 - `GET /api/tasks`: returns all tasks the user has access to (inherited from project membership)
 
-Thanks to the Permit-Prisma integration, **you won't need to add any manual filtering logic**—it's handled automatically.
+Thanks to the Permit-Prisma integration, **you won't need 添加 any manual filtering logic**—it's handled automatically.
 
 ### 8.1 Get user-visible projects
 
@@ -597,7 +597,7 @@ Even if you provide a projectId manually, the query results are still filtered b
 
 ### 8.3 What this demonstrates
 
-- You can write **normal Prisma queries**
+- 您可以 write **normal Prisma queries**
 - Users will only get records they're allowed to see
 - You don't need custom role-checking logic in every handler
 - Task access is **automatically derived** from project membership

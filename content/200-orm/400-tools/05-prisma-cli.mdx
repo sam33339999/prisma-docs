@@ -50,7 +50,7 @@ bun add prisma
 
 ## Usage
 
-If you installed Prisma as a development dependency, you need to prefix the `prisma` command with your package runner.
+If you installed Prisma as a development dependency, 您需要 prefix the `prisma` command with your package runner.
 
 ### npm
 
@@ -156,15 +156,15 @@ $ npx prisma
 
 </CodeWithResult>
 
-You can get additional help on any of the `prisma` commands by adding the `--help` flag after the command.
+您可以 get additional help on any of the `prisma` commands by adding the `--help` flag after the command.
 
 ## Exit codes
 
-All `prisma` CLI commands return the following codes when they exit:
+All `prisma` CLI commands return 以下 codes when they exit:
 
 - exit code 0 when a command runs successfully
 - exit code 1 when a command errors
-- exit code 130 when the CLI receives a signal interrupt (SIGINT) message or if the user cancels a prompt. This exit code is available in Prisma ORM versions 4.3.0 and later.
+- exit code 130 when the CLI receives a signal interrupt (SIGINT) message or if the user cancels a prompt. This exit code is 可用於 Prisma ORM versions 4.3.0 and later.
 
 ## Telemetry
 
@@ -173,7 +173,7 @@ The term **telemetry** refers to the collection of certain usage data to help _i
 - when it collects CLI usage data
 - when it submits CLI error reports
 
-This page describes the overall telemetry approach for Prisma, what kind of data is collected and how to opt-out of data collection.
+本頁描述 the overall telemetry approach for Prisma, what kind of data is collected and 如何 opt-out of data collection.
 
 ### Why does Prisma collect 指標?
 
@@ -188,7 +188,7 @@ Data is collected in two scenarios that are described below.
 
 #### Usage data
 
-Invocations of the `prisma` CLI and general usage of Studio results in data being sent to the telemetry server at https://checkpoint.prisma.io. Note that:
+Invocations of the `prisma` CLI and general usage of Studio results in data being sent to the telemetry server at https://checkpoint.prisma.io. 請注意:
 
 - The data does **not** include your schema or the data in your database
 - Prisma only sends information after you execute a CLI command
@@ -206,7 +206,7 @@ Here is an overview of the data that's being submitted:
 |   `user_agent` |  _string_  | User agent of the checkpoint client (e.g. `prisma/js-checkpoint`)                      |
 |    `timestamp` |  _string_  | When the request was made in RFC3339 format (e.g. `2019-12-12T17:45:56Z`)              |
 
-You can opt-out of this behavior by setting the `CHECKPOINT_DISABLE` environment variable to `1`, e.g.:
+您可以 opt-out of this behavior by setting the `CHECKPOINT_DISABLE` environment variable to `1`, e.g.:
 
 ```terminal
 export CHECKPOINT_DISABLE=1
@@ -222,7 +222,7 @@ Before an error report is submitted, there will _always_ be a prompt asking you 
 
 #### Usage data
 
-You can opt-out of usage data collection by setting the `CHECKPOINT_DISABLE` environment variable to `1`, e.g.:
+您可以 opt-out of usage data collection by setting the `CHECKPOINT_DISABLE` environment variable to `1`, e.g.:
 
 ```terminal
 export CHECKPOINT_DISABLE=1
@@ -230,4 +230,4 @@ export CHECKPOINT_DISABLE=1
 
 #### Error reporting
 
-You can opt-out of data collection by responding to the interactive prompt with _no_.
+您可以 opt-out of data collection by responding to the interactive prompt with _no_.

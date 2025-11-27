@@ -105,11 +105,11 @@ import { PrismaClient } from "./generated/prisma/client";
 const prisma = new PrismaClient();
 ```
 
-Prisma Client is now ready to use in your project.
+Prisma Client is now ready 使用 in your project.
 
 #### Importing generated 模型 types
 
-If you're importing types generated for your models, you can do so as follows:
+If you're importing types generated for your models, 您可以 do so as follows:
 
 ```ts file=src/index.ts
 import { UserModel, PostModel } from "./generated/prisma/models";
@@ -117,7 +117,7 @@ import { UserModel, PostModel } from "./generated/prisma/models";
 
 #### Importing generated enum types
 
-If you're importing types generated for your enums, you can do so as follows:
+If you're importing types generated for your enums, 您可以 do so as follows:
 
 ```ts file=src/index.ts
 import { Role, User } from "./generated/prisma/enums";
@@ -125,17 +125,17 @@ import { Role, User } from "./generated/prisma/enums";
 
 #### Importing in browser environments
 
-If you need to access generated types in your frontend code, you can import them as follows:
+If 您需要 access generated types in your frontend code, 您可以 import them as follows:
 
 ```ts file=src/index.ts
 import { Role } from "./generated/prisma/browser";
 ```
 
-Note that `./generated/prisma/browser` does not expose a `PrismaClient`.
+請注意 `./generated/prisma/browser` does not expose a `PrismaClient`.
 
 ### Field 參考
 
-Use the following options in the `generator client { ... }` block. Only `output` is required. The other fields have defaults or are inferred from your environment and `tsconfig.json`.
+Use 以下 options in the `generator client { ... }` block. Only `output` is required. The other fields have defaults or are inferred from your environment and `tsconfig.json`.
 
 ```prisma file=schema.prisma
 generator client {
@@ -171,7 +171,7 @@ Below are the options for the `prisma-client` generator:
 ### Importing types
 
 The new `prisma-client` generator creates individual `.ts` files which allow for a more fine granular import of types. This can improve compile and typecheck performance and be useful for tree-shaking, too. 
-You can still use the top level barrel files that export all types through a single import.
+您可以 still use the top level barrel files that export all types through a single import.
 
 The overall structure of the generated output looks like this:
 
@@ -198,7 +198,7 @@ For use in your server code.
 - Provides best compatibility with the `prisma-client-js` generated output.
 - Contains transitive dependencies on server only-packages, so cannot be used in browser contexts.
 
-Example:
+範例：
 
 ```ts
 import { Prisma, type Post, PrismaClient } from "./generated/prisma/client"
@@ -216,13 +216,13 @@ For using types in your frontend (i.e. code that runs in the browser).
 
 :::note
 
-The old `prisma-client-js` generator created a `node_modules` package and used export maps to dynamically provide a browser compatible export of the generated Prisma Client library. As the new `prisma-client` generator creates direct TypeScript source code and no `package.json` file anymore, this approach is not possible. Hence you need to be explicit about your imports and whether things run on server or client! 
+The old `prisma-client-js` generator created a `node_modules` package and used export maps to dynamically provide a browser compatible export of the generated Prisma Client library. As the new `prisma-client` generator creates direct TypeScript source code and no `package.json` file anymore, this approach is not possible. Hence 您需要 be explicit about your imports and whether things run on server or client! 
 
-You can still wrap the generated code in a package and use a similar approach as with `prisma-client-js` on your own.
+您可以 still wrap the generated code in a package and use a similar approach as with `prisma-client-js` on your own.
 
 :::
 
-Example:
+範例：
 
 ```ts
 import { Prisma, type Post } from "./generated/prisma/browser"
@@ -230,13 +230,13 @@ import { Prisma, type Post } from "./generated/prisma/browser"
 
 #### `enums.ts`
 
-Isolated access to user defined enum types and values.
+Isolated access 使用r defined enum types and values.
 
 - Contains no transitive dependencies and is very slim.
 - Can be used on backend and frontend.
 - Prefer this for optimal tree shaking and typecheck performance when accessing enums.
 
-Example:
+範例：
 
 ```ts
 import { MyEnum } from "./generated/prisma/enums"
@@ -257,7 +257,7 @@ This is necessary due to internal constraints to avoid potential naming conflict
 
 :::
 
-Example:
+範例：
 
 ```ts
 import type { UserModel, PostModel, PostWhereInput, UserUpdateInput } from "./generated/prisma/models"
@@ -277,7 +277,7 @@ The plain model type is exposed here as `<ModelName>Model` (e.g. `PostModel`).
 
 :::
 
-Example:
+範例：
 
 ```ts
 import type { UserModel, UserWhereInput, UserUpdateInput } from "./generated/prisma/models/User"
@@ -286,9 +286,9 @@ import type { UserModel, UserWhereInput, UserUpdateInput } from "./generated/pri
 
 #### `commonInputTypes.ts`
 
-Provides shared utility types that you should rarely directly need.
+Provides shared utility types that 您應該 rarely directly need.
 
-Example: 
+範例： 
 
 ```ts
 import type { IntFilter } from "./generated/prisma/commonInputTypes"
@@ -306,12 +306,12 @@ Usually anything you might need from there is exposed via `browser.ts` or `clien
 
 ### 破壞性變更 from `prisma-client-js`
 
-- Requires an `output` path on the `generator` block
-- No `Prisma.validator` function;  you can use TypeScript native [`satisfies`](https://www.prisma.io/blog/satisfies-operator-ur8ys8ccq7zb) keyword instead
+- 需要 an `output` path on the `generator` block
+- No `Prisma.validator` function;  您可以 use TypeScript native [`satisfies`](https://www.prisma.io/blog/satisfies-operator-ur8ys8ccq7zb) keyword instead
 
 ### 範例
 
-To see what the new `prisma-client` generator looks like in practice, check out our minimal and [ready-to-run examples](https://github.com/prisma/prisma-examples):
+To see what the new `prisma-client` generator looks like in practice, 查看 our minimal and [ready-to-run examples](https://github.com/prisma/prisma-examples):
 
 | Example                                                                                                                                                            | Framework      | Bundler           | Runtime                                          | Monorepo  |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- | ----------------- | ------------------------------------------------ | --------- |
@@ -335,14 +335,14 @@ The `prisma-client-js` generator is **deprecated as of Prisma 7**. It was the de
 
 :::
 
-The `prisma-client-js` generator requires the `@prisma/client` npm package and generates Prisma Client into `node_modules`.
+The `prisma-client-js` generator 需要 the `@prisma/client` npm package and generates Prisma Client into `node_modules`.
 
 ### Field 參考
 
 The generator for Prisma's JavaScript Client accepts multiple additional properties:
 
 - `previewFeatures`: [Preview features](/orm/reference/preview-features) to include
-- `binaryTargets`: Engine binary targets for `prisma-client-js` (for example, `debian-openssl-1.1.x` if you are deploying to Ubuntu 18+, or `native` if you are working locally)
+- `binaryTargets`: Engine binary targets for `prisma-client-js` (例如, `debian-openssl-1.1.x` if you are deploying to Ubuntu 18+, or `native` if you are working locally)
 
 ```prisma
 generator client {
@@ -368,11 +368,11 @@ generator client {
 }
 ```
 
-Note that [driver adapters](/orm/overview/databases/database-drivers#driver-adapters) are required if you want to use Prisma ORM without Rust engines.
+請注意 [driver adapters](/orm/overview/databases/database-drivers#driver-adapters) are required if you want 使用 Prisma ORM without Rust engines.
 
 When using Prisma ORM without Rust, the `binaryTargets` field is obsolete and not needed.
 
-You can [read about the performance and DX improvements](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks) of this change on our blog.
+您可以 [read about the performance and DX improvements](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks) of this change on our blog.
 
 :::
 
@@ -384,7 +384,7 @@ The correct file is particularly important when [deploying](/orm/prisma-client/d
 
 The `native` binary target is special. It doesn't map to a concrete operating system. Instead, when `native` is specified in `binaryTargets`, Prisma Client detects the _current_ operating system and automatically specifies the correct binary target for it.
 
-As an example, assume you're running **macOS** and you specify the following generator:
+As an example, assume you're running **macOS** and you specify 以下 generator:
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -397,7 +397,7 @@ In that case, Prisma Client detects your operating system and finds the right bi
 If you use macOS Intel x86 (`darwin`), then the binary file that was compiled for `darwin` will be selected.
 If you use macOS ARM64 (`darwin-arm64`), then the binary file that was compiled for `darwin-arm64` will be selected.
 
-> **Note**: The `native` binary target is the default. You can set it explicitly if you wish to include additional [binary targets](/orm/reference/prisma-schema-reference#binarytargets-options) for deployment to different environments.
+> **Note**: The `native` binary target is the default. 您可以 set it explicitly if you wish to include additional [binary targets](/orm/reference/prisma-schema-reference#binarytargets-options) for deployment to different environments.
 
 ## 社群 產生器
 
@@ -407,7 +407,7 @@ Existing generators or new ones should not be affected if you are using a [multi
 
 :::
 
-The following is a list of community created generators.
+以下 is a list of community created generators.
 
 - [`prisma-dbml-generator`](https://notiz.dev/blog/prisma-dbml-generator/): Transforms the Prisma schema into [Database Markup Language](https://dbml.dbdiagram.io/home/) (DBML) which allows for an easy visual representation
 - [`prisma-docs-generator`](https://github.com/pantharshit00/prisma-docs-generator): Generates an individual API reference for Prisma Client
@@ -426,7 +426,7 @@ The following is a list of community created generators.
 - [`prisma-class-generator`](https://github.com/kimjbstar/prisma-class-generator): Generates classes from your Prisma Schema that can be used as DTO, Swagger Response, TypeGraphQL and so on.
 - [`zod-prisma`](https://github.com/CarterGrimmeisen/zod-prisma): Creates Zod schemas from your Prisma models.
 - [`prisma-pothos-types`](https://github.com/hayes/pothos/tree/main/packages/plugin-prisma): Makes it easier to define Prisma-based object types, and helps solve n+1 queries for relations. It also has integrations for the Relay plugin to make defining nodes and connections easy and efficient.
-- [`prisma-generator-pothos-codegen`](https://github.com/Cauen/prisma-generator-pothos-codegen): Auto generate input types (for use as args) and auto generate decoupled type-safe base files makes it easy to create customizable objects, queries and mutations for [Pothos](https://pothos-graphql.dev/) from Prisma schema. Optionally generate all crud at once from the base files.
+- [`prisma-generator-pothos-codegen`](https://github.com/Cauen/prisma-generator-pothos-codegen): Auto generate input types (for use as args) and auto generate decoupled type-safe base files makes it easy 建立 customizable objects, queries and mutations for [Pothos](https://pothos-graphql.dev/) from Prisma schema. Optionally generate all crud at once from the base files.
 - [`prisma-joi-generator`](https://github.com/omar-dulaimi/prisma-joi-generator): Generate full Joi schemas from your Prisma schema.
 - [`prisma-yup-generator`](https://github.com/omar-dulaimi/prisma-yup-generator): Generate full Yup schemas from your Prisma schema.
 - [`prisma-class-validator-generator`](https://github.com/omar-dulaimi/prisma-class-validator-generator): Emit TypeScript models from your Prisma schema with class validator validations ready.

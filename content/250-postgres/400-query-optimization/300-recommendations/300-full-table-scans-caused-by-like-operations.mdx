@@ -8,7 +8,7 @@ toc: true
 
 Optimize provides recommendations to help you identify and resolve performance issues caused by full table scans from `LIKE` operations.
 
-The following query targeting the `User` model provides `contains` and `endsWith` as options, which translate to `LIKE` and `ILIKE` SQL operators.
+以下 query targeting the `User` model provides `contains` and `endsWith` as options, which translate to `LIKE` and `ILIKE` SQL operators.
 
 ```jsx
 await prisma.user.findMany({ 

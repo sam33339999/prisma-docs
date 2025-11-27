@@ -9,17 +9,17 @@ tocDepth: 3
 
 Integration tests focus on testing how separate parts of the program work together. In the context of applications using a database, integration tests usually require a database to be available and contain data that is convenient to the scenarios intended to be tested.
 
-One way to simulate a real world environment is to use [Docker](https://www.docker.com/get-started/) to encapsulate a database and some test data. This can be spun up and torn down with the tests and so operate as an isolated environment away from your production databases.
+One way to simulate a real world environment is 使用 [Docker](https://www.docker.com/get-started/) to encapsulate a database and some test data. This can be spun up and torn down with the tests and so operate as an isolated environment away from your production databases.
 
 </TopBlock>
 
-> **Note:** This [blog post](https://www.prisma.io/blog/testing-series-2-xPhjjmIEsM) offers a comprehensive guide on setting up an integration testing environment and writing integration tests against a real database, providing valuable insights for those looking to explore this topic.
+> **注意：** This [blog post](https://www.prisma.io/blog/testing-series-2-xPhjjmIEsM) offers a comprehensive guide on setting up an integration testing environment and writing integration tests against a real database, providing valuable insights for those looking to explore this topic.
 
 ## 前置需求
 
 This guide assumes you have [Docker](https://docs.docker.com/get-started/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed on your machine as well as `Jest` setup in your project.
 
-The following ecommerce schema will be used throughout the guide. This varies from the traditional `User` and `Post` models used in other parts of the docs, mainly because it is unlikely you will be running integration tests against your blog.
+以下 ecommerce schema will be used throughout the guide. This varies from the traditional `User` and `Post` models used in other parts of the docs, mainly because it is unlikely you will be running integration tests against your blog.
 
 <details>
 
@@ -80,13 +80,13 @@ model Customer {
 
 </details>
 
-The guide uses a singleton pattern for Prisma Client setup. Refer to the [singleton](/orm/prisma-client/testing/unit-testing#singleton) docs for a walk through of how to set that up.
+The guide uses a singleton pattern for Prisma Client setup. 參閱 the [singleton](/orm/prisma-client/testing/unit-testing#singleton) docs for a walk through of 如何 set that up.
 
 ## Add Docker to your project
 
 ![Docker compose code pointing towards image of container holding a Postgres database](./Docker_Diagram_V1.png)
 
-With Docker and Docker compose both installed on your machine you can use them in your project.
+With Docker and Docker compose both installed on your machine 您可以 use them in your project.
 
 1. Begin by creating a `docker-compose.yml` file at your projects root. Here you will add a Postgres image and specify the environments credentials.
 
@@ -108,15 +108,15 @@ services:
       POSTGRES_DB: tests
 ```
 
-> **Note**: The compose version used here (`3.9`) is the latest at the time of writing, if you are following along be sure to use the same version for consistency.
+> **Note**: The compose version used here (`3.9`) is the latest at the time of writing, if you are following along be sure 使用 the same version for consistency.
 
-The `docker-compose.yml` file defines the following:
+The `docker-compose.yml` file defines 以下:
 
-- The Postgres image (`postgres`) and version tag (`:13`). This will be downloaded if you do not have it locally available.
-- The port `5433` is mapped to the internal (Postgres default) port `5432`. This will be the port number the database is exposed on externally.
+- The Postgres image (`postgres`) and version tag (`:13`). 這將 be downloaded if you do not have it locally available.
+- The port `5433` is mapped to the internal (Postgres default) port `5432`. 這將 be the port number the database is exposed on externally.
 - The database user credentials are set and the database given a name.
 
-2. To connect to the database in the container, create a new connection string with the credentials defined in the `docker-compose.yml` file. For example:
+2. To connect to the database in the container, create a new connection string with the credentials defined in the `docker-compose.yml` file. 例如：
 
 ```env file=.env.test
 DATABASE_URL="postgresql://prisma:prisma@localhost:5433/tests"
@@ -128,13 +128,13 @@ The above `.env.test` file is used as part of a multiple `.env` file setup. Chec
 
 :::
 
-3. To create the container in a detached state so that you can continue to use the terminal tab, run the following command:
+3. 建立 the container in a detached state so that 您可以 continue 使用 the terminal tab, run 以下 command:
 
 ```terminal
 docker compose up -d
 ```
 
-4. Next you can check that the database has been created by executing a `psql` command inside the container. Make a note of the container id.
+4. Next 您可以 check that the database has been created by executing a `psql` command inside the container. Make a note of the container id.
 
    <CodeWithResult expanded={true}>
 
@@ -208,7 +208,7 @@ Each test suite will seed the database before all the test are run. After all th
 
 ### The function to test
 
-The ecommerce application you are testing has a function which creates an order. This function does the following:
+The ecommerce application you are testing has a function which creates an order. This function does 以下:
 
 - Accepts input about the customer making the order
 - Accepts input about the product being ordered
@@ -287,7 +287,7 @@ export async function createOrder(input: OrderInput) {
 
 ### The test suite
 
-The following tests will check if the `createOrder` function works as it should do. They will test:
+以下 tests will check if the `createOrder` function works as it should do. They will test:
 
 - Creating a new order with a new customer
 - Creating an order with an existing customer
@@ -454,9 +454,9 @@ it("should show 'Out of stock' message if productId doesn't exit", async () => {
 
 ## Running the tests
 
-This setup isolates a real world scenario so that you can test your applications functionality against real data in a controlled environment.
+This setup isolates a real world scenario so that 您可以 test your applications functionality against real data in a controlled environment.
 
-You can add some scripts to your projects `package.json` file which will setup the database and run the tests, then afterwards manually destroy the container.
+您可以 add some scripts to your projects `package.json` file which will setup the database and run the tests, then afterwards manually destroy the container.
 
 :::warning
 
@@ -472,10 +472,10 @@ If the test doesn't work for you, you'll need to ensure the test database is pro
   },
 ```
 
-The `test` script does the following:
+The `test` script does 以下:
 
-1. Runs `docker compose up -d` to create the container with the Postgres image and database.
-1. Applies the migrations found in `./prisma/migrations/` directory to the database, this creates the tables in the container's database.
+1. Runs `docker compose up -d` 建立 the container with the Postgres image and database.
+1. Applies the migrations found in `./prisma/migrations/` directory to the database, 這會建立 the tables in the container's database.
 1. Executes the tests.
 
-Once you are satisfied you can run `yarn docker:down` to destroy the container, its database and any test data.
+Once you are satisfied 您可以 run `yarn docker:down` to destroy the container, its database and any test data.

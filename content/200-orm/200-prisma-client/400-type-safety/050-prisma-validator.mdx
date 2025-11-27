@@ -8,16 +8,16 @@ metaDescription: 'The Prisma 驗證器 is a utility function that takes a genera
 
 The [`Prisma.validator`](/orm/reference/prisma-client-reference#prismavalidator) is a utility function that takes a generated type and returns a type-safe object which adheres to the generated types model fields.
 
-This page introduces the `Prisma.validator` and offers some motivations behind why you might choose to use it.
+This page introduces the `Prisma.validator` and offers some motivations behind why you might choose 使用 it.
 
 </TopBlock>
 
 :::warning  
 	The `Prisma.validator` API is only available when using the **legacy** `prisma-client-js` generator. It’s **not supported** in the new `prisma-client` generator.
 	
-	In most cases, you can achieve the same behavior using TypeScript’s native `satisfies` operator instead of `Prisma.validator`.  
+	In most cases, 您可以 achieve the same behavior using TypeScript’s native `satisfies` operator instead of `Prisma.validator`.  
 	
-	If you previously used `Prisma.validator`, check out this [blog post](https://www.prisma.io/blog/satisfies-operator-ur8ys8ccq7zb) to learn how the new `satisfies` keyword can improve and simplify your Prisma Client workflows.  
+	If you previously used `Prisma.validator`, 查看 this [blog post](https://www.prisma.io/blog/satisfies-operator-ur8ys8ccq7zb) to learn how the new `satisfies` keyword can improve and simplify your Prisma Client workflows.  
 	:::
 ## Creating a typed 查詢 statement
 
@@ -55,7 +55,7 @@ The object `userEmail` has been created to select only the user's `email`, and y
 
 ## Using the `Prisma.驗證器`
 
-The following example passes the `UserSelect` generated type into the `Prisma.validator` utility function and defines the expected return type in much the same way as the previous example.
+以下範例 passes the `UserSelect` generated type into the `Prisma.validator` utility function and defines the expected return type in much the same way as the previous example.
 
 ```ts highlight=3,4,5;delete|7-9;add
 import { Prisma } from '@prisma/client'
@@ -81,7 +81,7 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-Alternatively, you can use the following syntax that uses a "selector" pattern using an existing instance of Prisma Client:
+Alternatively, 您可以 use 以下 syntax that uses a "selector" pattern using an existing instance of Prisma Client:
 
 ```ts
 import { Prisma } from '@prisma/client'
@@ -103,7 +103,7 @@ This functionality is handy when combined with user defined input, like form dat
 
 ## Combining `Prisma.驗證器` with form input
 
-The following example creates a type-safe function from the `Prisma.validator` which can be used when interacting with user created data, such as form inputs.
+以下範例 creates a type-safe function from the `Prisma.validator` which can be used when interacting with user created data, such as form inputs.
 
 > **Note**: Form input is determined at runtime so can't be verified by only using TypeScript. Be sure to validate your form input through other means too (such as an external validation library) before passing that data through to your database.
 

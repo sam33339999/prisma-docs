@@ -20,7 +20,7 @@ community_section: true
 ## 1. Set up your project
 
 :::note
-If you do not have the Shopify CLI installed, you can install it with `npm install -g @shopify/cli`.
+If you do not have the Shopify CLI installed, 您可以 install it with `npm install -g @shopify/cli`.
 :::
 
 To start, initialize a new Shopify app using the Shopify CLI:
@@ -29,7 +29,7 @@ To start, initialize a new Shopify app using the Shopify CLI:
 shopify app init
 ```
 
-During setup, you'll be prompted to customize your app. Don't worry—just follow these recommended options to get started quickly and ensure your app is set up for success:
+During setup, you'll be prompted to customize your app. Don't worry—just follow these recommended options 開始使用 quickly and ensure your app is set up for success:
 
 :::info
 
@@ -47,13 +47,13 @@ cd prisma-store
 
 ## 2. Set up Prisma
 
-Prisma comes pre-installed in your project, but let's take a moment to update it to the latest version. This ensures you have access to the newest features, improvements, and the best possible experience as you build your app.
+Prisma comes pre-installed in your project, but let's take a moment 更新 it to the latest version. This ensures you have access to the newest features, improvements, and the best possible experience as you build your app.
 
 
 
 You will be swapping to a Prisma Postgres database, so delete the `migrations` folder along with the `dev.sqlite` file, inside of the `prisma` directory.
 
-You need to update a few things in the `schema.prisma` file to get it working with Remix and Prisma Postgres.
+您需要 update a few things in the `schema.prisma` file to get it working with Remix and Prisma Postgres.
 - Swap to the new `prisma-client` generator.
 - Update the provider to `postgresql`.
 - Update the url to the new database url.
@@ -83,7 +83,7 @@ model Session {
 }
 ```
 
-Create a `prisma.config.ts` file to configure Prisma:
+Create a `prisma.config.ts` file 配置 Prisma:
 
 ```typescript file=prisma.config.ts
 //add-start
@@ -104,7 +104,7 @@ export default defineConfig({
 
 :::note
 
-Since Shopify apps typically have dotenv pre-installed, you should already have access to it. If not, install it with:
+Since Shopify apps typically have dotenv pre-installed, 您應該 already have access to it. If not, install it with:
 
 ```terminal
 npm install dotenv
@@ -112,7 +112,7 @@ npm install dotenv
 
 :::
 
-To enable your app to store notes for each product, let's add a new `ProductNote` model to your Prisma schema. 
+啟用 your app to store notes for each product, let's add a new `ProductNote` model to your Prisma schema. 
 
 This model will allow you to save and organize notes linked to individual products in your database through the `productGid` field.
 
@@ -149,11 +149,11 @@ npm install @prisma/client @prisma/adapter-pg pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
-Prisma Postgres allows you to create a new database on the fly, you can create a new database at the same time you initialize your project by adding the `--db` flag:
+Prisma Postgres allows you 建立 a new database on the fly, 您可以 create a new database at the same time you initialize your project by adding the `--db` flag:
 
 ```terminal
 npx prisma init --db
@@ -173,7 +173,7 @@ Once you've completed the prompts, it's time to access your new database:
    - Create a new `.env` file in the root of your project.
    - Paste the `DATABASE_URL` you just copied into this file.
 4. **Apply your database schema:**
-   - Run the following command to create your tables and get your database ready:
+   - Run 以下 command 建立 your tables and get your database ready:
    ```terminal
    npx prisma migrate dev --name init
    ```
@@ -183,7 +183,7 @@ Once you've completed the prompts, it's time to access your new database:
    npx prisma generate
    ```
 
-Now, before moving on, let's update your `db.server.ts` file to use the newly generated Prisma client with the driver adapter:
+Now, before moving on, let's update your `db.server.ts` file 使用 the newly generated Prisma client with the driver adapter:
 
 ```tsx file=app/db.server.ts
 //delete-start
@@ -216,16 +216,16 @@ export default prisma;
 ```
 
 :::warning
-It is recommended to add `app/generated/prisma` to your `.gitignore` file.
+It is recommended 添加 `app/generated/prisma` to your `.gitignore` file.
 :::
 
 ## 3. Create your Remix model
 
-To keep your project organized, let's create a new `models/` folder. Inside this folder, add a file named `notes.server.js`. This will be the home for all your note-related logic and make your codebase easier to manage as your app grows.
+To keep your project organized, let's create a new `models/` folder. Inside this folder, add a file named `notes.server.js`. 這將 be the home for all your note-related logic and make your codebase easier to manage as your app grows.
 
 The `notes.server.js` file will contain two functions:
-- `getNotes` - This will get all the notes for a given product.
-- `createNote` - This will create a new note for a given product.
+- `getNotes` - 這將 get all the notes for a given product.
+- `createNote` - 這將 create a new note for a given product.
 
 Start by importing the Prisma client from `db.server.ts` and creating the `getNotes` function:
 
@@ -243,7 +243,7 @@ export const getNotes = async (productGid) => {
 //add-end
 ```
 
-To enable users to add new notes to your database, let's create a function in `notes.server.js` that uses `prisma.productNote.create`:
+啟用 users 添加 new notes to your database, let's create a function in `notes.server.js` that uses `prisma.productNote.create`:
 
 ```js file=models/notes.server.js
 import prisma from "../db.server";
@@ -372,7 +372,7 @@ export default function ProductNotesLayout() {
 
 ### 4.2. Add the ProductNotesLayout to the sidebar
 
-If you run `npm run dev`, you won't be able to see the `Product Notes` route. To fix this, you need to add the `ProductNotesLayout` to the `app.jsx` file so it shows up in the sidebar:
+If you run `npm run dev`, you won't be able to 參見 `Product Notes` route. To fix this, 您需要 add the `ProductNotesLayout` to the `app.jsx` file so it shows up in the sidebar:
 
 ```jsx file=app/routes/app.jsx
 import { Link, Outlet, useLoaderData, useRouteError } from "@remix-run/react";
@@ -421,9 +421,9 @@ export const headers = (headersArgs) => {
 
 Currently, if you run `npm run dev` and navigate to the `Product Notes` route, you will see nothing once selecting a product.
 
-Follow these steps to create the product notes route:
+Follow these steps 建立 the product notes route:
 
-Create a new `routes/app/app.notes.$productGid.jsx` file which will take in the productGid as a parameter, and return the product notes associated with the product as well as a form to create a new note:
+Create a new `routes/app/app.notes.$productGid.jsx` file which will take in the productGid as a parameter, and return the product notes associated with the product as well as a form 建立 a new 注意：
 
 ```jsx file=app/routes/app/app.notes.$productGid.jsx
 //add-start
@@ -516,11 +516,11 @@ export default function ProductNotes() {
 }
 ```
 
-You should be seeing "No notes yet.". If so, you're on the right track.
+您應該 be seeing "No notes yet.". If so, you're on the right track.
 
 ### 5.2. Add the form
 
-A few things need to be added to the route in order to create a new note:
+A few things need to be added to the route in order 建立 a new 注意：
 - Add an `action` function to the route.
 - Display a `Toast` notification when a note is created.
 - Import the `createNote` function from `models/note.server.js`.
@@ -604,7 +604,7 @@ export default function ProductNotes() {
 }
 ```
 
-Now, you can build out the form that will call the `action` function:
+Now, 您可以 build out the form that will call the `action` function:
 
 ```jsx file=app/routes/app/app.notes.$productGid.jsx
 import { json, redirect } from "@remix-run/node";
@@ -702,7 +702,7 @@ export default function ProductNotes() {
 }
 ```
 
-You should now be able to add a note to a product and see it displayed.
+您應該 now be able 添加 a note to a product and see it displayed.
 
 ### 6. Test your route
 
@@ -712,9 +712,9 @@ Run `npm run dev` and navigate to the `Product Notes` route.
 - Add a note
 - Verify that notes are displayed and saved correctly.
 
-## Next Steps
+## 後續步驟
 
-Now that you have a working Shopify app connected to a Prisma Postgres database, you can:
+Now that you have a working Shopify app connected to a Prisma Postgres database, 您可以:
 - Extend your Prisma schema with more models and relationships
 - Add create/update/delete routes and forms
 - Enable query caching with [Prisma Postgres](/postgres/database/caching) for better performance

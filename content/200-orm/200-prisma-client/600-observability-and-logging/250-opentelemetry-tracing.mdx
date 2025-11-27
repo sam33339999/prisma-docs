@@ -5,7 +5,7 @@ metaDescription: 'Diagnose application 效能 with detailed traces of each 查�
 ---
 
 
-Tracing provides a detailed log of the activity that Prisma Client carries out, at an operation level, including the time taken to execute each query. It helps you analyze your application's performance and identify bottlenecks. Tracing is fully compliant with [OpenTelemetry](https://opentelemetry.io/), so you can use it as part of your end-to-end application tracing system.
+Tracing provides a detailed log of the activity that Prisma Client carries out, at an operation level, including the time taken to execute each query. It helps you analyze your application's performance and identify bottlenecks. Tracing is fully compliant with [OpenTelemetry](https://opentelemetry.io/), so 您可以 use it as part of your end-to-end application tracing system.
 
 :::info
 
@@ -16,7 +16,7 @@ Tracing gives you a highly detailed, operation-level insight into your Prisma OR
 
 ## 關於 追蹤
 
-When you enable tracing, Prisma Client outputs the following:
+When you enable tracing, Prisma Client outputs 以下:
 
 - One trace for each operation (e.g. findMany) that Prisma Client makes.
 - In each trace, one or more [spans](https://opentelemetry.io/docs/specs/otel/trace/api/#span). Each span represents the length of time that one stage of the operation takes, such as serialization, or a database query. Spans are represented in a tree structure, where child spans indicate that execution is happening within a larger parent span.
@@ -25,13 +25,13 @@ The number and type of spans in a trace depends on the type of operation the tra
 
 ![image](./trace-diagram.png)
 
-You can [send tracing output to the console](#send-tracing-output-to-the-console), or analyze it in any OpenTelemetry-compatible tracing system, such as [Jaeger](https://www.jaegertracing.io/), [Honeycomb](https://www.honeycomb.io/distributed-tracing) and [Datadog](https://www.datadoghq.com/). On this page, we give an example of how to send tracing output to Jaeger, which you can [run locally](#visualize-traces-with-jaeger).
+您可以 [send tracing output to the console](#send-tracing-output-to-the-console), or analyze it in any OpenTelemetry-compatible tracing system, such as [Jaeger](https://www.jaegertracing.io/), [Honeycomb](https://www.honeycomb.io/distributed-tracing) and [Datadog](https://www.datadoghq.com/). On this page, we give an example of 如何 send tracing output to Jaeger, which 您可以 [run locally](#visualize-traces-with-jaeger).
 
 ## Trace output
 
-For each trace, Prisma Client outputs a series of spans. The number and type of these spans depends on the Prisma Client operation. A typical Prisma trace has the following spans:
+For each trace, Prisma Client outputs a series of spans. The number and type of these spans depends on the Prisma Client operation. A typical Prisma trace has 以下 spans:
 
-- `prisma:client:operation`: Represents the entire Prisma Client operation, from Prisma Client to the database and back. It contains details such as the model and method called by Prisma Client. Depending on the Prisma operation, it contains one or more of the following spans:
+- `prisma:client:operation`: Represents the entire Prisma Client operation, from Prisma Client to the database and back. It contains details such as the model and method called by Prisma Client. Depending on the Prisma operation, it contains one or more of 以下 spans:
   - `prisma:client:connect`: Represents how long it takes for Prisma Client to connect to the database.
   - `prisma:client:serialize`: Represents how long it takes to validate and transform a Prisma Client operation into a query for the [query engine](/orm/more/under-the-hood/engines).
   - `prisma:engine:query`: Represents how long a query takes in the query engine.
@@ -40,7 +40,7 @@ For each trace, Prisma Client outputs a series of spans. The number and type of 
     - `prisma:engine:serialize`: Represents how long it takes to transform a raw response from the database into a typed result.
     - `prisma:engine:response_json_serialization`: Represents how long it takes to serialize the database query result into a JSON response to the Prisma Client.
 
-For example, given the following Prisma Client code:
+例如, given 以下 Prisma Client code:
 
 ```ts
 prisma.user.findMany({
@@ -66,9 +66,9 @@ The trace is structured as follows:
 
 ## Considerations and 前置需求
 
-If your application sends a large number of spans to a [collector](https://opentelemetry.io/docs/collector/), this can have a significant performance impact. For information on how to minimize this impact, see [Reducing performance impact](#reduce-performance-impact).
+If your application sends a large number of spans to a [collector](https://opentelemetry.io/docs/collector/), this can have a significant performance impact. For information on 如何 minimize this impact, see [Reducing performance impact](#reduce-performance-impact).
 
-To use tracing, you must do the following:
+使用 tracing, 您必須 do 以下:
 
 1. [Install the appropriate dependencies](#step-1-install-up-to-date-prisma-orm-dependencies).
 1. [Install OpenTelemetry packages](#step-2-install-opentelemetry-packages).
@@ -76,11 +76,11 @@ To use tracing, you must do the following:
 
 ## Get started with 追蹤 in Prisma ORM
 
-This section explains how to install and register tracing in your application.
+本節說明 how 安裝 and register tracing in your application.
 
 ### Step 1. Install up-to-date Prisma ORM dependencies
 
-Use version `6.1.0` or later of the `prisma`, `@prisma/client`, and `@prisma/instrumentation` npm packages. You will also need to install the `@opentelemetry/api` package as it's a peer dependency.
+Use version `6.1.0` or later of the `prisma`, `@prisma/client`, and `@prisma/instrumentation` npm packages. You will also need 安裝 the `@opentelemetry/api` package as it's a peer dependency.
 
 ```terminal
 npm install prisma@latest --save-dev
@@ -92,7 +92,7 @@ npm install @opentelemetry/api@latest --save
 <details>
 <summary>Tracing on previous versions of Prisma ORM</summary>
 
-Tracing was added in version `4.2.0` of Prisma ORM as a Preview feature. For versions of Prisma ORM between `4.2.0` and `6.1.0`, you need to enable the `tracing` Preview feature in your Prisma schema file.
+Tracing was added in version `4.2.0` of Prisma ORM as a Preview feature. For versions of Prisma ORM between `4.2.0` and `6.1.0`, 您需要 enable the `tracing` Preview feature in your Prisma schema file.
 
 ```prisma
 generator client {
@@ -114,7 +114,7 @@ npm install @opentelemetry/semantic-conventions @opentelemetry/exporter-trace-ot
 
 ### Step 3: Register 追蹤 in your application
 
-The following code provides two examples of configuring OpenTelemetry tracing in Prisma: 
+以下 code provides two examples of configuring OpenTelemetry tracing in Prisma: 
 
 1. Using `@opentelemetry/sdk-trace-node` (existing example), which gives fine-grained control over tracing setup.
 2. Using `@opentelemetry/sdk-node`, which offers a simpler configuration and aligns with OpenTelemetry's JavaScript getting started guide.

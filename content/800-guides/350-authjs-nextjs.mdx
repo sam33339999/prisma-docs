@@ -12,7 +12,7 @@ community_section: true
 
 [Auth.js](https://authjs.dev/) is a flexible, open-source authentication library designed to simplify adding authentication to your Next.js applications.
 
-In this guide, you'll wire Auth.js into a brand-new [Next.js](https://nextjs.org/) app and persist users in a [Prisma Postgres](https://prisma.io/postgres) database. You can find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/authjs-nextjs).
+在本指南中, you'll wire Auth.js into a brand-new [Next.js](https://nextjs.org/) app and persist users in a [Prisma Postgres](https://prisma.io/postgres) database. 您可以 find a complete example of this guide on [GitHub](https://github.com/prisma/prisma-examples/tree/latest/orm/authjs-nextjs).
 
 ## 前置需求
 
@@ -31,13 +31,13 @@ It will prompt you to customize your setup. Choose the defaults:
 
 :::info
 
-- *Would you like to use TypeScript?* `Yes`
-- *Would you like to use ESLint?* `Yes`
-- *Would you like to use Tailwind CSS?* `Yes`
+- *Would you like 使用 TypeScript?* `Yes`
+- *Would you like 使用 ESLint?* `Yes`
+- *Would you like 使用 Tailwind CSS?* `Yes`
 - *Would you like your code inside a `src/` directory?* `No`
-- *Would you like to use App Router?* (recommended) `Yes`
-- *Would you like to use Turbopack for `next dev`?* `Yes`
-- *Would you like to customize the import alias (`@/*` by default)?* `No`
+- *Would you like 使用 App Router?* (recommended) `Yes`
+- *Would you like 使用 Turbopack for `next dev`?* `Yes`
+- *Would you like to customize the import alias (`@/*` 預設情況下)?* `No`
 
 :::
 
@@ -51,7 +51,7 @@ cd authjs-prisma
 
 ### 2.1. Install dependencies
 
-To get started with Prisma, you'll need to install a few dependencies:
+開始使用 with Prisma, you'll need 安裝 a few dependencies:
 
 ```terminal
 npm install prisma tsx @types/pg --save-dev
@@ -60,7 +60,7 @@ npm install @prisma/client @prisma/adapter-pg dotenv pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -74,7 +74,7 @@ npx prisma init --db --output ../app/generated/prisma
 You'll need to answer a few questions while setting up your Prisma Postgres database. Select the region closest to your location and a memorable name for your database like "My Auth.js Project"
 :::
 
-This will create:
+這將 create:
 
 - A `prisma` directory with a `schema.prisma` file.
 - A `prisma.config.ts` file for configuring Prisma 
@@ -99,7 +99,7 @@ datasource db {
 }
 ```
 
-Add the following models to the `schema.prisma` file, these models are provided by Auth.js:
+Add 以下 models to the `schema.prisma` file, these models are provided by Auth.js:
 
 ```prisma file=prisma/schema.prisma
 //add-start
@@ -156,7 +156,7 @@ model VerificationToken {
 //add-end
 ```
 
-This creates the following models:
+這會建立 以下 models:
 
 - **`Account`**: Stores OAuth provider information (access tokens, refresh tokens, provider account IDs) and enables users to sign in with multiple providers while maintaining a single user record.
 
@@ -190,7 +190,7 @@ export default defineConfig({
 
 ### 2.4. Configure the Prisma Client generator
 
-Now, run the following command to create the database tables and generate the Prisma Client:
+Now, run 以下 command 建立 the database tables and generate the Prisma Client:
 
 ```terminal
 npx prisma migrate dev --name init
@@ -242,15 +242,15 @@ For this guide, you'll be setting up OAuth with Github. For this, you'll need 3 
 - `CLIENT_ID` - Provided by Github
 - `CLIENT_SECRET` - Provided by Github
 
-To get the `AUTH_SECRET`, you can run the following command:
+To get the `AUTH_SECRET`, 您可以 run 以下 command:
 
 ```terminal
 npx auth secret --copy
 ```
 
-- `--copy` will copy the secret to your clipboard. _(Normally, just running `npx auth secret` will add the secret to your `.env.local` file. To keep it tidy, you can use `--copy` and add it to the `.env` file that Prisma created earlier.)_
+- `--copy` will copy the secret to your clipboard. _(Normally, just running `npx auth secret` will add the secret to your `.env.local` file. To keep it tidy, 您可以 use `--copy` and add it to the `.env` file that Prisma created earlier.)_
 
-Add the following to the `.env` file:
+Add 以下 to the `.env` file:
 
 ```env file=.env
 DATABASE_URL=<YOUR_DATABASE_URL>
@@ -259,7 +259,7 @@ AUTH_SECRET=<YOUR_AUTH_SECRET>
 //add-end
 ```
 
-To get the `CLIENT_ID` and `CLIENT_SECRET`, you can create a new OAuth application on Github.
+To get the `CLIENT_ID` and `CLIENT_SECRET`, 您可以 create a new OAuth application on Github.
 
 1. Navigate to [Github Developer Settings](https://github.com/settings/developers)
 2. Click on `New OAuth App`
@@ -282,7 +282,7 @@ AUTH_GITHUB_SECRET=<YOUR_GITHUB_CLIENT_SECRET>
 
 ### 3.3. Configure Auth.js
 
-In the `/lib` folder, create a new file called `auth.ts` and add the following code:
+In the `/lib` folder, create a new file called `auth.ts` and add 以下 code:
 
 ```typescript file=lib/auth.ts
 import NextAuth from 'next-auth'
@@ -292,7 +292,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 })
 ```
 
-Next, you'll need to add the Github provider to the `auth.ts` file:
+Next, you'll need 添加 the Github provider to the `auth.ts` file:
 
 ```typescript file=lib/auth.ts
 import NextAuth from 'next-auth'
@@ -305,7 +305,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 })
 ```
 
-Users will now be able to sign in with Github. To add them to your database, you'll need to use the [Prisma Adapter](https://authjs.dev/getting-started/adapters/prisma):
+Users will now be able to sign in with Github. 添加 them to your database, you'll need 使用 the [Prisma Adapter](https://authjs.dev/getting-started/adapters/prisma):
 
 ```typescript file=lib/auth.ts
 import NextAuth from 'next-auth'
@@ -322,7 +322,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 })
 ```
 
-In the root, create a new file called `middleware.ts`. This will protect your routes and ensure that only authenticated users can access them:
+In the root, create a new file called `middleware.ts`. 這將 protect your routes and ensure that only authenticated users can access them:
 
 ```tsx file=middleware.ts
 export { auth as middleware } from '@/lib/auth'
@@ -339,7 +339,7 @@ mkdir -p app/api/auth/[...nextauth]
 touch app/api/auth/[...nextauth]/route.ts
 ```
 
-Add the following code to the file:
+Add 以下 code to the file:
 
 ```tsx file=app/api/auth/[...nextauth]/route.ts
 import { handlers } from '@/lib/auth'
@@ -347,7 +347,7 @@ import { handlers } from '@/lib/auth'
 export const { GET, POST } = handlers
 ```
 
-That's it! Your app is now secured. To see more configuration options, check out the [Auth.js Middleware documentation](https://next-auth.js.org/configuration/nextjs#middleware).
+That's it! Your app is now secured. To see more configuration options, 查看 the [Auth.js Middleware documentation](https://next-auth.js.org/configuration/nextjs#middleware).
 
 ## 4. Auth components
 
@@ -388,7 +388,7 @@ export function SignOut() {
 //add-end
 ```
 
-To add functionality to both of the buttons, add an action to the form that calls the `signIn` and `signOut` functions respectively:
+添加 functionality to both of the buttons, add an action to the form that calls the `signIn` and `signOut` functions respectively:
 
 ```tsx file=components/auth-components.tsx
 import { signIn, signOut } from "@/lib/auth"
@@ -433,7 +433,7 @@ export function SignOut() {
 
 ### 5.1. Set up the basic page structure
 
-In the `/app` folder, replace the `page.tsx` file with the following code:
+In the `/app` folder, replace the `page.tsx` file with 以下 code:
 
 ```tsx file=app/page.tsx
 //add-start
@@ -524,7 +524,7 @@ export default Page;
 
 ### 5.4. Add the user data to the page
 
-If the user is signed in, you can fetch the user data from the database and display it on the page.
+If the user is signed in, 您可以 fetch the user data from the database and display it on the page.
 
 ```tsx file=app/page.tsx
 import { SignIn, SignOut } from "@/components/auth-components";
@@ -591,7 +591,7 @@ export default Page;
 
 :::warning
 
-Before starting the development server, note that if you are using Next.js v15.2.0 or v15.2.1, do not use Turbopack as there is a known [issue](https://github.com/vercel/next.js/issues/76497). Remove Turbopack from your dev script by updating your `package.json`
+Before starting the development server, 請注意 if you are using Next.js v15.2.0 or v15.2.1, do not use Turbopack as there is a known [issue](https://github.com/vercel/next.js/issues/76497). Remove Turbopack from your dev script by updating your `package.json`
 ```json file=package.json
 "script":{
     //delete-start
@@ -614,17 +614,17 @@ Your application is now fully configured.
 npm run dev
 ```
 
-2. Navigate to `http://localhost:3000` in your browser. You should see the home page with a "Sign In with github" button.
+2. Navigate to `http://localhost:3000` in your browser. 您應該 參見 home page with a "Sign In with github" button.
 
-3. Click on **Sign In with github**, authorize the app, and you should be redirected to the dashboard. You can then sign out and sign back in.
+3. Click on **Sign In with github**, authorize the app, and 您應該 be redirected to the dashboard. 您可以 then sign out and sign back in.
 
-4. To view the user data directly in your database, you can use Prisma Studio:
+4. To view the user data directly in your database, 您可以 use Prisma Studio:
 
 ```terminal
 npx prisma studio
 ```
 
-5. This will open a new tab in your browser where you can see the `User`, `Session`, and `Account` tables and their contents.
+5. 這將 open a new tab in your browser where 您可以 參見 `User`, `Session`, and `Account` tables and their contents.
 
 :::success
 

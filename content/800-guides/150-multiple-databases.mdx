@@ -14,11 +14,11 @@ community_section: true
 
 ## Introduction
 
-This guide shows you how to use multiple databases using Prisma ORM in a single [Next.js app](https://nextjs.org/). You will learn how to connect to two different Prisma Postgres databases, manage migrations, and deploy your application to Vercel. This approach is useful for multi-tenant applications or when you need to separate concerns when managing connections to multiple databases.
+本指南向您展示如何 use multiple databases using Prisma ORM in a single [Next.js app](https://nextjs.org/). You will 學習如何 connect to two different Prisma Postgres databases, manage migrations, and deploy your application to Vercel. This approach is useful for multi-tenant applications or when 您需要 separate concerns when managing connections to multiple databases.
 
 ## 前置需求
 
-Before you begin, make sure that you have the following:
+Before you begin, make sure that you have 以下:
 
 - Node.js 18+ installed.
 - A [Prisma Data Platform account](https://pris.ly/pdp?utm_campaign=multi-client&utm_source=docs).
@@ -56,7 +56,7 @@ cd my-multi-client-app
 
 ## 2. Set up your databases and Prisma Clients
 
-In this section, you will create two separate Prisma Postgres instances—one for user data and one for post data. You will also configure the Prisma schema and environment variables for each.
+在本節中, you will create two separate Prisma Postgres instances—one for user data and one for post data. You will also configure the Prisma schema and environment variables for each.
 
 First, install Prisma and the required dependencies:
 
@@ -67,7 +67,7 @@ npm install @prisma/client @prisma/adapter-pg dotenv pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -156,7 +156,7 @@ export default defineConfig({
 
 :::note
 
-You'll need to install the `dotenv` package if you haven't already:
+You'll need 安裝 the `dotenv` package if you haven't already:
 
 ```terminal
 npm install dotenv
@@ -273,7 +273,7 @@ npm run migrate
 
 When prompted, name the migration for each database accordingly.
 
-## 3. Prepare the application to use multiple Prisma Clients
+## 3. Prepare the application 使用 multiple Prisma Clients
 
 Next, create a `lib` folder to store helper files for instantiating and exporting your Prisma Clients:
 
@@ -283,7 +283,7 @@ mkdir -p lib && touch lib/user-prisma-client.ts lib/post-prisma-client.ts
 
 ### 3.1. Instantiate and export the Prisma Client for the user database
 
-In `lib/user-prisma-client.ts`, add the following code:
+In `lib/user-prisma-client.ts`, add 以下 code:
 
 ```ts file=lib/user-prisma-client.ts
 //add-start
@@ -388,17 +388,17 @@ export default async function Home() {
 
 ### 4.1. Populate your databases with data
 
-In a separate terminal window, open two instances of [Prisma Studio](/orm/tools/prisma-studio) to add data to your databases by running the script:
+In a separate terminal window, open two instances of [Prisma Studio](/orm/tools/prisma-studio) 添加 data to your databases by running the script:
 
 ```terminal
 npm run studio
 ```
 
-This will open up two browser windows, one in `http://localhost:5555` and one in `http://localhost:5556`. Navigate to those windows and add sample data to both databases.
+這將 open up two browser windows, one in `http://localhost:5555` and one in `http://localhost:5556`. Navigate to those windows and add sample data to both databases.
 
 ### 4.2. Run the development server
 
-Before starting the development server, note that if you are using Next.js `v15.2.0`, do not use Turbopack as there is a known [issue](https://github.com/vercel/next.js/issues/76497). Remove Turbopack from your dev script by updating your `package.json`:
+Before starting the development server, 請注意 if you are using Next.js `v15.2.0`, do not use Turbopack as there is a known [issue](https://github.com/vercel/next.js/issues/76497). Remove Turbopack from your dev script by updating your `package.json`:
 
 ```json file=package.json
 "script":{
@@ -436,7 +436,7 @@ Congratulations, you have a Next.js app running with two Prisma Client instances
 
 Deploy your app by following these steps:
 
-1. Ensure your project is version-controlled and pushed to a GitHub repository. If you do not have a repository yet, [create one on GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository). Once the repository is ready, run the following commands:
+1. Ensure your project is version-controlled and pushed to a GitHub repository. If you do not have a repository yet, [create one on GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository). Once the repository is ready, run 以下 commands:
    ```terminal
    git add .
    git commit -m "Initial commit with Prisma Postgres integration"
@@ -468,7 +468,7 @@ Congratulations! You have deployed an application that uses multiple Prisma Clie
 
 ## 後續步驟
 
-In this guide, you learned how to use multiple databases using Prisma ORM in a single Next.js app by:
+在本指南中, you learned 如何使用 multiple databases using Prisma ORM in a single Next.js app by:
 
 - Setting up separate Prisma schemas for user and post databases.
 - Configuring custom output directories and environment variables.
@@ -478,7 +478,7 @@ In this guide, you learned how to use multiple databases using Prisma ORM in a s
 
 This approach allows you to maintain a clear separation of data models and simplifies multi-tenant or multi-database scenarios. 
 
-For further improvements in managing your project, consider using a monorepo setup. Check out our related guides:
+For further improvements in managing your project, consider using a monorepo setup. 查看 our related guides:
 
-- [How to use Prisma ORM in a pnpm workspaces monorepo](/guides/use-prisma-in-pnpm-workspaces)
-- [How to use Prisma ORM with Turborepo](/guides/turborepo)
+- [如何使用 Prisma ORM in a pnpm workspaces monorepo](/guides/use-prisma-in-pnpm-workspaces)
+- [如何使用 Prisma ORM with Turborepo](/guides/turborepo)

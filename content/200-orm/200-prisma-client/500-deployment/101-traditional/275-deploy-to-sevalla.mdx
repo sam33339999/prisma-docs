@@ -4,9 +4,9 @@ metaTitle: '部署 a Prisma app to Sevalla'
 metaDescription: '學習如何 to 部署 a Node.js server that uses Prisma ORM to Sevalla.'
 ---
 
-This guide explains how to deploy a Node.js server that uses Prisma ORM and PostgreSQL to [Sevalla](https://sevalla.com). The app exposes a REST API and uses Prisma Client to query a PostgreSQL database. Both the app and database will be hosted on Sevalla.
+本指南說明如何 deploy a Node.js server that uses Prisma ORM and PostgreSQL to [Sevalla](https://sevalla.com). The app exposes a REST API and uses Prisma Client to query a PostgreSQL database. Both the app and database will be hosted on Sevalla.
 
-Sevalla is a developer-focused PaaS platform designed to simplify application and server deployment. You can easily host your applications, databases, object storage and static sites.
+Sevalla is a developer-focused PaaS platform designed to simplify application and server deployment. 您可以 easily host your applications, databases, object storage and static sites.
 
 It supports Git-based deployments, Dockerfiles, and Procfiles and runs on Google Kubernetes Engine with global delivery via Cloudflare.
 
@@ -19,12 +19,12 @@ For this example, it's helpful to know:
 
 ## 前置需求
 
-To get started, all you need is:
+開始使用, all you need is:
 
 * A [Sevalla account](https://sevalla.com) (comes with $50 in free credits)  
 * A GitHub repository with your application code.
 
-> **Note:** If you don't have a project ready, you can use our [example Prisma project](https://github.com/sevalla-templates/express-prisma-demo). It's a simple Express.js application that uses Prisma ORM and includes a REST API, a frontend for testing endpoints, a defined Prisma schema with migrations, and an optional database seeding script.
+> **注意：** If you don't have a project ready, 您可以 use our [example Prisma project](https://github.com/sevalla-templates/express-prisma-demo). It's a simple Express.js application that uses Prisma ORM and includes a REST API, a frontend for testing endpoints, a defined Prisma schema with migrations, and an optional database seeding script.
 
 ## Create an app on Sevalla
 
@@ -36,7 +36,7 @@ Next, select your Git repository. Sevalla supports deploying from both private a
 
 ![Choose repository interface in Sevalla](images/sevalla-choose-repository.png)
 
-Choose the appropriate branch (usually `main` or `master`), set your application's name, select the desired deployment region, and pick your pod size. (You can start with 0.5 CPU / 1GB RAM using your free credits)
+Choose the appropriate branch (usually `main` or `master`), set your application's name, select the desired deployment region, and pick your pod size. (您可以 start with 0.5 CPU / 1GB RAM using your free credits)
 
 ![Name application interface in Sevalla](images/sevalla-name-application.png)
 
@@ -62,13 +62,13 @@ Finally, click **Add connection**. This securely links your application to your 
 
 Now that your application and database are connected, return to your application's **Deployment** tab and click **Deploy**.
 
-> **Note:** Sevalla automatically builds your application using Nixpacks, detecting your project's `package.json` and `start` script. If you'd rather use a Dockerfile or Buildpacks, navigate to **Settings** \> **Build**, and click **Update Settings** under the **Build environment** section to customize your build method.
+> **注意：** Sevalla automatically builds your application using Nixpacks, detecting your project's `package.json` and `start` script. If you'd rather use a Dockerfile or Buildpacks, navigate to **Settings** \> **Build**, and click **Update Settings** under the **Build environment** section to customize your build method.
 
 ## Seed the database (optional)
 
-If your project includes a seed script (typically located at `prisma/seed.js`), you can populate your database with initial or demo data after deploying your application.
+If your project includes a seed script (typically located at `prisma/seed.js`), 您可以 populate your database with initial or demo data after deploying your application.
 
-To do this, navigate to your application's **Web Terminal** (under **Applications** \> **\[Your App\]** \> **Web Terminal**) and run the following command:
+To do this, navigate to your application's **Web Terminal** (under **Applications** \> **\[Your App\]** \> **Web Terminal**) and run 以下 command:
 
 ```shell
 npx prisma db seed
@@ -78,7 +78,7 @@ This is what the web terminal looks like:
 
 ![Sevalla web terminal interface](images/sevalla-web-terminal.png)
 
-Once this is done, you can manage and interact with your database directly via Sevalla's built-in interactive studio. As shown below, we can see the seeded data:
+Once this is done, 您可以 manage and interact with your database directly via Sevalla's built-in interactive studio. As shown below, we can 參見 seeded data:
 
 ![Sevalla database studio interface](images/sevalla-database-studio.png)
 

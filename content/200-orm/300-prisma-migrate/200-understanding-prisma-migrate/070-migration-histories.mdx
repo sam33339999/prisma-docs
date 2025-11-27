@@ -7,7 +7,7 @@ tocDepth: 3
 
 <TopBlock>
 
-This page explains how Prisma ORM uses migration histories to track changes to your schema.
+本頁說明 how Prisma ORM uses migration histories to track changes to your schema.
 
 </TopBlock>
 
@@ -33,13 +33,13 @@ Your migration history is the story of the changes to your data model, and is re
   - If an applied migration was deleted
   - If an applied migration was changed
 
-  If you change or delete a migration (**not** recommended), the next steps depend on whether you are in a [development environment](/orm/prisma-migrate/workflows/development-and-production#development-environments) (and therefore using `migrate dev`) or a [production / testing environment](/orm/prisma-migrate/workflows/development-and-production#production-and-testing-environments) (and therefore using `migrate deploy`).
+  If you change or delete a migration (**not** recommended), the 後續步驟 depend on whether you are in a [development environment](/orm/prisma-migrate/workflows/development-and-production#development-environments) (and therefore using `migrate dev`) or a [production / testing environment](/orm/prisma-migrate/workflows/development-and-production#production-and-testing-environments) (and therefore using `migrate deploy`).
 
 ## Do not edit or delete migrations that have been applied
 
 In general, you **should not edit or delete** a migration that has already been applied. Doing so can lead to inconsistencies between development and production environment migration histories, which may have unforeseen consequences — even if the change does not _appear_ to break anything at first.
 
-The following scenario simulates a change that creates a seemingly harmless inconsistency:
+以下 scenario simulates a change that creates a seemingly harmless inconsistency:
 
 1. Modify an **existing migration** that has **already been applied** in a development environment by changing the value of `VARCHAR(550)` to `VARCHAR(560)`:
    ```sql file=./prisma/migrations/20210310143435_default_value/migrations.sql
@@ -60,15 +60,15 @@ The following scenario simulates a change that creates a seemingly harmless inco
    20210310143435_change_type
    ```
 
-A change that does not appear to break anything after a `migrate reset` can hide problems - you may end up with a bug in production that you cannot replicate in development, or the other way around - particularly if the change concerns a highly customized migration.
+A change that does not appear to break anything after a `migrate reset` can hide problems - you may end up with a bug in production that 您可以not replicate in development, or the other way around - particularly if the change concerns a highly customized migration.
 
 If Prisma Migrate reports a missing or edited migration that has already been applied, we recommend fixing the **root cause** (restoring the file or reverting the change) rather than resetting.
 
 ## Committing the migration history to source control
 
-You must commit the entire `prisma/migrations` folder to source control. This includes the `prisma/migrations/migration_lock.toml` file, which is used to detect if you have [attempted to change providers](/orm/prisma-migrate/understanding-prisma-migrate/limitations-and-known-issues#you-cannot-automatically-switch-database-providers).
+您必須 commit the entire `prisma/migrations` folder to source control. This includes the `prisma/migrations/migration_lock.toml` file, which is used to detect if you have [attempted to change providers](/orm/prisma-migrate/understanding-prisma-migrate/limitations-and-known-issues#you-cannot-automatically-switch-database-providers).
 
-Source-controlling the `schema.prisma` file is not enough - you must include your migration history. This is because:
+Source-controlling the `schema.prisma` file is not enough - 您必須 include your migration history. This is because:
 
-- As you start to [customize migrations](/orm/prisma-migrate/workflows/development-and-production#customizing-migrations), your migration history contains **information that cannot be represented in the Prisma schema**. For example, you can customize a migration to mitigate data loss that would be caused by a breaking change.
+- As you start to [customize migrations](/orm/prisma-migrate/workflows/development-and-production#customizing-migrations), your migration history contains **information that cannot be represented in the Prisma schema**. 例如, 您可以 customize a migration to mitigate data loss that would be caused by a breaking change.
 - The `prisma migrate deploy` command, which is used to deploy changes to staging, testing, and production environments, _only_ runs migration files. It does not use the Prisma schema to fetch the models.

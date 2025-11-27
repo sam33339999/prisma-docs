@@ -13,26 +13,26 @@ Prisma Client extensions are Generally Available from versions 4.16.0 and later.
 
 :::
 
-You can use Prisma Client extensions to add functionality to your models, result objects, and queries, or to add client-level methods.
+您可以 use Prisma Client extensions 添加 functionality to your models, result objects, and queries, or 添加 client-level methods.
 
-You can create an extension with one or more of the following component types:
+您可以 create an extension with one or more of 以下 component types:
 
 - `model`: [add custom methods or fields to your models](/orm/prisma-client/client-extensions/model)
 - `client`: [add client-level methods to Prisma Client](/orm/prisma-client/client-extensions/client)
 - `query`: [create custom Prisma Client queries](/orm/prisma-client/client-extensions/query)
 - `result`: [add custom fields to your query results](/orm/prisma-client/client-extensions/result)
 
-For example, you might create an extension that uses the `model` and `client` component types.
+例如, you might create an extension that uses the `model` and `client` component types.
 
 </TopBlock>
 
 ## 關於 Prisma Client 擴充
 
-When you use a Prisma Client extension, you create an _extended client_. An extended client is a lightweight variant of the standard Prisma Client that is wrapped by one or more extensions. The standard client is not mutated. You can add as many extended clients as you want to your project. [Learn more about extended clients](#extended-clients).
+When you use a Prisma Client extension, you create an _extended client_. An extended client is a lightweight variant of the standard Prisma Client that is wrapped by one or more extensions. The standard client is not mutated. 您可以 add as many extended clients as you want to your project. [Learn more about extended clients](#extended-clients).
 
-You can associate a single extension, or multiple extensions, with an extended client. [Learn more about multiple extensions](#multiple-extensions).
+您可以 associate a single extension, or multiple extensions, with an extended client. [Learn more about multiple extensions](#multiple-extensions).
 
-You can [share your Prisma Client extensions](/orm/prisma-client/client-extensions/shared-extensions) with other Prisma ORM users, and [import Prisma Client extensions developed by other users](/orm/prisma-client/client-extensions/shared-extensions#install-a-shared-packaged-extension) into your Prisma ORM project.
+您可以 [share your Prisma Client extensions](/orm/prisma-client/client-extensions/shared-extensions) with other Prisma ORM users, and [import Prisma Client extensions developed by other users](/orm/prisma-client/client-extensions/shared-extensions#install-a-shared-packaged-extension) into your Prisma ORM project.
 
 ### Extended clients
 
@@ -43,21 +43,21 @@ Extended clients interact with each other, and with the standard client, as foll
 - All extended clients and the standard client communicate with the same [Prisma ORM query engine](/orm/more/under-the-hood/engines).
 - All extended clients and the standard client share the same connection pool.
 
-> **Note**: The author of an extension can modify this behavior since they're able to run arbitrary code as part of an extension. For example, an extension might actually create an entirely new `PrismaClient` instance (including its own query engine and connection pool). Be sure to check the documentation of the extension you're using to learn about any specific behavior it might implement.
+> **Note**: The author of an extension can modify this behavior since they're able to run arbitrary code as part of an extension. 例如, an extension might actually create an entirely new `PrismaClient` instance (including its own query engine and connection pool). Be sure to check the documentation of the extension you're using to 學習關於 any specific behavior it might implement.
 
 ### Example use cases for extended clients
 
-Because extended clients operate in isolated instances, they can be a good way to do the following, for example:
+Because extended clients operate in isolated instances, they can be a good way to do 以下, 例如：
 
 - Implement row-level security (RLS), where each HTTP request has its own client with its own RLS extension, customized with session data. This can keep each user entirely separate, each in a separate client.
 - Add a `user.current()` method for the `User` model to get the currently logged-in user.
 - Enable more verbose logging for requests if a debug cookie is set.
-- Attach a unique request id to all logs so that you can correlate them later, for example to help you analyze the operations that Prisma Client carries out.
+- Attach a unique request id to all logs so that 您可以 correlate them later, 例如 to help you analyze the operations that Prisma Client carries out.
 - Remove a `delete` method from models unless the application calls the admin endpoint and the user has the necessary privileges.
 
 ## Add an extension to Prisma Client
 
-You can create an extension using two primary ways:
+您可以 create an extension using two primary ways:
 
 - Use the client-level [`$extends`](/orm/reference/prisma-client-reference#client-methods) method
 
@@ -99,7 +99,7 @@ In your `$extends` method, use the appropriate extension component or components
 
 ## Name an extension for error logs
 
-You can name your extensions to help identify them in error logs. To do so, use the optional field `name`. For example:
+您可以 name your extensions to help identify them in error logs. To do so, use the optional field `name`. 例如：
 
 ```ts
 const prisma = new PrismaClient().$extends({
@@ -112,17 +112,17 @@ const prisma = new PrismaClient().$extends({
 
 ## Multiple 擴充
 
-You can associate an extension with an [extended client](#about-prisma-client-extensions) in one of two ways:
+您可以 associate an extension with an [extended client](#about-prisma-client-extensions) in one of two ways:
 
-- You can associate it with an extended client on its own, or
-- You can combine the extension with other extensions and associate all of these extensions with an extended client. The functionality from these combined extensions applies to the same extended client.
-  Note: [Combined extensions can conflict](#conflicts-in-combined-extensions).
+- 您可以 associate it with an extended client on its own, or
+- 您可以 combine the extension with other extensions and associate all of these extensions with an extended client. The functionality from these combined extensions applies to the same extended client.
+  注意： [Combined extensions can conflict](#conflicts-in-combined-extensions).
 
-You can combine the two approaches above. For example, you might associate one extension with its own extended client and associate two other extensions with another extended client. [Learn more about how client instances interact](#extended-clients).
+您可以 combine the two approaches above. 例如, you might associate one extension with its own extended client and associate two other extensions with another extended client. [Learn more about how client instances interact](#extended-clients).
 
 ### Apply multiple 擴充 to an extended client
 
-In the following example, suppose that you have two extensions, `extensionA` and `extensionB`. There are two ways to combine these.
+In 以下範例, suppose that you have two extensions, `extensionA` and `extensionB`. There are two ways to combine these.
 
 #### Option 1: Declare the new client in one line
 
@@ -136,11 +136,11 @@ const prisma = new PrismaClient()
 const prismaAB = prisma.$extends(extensionA).$extends(extensionB)
 ```
 
-You can then refer to `prismaAB` in your code, for example `prismaAB.myExtensionMethod()`.
+您可以 then 參閱 `prismaAB` in your code, 例如 `prismaAB.myExtensionMethod()`.
 
 #### Option 2: Declare multiple extended clients
 
-The advantage of this option is that you can call any of the extended clients separately.
+The advantage of this option is that 您可以 call any of the extended clients separately.
 
 ```ts
 // First of all, store your original Prisma Client in a variable as usual
@@ -156,7 +156,7 @@ const prismaB = prisma.$extends(extensionB)
 const prismaAB = prismaA.$extends(extensionB)
 ```
 
-In your code, you can call any of these clients separately, for example `prismaA.myExtensionMethod()`, `prismaB.myExtensionMethod()`, or `prismaAB.myExtensionMethod()`.
+In your code, 您可以 call any of these clients separately, 例如 `prismaA.myExtensionMethod()`, `prismaB.myExtensionMethod()`, or `prismaAB.myExtensionMethod()`.
 
 ### Conflicts in combined 擴充
 
@@ -164,7 +164,7 @@ When you combine two or more extensions into a single extended client, then the 
 
 ## Type of an extended client
 
-You can infer the type of an extended Prisma Client instance using the [`typeof`](https://www.typescriptlang.org/docs/handbook/2/typeof-types.html) utility as follows:
+您可以 infer the type of an extended Prisma Client instance using the [`typeof`](https://www.typescriptlang.org/docs/handbook/2/typeof-types.html) utility as follows:
 
 ```ts
 const extendedPrismaClient = new PrismaClient().$extends({
@@ -174,7 +174,7 @@ const extendedPrismaClient = new PrismaClient().$extends({
 type ExtendedPrismaClient = typeof extendedPrismaClient
 ```
 
-If you're using Prisma Client as a singleton, you can get the type of the extended Prisma Client instance using the `typeof` and [`ReturnType`](https://www.typescriptlang.org/docs/handbook/utility-types.html#returntypetype) utilities as follows:
+If you're using Prisma Client as a singleton, 您可以 get the type of the extended Prisma Client instance using the `typeof` and [`ReturnType`](https://www.typescriptlang.org/docs/handbook/utility-types.html#returntypetype) utilities as follows:
 
 ```ts
 function getExtendedClient() {
@@ -188,11 +188,11 @@ type ExtendedPrismaClient = ReturnType<typeof getExtendedClient>
 
 ## Extending 模型 types with `Prisma.Result`
 
-You can use the `Prisma.Result` type utility to extend model types to include properties added via client extensions. This allows you to infer the type of the extended model, including the extended properties.
+您可以 use the `Prisma.Result` type utility to extend model types to include properties added via client extensions. This allows you to infer the type of the extended model, including the extended properties.
 
 ### Example
 
-The following example demonstrates how to use `Prisma.Result` to extend the `User` model type to include a `__typename` property added via a client extension.
+以下範例 demonstrates 如何使用 `Prisma.Result` to extend the `User` model type to include a `__typename` property added via a client extension.
 
 ```ts
 import { PrismaClient, Prisma } from '@prisma/client'

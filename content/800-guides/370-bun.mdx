@@ -33,7 +33,7 @@ Then, initialise a new Bun project:
 bun init -y
 ```
 
-This creates a basic Bun project that includes a `package.json` file and an `index.ts` file.
+這會建立 a basic Bun project that includes a `package.json` file and an `index.ts` file.
 
 ## 2. Installing and configuring Prisma
 
@@ -48,7 +48,7 @@ bun add @prisma/client @prisma/adapter-pg pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -75,7 +75,7 @@ This command creates:
 
 ### 2.3. Configure environment variables for direct connection
 
-We're going to use a direct connection string for connecting to Prisma Postgres. To get your [direct connection string](/postgres/database/direct-connections#how-to-connect-to-prisma-postgres-via-direct-tcp):
+We're going 使用 a direct connection string for connecting to Prisma Postgres. To get your [direct connection string](/postgres/database/direct-connections#how-to-connect-to-prisma-postgres-via-direct-tcp):
 
 1. Navigate to your recently created Prisma Postgres project dashboard (e.g. "My Bun Project")
 2. Click the **API Keys** tab in the project's sidebar
@@ -135,7 +135,7 @@ This command:
 
 ### 4.1. Create a database utility file
 
-Create a `db.ts` file in your project root to configure `PrismaClient`:
+Create a `db.ts` file in your project root 配置 `PrismaClient`:
 
 ```typescript file=db.ts
 import { PrismaClient } from "./generated/prisma/client";
@@ -199,7 +199,7 @@ main()
 
 ### 3.3. Add the seed script to Prisma Config
 
-Add the following content to the file:
+Add 以下 content to the file:
 
 ```typescript file=prisma.config.ts
 import 'dotenv/config'
@@ -227,7 +227,7 @@ bunx --bun prisma db seed
 
 ## 5. Creating your Bun server
 
-Replace the `index.ts` file contents with the following code to build a simple HTTP server that uses Prisma ORM to fetch and display users:
+Replace the `index.ts` file contents with 以下 code to build a simple HTTP server that uses Prisma ORM to fetch and display users:
 
 ```typescript file=index.ts
 import { prisma } from './db'
@@ -270,7 +270,7 @@ Start your Bun server:
 bun run index.ts
 ```
 
-You should see `Listening on http://localhost:3000` in the console. When you visit `http://localhost:3000` in your browser, you'll see a JSON response with all the users in your database and the total count.
+您應該 see `Listening on http://localhost:3000` in the console. When you visit `http://localhost:3000` in your browser, you'll see a JSON response with all the users in your database and the total count.
 
 ## 7. Building and running a Bun executable
 
@@ -284,7 +284,7 @@ Build your application into an executable:
 bun build --compile index.ts
 ```
 
-This creates an executable file named `index` (or `index.exe` on Windows) in your project directory.
+這會建立 an executable file named `index` (or `index.exe` on Windows) in your project directory.
 
 ### 7.2. Run the executable
 
@@ -294,14 +294,14 @@ Run the compiled executable:
 ./index
 ```
 
-You should see the same `Listening on http://localhost:3000` message, and your application will work exactly the same as before. The executable includes all dependencies and can be deployed to any compatible system without requiring Bun or Node.js to be installed.
+您應該 參見 same `Listening on http://localhost:3000` message, and your application will work exactly the same as before. The executable includes all dependencies and can be deployed to any compatible system without requiring Bun or Node.js to be installed.
 
 :::note
 
 Bun executables are useful for:
 
 - **Deployment**: Ship a single file instead of managing dependencies
-- **Distribution**: Share your application without requiring users to install Bun
+- **Distribution**: Share your application without requiring users 安裝 Bun
 - **Performance**: Faster startup times compared to running TypeScript files
 - **Security**: Your source code is compiled and not easily readable
 
@@ -309,9 +309,9 @@ Bun executables are useful for:
 
 ## 後續步驟
 
-You can explore [this example](https://pris.ly/bun_ppg_example) to see a sample application built with Bun and Prisma.
+您可以 explore [this example](https://pris.ly/bun_ppg_example) to see a sample application built with Bun and Prisma.
 
-Now that you have a Bun application connected to a Prisma Postgres database, you can continue by:
+Now that you have a Bun application connected to a Prisma Postgres database, 您可以 continue by:
 
 - Extending your Prisma schema with additional models and relationships
 - Implementing authentication and authorization

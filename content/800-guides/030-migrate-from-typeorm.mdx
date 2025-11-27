@@ -10,9 +10,9 @@ community_section: true
 
 ## Introduction
 
-This guide shows you how to migrate your application from TypeORM to Prisma ORM. We'll use an extended version of the [TypeORM Express example](https://github.com/typeorm/typescript-express-example/) as a [sample project](https://github.com/prisma/migrate-from-typeorm-to-prisma) to demonstrate the migration steps.
+本指南向您展示如何 migrate your application from TypeORM to Prisma ORM. We'll use an extended version of the [TypeORM Express example](https://github.com/typeorm/typescript-express-example/) as a [sample project](https://github.com/prisma/migrate-from-typeorm-to-prisma) to demonstrate the migration steps.
 
-This migration guide uses PostgreSQL as the example database, but it equally applies to any other relational database that's [supported by Prisma ORM](/orm/reference/supported-databases). You can learn how Prisma ORM compares to TypeORM on the [Prisma ORM vs TypeORM](/orm/more/comparisons/prisma-and-typeorm) page.
+This migration guide uses PostgreSQL as the example database, but it equally applies to any other relational database that's [支援 Prisma ORM](/orm/reference/supported-databases). 您可以 learn how Prisma ORM compares to TypeORM on the [Prisma ORM vs TypeORM](/orm/more/comparisons/prisma-and-typeorm) page.
 
 ## 前置需求
 
@@ -53,7 +53,7 @@ DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
 
 ### 2.3. Configure Prisma
 
-Create a `prisma.config.ts` file in the root of your project with the following content:
+Create a `prisma.config.ts` file in the root of your project with 以下 content:
 
 ```typescript file=prisma.config.ts
 import 'dotenv/config'
@@ -72,7 +72,7 @@ export default defineConfig({
 
 :::note
 
-You'll need to install the `dotenv` package to load environment variables. If you haven't already, install it using your package manager:
+You'll need 安裝 the `dotenv` package to load environment variables. If you haven't already, install it using your package manager:
 
 ```bash
 npm install dotenv
@@ -84,13 +84,13 @@ npm install dotenv
 
 ### 3.1. Introspect your database
 
-Run Prisma's introspection to create the Prisma schema from your existing database:
+Run Prisma's introspection 建立 the Prisma schema from your existing database:
 
 ```terminal
 npx prisma db pull
 ```
 
-This will create a `schema.prisma` file with your database schema.
+這將 create a `schema.prisma` file with your database schema.
 
 ### 3.2. Create a baseline migration
 
@@ -119,7 +119,7 @@ npx prisma generate
 
 ### 4.2. Replace TypeORM queries
 
-Start replacing your TypeORM queries with Prisma Client. Here's an example of how to convert some common queries:
+Start replacing your TypeORM queries with Prisma Client. Here's an example of 如何 convert some common queries:
 
 <TabbedContent code>
 
@@ -182,7 +182,7 @@ await prisma.user.delete({
 
 ### 4.3. Update your controllers
 
-Update your Express controllers to use Prisma Client. For example, here's how to update the `CreateUserAction`:
+Update your Express controllers 使用 Prisma Client. 例如, here's how 更新 the `CreateUserAction`:
 
 ```typescript
 import { prisma } from '../client'
@@ -224,13 +224,13 @@ npx prisma migrate deploy
 
 ## 後續步驟
 
-Now that you've migrated to Prisma ORM, you can:
+Now that you've migrated to Prisma ORM, 您可以:
 
 - Add more complex queries using Prisma's powerful query API
 - Set up Prisma Studio for database management
 - Implement database monitoring
 - Add automated tests using Prisma's testing utilities
 
-For more information:
+欲了解更多資訊:
 - [Prisma ORM documentation](/orm)
 - [Prisma Client API reference](/orm/prisma-client)

@@ -23,7 +23,7 @@ When invoking the [`delete()`](/orm/prisma-client/queries/crud#delete-a-single-r
 
 The behavior in Prisma ORM 2, without upgrading, does not allow setting referential actions at all. [See Prisma ORM 2.x default referential actions](#prisma-orm-2x-default-referential-actions)
 
-If you need to actually use the cascade behavior configured in the database, you _can_ use [`raw`](/orm/prisma-client/using-raw-sql/raw-queries) SQL queries to [delete multiple referenced records](/orm/prisma-client/queries/crud#deleting-all-data-with-raw-sql--truncate). This is because Prisma Client will **not** perform runtime checks on raw queries.
+If 您需要 actually use the cascade behavior configured in the database, you _can_ use [`raw`](/orm/prisma-client/using-raw-sql/raw-queries) SQL queries to [delete multiple referenced records](/orm/prisma-client/queries/crud#deleting-all-data-with-raw-sql--truncate). This is because Prisma Client will **not** perform runtime checks on raw queries.
 
 ### Prisma ORM 2.x default referential actions
 
@@ -34,7 +34,7 @@ Below are the default referential actions written to the database foreign keys w
 | `onDelete` | `SetNull`          | `Cascade`           |
 | `onUpdate` | `Cascade`          | `Cascade`           |
 
-On top of the database referential actions, the following actions are enforced in Prisma Client versions 2.x:
+On top of the database referential actions, 以下 actions are enforced in Prisma Client versions 2.x:
 
 | Clause     | Optional relations | Mandatory relations |
 | :--------- | :----------------- | :------------------ |
@@ -43,11 +43,11 @@ On top of the database referential actions, the following actions are enforced i
 
 ## 升級 paths
 
-There are a couple of paths you can take when upgrading which will give different results depending on the desired outcome.
+There are a couple of paths 您可以 take when upgrading which will give different results depending on the desired outcome.
 
-If you currently use the migration workflow, you can run `prisma db pull` to check how the defaults are reflected in your schema. You can then manually update your database if you need to.
+If you currently use the migration workflow, 您可以 run `prisma db pull` to check how the defaults are reflected in your schema. 您可以 then manually update your database if 您需要.
 
-You can also decide to skip checking the defaults and run a migration to update your database with the new default values.
+您可以 also decide to skip checking the defaults and run a migration 更新 your database with the new default values.
 
 ### Using Introspection
 
@@ -55,7 +55,7 @@ If you [Introspect](/orm/prisma-schema/introspection) your database, the referen
 
 When you run an Introspection, Prisma ORM compares all the foreign keys in the database with the schema, if the SQL statements `ON DELETE` and `ON UPDATE` do **not** match the default values, they will be explicitly set in the schema file.
 
-After introspecting, you can review the non-default clauses in your schema. The most important clause to review is `onDelete`, which defaults to `Cascade` in version 2.25.0 and earlier.
+After introspecting, 您可以 review the non-default clauses in your schema. 最重要 clause to review is `onDelete`, which defaults to `Cascade` in version 2.25.0 and earlier.
 
 :::danger
 
@@ -68,7 +68,7 @@ Make sure you are happy with every case of `onDelete: Cascade` in your schema. I
 - Modify your Prisma schema and `db push` or `dev migrate` to change the database _or_
 - Manually update the underlying database if you only use `prisma db pull` in your workflow
 
-The following example would result in a cascading delete, meaning that if the `User` is deleted then all of their `Post`'s will be deleted too.
+以下範例 would result in a cascading delete, meaning that if the `User` is deleted then all of their `Post`'s will be deleted too.
 
 #### A blog 綱要 example
 
@@ -94,25 +94,25 @@ When running a [Migration](/orm/prisma-migrate) (or the [`prisma db push`](/orm/
 :::info
 
 Unlike when you run `prisma db pull` for the first time, the new referential actions clause and property will **not** automatically be added to your Prisma schema by the Prisma VSCode extension.
-You will have to manually add them if you wish to use anything other than the new defaults.
+You will have to manually add them if you wish 使用 anything other than the new defaults.
 
 :::
 
 Explicitly defining referential actions in your Prisma schema is optional. If you do not explicitly define a referential action for a relation, Prisma ORM uses the [new defaults](/orm/prisma-schema/data-model/relations/referential-actions#referential-action-defaults).
 
-Note that referential actions can be added on a case by case basis. This means that you can add them to one single relation and leave the rest set to the defaults by not manually specifying anything.
+請注意 referential actions can be added on a case by case basis. This means that 您可以 add them to one single relation and leave the rest set to the defaults by not manually specifying anything.
 
 ### Checking for errors
 
 **Before** upgrading to version 3.0.1 (or versions 2.26.0 and above with the `referentialActions` feature flag enabled), Prisma ORM prevented the deletion of records while using `delete()` or `deleteMany()` to preserve referential integrity. A custom runtime error would be thrown by Prisma Client with the error code `P2014`.
 
-**After** upgrading, Prisma ORM no longer performs runtime checks. You can instead specify a custom referential action to preserve the referential integrity between relations.
+**After** upgrading, Prisma ORM no longer performs runtime checks. 您可以 instead specify a custom referential action to preserve the referential integrity between relations.
 
-When you use [`NoAction`](/orm/prisma-schema/data-model/relations/referential-actions#noaction) or [`Restrict`](/orm/prisma-schema/data-model/relations/referential-actions#restrict) to prevent the deletion of records, the error messages will be different in versions 3.0.1 and above (or 2.26.0 with the `referentialActions` feature flag enabled) compared to versions prior to that. This is because they are now triggered by the database and **not** Prisma Client. The new error code that can be expected is `P2003`, so you should check your code to make adjustments accordingly.
+When you use [`NoAction`](/orm/prisma-schema/data-model/relations/referential-actions#noaction) or [`Restrict`](/orm/prisma-schema/data-model/relations/referential-actions#restrict) to prevent the deletion of records, the error messages will be different in versions 3.0.1 and above (or 2.26.0 with the `referentialActions` feature flag enabled) compared to versions prior to that. This is because they are now triggered by the database and **not** Prisma Client. The new error code that can be expected is `P2003`, so 您應該 check your code to make adjustments accordingly.
 
 #### Example of catching errors
 
-The following example uses the below blog schema with a 1-m relationship between `Post` and `User` and sets a [`Restrict`](/orm/prisma-schema/data-model/relations/referential-actions#restrict) referential actions on the `author` field.
+以下範例 uses the below blog schema with a 1-m relationship between `Post` and `User` and sets a [`Restrict`](/orm/prisma-schema/data-model/relations/referential-actions#restrict) referential actions on the `author` field.
 
 This means that if a user has a post, that user (and their posts) **cannot** be deleted.
 
@@ -130,7 +130,7 @@ model User {
 }
 ```
 
-Prior to upgrading, the error code you would receive when trying to delete a user which has posts would be `P2014` and it's message:
+Prior to upgrading, the error code you would receive when trying 刪除 a user which has posts would be `P2014` and it's message:
 
 > "The change you are trying to make would violate the required relation '\{relation_name}' between the \{model_a_name} and \{model_b_name} models."
 

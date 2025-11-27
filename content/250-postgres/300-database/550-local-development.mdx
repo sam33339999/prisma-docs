@@ -14,19 +14,19 @@ Local Prisma Postgres is in [Preview](/orm/more/releases#preview) and is being a
 
 ## Setting up 本地開發 for Prisma Postgres
 
-Follow these steps to set up local Prisma Postgres for development.
+Follow these steps 設定 local Prisma Postgres for development.
 
 Node.js v20 or later is required for local Prisma Postgres
 
 ### 1. Launching local Prisma Postgres
 
-Navigate into your project and start the local Prisma Postgres server using the following command:
+Navigate into your project and start the local Prisma Postgres server using 以下 command:
 
 ```terminal
 npx prisma dev
 ```
 
-This starts a local Prisma Postgres server that you can connect to using Prisma ORM or another tool. The output of the command looks like this:
+This starts a local Prisma Postgres server that 您可以 connect to using Prisma ORM or another tool. 輸出 of the command looks like this:
 
 ```no-copy
 $ npx prisma dev
@@ -44,7 +44,7 @@ Now hit:
 - <kbd>h</kbd> to view the connection URL enabling connections via **Prisma ORM**
 - <kbd>t</kbd> to view the connection URL enabling connections via **any tool**
 
-If you want to connect via Prisma ORM, hit <kbd>h</kbd> on your keyboard, copy the `DATABASE_URL` and  store it in your `.env` file. This will be used to connect to the local Prisma Postgres server:
+If you want to connect via Prisma ORM, hit <kbd>h</kbd> on your keyboard, copy the `DATABASE_URL` and  store it in your `.env` file. 這將 be used to connect to the local Prisma Postgres server:
 
 ```bash file=.env
 DATABASE_URL="prisma+postgres://localhost:51213/?api_key=__API_KEY__"
@@ -54,7 +54,7 @@ Keep the local Prisma Postgres server running in the background while you work o
 
 ### 2. Applying migrations and 填充 data
 
-Then in a separate terminal tab, run the `prisma migrate dev` command to create the database and run the migrations:
+Then in a separate terminal tab, run the `prisma migrate dev` command 建立 the database and run the migrations:
 
 ```terminal
 npx prisma migrate dev
@@ -64,23 +64,23 @@ npx prisma migrate dev
 
 Make sure the local Prisma Postgres server is running before running the `prisma migrate dev` command. 
 
-If you must use a different port, append [`--port <number>`](/orm/reference/prisma-cli-reference#dev) (for example, `npx prisma migrate dev --port 5422`) and update your `DATABASE_URL` (or other connection settings) to match. 
+If 您必須 use a different port, append [`--port <number>`](/orm/reference/prisma-cli-reference#dev) (例如, `npx prisma migrate dev --port 5422`) and update your `DATABASE_URL` (or other connection settings) to match. 
 
 :::
 
-This will create the database and run the migrations. 
+這將 create the database and run the migrations. 
 
-If you have a seeder script to seed the database, you should also run it in this step.
+If you have a seeder script to seed the database, 您應該 also run it in this step.
 
 ### 3. Running your application locally
 
-Start your application's development server. You can now perform queries against the local Prisma Postgres instance using Prisma ORM. 
+Start your application's development server. 您可以 now perform queries against the local Prisma Postgres instance using Prisma ORM. 
 
-To transition to production, you only need to update the database URL in the `.env` file with a Prisma Postgres connection url without additional application logic changes.
+To transition to production, you only need 更新 the database URL in the `.env` file with a Prisma Postgres connection url without additional application logic changes.
 
 ## Using different local Prisma Postgres instances
 
-You can target a specific, local Prisma Postgres instance via the `--name` (`-n`) option of the `prisma dev` command, for example:
+您可以 target a specific, local Prisma Postgres instance via the `--name` (`-n`) option of the `prisma dev` command, 例如：
 
 ```terminal
 npx prisma dev --name mydb1
@@ -90,19 +90,19 @@ Whenever you pass the `--name mydb1` to `prisma dev`, the command will return th
 
 ## Stopping Prisma Postgres instances
 
-You can stop a running Prisma Postgres instance with this command:
+您可以 stop a running Prisma Postgres instance with this command:
 
 ```terminal
 npx prisma dev stop <glob>
 ```
 
-`<glob>` is a placeholder for a glob pattern to specify which local Prisma Postgres instances should be stopped, for example:
+`<glob>` is a placeholder for a glob pattern to specify which local Prisma Postgres instances should be stopped, 例如：
 
 ```terminal
 npx prisma dev stop mydb # stops a DB called `mydb`
 ```
 
-To stop all databases that begin with `mydb` (e.g. `mydb-dev` and `mydb-prod`), you can use a glob:
+To stop all databases that begin with `mydb` (e.g. `mydb-dev` and `mydb-prod`), 您可以 use a glob:
 
 ```
 npx prisma dev stop mydb* # stops all DBs starting with `mydb`
@@ -110,19 +110,19 @@ npx prisma dev stop mydb* # stops all DBs starting with `mydb`
 
 ## Removing Prisma Postgres instances
 
-Prisma Postgres saves the information and data from your local Prisma Postgres instances on your file system. To remove any trace from a database that's not in use any more, you can run the following command:
+Prisma Postgres saves the information and data from your local Prisma Postgres instances on your file system. 移除 any trace from a database that's not in use any more, 您可以 run 以下 command:
 
 ```terminal
 npx prisma dev rm <glob>
 ```
 
-`<glob>` is a placeholder for a glob pattern to specify which local Prisma Postgres instances should be removed, for example:
+`<glob>` is a placeholder for a glob pattern to specify which local Prisma Postgres instances should be removed, 例如：
 
 ```terminal
 npx prisma dev rm mydb # removes a DB called `mydb`
 ```
 
-To stop all databases that begin with `mydb` (e.g. `mydb-dev` and `mydb-prod`), you can use a glob:
+To stop all databases that begin with `mydb` (e.g. `mydb-dev` and `mydb-prod`), 您可以 use a glob:
 
 ```
 npx prisma dev rm mydb* # removes all DBs starting with `mydb`
@@ -138,14 +138,14 @@ In order to connect to your local Prisma Postgres instance, use the `postgres://
 
 The [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) has a dedicated UI managing Prisma Postgres instances.
 
-To use it, install the VS Code extension and find the **Prisma logo** in the activity bar of your VS Code editor. It enables the following workflows:
+使用 it, install the VS Code extension and find the **Prisma logo** in the activity bar of your VS Code editor. It enables 以下 workflows:
 - creating and deleting databases
 - starting and stopping the server for a particular database
 - "push to cloud": move a database from local to remote
 
 ## Manage local Prisma Postgres programmatically
 
-You can start and stop a local Prisma Postgres server from Node.js without invoking the CLI. This uses undocumented, unstable APIs from `@prisma/dev` and may change without notice. Use it at your own risk. It’s especially useful for integration tests that need an ephemeral local database per test or suite.
+您可以 start and stop a local Prisma Postgres server from Node.js without invoking the CLI. This uses undocumented, unstable APIs from `@prisma/dev` and may change without notice. Use it at your own risk. It’s especially useful for integration tests that need an ephemeral local database per test or suite.
 
 This is a complete runnable example that will print `[{abba: 1}]` when run:
 
@@ -183,7 +183,7 @@ try {
 
 ### API Arguments
 
-The `unstable_startServer()` function accepts the following options:
+The `unstable_startServer()` function accepts 以下 options:
 
 | **Argument**             | **Required** | **Description**                                                                                                                | **Default**   |
 | ------------------------ | ------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------- |
@@ -195,7 +195,7 @@ The `unstable_startServer()` function accepts the following options:
 
 :::tip
 
-You can dynamically choose available ports using libraries like [`get-port-please`](https://www.npmjs.com/package/get-port-please) to avoid conflicts when running multiple instances.
+您可以 dynamically choose available ports using libraries like [`get-port-please`](https://www.npmjs.com/package/get-port-please) to avoid conflicts when running multiple instances.
 
 :::
 

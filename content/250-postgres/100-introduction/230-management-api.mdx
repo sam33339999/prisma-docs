@@ -9,7 +9,7 @@ metaDescription: '管理 API 參考 文件 for Prisma Postgres.'
 This page covers the Prisma Management API which enables you to programmatically manage [platform](/platform/about) resources (e.g. projects or Prisma Postgres instances) in [Prisma Console](https://console.prisma.io). 
 
 :::tip OpenAPI
-An interactive [**OpenAPI 3.1 specification** is available here](https://api.prisma.io/v1/swagger-editor), where you can explore endpoints, request/response bodies, and detailed examples.
+An interactive [**OpenAPI 3.1 specification** is available here](https://api.prisma.io/v1/swagger-editor), where 您可以 explore endpoints, request/response bodies, and detailed examples.
 :::
 
 :::tip Guides
@@ -28,7 +28,7 @@ The base URL for a Prisma Postgres API request is:
 https://api.prisma.io/v1
 ```
 
-Append an endpoint path to the base URL to construct the full URL for a request. For example:
+Append an endpoint path to the base URL to construct the full URL for a request. 例如：
 
 ```
 https://api.prisma.io/v1/projects/{projectId}
@@ -74,7 +74,7 @@ To obtain a client ID and client secret:
 
 #### OAuth authorization flow
 
-To use OAuth 2.0, your application must:
+使用 OAuth 2.0, your application must:
 
 1. **Redirect users to the authorization URL** with your client ID and redirect URI:
     ```
@@ -86,7 +86,7 @@ To use OAuth 2.0, your application must:
     https://your-app.com/callback?code=abc123...
     ```
 
-3. **Exchange the code for an access token**: Use the code from step 2 in the following request
+3. **Exchange the code for an access token**: Use the code from step 2 in 以下 request
 
 ```bash
 curl -X POST https://auth.prisma.io/token \
@@ -414,7 +414,7 @@ Retrieve all available regions.
 
 {/* ## Management API playground
 
-You can explore and interact with all endpoints in a live Swagger UI playground.
+您可以 explore and interact with all endpoints in a live Swagger UI playground.
 
 :::note
 Use your service token or OAuth 2.0 access token to authorize requests in the UI.

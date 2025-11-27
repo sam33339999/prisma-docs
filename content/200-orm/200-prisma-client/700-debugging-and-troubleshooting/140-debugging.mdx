@@ -5,7 +5,7 @@ metaDescription: '本頁說明 如何 啟用 除錯 output for Prisma 客戶端 
 ---
 
 
-You can enable debugging output in Prisma Client and Prisma CLI via the [`DEBUG`](/orm/reference/environment-variables-reference#debug) environment variable. It accepts two namespaces to print debugging output:
+您可以 enable debugging output in Prisma Client and Prisma CLI via the [`DEBUG`](/orm/reference/environment-variables-reference#debug) environment variable. It accepts two namespaces to print debugging output:
 
 - `prisma:engine`: Prints relevant debug messages happening in a Prisma ORM [engine](https://github.com/prisma/prisma-engines/)
 - `prisma:client`: Prints relevant debug messages happening in the Prisma Client runtime
@@ -14,7 +14,7 @@ You can enable debugging output in Prisma Client and Prisma CLI via the [`DEBUG`
 
 :::info
 
-Prisma Client can be configured to log warnings, errors and information related to queries sent to the database. See [Configuring logging](/orm/prisma-client/observability-and-logging/logging) for more information.
+Prisma Client can be configured to log warnings, errors and information related to queries sent to the database. See [Configuring logging](/orm/prisma-client/observability-and-logging/logging) 欲了解更多資訊.
 
 :::
 
@@ -33,7 +33,7 @@ export DEBUG="prisma:client"
 export DEBUG="prisma:client,prisma:engine"
 ```
 
-To enable all `prisma` debugging options, set `DEBUG` to `prisma*`:
+啟用 all `prisma` debugging options, set `DEBUG` to `prisma*`:
 
 ```terminal
 export DEBUG="prisma*"
@@ -45,7 +45,7 @@ On Windows, use `set` instead of `export`:
 set DEBUG="prisma*"
 ```
 
-To enable _all_ debugging options, set `DEBUG` to `*`:
+啟用 _all_ debugging options, set `DEBUG` to `*`:
 
 ```terminal
 export DEBUG="*"

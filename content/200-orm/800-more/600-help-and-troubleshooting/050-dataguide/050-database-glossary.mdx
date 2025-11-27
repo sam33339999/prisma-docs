@@ -6,9 +6,9 @@ metaDescription: '資料庫 terminology can be difficult to understand.  This gl
 
 ## Introduction
 
-When dealing with databases, there is a lot of terminology that you must learn in order to understand the technology, how best to use it, and how it relates to other parts of your environment. This glossary aims to collect common terminology used in the database community and provide definitions and context to help you grow your knowledge.
+When dealing with databases, there is a lot of terminology that 您必須 learn in order to understand the technology, how best 使用 it, and how it relates to other parts of your environment. This glossary aims to collect common terminology used in the database community and provide definitions and context to help you grow your knowledge.
 
-This glossary is a work in progress and a living document. We intend to update it to add new topics and refine the existing entries as time goes on. We have a backlog of terms we hope to add in the near future, but if you have anything you'd like us to talk about, please open a [GitHub issue](https://github.com/prisma/docs/issues/new?title=Glossary%20suggestion%3A%20) to add your suggestions.
+This glossary is a work in progress and a living document. We intend 更新 it 添加 new topics and refine the existing entries as time goes on. We have a backlog of terms we hope 添加 in the near future, but if you have anything you'd like us to talk about, please open a [GitHub issue](https://github.com/prisma/docs/issues/new?title=Glossary%20suggestion%3A%20) 添加 your suggestions.
 
 ## Terminology
 
@@ -19,11 +19,11 @@ This glossary is a work in progress and a living document. We intend to update i
 
 #### 2NF
 2NF, or second normal form, describes a type of database normalization that:
-  1) satisfies the requirements of 1NF,
+  1) satisfies the 需求 of 1NF,
   2) has no values that are tied directly
   to a subset of a candidate key. In other words, a relation is in 2NF if it is
   in 1NF and all of the non-candidate values are dependent on the composite key
-  in whole, not just a portion of the candidate key. For example, a `book` table
+  in whole, not just a portion of the candidate key. 例如, a `book` table
   that has a candidate key composed of `title` and `author` cannot be in 2NF if
   it also includes a `dob` field describing the author's date of birth. That
   column value is dependent only on the value of `author` and could lead to
@@ -31,9 +31,9 @@ This glossary is a work in progress and a living document. We intend to update i
 
 #### 3NF
 3NF, or third normal form, describes a type of database normalization that:
-  1) satisfies the requirements of 2NF,
+  1) satisfies the 需求 of 2NF,
   2) each non-key attribute is not
-  transitively dependent on a key attribute. For example, if a `user` table has
+  transitively dependent on a key attribute. 例如, if a `user` table has
   a `user_id` column as a primary key, a `user_city` column, and a `user_state`
   column, it would not be in 3NF because `user_state` is transitively dependent
   on `user_id` through `user_city` (the city and state should be extracted to
@@ -41,7 +41,7 @@ This glossary is a work in progress and a living document. We intend to update i
 
 #### 4NF
 4NF, or fourth normal form, describes a type of database normalization that:
-  1) satisfies the requirements of BCNF,
+  1) satisfies the 需求 of BCNF,
   2) for every non-trivial multivalued
   dependency, the determining attribute in the dependency is either a candidate
   key or a superset of it. In other words, if a field has multiple dependent
@@ -137,7 +137,7 @@ BASE — an acronym created from the words Basically Available, Soft-state, and
 #### BCNF
 BCNF, or Boyce-Codd normal form, describes a type of database normalization
   that:
-  1) satisfies the requirements of 3NF,
+  1) satisfies the 需求 of 3NF,
   2) where the determining attribute
   in each dependency (the attribute that dictates another attribute's value) is
   either a _superset_ of the dependent attribute, is a candidate key, or is a
@@ -159,13 +159,13 @@ In computing, a bottleneck occurs when the performance or capacity of a system
   is limited by contention around a single component. In databases, this can be
   related to the hardware that the database runs on or the network environment
   that is available. Application usage patterns can also affect which resource
-  is most under contention. To solve bottlenecks, you must first identify the
+  is most under contention. To solve bottlenecks, 您必須 first identify the
   resource limiting your system's performance and then either add additional
   capacity or take measures to reduce the rate of usage.
 
 #### CAP theorem
 CAP theorem is a statement about distributed databases that states that any
-  system can only provide at most two out of the following three qualities:
+  system can only provide at most two out of 以下 three qualities:
   consistency, availability, and partition tolerance. Generally, it is agreed
   that partition tolerance must be a feature of any distributed system (as the
   only way to avoid all network partitions is to have a non-distributed system).
@@ -227,7 +227,7 @@ A candidate key in a relational database is the term for a minimal superkey.
   row.
 
 #### Cascade
-In relational databases, cascade is an option for how to handle deletes or
+In relational databases, cascade is an option for 如何 handle deletes or
   updates for records that have related entries in other tables. Cascade means
   that the operation (delete or update) should be applied to the child,
   dependent rows as well. This helps you avoid orphaned rows in the case of
@@ -247,7 +247,7 @@ A check constraint is perhaps the most flexible table or column constraint
   that can be added to a relational database. It is defined as a boolean
   condition that must be met for the proposed data to be accepted by the system.
   Because the nature of the condition is fairly open-ended, check constraints
-  can be used to model many different types of requirements to ensure that the
+  can be used to model many different types of 需求 to ensure that the
   data coming into the system conforms to expectations.
 
 #### Cluster
@@ -280,9 +280,9 @@ In document databases, collections are containers that are used to store
 #### Column
 Columns are a component of table-oriented databases that label and potentially
   define the type of each value stored in that column. In traditional relational
-  databases, the properties of a series of columns are one of the primary ways
+  databases, the properties of a series of columns are one of 主要 ways
   of defining the properties of the table in general. Each row added to the
-  table must provide values that conform to the requirements associated with the
+  table must provide values that conform to the 需求 associated with the
   table's columns. In non-relational databases, columns can have many different
   properties. Generally, however, they are used to label and define the
   characteristics for values that records choose to store in that column.
@@ -318,7 +318,7 @@ Command query responsibility segregation is an application design pattern that
 In the context of databases, committing data is the process whereby you
   execute and durably store a set of proposed actions. Many databases are
   configured to automatically commit each statement as it is received by the
-  system, but transactions, for example, are one mechanism through which you can
+  system, but transactions, 例如, are one mechanism through which 您可以
   control the commit behavior of the database by grouping multiple statements
   together and committing them as a group. Committing in database is the action
   that is actually responsible for performing a permanent action on the system.
@@ -357,14 +357,14 @@ Consistency is a property of data systems that means that the individual data
 A constraint is a limitation imposed on a specific column or table that
   impacts the range of values accepted by the system. Constraints are used to
   define rules that the database system can enforce to ensure that values
-  conform to requirements.
+  conform to 需求.
 
 #### Cursor
 A database cursor is a way for clients to iterate over records and query
   results in a controlled, precise manner. Cursors are primarily used to page
   through results that match a query one-by-one by iteratively returning the
   next row for processing. This can help you operate on an unknown number of
-  records by accessing the results as a queue. Care must be taken when using
+  records by accessing 結果s as a queue. Care must be taken when using
   cursors as they take up resources on the database system, can result in
   locking, and often result in many more network round trips than would be
   required otherwise.
@@ -377,7 +377,7 @@ Dark launching is a deployment and release strategy that helps organizations
   old code and the new code. While the system's behavior from the user's
   perspective is only affected by the original code, the new code can be tested
   with real data to validate functionality and catch performance and functional
-  problems. When properly vetted, the application can be altered to use the new
+  problems. When properly vetted, the application can be altered 使用 the new
   code path exclusively.
 
 #### Data
@@ -406,7 +406,7 @@ Data independence is a term used to describe the separation of database
   database is able to abstract the structure in a way that allows user
   applications to continue running even if additional attributes are added to a
   relation (logical independence) or if the details of the storage medium
-  changes (physical independence), for instance.
+  changes (physical independence), 例如.
 
 #### Data mapper ORM
 A data mapper ORM, or just simply a data mapper, is an application component
@@ -418,9 +418,9 @@ A data mapper ORM, or just simply a data mapper, is an application component
 
 #### Data type
 A data type is a category or attribute that expresses a constraint on valid
-  values. For example, an integer type specifies that only whole numbers are
+  values. 例如, an integer type specifies that only whole numbers are
   appropriate and expected for a variable or field. Data types allow you to
-  specify expectations and requirements about your data when defining a
+  specify expectations and 需求 about your data when defining a
   field or container. The programming language or application can then validate
   that the introduced data meets the necessary criteria. Data types also help
   determine the available operations that can be performed on a piece of data.
@@ -474,7 +474,7 @@ A database management system, often called a DBMS or even just a "database",
   categorizing data, and ingesting, manipulating, and querying data. Most often,
   DBMSs offer a client / server model where the server is responsible for
   controlling and managing the data while clients, libraries, or APIs can be
-  used to interact with the server to add or query data, change data structures,
+  used to interact with the server 添加 or query data, change data structures,
   or manage other aspects of the system.
 
 #### Database model
@@ -585,7 +585,7 @@ Ephemerality is a characteristic that indicates that a piece of data or
 #### Ephemeral storage
 Ephemeral storage, also sometimes called volatile or non-durable storage, is
   any storage medium that persists for a short time, often associated with
-  certain conditions. For instance, in applications, data being stored in memory
+  certain conditions. 例如, in applications, data being stored in memory
   will only survive while the process is running. Similarly, data stored to a
   temporary directory is only available until the system reboots. Often,
   ephemeral storage is useful for temporary data or as a holding area before
@@ -607,14 +607,14 @@ Eventual consistency is a description of a consistency / availability strategy
 In the context of caches, eviction is a process where a piece of data is
   removed from a cache. This can happen because the current value has been
   invalidated by an operation or it can occur automatically as a result of
-  policies designed to remove the data that is the oldest or least used.
+  policies designed 移除 the data that is the oldest or least used.
 
 #### Expand and contract pattern
 The expand and contract pattern is a strategy for introducing new changes to a
   database schema without affecting existing applications. It works by
   introducing changes in carefully controlled stages by first adding new or
   changed structures alongside existing structures and then expanding the
-  application logic to use both structures simultaneously. Eventually, after
+  application logic 使用 both structures simultaneously. Eventually, after
   testing, the application can stop writing to the original structure and it can be
   removed.
 
@@ -623,7 +623,7 @@ Extract, transform, and load, often abbreviated as ETL, is a process of
   copying and processing data from a data source to a managed system. First the
   data is extracted from its current system to make it accessible to the
   destination system. Next, the data is manipulated and modified to match the
-  requirements and format of the new system. Finally, the reconstructed data is
+  需求 and format of the new system. Finally, the reconstructed data is
   loaded into the new system.
 
 #### Feature flags
@@ -656,7 +656,7 @@ A flat-file database is a database or database-like structure stored in a
 #### Foreign key
 A foreign key is a designated column or group of columns in a relational
   database that is used to maintain data integrity between two tables. A foreign
-  key in one table refers to a candidate key, typically the primary key, in
+  key in one table refers to a candidate key, typically 主要 key, in
   another table. Since a candidate key is referenced, each row in the database
   will be unique and the two tables can be linked together row for row. The
   values are of these designated columns is expected to remain identical across
@@ -677,7 +677,7 @@ A graph database is a NoSQL database that uses a graph structure to store and
   using nodes, which represent entities and can contain properties or
   attributes. Nodes are connected to one another using edges, which are
   responsible not only for linking nodes, but also defining the nature of the
-  relationship. For example, a node might describe a person with a property of
+  relationship. 例如, a node might describe a person with a property of
   "teacher". It might be connected to a class node with an edge that
   specifies "teaches" but may be connected to another person node with an edge
   that specifies "married to".
@@ -785,7 +785,7 @@ Isolation levels describe different types of trade-offs between isolation and
 In relational databases, a join is an operation that connects two tables based
   on a shared "join" column or columns. The values within the join columns must
   be unique within each table. The join operation matches rows based on the join
-  column values to create an extended virtual row composed of the columns from
+  column values 建立 an extended virtual row composed of the columns from
   each table. Different types of joins are available based on what the user
   wants to do with rows that do not have a matching counterpart in the other
   table.
@@ -797,7 +797,7 @@ In the context of databases, a key is any attribute, column, or group of
   (a natural key) while other data sets may need to generate a key to identify
   each record (a surrogate key). Each table or data collection can have multiple
   keys that uniquely identify a row (called candidate keys), but typically,
-  there is a main key (called the primary key) designated as the main way to
+  there is a main key (called 主要 key) designated as 主要 way to
   access rows.
 
 #### Key-value database
@@ -815,7 +815,7 @@ A left join is a join operation for relational databases where all of the rows
   of the first table specified are returned, regardless of whether a matching
   row in the second table is found. Join operations construct virtual rows by
   matching records that have identical values in specified comparison columns
-  from each table. The results for a left join will contain the rows from both
+  from each table. 結果s for a left join will contain the rows from both
   tables where the column values matched and will additionally contain all of
   the unmatched rows from the first, or left, table. For these rows, the columns
   associated with the second, or right, table will be padded with `NULL` values
@@ -826,7 +826,7 @@ Lexemes are language-level units of meaning that are relevant in natural
   language processing and full-text search contexts. Typically, when text is
   indexed, it is broken down into individual tokens which are then analyzed as
   lexemes using language-level resources like dictionaries, thesauruses, and
-  other word lists to understand how to process them further.
+  other word lists to understand 如何 process them further.
 
 #### Locale
 In databases and computing in general, a locale specifies the region,
@@ -887,7 +887,7 @@ MongoDB is the most popular document-oriented NoSQL database system in use
   development pace.
 
 #### Monolithic architecture
-Monolithic architecture is a term used to refer to a traditional application.
+Monolithic architecture is a term used to 參閱 a traditional application.
   In monoliths, although different pieces may be broken down internally for ease
   of development, once built, the application is a single item that has many
   different functions and responsibilities. Monoliths can interface with the
@@ -912,7 +912,7 @@ Multiversion concurrency control, or MVCC, is a strategy for allowing
 #### MySQL
 MySQL is one of the most popular relational database systems available today.
   Initially released in 1995 and acquired by Oracle in 2010, MySQL has a long
-  history as powerful and easy to use relational system. It offers a wide array
+  history as powerful and easy 使用 relational system. It offers a wide array
   of storage engines and boasts very wide community support. It is used in many
   popular open-source and commercial projects and for many years was considered
   a key piece of software for many internet services.
@@ -938,7 +938,7 @@ NewSQL is a descriptor for a category of more recent relational database
   offerings that attempt to bridge the gap between the structure and
   well-ordered guarantees of a relational database system and the high
   performance and scalability associated with NoSQL databases. While NewSQL is a
-  fairly loose categorization, it is generally used to refer to databases that
+  fairly loose categorization, it is generally used to 參閱 databases that
   allow SQL or SQL-like querying, transaction guarantees, and flexible scaling
   and distributed processing.
 
@@ -946,7 +946,7 @@ NewSQL is a descriptor for a category of more recent relational database
 NoSQL databases, also sometimes called non-relational or not only SQL
   databases, are a broad category that covers any type of database systems that
   deviates from the common relational database model. While non-relational
-  databases have long been available, the category generally is used to refer to
+  databases have long been available, the category generally is used to 參閱
   newer generations of databases using alternative models like key-value,
   document-oriented, graph-oriented, and column family stores. They generally
   are used to manage data that is not suited for the relational model with a
@@ -967,7 +967,7 @@ A nonrepeatable read is a type of unwanted consistency problem that can occur
   to prevent.
 
 #### Normalization
-Database normalization is a process of structuring a database to remove data
+Database normalization is a process of structuring a database 移除 data
   redundancy and eliminate opportunities for inconsistencies to be introduced.
   Normalization is often discussed in terms of "normal forms" where each form
   adds additional checks and guarantees over the previous forms. In practice,
@@ -998,7 +998,7 @@ An ORM, or Object Relational Mapper, is a database tool designed to translate
   database objects in code and to transform programming objects into a format
   appropriate for storing in a database. While ORMs can be helpful tools, they
   are usually not a perfect abstraction and can lead to issues where the
-  different models conflict on how to represent data.
+  different models conflict on 如何 represent data.
 
 #### Object relational impedance mismatch
 Object relational impedance mismatch is a term used for the general tension
@@ -1006,7 +1006,7 @@ Object relational impedance mismatch is a term used for the general tension
   the object-oriented view of data used in many applications. The impedance
   mismatch refers to the differences between the two models that makes faithful
   translation between the representations difficult or impossible. It is a broad
-  term used to refer to many different types of problems that can occur within
+  term used to 參閱 many different types of problems that can occur within
   the space including problems representing inheritance, encapsulation, type
   differences, different consistency guarantees, and more.
 
@@ -1027,7 +1027,7 @@ An outer join is a type of relational database operation that joins two tables
   by returning all rows from each component table, even where there is not a
   matching record in the companion table. Join operations construct virtual rows
   by matching records that have identical values in specified comparison columns
-  from each table. The results for an outer join will contain the rows from both
+  from each table. 結果s for an outer join will contain the rows from both
   tables where the column values matched and will additionally contain all of
   the unmatched rows from each table. For these rows, the columns without a
   match in the other table will be padded with `NULL` values to indicate that no
@@ -1073,7 +1073,7 @@ Pessimistic concurrency control, or PCC, is a strategy used by database
 A phantom read is a type of isolation anomaly that can occur within a
   transaction under certain types of isolation levels. A phantom read occurs
   when different rows are returned for a `SELECT` operation during a transaction
-  due to changes made outside of the transaction. For example if you try to
+  due to changes made outside of the transaction. 例如 if you try to
   `SELECT` all records in a table, the first time it could return 8 rows, but if
   another transaction commits an additional row, a repeat of the original query
   would show a different result.
@@ -1089,13 +1089,13 @@ PostgreSQL is a popular, high performance relational database system known for
 In the context of search performance, precision is a measure of how relevant
   the retrieved results are to the given query. Specifically, search precision
   is defined as the ratio between the number of relevant results out of all of
-  the results that were returned. A query with a high level of precision does
+  結果s that were returned. A query with a high level of precision does
   not retrieve many items that are not applicable to the query.
 
 #### Primary key
-A primary key is a type of database key that is designated as the main way to
+A primary key is a type of database key that is designated as 主要 way to
   uniquely address a database row. While other keys may be able to pull
-  individual rows, the primary key is specifically marked for this purpose with
+  individual rows, 主要 key is specifically marked for this purpose with
   the system enforcing uniqueness and not `NULL` consistency checks. A primary
   key can be a natural key (a key that is naturally unique across records) or a
   surrogate key (a key added specifically to serve as a primary key) and can be
@@ -1250,7 +1250,7 @@ A right join is a join operation for relational databases where all of the
   rows of the second table specified are returned, regardless of whether a
   matching row in the first table is found. Join operations construct virtual
   rows by matching records that have identical values in specified comparison
-  columns from each table. The results for a right join will contain the rows
+  columns from each table. 結果s for a right join will contain the rows
   from both tables where the column values matched and will additionally contain
   all of the unmatched rows from the second, or right, table. For these rows,
   the columns associated with the first, or left, table will be padded with
@@ -1264,7 +1264,7 @@ Role-based access control, also known as RBAC, is a security strategy that
   with a role to a user, the user can be made a member of the role. Users can be
   made a member of multiple roles to gain a union of the permissions each role
   provides. Roles are helpful as a way of standardizing the privileges required
-  for various roles and making it simple to add or remove access to users.
+  for various roles and making it simple 添加 or remove access 使用rs.
 
 #### Row
 In relational databases, a row is a representation of a single record within a
@@ -1282,7 +1282,7 @@ Serial scanning is a search technique that involves analyzing each potential
 #### SQL
 SQL, or Structured Query Language, is the most common database querying
   language in use today. It is primarily used to work with relational data and
-  allows users to create queries to select, filter, define, and manipulate the
+  allows users 建立 queries to select, filter, define, and manipulate the
   data within relational databases. While SQL is a common standard,
   implementation details differ widely, making it less software agnostic than
   hoped.
@@ -1315,7 +1315,7 @@ Sanitizing input, also known as input validation, is a process used to render
   number of different ways like limiting the list of valid characters, removing
   characters that have special meaning for the systems in use, and escaping
   values. Generally speaking, instead of sanitizing input, it is considered much
-  safer to use prepared statements.
+  safer 使用 prepared statements.
 
 #### Scaling
 Scaling is the process of expanding the resources allocated to your
@@ -1354,7 +1354,7 @@ The serializable isolation level is a transaction isolation level for
 #### Serialization anomaly
 A serialization anomaly is a problem that can occur with concurrent
   transactions where the order that concurrent transactions are committed can
-  impact the resulting data. Serialization anomalies occur because operations in
+  impact 結果ing data. Serialization anomalies occur because operations in
   different transactions can be making calculations based on data that other
   transactions may be updating. To prevent serialization anomalies, transactions
   must use the serializable isolation level, which prevents these conditions by
@@ -1363,14 +1363,14 @@ A serialization anomaly is a problem that can occur with concurrent
 #### Shard
 A database shard is a segment of records stored by a database object that is
   separated out and managed by a different database node for performance
-  reasons. For example, a database table with 9 million records could be divided
+  reasons. 例如, a database table with 9 million records could be divided
   into three separate shards, each managing 3 million records. The data is
   typically divided according to a "shard key" which is a key that determines
   which shard a record should be managed by. Each shard manages its subset of
   records and a coordinating component is required to direct client queries to
   the appropriate shard by referring to the shard key. Sharding can help some
-  types of performance in very large datasets but it often requires making
-  trade-offs that might degrade other types of performance (for instance, on
+  types of performance in very large datasets but it often 需要 making
+  trade-offs that might degrade other types of performance (例如, on
   operations that need to coordinate between multiple shards).
 
 #### Stale data
@@ -1382,7 +1382,7 @@ When working with data storage, stale data refers to any data that does not
 #### Standard column family
 A standard column family is a type of column family database object that
   stores data by defining row keys that are associated with key value pairs akin
-  to columns. Each row can define and use its own columns, so the resulting
+  to columns. Each row can define and use its own columns, so 結果ing
   dataset is not regular as with relational database tables. However, the row
   keys combined with column labels and values still somewhat resembles a table.
   Standard column families offer good performance for key-based data retrieval
@@ -1393,7 +1393,7 @@ A standard column family is a type of column family database object that
 Stemming is a technique used in full-text search indexing where words with the
   same stem are collapsed into a single entry. This increases the number of
   relevant results considered at the expense of a slight decrease in precision.
-  For instance, the words "cook", "cooked", and "cooks" might occupy a single
+  例如, the words "cook", "cooked", and "cooks" might occupy a single
   entry where a search for any of the terms would return results for the whole
   entry.
 
@@ -1410,7 +1410,7 @@ A storage engine is the underlying component in database management systems
   within the database. Many database features, like the ability to execute
   transactions, are actually properties of the underlying storage engine. Some
   database systems, like MySQL, have many different storage engines that can be
-  used according to the requirements of your use case. Other systems, like
+  used according to the 需求 of your use case. Other systems, like
   PostgreSQL, focus on providing a single storage engine that is useful in all
   typical scenarios.
 
@@ -1439,7 +1439,7 @@ A superkey is any set of attributes within the relational database model that
 In relational databases, a table is a database structure that defines
   different attributes in the form of columns and stores records with the
   associated column values in the form of rows. The constraints and data types
-  defined by a table's columns as well as additional table-level requirements
+  defined by a table's columns as well as additional table-level 需求
   describe the type of data that can be stored within the table. Since tables
   are a regular data structure, the database system understands the shape of the
   data contained within, which can help make query performance more predictable
@@ -1449,7 +1449,7 @@ In relational databases, a table is a database structure that defines
 A table alias is a name given at query time for an existing or calculated table
   or table-like database object. Table aliases can be useful if the original
   name is long or ambiguous or if the table is generated by the query itself and
-  requires a label to refer back to it in other parts of the query or for
+  需要 a label to refer back to it in other parts of the query or for
   display.
 
 #### Three tier architecture
@@ -1492,7 +1492,7 @@ Two-phase commit is an algorithm used to implement transactions in distributed
 
 #### Two-phase locking
 Two-phase locking, sometimes abbreviated as 2PL, is a strategy for concurrency
-  control to ensure that transactions are serializable. The two phases refer to
+  control to ensure that transactions are serializable. The two phases 參閱
   actions that expand the number of locks held by the transaction and the
   actions that trigger a release of locks. Two phase locking works by using
   exclusive and shared locks to coordinate read and write operations. A
@@ -1506,7 +1506,7 @@ Two-phase locking, sometimes abbreviated as 2PL, is a strategy for concurrency
 #### Upsert
 An upsert is a database operation that either updates an existing entry or
   inserts a new entry when no current entry is found. Upsert operations consists
-  of a querying component that is used to search for matching records to update
+  of a querying component that is used to search for matching records 更新
   and a mutation component that specifies which values should be updated. Often,
   additional values need to be provided for other fields to handle the case
   where a new record must be created.
@@ -1515,8 +1515,8 @@ An upsert is a database operation that either updates an existing entry or
 When talking about databases, a value is any piece of data that the database
   system stores within its data structures. With additional context like the
   name of the field where the value is stored, meaning can be assigned to the
-  value beyond what is intrinsically there. The specific storage structure like
-  the column or table may define requirements about what types of values it
+  value beyond 什麼是 intrinsically there. The specific storage structure like
+  the column or table may define 需求 about what types of values it
   stores.
 
 #### Vertical scaling
@@ -1536,22 +1536,22 @@ In graph databases, vertices are entities that can hold properties and be
   the type of object they represent and they have attributes that provide
   specific additional information to differentiate a specific vertex from others
   of its type. Vertices are connected to other vertices through edges that
-  define a relationship between them. For instance, an "author" vertex can be
+  define a relationship between them. 例如, an "author" vertex can be
   connected to a "book" vertex with a "written by" edge.
 
 #### View
 In relational databases, a view is a table-like representation of a stored
   query. Views can be used as tables in many contexts, but instead of being part
-  of the underlying data structure, they are derived from the results of their
+  of the underlying data structure, they are derived from 結果s of their
   query. Views are useful for constructing more complex representations of data
-  than exists in the underlying schema. For example, a view might join a few
+  than exists in the underlying schema. 例如, a view might join a few
   tables and display only a few relevant columns, which can help make the data
   more useable even if a different structure is preferable for storage due to
   consistency or performance reasons.
 
 #### Volatile storage
 Volatile storage is any type of storage that is dependent on continual power
-  to persist data. For example, data stored in RAM is typically considered to be
+  to persist data. 例如, data stored in RAM is typically considered to be
   volatile because it will be lost and unrecoverable in the event of a power
   outage.
 
@@ -1584,7 +1584,7 @@ In the context of searching, a search weight is an arbitrary value assigned to
 Write-around caching is a caching pattern where write queries are sent to the
   backing database directly rather than written to the cache first. Because any
   items in the cache related to the update will be now be stale, this method
-  requires a way to invalidate the cache results for those items for subsequent
+  需要 a way to invalidate the cache results for those items for subsequent
   reads. This technique is almost always combined with a policy for cache reads
   to control read behavior. This approach is best for data that is read
   infrequently once written or updated.

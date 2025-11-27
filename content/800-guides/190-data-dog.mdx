@@ -16,19 +16,19 @@ community_section: true
 
 ## Introduction
 
-In this guide, you'll learn how to set up Datadog tracing for a new Prisma project. By combining the `@prisma/instrumentation` package with Prisma Client extensions, you can capture detailed spans for every database query. These spans are enriched with query metadata and sent to Datadog [using `dd-trace`](https://www.npmjs.com/package/dd-trace), Datadog's official APM library for Node.js, enabling you to monitor, analyze, and gain visibility into your application's database activity.
+在本指南中, you'll 學習如何 set up Datadog tracing for a new Prisma project. By combining the `@prisma/instrumentation` package with Prisma Client extensions, 您可以 capture detailed spans for every database query. These spans are enriched with query metadata and sent to Datadog [using `dd-trace`](https://www.npmjs.com/package/dd-trace), Datadog's official APM library for Node.js, enabling you to monitor, analyze, and gain visibility into your application's database activity.
 
-### What are spans and tracing?
+### 什麼是 spans and tracing?
 
 - **Spans** are the individual operations or units of work within a distributed system or complex application. Each database query, service call, or external request is represented by a span.
   
-- **Tracing** ties these spans together to form a complete, end-to-end picture of a request’s lifecycle. With tracing, you can visualize bottlenecks, identify problematic queries, and pinpoint where errors occur from your queries.
+- **Tracing** ties these spans together to form a complete, end-to-end picture of a request’s lifecycle. With tracing, 您可以 visualize bottlenecks, identify problematic queries, and pinpoint where errors occur from your queries.
 
 ### 為什麼使用 Datadog with Prisma ORM?
 
 [Datadog](https://www.datadoghq.com/) provides application performance monitoring (APM), metrics, logs, and dashboards to help you observe and debug production systems.
 
-While Prisma ORM abstracts away SQL and boosts developer productivity, it can obscure query performance without proper instrumentation. By integrating Datadog with Prisma using `@prisma/instrumentation` and [`dd-trace`](https://www.npmjs.com/package/dd-trace), you can automatically capture spans for every database query.
+While Prisma ORM abstracts away SQL and boosts developer productivity, it can obscure query performance without proper instrumentation. By integrating Datadog with Prisma using `@prisma/instrumentation` and [`dd-trace`](https://www.npmjs.com/package/dd-trace), 您可以 automatically capture spans for every database query.
 
 This enables you to:
 
@@ -41,18 +41,18 @@ This integration provides runtime visibility into Prisma queries with minimal ef
 
 ## 前置需求
 
-Before you begin, ensure you have the following:
+Before you begin, ensure you have 以下:
 
 - **Node.js** installed (v18+ recommended).
 - A local or hosted **PostgreSQL** database.
 - A **Datadog** account. If you do not have one, [sign up here](https://www.datadoghq.com/).
-- The **Datadog Agent** installed and running on your machine or server where this application will run. You can follow the [Datadog Agent installation docs](https://docs.datadoghq.com/agent/) to set it up.
+- The **Datadog Agent** installed and running on your machine or server where this application will run. 您可以 follow the [Datadog Agent installation docs](https://docs.datadoghq.com/agent/) to set it up.
 
 ## 1. Create a new project
 
-We will start by creating a new Node.js project to demonstrate tracing with Datadog and Prisma ORM. This will be a minimal, standalone setup focused on running and tracing Prisma queries, to understand the instrumentation flow in isolation.
+We will start by creating a new Node.js project to demonstrate tracing with Datadog and Prisma ORM. 這將 be a minimal, standalone setup focused on running and tracing Prisma queries, to understand the instrumentation flow in isolation.
 
-If you're integrating tracing into an existing Prisma project, you can skip this step and directly follow from [the setup tracing section](#4-set-up-datadog-tracing). Just make sure you apply the changes in your project's equivalent folder structure.
+If you're integrating tracing into an existing Prisma project, 您可以 skip this step and directly follow from [the setup tracing section](#4-set-up-datadog-tracing). Just make sure you apply the changes in your project's equivalent folder structure.
 
 ```terminal
 mkdir prisma-datadog-tracing
@@ -70,17 +70,17 @@ In this setup, you'll:
 
 ## 2. Set up Prisma ORM
 
-In this section, you will install Prisma, create your schema, and generate the Prisma Client. This prepares your application to run database queries—queries that you will trace with Datadog.
+在本節中, you will install Prisma, create your schema, and generate the Prisma Client. This prepares your application to run database queries—queries that you will trace with Datadog.
 
 ### 2.1. Install and initialize Prisma ORM
 
-Run the following commands to install Prisma and a minimal TypeScript runner:
+Run 以下 commands 安裝 Prisma and a minimal TypeScript runner:
 
 ```terminal
 npm install -D prisma tsx
 ```
 
-Then initialize Prisma with the `--db` flag to create a [new Prisma Postgres](/postgres) instance:
+Then initialize Prisma with the `--db` flag 建立 a [new Prisma Postgres](/postgres) instance:
 
 ```terminal
 npx prisma init --db --output ../src/generated/prisma
@@ -92,7 +92,7 @@ You will be prompted to name your database and select the closest region. For cl
 
 :::
 
-This command does the following:
+This command does 以下:
 
 - Creates a `prisma` directory with a `schema.prisma` file.
 - Generates the Prisma Client in the `/src/generated/prisma` directory (as specified in the `--output` flag).
@@ -114,14 +114,14 @@ npm i -D @types/pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
 
 ### 2.2. Define models
 
-Now, open `prisma/schema.prisma` and update your generator block and models. Replace the `generator` block with the following, and add a `User` and a `Post` model:
+Now, open `prisma/schema.prisma` and update your generator block and models. Replace the `generator` block with 以下, and add a `User` and a `Post` model:
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -152,7 +152,7 @@ model Post {
 //add-end
 ```
 
-Create a `prisma.config.ts` file to configure Prisma:
+Create a `prisma.config.ts` file 配置 Prisma:
 
 ```typescript file=prisma.config.ts
 //add-start
@@ -173,7 +173,7 @@ export default defineConfig({
 
 :::note
 
-You'll need to install the `dotenv` package if you haven't already:
+You'll need 安裝 the `dotenv` package if you haven't already:
 
 ```terminal
 npm install dotenv
@@ -190,11 +190,11 @@ npx prisma generate
 npx prisma migrate dev --name "init"
 ```
 
-This creates the tables according to your schema in the Postgres database and generates a client for you to interact with the database.
+這會建立 the tables according to your schema in the Postgres database and generates a client for you to interact with the database.
 
 ## 3. Install required dependencies for tracing
 
-In addition to Prisma, you will need the following packages for Datadog tracing:
+In addition to Prisma, you will need 以下 packages for Datadog tracing:
 
 ```terminal
 npm install @prisma/instrumentation \
@@ -222,7 +222,7 @@ touch src/tracer.ts
 
 ### 4.1. Configure the tracer
 
-Open `src/tracer.ts` and add the following code:
+Open `src/tracer.ts` and add 以下 code:
 
 ```ts file=src/tracer.ts
 import tracer from "dd-trace";
@@ -456,7 +456,7 @@ main()
 
 If you encounter a linting error on the line `tracerProvider: provider` due to incompatible types, it's likely caused by a version mismatch in the `@opentelemetry/api` package.
 
-To resolve this, add the following override to your package.json:
+To resolve this, add 以下 override to your package.json:
 ```json
 //add-start
 "overrides": {
@@ -477,7 +477,7 @@ This should resolve the linting error.
 
 :::
 
-## 6. Run your queries and see the traces
+## 6. Run your queries and 參見 traces
 
 Run the queries:
 
@@ -489,7 +489,7 @@ This executes your script, which:
 
 - Registers the Datadog tracer.
 - Performs multiple Prisma queries.
-- Logs the result of each operation.
+- Logs 結果 of each operation.
 
 Then, confirm the traces in Datadog:
 
@@ -514,7 +514,7 @@ To improve your observability further:
 - Add more instrumentation for your HTTP server or other services (e.g., Express, Fastify).
 - [Create Dashboards to view](https://docs.datadoghq.com/dashboards/) key metrics from your data.
 
-For additional guidance, check out:
+For additional guidance, 查看:
 
 - [Datadog APM documentation](https://docs.datadoghq.com/tracing/).
 - [Prisma tracing docs](/orm/prisma-client/observability-and-logging/opentelemetry-tracing).

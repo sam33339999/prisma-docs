@@ -7,7 +7,7 @@ tocDepth: 3
 
 <TopBlock>
 
-A database transaction refers to a sequence of read/write operations that are _guaranteed_ to either succeed or fail as a whole. This section describes the ways in which the Prisma Client API supports transactions.
+A database transaction refers to a sequence of read/write operations that are _guaranteed_ to either succeed or fail as a whole. 本節描述 the ways in which the Prisma Client API supports transactions.
 
 </TopBlock>
 
@@ -26,7 +26,7 @@ Developers take advantage of the safety guarantees provided by the database by w
 - **Isolated**: Ensures that concurrently running transactions have the same effect as if they were running in serial.
 - **Durability**: Ensures that after the transaction succeeded, any writes are being stored persistently.
 
-While there's a lot of ambiguity and nuance to each of these properties (for example, consistency could actually be considered an _application-level responsibility_ rather than a database property or isolation is typically guaranteed in terms of stronger and weaker _isolation levels_), overall they serve as a good high-level guideline for expectations developers have when thinking about database transactions.
+While there's a lot of ambiguity and nuance to each of these properties (例如, consistency could actually be considered an _application-level responsibility_ rather than a database property or isolation is typically guaranteed in terms of stronger and weaker _isolation levels_), overall they serve as a good high-level guideline for expectations developers have when thinking about database transactions.
 
 > "Transactions are an abstraction layer that allows an application to pretend that certain concurrency problems and certain kinds of hardware and software faults don’t exist. A large class of errors is reduced down to a simple transaction abort, and the application just needs to try again." [Designing Data-Intensive Applications](https://dataintensive.net/), [Martin Kleppmann](https://bsky.app/profile/martin.kleppmann.com)
 
@@ -44,7 +44,7 @@ The technique you choose depends on your particular use case.
 
 ## About transactions in Prisma Client
 
-Prisma Client provides the following options for using transactions:
+Prisma Client provides 以下 options for using transactions:
 
 - [Nested writes](#nested-writes): use the Prisma Client API to process multiple operations on one or more related records inside the same transaction.
 - [Batch / bulk transactions](#batchbulk-operations): process one or more operations in bulk with `updateMany`, `deleteMany`, and `createMany`.
@@ -54,9 +54,9 @@ Prisma Client provides the following options for using transactions:
 
 ## Nested writes
 
-A [nested write](/orm/prisma-client/queries/relation-queries#nested-writes) lets you perform a single Prisma Client API call with multiple _operations_ that touch multiple [_related_](/orm/prisma-schema/data-model/relations) records. For example, creating a _user_ together with a _post_ or updating an _order_ together with an _invoice_. Prisma Client ensures that all operations succeed or fail as a whole.
+A [nested write](/orm/prisma-client/queries/relation-queries#nested-writes) lets you perform a single Prisma Client API call with multiple _operations_ that touch multiple [_related_](/orm/prisma-schema/data-model/relations) records. 例如, creating a _user_ together with a _post_ or updating an _order_ together with an _invoice_. Prisma Client ensures that all operations succeed or fail as a whole.
 
-The following example demonstrates a nested write with `create`:
+以下範例 demonstrates a nested write with `create`:
 
 ```ts
 // Create a new user with two posts in a
@@ -74,7 +74,7 @@ const newUser: User = await prisma.user.create({
 })
 ```
 
-The following example demonstrates a nested write with `update`:
+以下範例 demonstrates a nested write with `update`:
 
 ```ts
 // Change the author of a post in a single transaction
@@ -90,7 +90,7 @@ const updatedPost: Post = await prisma.post.update({
 
 ## Batch/bulk operations
 
-The following bulk operations run as transactions:
+以下 bulk operations run as transactions:
 
 - `createMany()`
 - `createManyAndReturn()`
@@ -98,7 +98,7 @@ The following bulk operations run as transactions:
 - `updateManyAndReturn()`
 - `deleteMany()`
 
-> Refer to the section about [bulk operations](#bulk-operations) for more examples.
+> 參閱 the section about [bulk operations](#bulk-operations) for more examples.
 
 ## The `$transaction` API
 
@@ -114,7 +114,7 @@ The `$transaction` API can be used in two ways:
 
 ### Sequential Prisma Client operations
 
-The following query returns all posts that match the provided filter as well as a count of all posts:
+以下 query returns all posts that match the provided filter as well as a count of all posts:
 
 ```ts
 const [posts, totalPosts] = await prisma.$transaction([
@@ -123,7 +123,7 @@ const [posts, totalPosts] = await prisma.$transaction([
 ])
 ```
 
-You can also use raw queries inside of a `$transaction`:
+您可以 also use raw queries inside of a `$transaction`:
 
 <TabbedContent code>
 
@@ -169,17 +169,17 @@ const [findRawData, aggregateRawData, commandRawData] =
 
 </TabbedContent>
 
-Instead of immediately awaiting the result of each operation when it's performed, the operation itself is stored in a variable first which later is submitted to the database with a method called `$transaction`. Prisma Client will ensure that either all three `create` operations succeed or none of them succeed.
+Instead of immediately awaiting 結果 of each operation when it's performed, the operation itself is stored in a variable first which later is submitted to the database with a method called `$transaction`. Prisma Client will ensure that either all three `create` operations succeed or none of them succeed.
 
 > **Note**: Operations are executed according to the order they are placed in the transaction. Using a query in a transaction does not influence the order of operations in the query itself.
 >
-> Refer to the section about the [transactions API](#transaction-api) for more examples.
+> 參閱 the section about the [transactions API](#transaction-api) for more examples.
 
-From version 4.4.0, the sequential operations transaction API has a second parameter. You can use the following optional configuration option in this parameter:
+From version 4.4.0, the sequential operations transaction API has a second parameter. 您可以 use 以下 optional configuration option in this parameter:
 
-- `isolationLevel`: Sets the [transaction isolation level](#transaction-isolation-level). By default this is set to the value currently configured in your database.
+- `isolationLevel`: Sets the [transaction isolation level](#transaction-isolation-level). 預設情況下 this is set to the value currently configured in your database.
 
-For example:
+例如：
 
 ```ts
 await prisma.$transaction(
@@ -203,11 +203,11 @@ Sometimes you need more control over what queries execute within a transaction. 
 
 Interactive transactions have been generally available from version 4.7.0.
 
-If you use interactive transactions in preview from version 2.29.0 to 4.6.1 (inclusive), you need to add the `interactiveTransactions` preview feature to the generator block of your Prisma schema.
+If you use interactive transactions in preview from version 2.29.0 to 4.6.1 (inclusive), 您需要 add the `interactiveTransactions` preview feature to the generator block of your Prisma schema.
 
 :::
 
-To use interactive transactions, you can pass an async function into [`$transaction`](#transaction-api).
+使用 interactive transactions, 您可以 pass an async function into [`$transaction`](#transaction-api).
 
 The first argument passed into this async function is an instance of Prisma Client. Below, we will call this instance `tx`. Any Prisma Client call invoked on this `tx` instance is encapsulated into the transaction.
 
@@ -219,7 +219,7 @@ The first argument passed into this async function is an instance of Prisma Clie
 
 #### Example
 
-Let's look at an example:
+Let's look at an 範例：
 
 Imagine that you are building an online banking system. One of the actions to perform is to send money from one person to another.
 
@@ -287,7 +287,7 @@ In the example above, both `update` queries run within a database transaction. W
 
 If your application encounters an error along the way, the async function will throw an exception and automatically **rollback** the transaction.
 
-To catch the exception, you can wrap `$transaction` in a try-catch block:
+To catch the exception, 您可以 wrap `$transaction` in a try-catch block:
 
 ```js
 try {
@@ -301,13 +301,13 @@ try {
 
 #### Transaction options
 
-The transaction API has a second parameter. For interactive transactions, you can use the following optional configuration options in this parameter:
+The transaction API has a second parameter. For interactive transactions, 您可以 use 以下 optional configuration options in this parameter:
 
 - `maxWait`: The maximum amount of time Prisma Client will wait to acquire a transaction from the database. The default value is 2 seconds.
 - `timeout`: The maximum amount of time the interactive transaction can run before being canceled and rolled back. The default value is 5 seconds.
-- `isolationLevel`: Sets the [transaction isolation level](#transaction-isolation-level). By default this is set to the value currently configured in your database.
+- `isolationLevel`: Sets the [transaction isolation level](#transaction-isolation-level). 預設情況下 this is set to the value currently configured in your database.
 
-For example:
+例如：
 
 ```ts
 await prisma.$transaction(
@@ -322,7 +322,7 @@ await prisma.$transaction(
 )
 ```
 
-You can also set these globally on the constructor-level:
+您可以 also set these globally on the constructor-level:
 
 ```ts
 const prisma = new PrismaClient({
@@ -342,13 +342,13 @@ This feature is not available on MongoDB, because MongoDB does not support isola
 
 :::
 
-You can set the transaction [isolation level](https://www.prisma.io/dataguide/intro/database-glossary#isolation-levels) for transactions.
+您可以 set the transaction [isolation level](https://www.prisma.io/dataguide/intro/database-glossary#isolation-levels) for transactions.
 
 :::info
 
-This is available in the following Prisma ORM versions for interactive transactions from version 4.2.0, for sequential operations from version 4.4.0.
+This is 可用於 以下 Prisma ORM versions for interactive transactions from version 4.2.0, for sequential operations from version 4.4.0.
 
-In versions before 4.2.0 (for interactive transactions), or 4.4.0 (for sequential operations), you cannot configure the transaction isolation level at a Prisma ORM level. Prisma ORM does not explicitly set the isolation level, so the [isolation level configured in your database](#database-specific-information-on-isolation-levels) is used.
+In versions before 4.2.0 (for interactive transactions), or 4.4.0 (for sequential operations), 您可以not configure the transaction isolation level at a Prisma ORM level. Prisma ORM does not explicitly set the isolation level, so the [isolation level configured in your database](#database-specific-information-on-isolation-levels) is used.
 
 :::
 
@@ -386,7 +386,7 @@ await prisma.$transaction(
 
 #### Supported isolation levels
 
-Prisma Client supports the following isolation levels if they are available in the underlying database:
+Prisma Client supports 以下 isolation levels if they are 可用於 the underlying database:
 
 - `ReadUncommitted`
 - `ReadCommitted`
@@ -404,9 +404,9 @@ The isolation levels available for each database connector are as follows:
 | CockroachDB | No                | No              | No               | No         | ✔️             |
 | SQLite      | No                | No              | No               | No         | ✔️             |
 
-By default, Prisma Client sets the isolation level to the value currently configured in your database.
+預設情況下, Prisma Client sets the isolation level to the value currently configured in your database.
 
-The isolation levels configured by default in each database are as follows:
+The isolation levels configured 預設情況下 in each database are as follows:
 
 | Database    | Default          |
 | ----------- | ---------------- |
@@ -418,7 +418,7 @@ The isolation levels configured by default in each database are as follows:
 
 #### Database-specific information on isolation levels
 
-See the following resources:
+See 以下 resources:
 
 - [Transaction isolation levels in PostgreSQL](https://www.postgresql.org/docs/9.3/runtime-config-client.html#GUC-DEFAULT-TRANSACTION-ISOLATION)
 - [Transaction isolation levels in Microsoft SQL Server](https://learn.microsoft.com/en-us/sql/t-sql/statements/set-transaction-isolation-level-transact-sql?view=sql-server-ver15)
@@ -430,19 +430,19 @@ CockroachDB and SQLite only support the `Serializable` isolation level.
 
 :::info
 
-- The solution in this section does not apply to MongoDB, because MongoDB does not support [isolation levels](https://www.prisma.io/dataguide/intro/database-glossary#isolation-levels).
-- The timing issues discussed in this section do not apply to CockroachDB and SQLite, because these databases only support the highest `Serializable` isolation level.
+- The solution 在本節中 does not apply to MongoDB, because MongoDB does not support [isolation levels](https://www.prisma.io/dataguide/intro/database-glossary#isolation-levels).
+- The timing issues discussed 在本節中 do not apply to CockroachDB and SQLite, because these databases only support the highest `Serializable` isolation level.
 
 :::
 
-When two or more transactions run concurrently in certain [isolation levels](https://www.prisma.io/dataguide/intro/database-glossary#isolation-levels), timing issues can cause write conflicts or deadlocks, such as the violation of unique constraints. For example, consider the following sequence of events where Transaction A and Transaction B both attempt to execute a `deleteMany` and a `createMany` operation:
+When two or more transactions run concurrently in certain [isolation levels](https://www.prisma.io/dataguide/intro/database-glossary#isolation-levels), timing issues can cause write conflicts or deadlocks, such as the violation of unique constraints. 例如, consider 以下 sequence of events where Transaction A and Transaction B both attempt to execute a `deleteMany` and a `createMany` operation:
 
 1. Transaction B: `createMany` operation creates a new set of rows.
 1. Transaction B: The application commits transaction B.
 1. Transaction A: `createMany` operation.
 1. Transaction A: The application commits transaction A. The new rows conflict with the rows that transaction B added at step 2.
 
-This conflict can occur at the isolation level `ReadCommited`, which is the default isolation level in PostgreSQL and Microsoft SQL Server. To avoid this problem, you can set a higher isolation level (`RepeatableRead` or `Serializable`). You can set the isolation level on a transaction. This overrides your database isolation level for that transaction.
+This conflict can occur at the isolation level `ReadCommited`, which is the default isolation level in PostgreSQL and Microsoft SQL Server. To avoid this problem, 您可以 set a higher isolation level (`RepeatableRead` or `Serializable`). 您可以 set the isolation level on a transaction. This overrides your database isolation level for that transaction.
 
 To avoid transaction write conflicts and deadlocks on a transaction:
 
@@ -450,7 +450,7 @@ To avoid transaction write conflicts and deadlocks on a transaction:
 
    This ensures that your application commits multiple concurrent or parallel transactions as if they were run serially. When a transaction fails due to a write conflict or deadlock, Prisma Client returns a [P2034 error](/orm/reference/error-reference#p2034).
 
-2. In your application code, add a retry around your transaction to handle any P2034 errors, as shown in this example:
+2. In your application code, add a retry around your transaction to handle any P2034 errors, as shown in this 範例：
 
    ```ts
    import { Prisma, PrismaClient } from '../prisma/generated/client'
@@ -526,9 +526,9 @@ The reason for this behaviour is that:
 
 Writes are considered **dependent** on each other if:
 
-- Operations depend on the result of a preceding operation (for example, the database generating an ID)
+- Operations depend on 結果 of a preceding operation (例如, the database generating an ID)
 
-The most common scenario is creating a record and using the generated ID to create or update a related record. Examples include:
+The most common scenario is creating a record and using the generated ID 建立 or update a related record. Examples include:
 
 - Creating a user and two related blog posts (a one-to-many relationship) - the author ID must be known before creating blog posts
 - Creating a team and assigning members (a many-to-many relationship) - the team ID must be known before assigning members
@@ -537,7 +537,7 @@ Dependent writes must succeed together in order to maintain data consistency and
 
 ### Nested writes
 
-Prisma Client's solution to dependent writes is the **nested writes** feature, which is supported by `create` and `update`. The following nested write creates one user and two blog posts:
+Prisma Client's solution to dependent writes is the **nested writes** feature, which is 支援 `create` and `update`. 以下 nested write creates one user and two blog posts:
 
 ```ts
 const nestedWrite = await prisma.user.create({
@@ -553,18 +553,18 @@ const nestedWrite = await prisma.user.create({
 })
 ```
 
-If any operation fails, Prisma Client rolls back the entire transaction. Nested writes are not currently supported by top-level bulk operations like `client.user.deleteMany` and `client.user.updateMany`.
+If any operation fails, Prisma Client rolls back the entire transaction. Nested writes are not currently 支援 top-level bulk operations like `client.user.deleteMany` and `client.user.updateMany`.
 
-#### When to use nested writes
+#### 何時使用 nested writes
 
 Consider using nested writes if:
 
-- ✔ You want to create two or more records related by ID at the same time (for example, create a blog post and a user)
-- ✔ You want to update and create records related by ID at the same time (for example, change a user's name and create a new blog post)
+- ✔ You want 建立 two or more records related by ID at the same time (例如, create a blog post and a user)
+- ✔ You want 更新 and create records related by ID at the same time (例如, change a user's name and create a new blog post)
 
 :::tip
 
-If you [pre-compute your IDs, you can choose between a nested write or using the `$transaction([])` API](#scenario-pre-computed-ids-and-the-transaction-api).
+If you [pre-compute your IDs, 您可以 choose between a nested write or using the `$transaction([])` API](#scenario-pre-computed-ids-and-the-transaction-api).
 
 :::
 
@@ -575,7 +575,7 @@ Consider the Slack sign-up flow, which:
 1. Creates a team
 2. Adds one user to that team, which automatically becomes that team's administrator
 
-This scenario can be represented by the following schema - note that users can belong to many teams, and teams can have many users (a many-to-many relationship):
+This scenario can be represented by 以下 schema - 請注意 users can belong to many teams, and teams can have many users (a many-to-many relationship):
 
 ```prisma
 model Team {
@@ -591,7 +591,7 @@ model User {
 }
 ```
 
-The most straightforward approach is to create a team, then create and attach a user to that team:
+The most straightforward approach is 建立 a team, then create and attach a user to that team:
 
 ```ts
 // Create a team
@@ -614,7 +614,7 @@ const user = await prisma.user.create({
 })
 ```
 
-However, this code has a problem - consider the following scenario:
+However, this code has a problem - consider 以下 scenario:
 
 1. Creating the team succeeds - "Aurora Adventures" is now taken
 2. Creating and connecting the user fails - the team "Aurora Adventures" exists, but has no users
@@ -622,7 +622,7 @@ However, this code has a problem - consider the following scenario:
 
 Creating a team and adding a user should be one atomic operation that **succeeds or fails as a whole**.
 
-To implement atomic writes in a low-level database clients, you must wrap your inserts in `BEGIN`, `COMMIT` and `ROLLBACK` statements. Prisma Client solves the problem with [nested writes](/orm/prisma-client/queries/relation-queries#nested-writes). The following query creates a team, creates a user, and connects the records in a single transaction:
+To implement atomic writes in a low-level database clients, 您必須 wrap your inserts in `BEGIN`, `COMMIT` and `ROLLBACK` statements. Prisma Client solves the problem with [nested writes](/orm/prisma-client/queries/relation-queries#nested-writes). 以下 query creates a team, creates a user, and connects the records in a single transaction:
 
 ```ts
 const team = await prisma.team.create({
@@ -643,7 +643,7 @@ Furthermore, if an error occurs at any point, Prisma Client rolls back the entir
 
 ##### Why can't I use the `$transaction([])` API to solve the same problem?
 
-The `$transaction([])` API does not allow you to pass IDs between distinct operations. In the following example, `createUserOperation.id` is not available yet:
+The `$transaction([])` API does not allow you to pass IDs between distinct operations. In 以下範例, `createUserOperation.id` is not available yet:
 
 ```ts highlight=12;delete
 const createUserOperation = prisma.user.create({
@@ -669,7 +669,7 @@ await prisma.$transaction([createUserOperation, createTeamOperation])
 
 ##### Nested writes support nested updates, but updates are not dependent writes - should I use the `$transaction([])` API?
 
-It is correct to say that because you know the ID of the team, you can update the team and its team members independently within a `$transaction([])`. The following example performs both operations in a `$transaction([])`:
+It is correct to say that because you know the ID of the team, 您可以 update the team and its team members independently within a `$transaction([])`. 以下範例 performs both operations in a `$transaction([])`:
 
 ```ts
 const updateTeam = prisma.team.update({
@@ -700,7 +700,7 @@ const updateUsers = prisma.user.updateMany({
 await prisma.$transaction([updateUsers, updateTeam])
 ```
 
-However, you can achieve the same result with a nested write:
+However, 您可以 achieve the same result with a nested write:
 
 ```ts
 const updateTeam = await prisma.team.update({
@@ -726,7 +726,7 @@ const updateTeam = await prisma.team.update({
 })
 ```
 
-##### Can I perform multiple nested writes - for example, create two new teams and assign users?
+##### Can I perform multiple nested writes - 例如, create two new teams and assign users?
 
 Yes, but this is a combination of scenarios and techniques:
 
@@ -764,14 +764,14 @@ await prisma.$transaction([createTwo, createOne])
 
 ## Independent writes
 
-Writes are considered **independent** if they do not rely on the result of a previous operation. The following groups of independent writes can occur in any order:
+Writes are considered **independent** if they do not rely on 結果 of a previous operation. 以下 groups of independent writes can occur in any order:
 
 - Updating the status field of a list of orders to "Dispatched"
 - Marking a list of emails as "Read"
 
-> **Note**: Independent writes may have to occur in a specific order if constraints are present - for example, you must delete blog posts before the blog author if the post have a mandatory `authorId` field. However, they are still considered independent writes because no operations depend on the _result_ of a previous operation, such as the database returning a generated ID.
+> **Note**: Independent writes may have to occur in a specific order if constraints are present - 例如, 您必須 delete blog posts before the blog author if the post have a mandatory `authorId` field. However, they are still considered independent writes because no operations depend on the _result_ of a previous operation, such as the database returning a generated ID.
 
-Depending on your requirements, Prisma Client has four options for handling independent writes that should succeed or fail together.
+Depending on your 需求, Prisma Client has four options for handling independent writes that should succeed or fail together.
 
 ### Bulk operations
 
@@ -784,17 +784,17 @@ Bulk writes allow you to write multiple records of the same type in a single tra
 - `deleteMany()`
 
 
-#### When to use bulk operations
+#### 何時使用 bulk operations
 
 Consider bulk operations as a solution if:
 
-- ✔ You want to update a batch of the _same type_ of record, like a batch of emails
+- ✔ You want 更新 a batch of the _same type_ of record, like a batch of emails
 
 #### Scenario: Marking emails as read
 
-You are building a service like gmail.com, and your customer wants a **"Mark as read"** feature that allows users to mark all emails as read. Each update to the status of an email is an independent write because the emails do not depend on one another - for example, the "Happy Birthday! 🍰" email from your aunt is unrelated to the promotional email from IKEA.
+You are building a service like gmail.com, and your customer wants a **"Mark as read"** feature that allows users to mark all emails as read. Each update to the status of an email is an independent write because the emails do not depend on one another - 例如, the "Happy Birthday! 🍰" email from your aunt is unrelated to the promotional email from IKEA.
 
-In the following schema, a `User` can have many received emails (a one-to-many relationship):
+In 以下 schema, a `User` can have many received emails (a one-to-many relationship):
 
 ```ts
 model User {
@@ -813,7 +813,7 @@ model Email {
 }
 ```
 
-Based on this schema, you can use `updateMany` to mark all unread emails as read:
+Based on this schema, 您可以 use `updateMany` to mark all unread emails as read:
 
 ```ts
 await prisma.email.updateMany({
@@ -831,7 +831,7 @@ await prisma.email.updateMany({
 
 #### Can I use nested writes with bulk operations?
 
-No - neither `updateMany` nor `deleteMany` currently supports nested writes. For example, you cannot delete multiple teams and all of their members (a cascading delete):
+No - neither `updateMany` nor `deleteMany` currently supports nested writes. 例如, 您可以not delete multiple teams and all of their members (a cascading delete):
 
 ```ts highlight=8;delete
 await prisma.team.deleteMany({
@@ -849,7 +849,7 @@ await prisma.team.deleteMany({
 
 #### Can I use bulk operations with the `$transaction([])` API?
 
-Yes — for example, you can include multiple `deleteMany` operations inside a `$transaction([])`.
+Yes — 例如, 您可以 include multiple `deleteMany` operations inside a `$transaction([])`.
 
 ### `$transaction([])` API
 
@@ -865,16 +865,16 @@ await prisma.$transaction([iRunFirst, iRunSecond, iRunThird])
 
 As Prisma Client evolves, use cases for the `$transaction([])` API will increasingly be replaced by more specialized bulk operations (such as `createMany`) and nested writes.
 
-#### When to use the `$transaction([])` API
+#### 何時使用 the `$transaction([])` API
 
 Consider the `$transaction([])` API if:
 
-- ✔ You want to update a batch that includes different types of records, such as emails and users. The records do not need to be related in any way.
-- ✔ You want to batch raw SQL queries (`$executeRaw`) - for example, for features that Prisma Client does not yet support.
+- ✔ You want 更新 a batch that includes different types of records, such as emails and users. The records do not need to be related in any way.
+- ✔ You want to batch raw SQL queries (`$executeRaw`) - 例如, for features that Prisma Client does not yet support.
 
 #### Scenario: Privacy legislation
 
-GDPR and other privacy legislation give users the right to request that an organization deletes all of their personal data. In the following example schema, a `User` can have many posts and private messages:
+GDPR and other privacy legislation give users the right to request that an organization deletes all of their personal data. In 以下範例 schema, a `User` can have many posts and private messages:
 
 ```prisma
 model User {
@@ -899,7 +899,7 @@ model PrivateMessage {
 }
 ```
 
-If a user invokes the right to be forgotten, we must delete three records: the user record, private messages, and posts. It is critical that _all_ delete operations succeed together or not at all, which makes this a use case for a transaction. However, using a single bulk operation like `deleteMany` is not possible in this scenario because we need to delete across three models. Instead, we can use the `$transaction([])` API to run three operations together - two `deleteMany` and one `delete`:
+If a user invokes the right to be forgotten, we must delete three records: the user record, private messages, and posts. It is critical that _all_ delete operations succeed together or not at all, which makes this a use case for a transaction. However, using a single bulk operation like `deleteMany` is not possible in this scenario because we need 刪除 across three models. Instead, we can use the `$transaction([])` API to run three operations together - two `deleteMany` and one `delete`:
 
 ```ts
 const id = 9 // User to be deleted
@@ -927,7 +927,7 @@ await prisma.$transaction([deletePosts, deleteMessages, deleteUser]) // Operatio
 
 #### Scenario: Pre-computed IDs and the `$transaction([])` API
 
-Dependent writes are not supported by the `$transaction([])` API - if operation A relies on the ID generated by operation B, use [nested writes](#nested-writes). However, if you _pre-computed_ IDs (for example, by generating GUIDs), your writes become independent. Consider the sign-up flow from the nested writes example:
+Dependent writes are not 支援 the `$transaction([])` API - if operation A relies on the ID generated by operation B, use [nested writes](#nested-writes). However, if you _pre-computed_ IDs (例如, by generating GUIDs), your writes become independent. Consider the sign-up flow from the nested writes 範例：
 
 ```ts
 await prisma.team.create({
@@ -964,7 +964,7 @@ model User {
 }
 ```
 
-Refactor the sign-up flow example to use the `$transaction([])` API instead of nested writes:
+Refactor the sign-up flow example 使用 the `$transaction([])` API instead of nested writes:
 
 ```ts
 import { v4 } from 'uuid'
@@ -991,7 +991,7 @@ await prisma.$transaction([
 ])
 ```
 
-Technically you can still use nested writes with pre-computed APIs if you prefer that syntax:
+Technically 您可以 still use nested writes with pre-computed APIs if you prefer that syntax:
 
 ```ts
 import { v4 } from 'uuid'
@@ -1020,29 +1020,29 @@ There's no compelling reason to switch to manually generated IDs and the `$trans
 
 ## Read, modify, write
 
-In some cases you may need to perform custom logic as part of an atomic operation - also known as the [read-modify-write pattern](https://en.wikipedia.org/wiki/Read%E2%80%93modify%E2%80%93write). The following is an example of the read-modify-write pattern:
+In some cases you may need to perform custom logic as part of an atomic operation - also known as the [read-modify-write pattern](https://en.wikipedia.org/wiki/Read%E2%80%93modify%E2%80%93write). 以下 is an example of the read-modify-write pattern:
 
 - Read a value from the database
-- Run some logic to manipulate that value (for example, contacting an external API)
+- Run some logic to manipulate that value (例如, contacting an external API)
 - Write the value back to the database
 
-All operations should **succeed or fail together** without making unwanted changes to the database, but you do not necessarily need to use an actual database transaction. This section of the guide describes two ways to work with Prisma Client and the read-modify-write pattern:
+All operations should **succeed or fail together** without making unwanted changes to the database, but you do not necessarily need 使用 an actual database transaction. This section of the guide describes two ways to work with Prisma Client and the read-modify-write pattern:
 
 - Designing idempotent APIs
 - Optimistic concurrency control
 
 ### Idempotent APIs
 
-Idempotency is the ability to run the same logic with the same parameters multiple times with the same result: the **effect on the database** is the same whether you run the logic once or one thousand times. For example:
+Idempotency is the ability to run the same logic with the same parameters multiple times with the same result: the **effect on the database** is the same whether you run the logic once or one thousand times. 例如：
 
 - **NOT IDEMPOTENT**: Upsert (update-or-insert) a user in the database with email address `"letoya@prisma.io"`. The `User` table **does not** enforce unique email addresses. The effect on the database is different if you run the logic once (one user created) or ten times (ten users created).
 - **IDEMPOTENT**: Upsert (update-or-insert) a user in the database with the email address `"letoya@prisma.io"`. The `User` table **does** enforce unique email addresses. The effect on the database is the same if you run the logic once (one user created) or ten times (existing user is updated with the same input).
 
-Idempotency is something you can and should actively design into your application wherever possible.
+Idempotency is something 您可以 and should actively design into your application wherever possible.
 
 #### When to design an idempotent API
 
-- ✔ You need to be able to retry the same logic without creating unwanted side-effects in the databases
+- ✔ 您需要 be able to retry the same logic without creating unwanted side-effects in the databases
 
 #### Scenario: Upgrading a Slack team
 
@@ -1098,7 +1098,7 @@ await prisma.team.update({
 })
 ```
 
-This example has a problem: you can only run the logic _once_. Consider the following scenario:
+This example has a problem: 您可以 only run the logic _once_. Consider 以下 scenario:
 
 1. Stripe creates a new customer and subscription, and returns a customer ID
 2. Updating the team **fails** - the team is not marked as a customer in the Slack database
@@ -1108,9 +1108,9 @@ This example has a problem: you can only run the logic _once_. Consider the foll
    - Results in an error because the team (defined by `externalId`) already exists - Stripe never returns a customer ID
    - If `externalId` is not subject to a unique constraint, Stripe creates yet another subscription (**not idempotent**)
 
-You cannot re-run this code in case of an error and you cannot change to another plan without being charged twice.
+您可以not re-run this code in case of an error and 您可以not change to another plan without being charged twice.
 
-The following refactor (highlighted) introduces a mechanism that checks if a subscription already exists, and either creates the description or updates the existing subscription (which will remain unchanged if the input is identical):
+以下 refactor (highlighted) introduces a mechanism that checks if a subscription already exists, and either creates the description or updates the existing subscription (which will remain unchanged if the input is identical):
 
 ```ts highlight=12-27;normal
 // Calculate the number of users times the cost per user
@@ -1157,39 +1157,39 @@ await prisma.team.update({
 })
 ```
 
-You can now retry the same logic multiple times with the same input without adverse effect. To further enhance this example, you can introduce a mechanism whereby the subscription is cancelled or temporarily deactivated if the update does not succeed after a set number of attempts.
+您可以 now retry the same logic multiple times with the same input without adverse effect. To further enhance this example, 您可以 introduce a mechanism whereby the subscription is cancelled or temporarily deactivated if the update does not succeed after a set number of attempts.
 
 ### Optimistic concurrency control
 
 Optimistic concurrency control (OCC) is a model for handling concurrent operations on a single entity that does not rely on 🔒 locking. Instead, we **optimistically** assume that a record will remain unchanged in between reading and writing, and use a concurrency token (a timestamp or version field) to detect changes to a record.
 
-If a ❌ conflict occurs (someone else has changed the record since you read it), you cancel the transaction. Depending on your scenario, you can then:
+If a ❌ conflict occurs (someone else has changed the record since you read it), 您可以cel the transaction. Depending on your scenario, 您可以 then:
 
 - Re-try the transaction (book another cinema seat)
 - Throw an error (alert the user that they are about to overwrite changes made by someone else)
 
-This section describes how to build your own optimistic concurrency control. See also: Plans for [application-level optimistic concurrency control on GitHub](https://github.com/prisma/prisma/issues/4988)
+本節描述 如何 build your own optimistic concurrency control. 另請參閱: Plans for [application-level optimistic concurrency control on GitHub](https://github.com/prisma/prisma/issues/4988)
 
 :::info
 
-- If you use version 4.4.0 or earlier, you cannot use optimistic concurrency control on `update` operations, because you cannot filter on non-unique fields. The `version` field you need to use with optimistic concurrency control is a non-unique field.
+- If you use version 4.4.0 or earlier, 您可以not use optimistic concurrency control on `update` operations, because 您可以not filter on non-unique fields. The `version` field 您需要 use with optimistic concurrency control is a non-unique field.
 
 - Since version 5.0.0 you are able to [filter on non-unique fields in `update` operations](/orm/reference/prisma-client-reference#filter-on-non-unique-fields-with-userwhereuniqueinput) so that optimistic concurrency control is being used. The feature was also available via the Preview flag `extendedWhereUnique` from versions 4.5.0 to 4.16.2.
 
 :::
 
-#### When to use optimistic concurrency control
+#### 何時使用 optimistic concurrency control
 
 - ✔ You anticipate a high number of concurrent requests (multiple people booking cinema seats)
 - ✔ You anticipate that conflicts between those concurrent requests will be rare
 
-Avoiding locks in an application with a high number of concurrent requests makes the application more resilient to load and more scalable overall. Although locking is not inherently bad, locking in a high concurrency environment can lead to unintended consequences - even if you are locking individual rows, and only for a short amount of time. For more information, see:
+Avoiding locks in an application with a high number of concurrent requests makes the application more resilient to load and more scalable overall. Although locking is not inherently bad, locking in a high concurrency environment can lead to unintended consequences - even if you are locking individual rows, and only for a short amount of time. 欲了解更多資訊, see:
 
 - [Why ROWLOCK Hints Can Make Queries Slower and Blocking Worse in SQL Server](https://kendralittle.com/2016/02/04/why-rowlock-hints-can-make-queries-slower-and-blocking-worse-in-sql-server/)
 
 #### Scenario: Reserving a seat at the cinema
 
-You are creating a booking system for a cinema. Each movie has a set number of seats. The following schema models movies and seats:
+You are creating a booking system for a cinema. Each movie has a set number of seats. 以下 schema models movies and seats:
 
 ```ts
 model Seat {
@@ -1207,7 +1207,7 @@ model Movie {
 }
 ```
 
-The following sample code finds the first available seat and assigns that seat to a user:
+以下 sample code finds the first available seat and assigns that seat to a user:
 
 ```ts
 const movieName = 'Hidden Figures'
@@ -1313,9 +1313,9 @@ It is now impossible for two people to book the same seat:
 
 ### Interactive transactions
 
-If you have an existing application, it can be a significant undertaking to refactor your application to use optimistic concurrency control. Interactive Transactions offers a useful escape hatch for cases like this.
+If you have an existing application, it can be a significant undertaking to refactor your application 使用 optimistic concurrency control. Interactive Transactions offers a useful escape hatch for cases like this.
 
-To create an interactive transaction, pass an async function into [$transaction](#transaction-api).
+建立 an interactive transaction, pass an async function into [$transaction](#transaction-api).
 
 The first argument passed into this async function is an instance of Prisma Client. Below, we will call this instance `tx`. Any Prisma Client call invoked on this `tx` instance is encapsulated into the transaction.
 
@@ -1376,7 +1376,7 @@ In the example above, both `update` queries run within a database transaction. W
 
 If the application encounters an error along the way, the async function will throw an exception and automatically **rollback** the transaction.
 
-You can learn more about interactive transactions in this [section](#interactive-transactions).
+您可以 learn more about interactive transactions in this [section](#interactive-transactions).
 
 :::warning
 

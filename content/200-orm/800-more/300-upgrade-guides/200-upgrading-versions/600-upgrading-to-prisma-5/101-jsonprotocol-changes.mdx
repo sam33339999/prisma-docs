@@ -41,13 +41,13 @@ generator client {
 
 ### Improved error messages
 
-Due to the switch to the new protocol, several error messages have been improved. For example, the following error message in Prisma ORM 4 and below:
+Due to the switch to the new protocol, several error messages have been improved. 例如, 以下 error message in Prisma ORM 4 and below:
 
 ```terminal
 Failed to validate the query: `Unable to match input value to any allowed input type for the field. Parse errors: [Query parsing/validation error at `Mutation.createOneUser.data.UserCreateInput.person.PersonCreateNestedOneWithoutUserInput.create`: Unable to match input value to any allowed input type for the field. Parse errors: [Query parsing/validation error at `Mutation.createOneUser.data.UserCreateInput.person.PersonCreateNestedOneWithoutUserInput.create.PersonCreateWithoutUserInput.hubspot_id`: A value is required but not set., Query parsing/validation error at `Mutation.createOneUser.data.UserCreateInput.person.PersonCreateNestedOneWithoutUserInput.create.PersonUncheckedCreateWithoutUserInput.hubspot_id`: A value is required but not set.], Query parsing/validation error at `Mutation.createOneUser.data.UserUncheckedCreateInput.person`: Field does not exist on enclosing type.]` at `Mutation.createOneUser.data`
 ```
 
-becomes the following in Prisma ORM 5:
+becomes 以下 in Prisma ORM 5:
 
 ```terminal
 Invalid `prisma.user.create()` invocation in
@@ -78,11 +78,11 @@ Below are changes that are related to the switch to the new protocol. If you wer
 
 ### Removal of array shortcuts
 
-Several array shortcuts were removed as a part of this major update. These shortcuts were a way to add a single element as a value to an array-based operator.
+Several array shortcuts were removed as a part of this major update. These shortcuts were a way 添加 a single element as a value to an array-based operator.
 
 #### `OR` operators
 
-The following code in Prisma ORM 4 and lower:
+以下 code in Prisma ORM 4 and lower:
 
 ```js
 prisma.user.findMany({
@@ -92,7 +92,7 @@ prisma.user.findMany({
 })
 ```
 
-Will need to be changed to the following in Prisma ORM 5:
+Will need to be changed to 以下 in Prisma ORM 5:
 
 ```js highlight=3;normal
 prisma.user.findMany({
@@ -147,7 +147,7 @@ prisma.user.findMany({
 <details>
 <summary>Suggestion for single elements</summary>
 
-If your `in` and `notIn` values are only one element, you can also update your code to not use these operators at all:
+If your `in` and `notIn` values are only one element, 您可以 also update your code to not use these operators at all:
 
 ```js highlight=3,9;normal
 prisma.user.findMany({
@@ -169,7 +169,7 @@ prisma.user.findMany({
 
 [When filtering on JSON fields in a PostgreSQL model](/orm/prisma-client/special-fields-and-types/working-with-json-fields#filter-on-a-json-field-simple) the `path` argument now only accepts an array.
 
-When using the following schema:
+When using 以下 schema:
 
 ```prisma
 model User {
@@ -206,7 +206,7 @@ prisma.user.findMany({
 
 :::info
 
-Note: This `path` argument change only affects PostgreSQL databases. MySQL databases are not affected as they use a different syntax.
+注意： This `path` argument change only affects PostgreSQL databases. MySQL databases are not affected as they use a different syntax.
 
 :::
 
@@ -214,7 +214,7 @@ Note: This `path` argument change only affects PostgreSQL databases. MySQL datab
 
 [Scalar list](/orm/prisma-schema/data-model/models#scalar-fields) values must be arrays in all operations.
 
-With the following schema:
+With 以下 schema:
 
 ```prisma
 model Post {
@@ -259,7 +259,7 @@ prisma.post.findMany({
 
 Operations on lists of [Composite types](/orm/prisma-schema/data-model/models#defining-composite-types) (for [MongoDB](/orm/overview/databases/mongodb)) now only accept array values.
 
-With the following schema:
+With 以下 schema:
 
 ```prisma
 model Post {

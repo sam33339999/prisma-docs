@@ -15,7 +15,7 @@ Starting with Prisma ORM v7, when you run `prisma init`, a `prisma.config.ts` fi
 
 :::
 
-You can define your config in either of two ways:
+您可以 define your config in either of two ways:
 
 - Using the `defineConfig` helper:
   ```ts
@@ -102,7 +102,7 @@ In Prisma ORM v6.19 and earlier, the configuration interface also included:
 - `datasource.directUrl` property for direct database connections
 - `engine` property for choosing between `classic` and `js` engines
 
-These have been removed in Prisma ORM v7. See the individual property sections below for migration guidance.
+These have been removed in Prisma ORM v7. 參見 individual property sections below for migration guidance.
 
 :::
 
@@ -131,14 +131,14 @@ Configures how Prisma ORM locates and loads your schema file(s). Can be a file o
 
 ### `tables.external` and `enums.external`
 
-These options declare tables and enums in your database that are **managed externally** (not by Prisma Migrate). You can still query them with Prisma Client, but they will be ignored by migrations.
+These options declare tables and enums in your database that are **managed externally** (not by Prisma Migrate). 您可以 still query them with Prisma Client, but they will be ignored by migrations.
 
 | Property          | Type       | Required | Default |
 | ----------------- | ---------- | -------- | ------- |
 | `tables.external` | `string[]` | No       | `[]`    |
 | `enums.external`  | `string[]` | No       | `[]`    |
 
-**Example:**
+**範例：**
 
 ```ts
 import 'dotenv/config'
@@ -182,7 +182,7 @@ This option allows you to define a script that Prisma runs to seed your database
 | ----------------- | -------- | -------- | ------- |
 | `migrations.seed` | `string` | No       | none    |
 
-**Example:**
+**範例：**
 
 ```ts
 import 'dotenv/config'
@@ -208,7 +208,7 @@ This option allows you to define SQL statements that Prisma runs on the **shadow
 | ------------------------- | -------- | -------- | ------- |
 | `migrations.initShadowDb` | `string` | No       | none    |
 
-**Example:**
+**範例：**
 
 ```ts
 import 'dotenv/config'
@@ -260,7 +260,7 @@ Enables specific experimental features in the Prisma CLI.
 | ---------------- | --------- | -------- | ------- |
 | `externalTables` | `boolean` | No       | `false` |
 
-Example:
+範例：
 
 ```ts
 import 'dotenv/config'
@@ -292,7 +292,7 @@ Failed to load config file "~" as a TypeScript/JavaScript module. Error: Error: 
 
 :::info[Prisma ORM v6.19 and earlier]
 
-In Prisma ORM v6.19 and earlier, the `experimental` object also included `adapter` and `studio` flags. These have been removed in Prisma ORM v7. See the [`adapter`](#adapter-removed) and [`studio`](#studio-removed) sections for details.
+In Prisma ORM v6.19 and earlier, the `experimental` object also included `adapter` and `studio` flags. These have been removed in Prisma ORM v7. 參見 [`adapter`](#adapter-removed) and [`studio`](#studio-removed) sections for details.
 
 :::
 
@@ -313,7 +313,7 @@ For Prisma ORM v6.19 and earlier, the `url` field remains in the `schema.prisma`
 | --------         | ------------------ | -------- | ----------------- |
 | `datasource.url` | `string`           | Yes       | `''`              |
 
-**Example:**
+**範例：**
 
 ```ts
 import 'dotenv/config'
@@ -333,7 +333,7 @@ export default defineConfig({
 
 ### `datasource.shadowDatabaseUrl`
 
-Connection URL to the shadow database used by Prisma Migrate. Allows you to use a cloud-hosted database as the shadow database.
+Connection URL to the shadow database used by Prisma Migrate. Allows you 使用 a cloud-hosted database as the shadow database.
 
 :::info[Prisma ORM v7 changes]
 
@@ -361,9 +361,9 @@ The `datasource.directUrl` property has been removed in Prisma ORM v7 in favor o
 
 Connection URL for direct connection to the database.
 
-If you use a connection pooler URL in the `url` argument (for example, pgBouncer), Prisma CLI commands that require a direct connection to the database use the URL in the `directUrl` argument. 
+If you use a connection pooler URL in the `url` argument (例如, pgBouncer), Prisma CLI commands that require a direct connection to the database use the URL in the `directUrl` argument. 
 
-The `directUrl` property is supported by Prisma Studio from version 5.1.0 upwards. The `directUrl` property is not needed when using [Prisma Postgres](/postgres) database.
+The `directUrl` property is 支援 Prisma Studio from version 5.1.0 upwards. The `directUrl` property is not needed when using [Prisma Postgres](/postgres) database.
 
 | Property               | Type               | Required | Default           |
 | --------               | ------------------ | -------- | ----------------- |
@@ -437,7 +437,7 @@ Configure the schema engine your project should use.
 | -------- | ------------------ | -------- | ----------------- |
 | `engine` | `classic` or `js`  | No       | `classic`         |
 
-By default it is set to use the classic engine, which requires that `datasource` be set in your `prisma.config.ts`. 
+預設情況下 it is set 使用 the classic engine, which 需要 that `datasource` be set in your `prisma.config.ts`. 
 
 ```ts
 import 'dotenv/config'
@@ -465,7 +465,7 @@ The `studio` property has been removed in Prisma ORM v7. To run Prisma Studio, u
 npx prisma studio --config ./prisma.config.ts
 ```
 
-Prisma Studio now uses the connection configuration from the `datasource` property automatically. See the [Prisma Studio documentation](/orm/reference/prisma-cli-reference#studio) for more details.
+Prisma Studio now uses the connection configuration from the `datasource` property automatically. 參見 [Prisma Studio documentation](/orm/reference/prisma-cli-reference#studio) for more details.
 
 :::
 
@@ -516,7 +516,7 @@ export default {
 
 ### Setting up your project
 
-To get started with Prisma Config, create a `prisma.config.ts` file in your project root. You can use either of these approaches:
+開始使用 with Prisma Config, create a `prisma.config.ts` file in your project root. 您可以 use either of these approaches:
 
 Using `defineConfig`:
 
@@ -557,7 +557,7 @@ export default {
 
 :::info[Prisma ORM v7 changes]
 
-In Prisma ORM v7, when you run `prisma init`, the generated `prisma.config.ts` file includes `import 'dotenv/config'` by default. You must install the `dotenv` package to use environment variables.
+In Prisma ORM v7, when you run `prisma init`, the generated `prisma.config.ts` file includes `import 'dotenv/config'` 預設情況下. 您必須 install the `dotenv` package 使用 environment variables.
 
 :::
 
@@ -591,7 +591,7 @@ export default defineConfig({
 
 #### Using Node.js v20+ or tsx with --env-file flag
 
-If using Node.js v20+ or `tsx`, you can pass a `--env-file` flag to automatically load environment variables:
+If using Node.js v20+ or `tsx`, 您可以 pass a `--env-file` flag to automatically load environment variables:
 
 ```terminal
 tsx --env-file=.env src/index.ts
@@ -628,7 +628,7 @@ export default defineConfig({
 
 ### Using multi-file schemas
 
-If you want to split your Prisma schema into multiple files, you need to specify the path to your Prisma schema folder via the `schema` property:
+If you want to split your Prisma schema into multiple files, 您需要 specify the path to your Prisma schema folder via the `schema` property:
 
 ```ts
 import path from "node:path";
@@ -641,7 +641,7 @@ export default {
 
 In that case, your `migrations` directory must be located next to the `.prisma` file that defines the `datasource` block.
 
-For example, assuming `schema.prisma` defines the `datasource`, here's how how need to place the migrations folder:
+例如, assuming `schema.prisma` defines the `datasource`, here's how how need to place the migrations folder:
 
 ```
 # `migrations` and `schema.prisma` are on the same level
@@ -714,7 +714,7 @@ npm exec prisma validate
 # → Error: Could not find Prisma Schema...
 ```
 
-To fix this, you can use the `--config` flag:
+To fix this, 您可以 use the `--config` flag:
 
 ```bash
 npm exec prisma -- --config ../prisma.config.ts validate
@@ -722,7 +722,7 @@ npm exec prisma -- --config ../prisma.config.ts validate
 
 ### Global Prisma installations
 
-If Prisma is installed globally (`npm i -g prisma`), it may not find your `prisma.config.ts` or `prisma/config` module by default.
+If Prisma is installed globally (`npm i -g prisma`), it may not find your `prisma.config.ts` or `prisma/config` module 預設情況下.
 To avoid issues:
 
 - Prefer local Prisma installations in your project.
@@ -735,7 +735,7 @@ To avoid issues:
 
 ### Custom config location
 
-You can specify a custom location for your config file when running Prisma CLI commands:
+您可以 specify a custom location for your config file when running Prisma CLI commands:
 
 ```terminal
 prisma validate --config ./path/to/myconfig.ts
@@ -746,7 +746,7 @@ prisma validate --config ./path/to/myconfig.ts
 :::info[Prisma ORM v7 changes]
 
 
-In Prisma ORM v7, `prisma init` generates a `prisma.config.ts` file automatically. To load environment variables with `dotenv`, do the following:
+In Prisma ORM v7, `prisma init` generates a `prisma.config.ts` file automatically. To load environment variables with `dotenv`, do 以下:
 
 1. Install the `dotenv` package.
 2. Add `import 'dotenv/config'` at the top of your `prisma.config.ts` file.
@@ -754,7 +754,7 @@ In Prisma ORM v7, `prisma init` generates a `prisma.config.ts` file automaticall
 This is required for Prisma to read values from your `.env` file.
 :::
 
-To load environment variables in your Prisma application, you can use the `prisma.config.ts` file along with the `env` helper from `prisma/config`. This approach provides better type safety and configuration management.
+To load environment variables in your Prisma application, 您可以 use the `prisma.config.ts` file along with the `env` helper from `prisma/config`. This approach provides better type safety and configuration management.
 
 1. Install the `dotenv` package:
 

@@ -4,13 +4,13 @@ metaTitle: '如何 部署 an app 使用 Prisma ORM to Azure Functions'
 metaDescription: '學習如何 to 部署 a Prisma 客戶端 based REST API to Azure Functions and 連接 to an Azure SQL 資料庫'
 ---
 
-This guide explains how to avoid common issues when deploying a Node.js-based function app to Azure using [Azure Functions](https://azure.microsoft.com/en-us/products/functions/).
+本指南說明如何 avoid common issues when deploying a Node.js-based function app to Azure using [Azure Functions](https://azure.microsoft.com/en-us/products/functions/).
 
-Azure Functions is a serverless deployment platform. You do not need to maintain infrastructure to deploy your code. With Azure Functions, the fundamental building block is the [function app](https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference?tabs=blob&pivots=programming-language-typescript). A function app provides an execution context in Azure in which your functions run. It is comprised of one or more individual functions that Azure manages, deploys, and scales together. You can organize and collectively manage multiple functions as a single logical unit.
+Azure Functions is a serverless deployment platform. You do not need to maintain infrastructure to deploy your code. With Azure Functions, the fundamental building block is the [function app](https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference?tabs=blob&pivots=programming-language-typescript). A function app provides an execution context in Azure in which your functions run. It is comprised of one or more individual functions that Azure manages, deploys, and scales together. 您可以 organize and collectively manage multiple functions as a single logical unit.
 
 :::tip Use Prisma ORM without Rust binaries
 
-If Prisma ORM's Rust engine binaries cause large bundle sizes, slow builds, or deployment issues (for example, in serverless or edge environments), you can use it without them using this configuration of your `generator` block:
+If Prisma ORM's Rust engine binaries cause large bundle sizes, slow builds, or deployment issues (例如, in serverless or edge environments), 您可以 use it without them using this configuration of your `generator` block:
 
 ```prisma
 generator client {
@@ -21,7 +21,7 @@ generator client {
 
 Prisma ORM without Rust binaries has been [Generally Available](/orm/more/releases#generally-available-ga) since [v6.16.0](https://pris.ly/release/6.16.0).
 
-Note that you need to use a [driver adapter](/orm/overview/databases/database-drivers#driver-adapters) in this case.
+請注意 您需要 use a [driver adapter](/orm/overview/databases/database-drivers#driver-adapters) in this case.
 
 When using this architecture:
 
@@ -30,7 +30,7 @@ When using this architecture:
 
 This setup can simplify deployments in serverless or edge runtimes. Learn more in the [docs here](/orm/prisma-client/setup-and-configuration/no-rust-engine). 
 
-Curious why we moved away from the Rust engine? Take a look at why we transitioned from Rust binary engines to an all-TypeScript approach for a faster, lighter Prisma ORM in this [blog post](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks).
+Curious why we moved away from the Rust engine? 查看 why we transitioned from Rust binary engines to an all-TypeScript approach for a faster, lighter Prisma ORM in this [blog post](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks).
 
 :::
 
@@ -45,7 +45,7 @@ While Prisma ORM works well with Azure functions, there are a few things to take
 
 ### Define multiple binary targets
 
-When deploying a function app, the operating system that Azure functions runs a remote build is different from the one used to host your functions. Therefore, we recommend specifying the following [`binaryTargets` options](/orm/reference/prisma-schema-reference#binarytargets-options) in your Prisma schema:
+When deploying a function app, the operating system that Azure functions runs a remote build is different from the one used to host your functions. Therefore, we recommend specifying 以下 [`binaryTargets` options](/orm/reference/prisma-schema-reference#binarytargets-options) in your Prisma schema:
 
 ```prisma file=schema.prisma highlight=3;normal showLineNumbers
 generator client {
@@ -57,8 +57,8 @@ generator client {
 
 ### 連線池ing
 
-Generally, when you use a FaaS (Function as a Service) environment to interact with a database, every function invocation can result in a new connection to the database. This is not a problem with a constantly running Node.js server. Therefore, it is beneficial to pool DB connections to get better performance. To solve this issue, you can use the [Prisma Accelerate](/accelerate). For other solutions, see the [connection management guide for serverless environments](/orm/prisma-client/setup-and-configuration/databases-connections#serverless-environments-faas).
+Generally, when you use a FaaS (Function as a Service) environment to interact with a database, every function invocation can result in a new connection to the database. This is not a problem with a constantly running Node.js server. Therefore, it is beneficial to pool DB connections to get better performance. To solve this issue, 您可以 use the [Prisma Accelerate](/accelerate). For other solutions, 參見 [connection management guide for serverless environments](/orm/prisma-client/setup-and-configuration/databases-connections#serverless-environments-faas).
 
 ## Summary
 
-For more insight into Prisma Client's API, explore the function handlers and check out the [Prisma Client API Reference](/orm/reference/prisma-client-reference)
+For more insight into Prisma Client's API, explore the function handlers and 查看 the [Prisma Client API Reference](/orm/reference/prisma-client-reference)

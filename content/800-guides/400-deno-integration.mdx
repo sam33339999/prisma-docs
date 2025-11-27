@@ -29,7 +29,7 @@ cd prisma-postgres-deno-deploy
 
 ### 1.1 Configure VS Code for Deno
 
-To ensure VS Code recognizes this as a Deno project and provides proper TypeScript validation, you need to initialize the workspace. Without this, VS Code will show errors when using Deno-specific APIs like `Deno.serve`.
+To ensure VS Code recognizes this as a Deno project and provides proper TypeScript validation, 您需要 initialize the workspace. Without this, VS Code will show errors when using Deno-specific APIs like `Deno.serve`.
 
 Install the [Deno extension for VS Code](https://docs.deno.com/runtime/reference/vscode/), then:
 1. Select **View** > **Command Palette** _(or press `Cmd+Shift+P` on macOS or `Ctrl+Shift+P` on Windows)_
@@ -37,7 +37,7 @@ Install the [Deno extension for VS Code](https://docs.deno.com/runtime/reference
 
 ### 1.2 Create a basic HTTP server
 
-Update the `main.ts` file to create a simple HTTP server that responds with "Hello, World!", establishing the foundation for your application before adding database functionality.
+Update the `main.ts` file 建立 a simple HTTP server that responds with "Hello, World!", establishing the foundation for your application before adding database functionality.
 
 ```tsx file=main.ts
 function handler(_req: Request): Response {
@@ -47,21 +47,21 @@ function handler(_req: Request): Response {
 Deno.serve(handler);
 ```
 
-You can test the server locally by running:
+您可以 test the server locally by running:
 
 ```terminal
 deno run dev
 ```
 
-Visit `localhost:8000` in your browser to see the application running.
+Visit `localhost:8000` in your browser to 參見 application running.
 
 ### 1.3 Push initial project to GitHub
 
-To connect your project to Deno Deploy and get a database connection string, you need to have a successful deployment. Set up a GitHub repository and push your project to it.
+To connect your project to Deno Deploy and get a database connection string, 您需要 have a successful deployment. Set up a GitHub repository and push your project to it.
 
 ## 2. Deploy the project to Deno Deploy
 
-Deploy your repository to Deno Deploy. Any subsequent commits will trigger automatic redeployments. You need to deploy now, as the database string requires a successful deployment to generate.
+Deploy your repository to Deno Deploy. Any subsequent commits will trigger automatic redeployments. 您需要 deploy now, as the database string 需要 a successful deployment to generate.
 
 1. Navigate to the [Deno Deploy dashboard](https://dash.deno.com/) and select **New App**
 2. Configure GitHub app permissions by following GitHub's prompts
@@ -159,7 +159,7 @@ deno run -A npm:prisma migrate dev --name init
 deno run -A npm:prisma generate
 ```
 
-## 5. Update the application to use Prisma
+## 5. Update the application 使用 Prisma
 
 Now that the database is configured, update your application to interact with it. This implementation creates a logging system that captures every HTTP request, stores it in the database, and returns the logged entry as JSON.
 
@@ -212,7 +212,7 @@ It may ask you for access to your environment variables. Select **Allow** to gra
 
 :::
 
-Visit `localhost:8000` in your browser to see the application running. You should see a JSON response containing the log entry:
+Visit `localhost:8000` in your browser to 參見 application running. 您應該 see a JSON response containing the log entry:
 
 ```json
 {
@@ -227,7 +227,7 @@ Visit `localhost:8000` in your browser to see the application running. You shoul
 
 ## 6. Deploy the application
 
-The build command must generate the Prisma Client code to ensure it is available in production.
+The build command must generate the Prisma Client code to ensure it is 可用於 production.
 
 ### 6.1 Update build command in Deno Deploy
 
@@ -245,11 +245,11 @@ git commit -m "added prisma"
 git push
 ```
 
-Navigate back to Deno Deploy and you should see a successful build. Once deployed, click the deployment URL at the top right of the dashboard.
+Navigate back to Deno Deploy and 您應該 see a successful build. Once deployed, click the deployment URL at the top right of the dashboard.
 
 ### 6.3 Verify the 部署
 
-When you visit your deployed application, you should see a response that looks like this:
+When you visit your deployed application, 您應該 see a response that looks like this:
 
 ```json
 {
@@ -264,9 +264,9 @@ When you visit your deployed application, you should see a response that looks l
 
 You're done! Each time you refresh the page, a new log entry is created in your database.
 
-## Next Steps
+## 後續步驟
 
-Now that you have a working Deno app connected to a Prisma Postgres database, you can:
+Now that you have a working Deno app connected to a Prisma Postgres database, 您可以:
 
 - **Enhance your data model** - Add relationships, validations, and indexes to your Prisma schema
 - **Secure your API** - Implement authentication, rate limiting, and proper error handling

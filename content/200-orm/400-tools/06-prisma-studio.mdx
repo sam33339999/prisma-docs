@@ -7,13 +7,13 @@ toc_max_heading_level: 2
 
 Prisma Studio is a standalone visual database editor that lets you view and manipulate data directly in your browser. Prisma 7 introduces a brand new standalone Studio, built from the ground up to work everywhere, with or without Prisma ORM. 
 
-Unlike previous versions, the new Prisma Studio is SQL-driven and does not rely on the Prisma schema file at all. Instead, it introspects your database directly to understand the schema structure. This means you can use it with any supported database without needing a Prisma schema or project.
+Unlike previous versions, the new Prisma Studio is SQL-driven and does not rely on the Prisma schema file at all. Instead, it introspects your database directly to understand the schema structure. This means 您可以 use it with any supported database without needing a Prisma schema or project.
 
-Note that Prisma Studio is not open source but you can still create issues in the [`prisma/studio`](https://github.com/prisma/studio) repo. All "old Studio" issues are being closed as there won't be any further work on the previous version.
+請注意 Prisma Studio is not open source but 您可以 still create issues in the [`prisma/studio`](https://github.com/prisma/studio) repo. All "old Studio" issues are being closed as there won't be any further work on the previous version.
 
 ## 前置需求
 
-Prisma Studio is a standalone tool that only requires a database connection. You have two options:
+Prisma Studio is a standalone tool that only 需要 a database connection. You have two options:
 
 ### Option 1: Use with any 資料庫 (no Prisma project required)
 
@@ -23,7 +23,7 @@ Connect directly to any supported database using the `--url` flag:
 npx prisma studio --url="postgresql://user:password@localhost:5432/dbname"
 ```
 
-This approach works without any Prisma ORM setup—Studio will introspect your database schema directly.
+This approach 適用於out any Prisma ORM setup—Studio will introspect your database schema directly.
 
 ### Option 2: Use with a Prisma ORM project
 
@@ -50,7 +50,7 @@ npx prisma studio --url="postgresql://user:password@localhost:5432/dbname"
 
 ### With a Prisma ORM project
 
-If you have a Prisma project, run the following command in your project directory:
+If you have a Prisma project, run 以下 command in your project directory:
 
 ```terminal
 npx prisma studio --config ./prisma.config.ts
@@ -64,11 +64,11 @@ Prisma Studio provides several key capabilities for working with your database:
 
 ### Browse your data
 
-Studio displays all tables from your database in a sidebar. Select any table to view its data in a table format. You can open multiple tables in separate tabs to work with related data simultaneously.
+Studio displays all tables from your database in a sidebar. Select any table to view its data in a table format. 您可以 open multiple tables in separate tabs to work with related data simultaneously.
 
 ### View and edit records
 
-You can edit data in two ways:
+您可以 edit data in two ways:
 
 - **Inline editing**: Double-click any cell to edit its value directly in the table
 - **Side panel editing**: Click the edit icon next to a record to open a detailed view with all fields
@@ -134,23 +134,23 @@ When your database tables have foreign key relationships, Studio provides tools 
 - Use relation selectors when creating or editing records to link to existing data
 - Open related tables in separate tabs to work with connected data simultaneously
 
-## 資料庫 supported by Prisma Studio
+## 資料庫 支援 Prisma Studio
 
-Prisma Studio currently supports the following databases: PostgreSQL, MySQL, and SQLite.
+Prisma Studio currently supports 以下 databases: PostgreSQL, MySQL, and SQLite.
 
 ### SQLite 需求 for Prisma Studio
 
 - File paths must have a `file:` protocol right now in the database url for SQLite
 - **Node.js 22.5+**: Works out of the box with the built-in `node:sqlite` module
   - May require `NODE_OPTIONS=--experimental-sqlite` environment variable
-- **Node.js 20**: Requires installing `better-sqlite3` as a dependency
+- **Node.js 20**: 需要 installing `better-sqlite3` as a dependency
   - If using pnpm 10+ with `pnpx`, you'll need the [`--allow-build=better-sqlite3`](https://pnpm.io/cli/dlx#--allow-build) flag
 - **Deno >= 2.2**: Supported via [built-in SQLite module](https://docs.deno.com/api/node/sqlite/)
 - **Bun**: Support for Prisma Studio with SQLite is coming soon and is not available yet
 
 :::tip[Using `npx` with `better-sqlite3`]
 
-If you don't have `node:sqlite` available in your runtime or prefer not to install `better-sqlite3` as a hard dependency (it adds ~10MB), you can use `npx` to temporarily install the required packages:
+If you don't have `node:sqlite` 可用於 your runtime or prefer not 安裝 `better-sqlite3` as a hard dependency (it adds ~10MB), 您可以 use `npx` to temporarily install the required packages:
 
 ```terminal
 npx -p better-sqlite3 -p prisma prisma studio --url file:./my_file.db
@@ -174,13 +174,13 @@ Support for CockroachDB and MongoDB is not currently available but may be added 
 
 ### Terminal: Failed to run script / Error in Prisma Client request
 
-Caching issues may cause Prisma Studio to use an older version of the query engine. You may see the following error:
+Caching issues may cause Prisma Studio 使用 an older version of the query engine. You may see 以下 error:
 
 ```terminal wrap
 Error in request:  PrismaClientKnownRequestError: Failed to validate the query Error occurred during query validation & transformation
 ```
 
-To resolve, delete the following folders:
+To resolve, delete 以下 folders:
 
 - `~/.cache/prisma` on macOS and Linux
 - `%AppData%/Prisma/Studio` on Windows

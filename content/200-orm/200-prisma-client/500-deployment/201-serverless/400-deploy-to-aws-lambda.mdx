@@ -7,28 +7,28 @@ tocDepth: 3
 
 
 :::info Quick summary
-This guide explains how to avoid common issues when deploying a project using Prisma ORM to [AWS Lambda](https://aws.amazon.com/lambda/).
+本指南說明如何 avoid common issues when deploying a project using Prisma ORM to [AWS Lambda](https://aws.amazon.com/lambda/).
 :::
 
 <details>
 <summary>Questions answered in this page</summary>
 
-- How to deploy Prisma to AWS Lambda?
+- 如何 deploy Prisma to AWS Lambda?
 - Which binaryTargets should I configure?
-- How to handle connection pooling on Lambda?
+- 如何 handle connection pooling on Lambda?
 
 </details>
 
 While a deployment framework is not required to deploy to AWS Lambda, this guide covers deploying with:
 
-- [AWS Serverless Application Model (SAM)](https://aws.amazon.com/serverless/sam/) is an open-source framework from AWS that can be used in the creation of serverless applications. AWS SAM includes the [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-reference.html#serverless-sam-cli), which you can use to build, test, and deploy your application.
+- [AWS Serverless Application Model (SAM)](https://aws.amazon.com/serverless/sam/) is an open-source framework from AWS that can be used in the creation of serverless applications. AWS SAM includes the [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-reference.html#serverless-sam-cli), which 您可以 use to build, test, and deploy your application.
 - [Serverless Framework](https://www.serverless.com/framework) provides a CLI that helps with workflow automation and AWS resource provisioning. While Prisma ORM works well with the Serverless Framework "out of the box", there are a few improvements that can be made within your project to ensure a smooth deployment and performance. There is also additional configuration that is needed if you are using the [`serverless-webpack`](https://www.npmjs.com/package/serverless-webpack) or [`serverless-bundle`](https://www.npmjs.com/package/serverless-bundle) libraries.
 - [SST](https://sst.dev/) provides tools that make it easy for developers to define, test, debug, and deploy their applications. Prisma ORM works well with SST but must be configured so that your schema is correctly packaged by SST.
 
 
 :::tip Use Prisma ORM without Rust binaries
 
-If Prisma ORM's Rust engine binaries cause large bundle sizes, slow builds, or deployment issues (for example, in serverless or edge environments), you can use it without them using this configuration of your `generator` block:
+If Prisma ORM's Rust engine binaries cause large bundle sizes, slow builds, or deployment issues (例如, in serverless or edge environments), 您可以 use it without them using this configuration of your `generator` block:
 
 ```prisma
 generator client {
@@ -39,7 +39,7 @@ generator client {
 
 Prisma ORM without Rust binaries has been [Generally Available](/orm/more/releases#generally-available-ga) since [v6.16.0](https://pris.ly/release/6.16.0).
 
-Note that you need to use a [driver adapter](/orm/overview/databases/database-drivers#driver-adapters) in this case.
+請注意 您需要 use a [driver adapter](/orm/overview/databases/database-drivers#driver-adapters) in this case.
 
 When using this architecture:
 
@@ -48,7 +48,7 @@ When using this architecture:
 
 This setup can simplify deployments in serverless or edge runtimes. Learn more in the [docs here](/orm/prisma-client/setup-and-configuration/no-rust-engine). 
 
-Curious why we moved away from the Rust engine? Take a look at why we transitioned from Rust binary engines to an all-TypeScript approach for a faster, lighter Prisma ORM in this [blog post](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks).
+Curious why we moved away from the Rust engine? 查看 why we transitioned from Rust binary engines to an all-TypeScript approach for a faster, lighter Prisma ORM in this [blog post](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks).
 
 :::
 
@@ -56,7 +56,7 @@ Curious why we moved away from the Rust engine? Take a look at why we transition
 
 ## General considerations when deploying to AWS Lambda
 
-This section covers changes you will need to make to your application, regardless of framework. After following these steps, follow the steps for your framework.
+本節涵蓋 changes you will need to make to your application, regardless of framework. After following these steps, follow the steps for your framework.
 
 - [Deploying with AWS SAM](#deploying-with-aws-sam)
 - [Deploying with the Serverless Framework](#deploying-with-the-serverless-framework)
@@ -91,7 +91,7 @@ This is necessary because the runtimes used in development and deployment differ
 
 Lambda functions that use [arm64 architectures (AWS Graviton2 processor)](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html#foundation-arch-adv) must use an `arm64` precompiled engine file.
 
-In the `generator` block of your `schema.prisma` file, add the following:
+In the `generator` block of your `schema.prisma` file, add 以下:
 
 ```prisma file=schema.prisma showLineNumbers
 binaryTargets = ["native", "linux-arm64-openssl-1.0.x"]
@@ -99,9 +99,9 @@ binaryTargets = ["native", "linux-arm64-openssl-1.0.x"]
 
 ### Prisma CLI binary targets
 
-While we do not recommend running migrations within AWS Lambda, some applications will require it. In these cases, you can use the [PRISMA_CLI_BINARY_TARGETS](/orm/reference/environment-variables-reference#prisma_cli_binary_targets) environment variable to make sure that Prisma CLI commands, including `prisma migrate`, have access to the correct schema engine.
+While we do not recommend running migrations within AWS Lambda, some applications will require it. In these cases, 您可以 use the [PRISMA_CLI_BINARY_TARGETS](/orm/reference/environment-variables-reference#prisma_cli_binary_targets) environment variable to make sure that Prisma CLI commands, including `prisma migrate`, have access to the correct schema engine.
 
-In the case of AWS lambda, you will have to add the following environment variable:
+In the case of AWS lambda, you will have 添加 以下 environment variable:
 
 ```env file=.env showLineNumbers
 PRISMA_CLI_BINARY_TARGETS=native,rhel-openssl-1.0.x
@@ -109,7 +109,7 @@ PRISMA_CLI_BINARY_TARGETS=native,rhel-openssl-1.0.x
 
 :::info
 
-`prisma migrate` is a command in the `prisma` package. Normally, this package is installed as a dev dependency. Depending on your setup, you may need to install this package as a dependency instead so that it is included in the bundle or archive that is uploaded to Lambda and executed.
+`prisma migrate` is a command in the `prisma` package. Normally, this package is installed as a dev dependency. Depending on your setup, you may need 安裝 this package as a dependency instead so that it is included in the bundle or archive that is uploaded to Lambda and executed.
 
 :::
 
@@ -117,19 +117,19 @@ PRISMA_CLI_BINARY_TARGETS=native,rhel-openssl-1.0.x
 
 In a Function as a Service (FaaS) environment, each function invocation typically creates a new database connection. Unlike a continuously running Node.js server, these connections aren't maintained between executions. For better performance in serverless environments, implement connection pooling to reuse existing database connections rather than creating new ones for each function call.
 
-You can use [Accelerate](/accelerate) for connection pooling or [Prisma Postgres](/postgres), which has built-in connection pooling, to solve this issue. For other solutions, see the [connection management guide for serverless environments](/orm/prisma-client/setup-and-configuration/databases-connections#serverless-environments-faas).
+您可以 use [Accelerate](/accelerate) for connection pooling or [Prisma Postgres](/postgres), which has built-in connection pooling, to solve this issue. For other solutions, 參見 [connection management guide for serverless environments](/orm/prisma-client/setup-and-configuration/databases-connections#serverless-environments-faas).
 
 ## Deploying with AWS SAM
 
 ### Loading environment variables
 
-AWS SAM does not directly support loading values from a `.env` file. You will have to use one of AWS's services to store and retrieve these parameters. [This guide](https://medium.com/bip-xtech/a-practical-guide-to-surviving-aws-sam-d8ab141b3d25) provides a great overview of your options and how to store and retrieve values in Parameters, SSM, Secrets Manager, and more.
+AWS SAM does not directly support loading values from a `.env` file. You will have 使用 one of AWS's services to store and retrieve these parameters. [This guide](https://medium.com/bip-xtech/a-practical-guide-to-surviving-aws-sam-d8ab141b3d25) provides a great overview of your options and 如何 store and retrieve values in Parameters, SSM, Secrets Manager, and more.
 
 ### Loading required files
 
 AWS SAM uses [esbuild](https://esbuild.github.io/) to bundle your TypeScript code. However, the full esbuild API is not exposed and esbuild plugins are not supported. This leads to problems when using Prisma ORM in your application as certain files (like `schema.prisma`) must be available at runtime.
 
-To get around this, you need to directly reference the needed files in your code to bundle them correctly. In your application, you could add the following lines to your application where Prisma ORM is instantiated.
+To get around this, 您需要 directly reference the needed files in your code to bundle them correctly. In your application, you could add 以下 lines to your application where Prisma ORM is instantiated.
 
 ```ts file=app.ts showLineNumbers
 import schema from './prisma/schema.prisma'
@@ -144,7 +144,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 ### Loading environment variables via a `.env` file
 
-Your functions will need the `DATABASE_URL` environment variable to access the database. The `serverless-dotenv-plugin` will allow you to use your `.env` file in your deployments.
+Your functions will need the `DATABASE_URL` environment variable to access the database. The `serverless-dotenv-plugin` will allow you 使用 your `.env` file in your deployments.
 
 First, make sure that the plugin is installed:
 
@@ -187,7 +187,7 @@ Packaging deployment-example-sls for stage dev (us-east-1)
 
 ### Deploy only the required files
 
-To reduce your deployment footprint, you can update your deployment process to only upload the files your application needs. The Serverless configuration file, `serverless.yml`, below shows a `package` pattern that includes only the Prisma ORM engine file relevant to the Lambda runtime and excludes the others. This means that when Serverless Framework packages your app for upload, it includes only one engine file. This ensures the packaged archive is as small as possible.
+To reduce your deployment footprint, 您可以 update your deployment process to only upload the files your application needs. The Serverless configuration file, `serverless.yml`, below shows a `package` pattern that includes only the Prisma ORM engine file relevant to the Lambda runtime and excludes the others. This means that when Serverless Framework packages your app for upload, it includes only one engine file. This ensures the packaged archive is as small as possible.
 
 ```code file=serverless.yml no-copy showLineNumbers
 package:
@@ -199,7 +199,7 @@ package:
     - '!node_modules/.cache/prisma/**'  # only required for Windows
 ```
 
-If you are deploying to [Lambda functions with ARM64 architecture](#lambda-functions-with-arm64-architectures) you should update the Serverless configuration file to package the `arm64` engine file, as follows:
+If you are deploying to [Lambda functions with ARM64 architecture](#lambda-functions-with-arm64-architectures) 您應該 update the Serverless configuration file to package the `arm64` engine file, as follows:
 
 ```code file=serverless.yml highlight=4;normal showLineNumbers
 package:
@@ -223,7 +223,7 @@ If you use `serverless-webpack`, you will need additional configuration so that 
 
 #### 1. Install webpack specific dependencies
 
-First, ensure the following webpack dependencies are installed:
+First, ensure 以下 webpack dependencies are installed:
 
 ```terminal
 npm install --save-dev webpack webpack-node-externals copy-webpack-plugin serverless-webpack
@@ -231,7 +231,7 @@ npm install --save-dev webpack webpack-node-externals copy-webpack-plugin server
 
 #### 2. Update `webpack.config.js`
 
-In your `webpack.config.js`, make sure that you set `externals` to `nodeExternals()` like the following:
+In your `webpack.config.js`, make sure that you set `externals` to `nodeExternals()` like 以下:
 
 ```javascript file=webpack.config.js highlight=1,5;normal; showLineNumbers
 const nodeExternals = require('webpack-node-externals')
@@ -267,15 +267,15 @@ module.exports = {
 }
 ```
 
-This plugin will allow you to copy your `schema.prisma` file into your bundled code. Prisma ORM requires that your `schema.prisma` be present in order make sure that queries are encoded and decoded according to your schema. In most cases, bundlers will not include this file by default and will cause your application to fail to run.
+This plugin will allow you to copy your `schema.prisma` file into your bundled code. Prisma ORM 需要 that your `schema.prisma` be present in order make sure that queries are encoded and decoded according to your schema. In most cases, bundlers will not include this file 預設情況下 and will cause your application to fail to run.
 
 :::info
 
-Depending on how your application is bundled, you may need to copy the schema to a location other than `./`. Use the `serverless package` command to package your code locally so you can review where your schema should be put.
+Depending on how your application is bundled, you may need to copy the schema to a location other than `./`. Use the `serverless package` command to package your code locally so 您可以 review where your schema should be put.
 
 :::
 
-Refer to the [Serverless Webpack documentation](https://www.serverless.com/plugins/serverless-webpack) for additional configuration.
+參閱 the [Serverless Webpack documentation](https://www.serverless.com/plugins/serverless-webpack) for additional configuration.
 
 #### 3. Update `serverless.yml`
 
@@ -289,9 +289,9 @@ custom:
         - prisma generate
 ```
 
-This will ensure that, after webpack bundles your code, the Prisma Client is generated according to your schema. Without this step, your app will fail to run.
+這將 ensure that, after webpack bundles your code, the Prisma Client is generated according to your schema. Without this step, your app will fail to run.
 
-Lastly, you will want to exclude [Prisma ORM query engines](/orm/more/under-the-hood/engines) that do not match the AWS Lambda runtime. Update your `serverless.yml` by adding the following script that makes sure only the required query engine, `rhel-openssl-1.0.x`, is included in the final packaged archive.
+Lastly, you will want to exclude [Prisma ORM query engines](/orm/more/under-the-hood/engines) that do not match the AWS Lambda runtime. Update your `serverless.yml` by adding 以下 script that makes sure only the required query engine, `rhel-openssl-1.0.x`, is included in the final packaged archive.
 
 ```yaml file=serverless.yml highlight=6;add showLineNumbers
 custom:
@@ -303,7 +303,7 @@ custom:
         -- find . -name "libquery_engine-*" -not -name "libquery_engine-rhel-openssl-*" | xargs rm
 ```
 
-If you are deploying to [Lambda functions with ARM64 architecture](#lambda-functions-with-arm64-architectures) you should update the `find` command to the following:
+If you are deploying to [Lambda functions with ARM64 architecture](#lambda-functions-with-arm64-architectures) 您應該 update the `find` command to 以下:
 
 ```yaml file=serverless.yml highlight=6;add showLineNumbers
 custom:
@@ -317,7 +317,7 @@ custom:
 
 #### 4. Wrapping up
 
-You can now re-package and re-deploy your application. To do so, run `serverless deploy`. Webpack output will show the schema being moved with `copy-webpack-plugin`:
+您可以 now re-package and re-deploy your application. To do so, run `serverless deploy`. Webpack output will show the schema being moved with `copy-webpack-plugin`:
 
 <CodeWithResult>
 <cmd>
@@ -356,7 +356,7 @@ Packing external modules: @prisma/client@^5.1.1
 
 While SST supports `.env` files, [it is not recommended](https://v2.sst.dev/config#should-i-use-configsecret-or-env-for-secrets). SST recommends using `Config` to access these environment variables in a secure way.
 
-The SST guide [available here](https://v2.sst.dev/config#overview) is a step-by-step guide to get started with `Config`. Assuming you have created a new secret called `DATABASE_URL` and have [bound that secret to your app](https://v2.sst.dev/config#bind-the-config), you can set up `PrismaClient` with the following:
+The SST guide [available here](https://v2.sst.dev/config#overview) is a step-by-step guide 開始使用 with `Config`. Assuming you have created a new secret called `DATABASE_URL` and have [bound that secret to your app](https://v2.sst.dev/config#bind-the-config), 您可以 set up `PrismaClient` with 以下:
 
 ```ts file=prisma.ts showLineNumbers
 import { PrismaClient } from './generated/client'

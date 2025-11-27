@@ -5,9 +5,9 @@ metaDescription: 'This page covers 如何 resolve large bundle sizes, slow build
 hide_table_of_contents: true
 ---
 
-If you encounter **large bundle sizes**, **slow builds**, or **deployment errors** related to Prisma’s Rust engine binaries, for example, in serverless or edge environments, the issue may be caused by the default native Rust query engine that ships with Prisma Client.
+If you encounter **large bundle sizes**, **slow builds**, or **deployment errors** related to Prisma’s Rust engine binaries, 例如, in serverless or edge environments, the issue may be caused by the default native Rust query engine that ships with Prisma Client.
 
-As of [v6.16.0](https://pris.ly/release/6.16.0), you can resolve these issues by removing the Rust-based engine binary from Prisma ORM by configuring your `generator` block as follows:
+As of [v6.16.0](https://pris.ly/release/6.16.0), 您可以 resolve these issues by removing the Rust-based engine binary from Prisma ORM by configuring your `generator` block as follows:
 
 ```prisma
 generator client {
@@ -18,7 +18,7 @@ generator client {
 ````
 
 :::note
-Note that you need to use a [driver adapter](/orm/overview/databases/database-drivers#driver-adapters) in this case.
+請注意 您需要 use a [driver adapter](/orm/overview/databases/database-drivers#driver-adapters) in this case.
 :::
 
 With this architecture:
@@ -34,4 +34,4 @@ This setup can help if you are:
 
 Visit [this page](/orm/prisma-client/setup-and-configuration/no-rust-engine) for complete setup instructions and supported databases. 
 
-Curious why we moved away from the Rust engine? Take a look at why we transitioned from Rust binary engines to an all-TypeScript approach for a faster, lighter Prisma ORM in this [blog post](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks).
+Curious why we moved away from the Rust engine? 查看 why we transitioned from Rust binary engines to an all-TypeScript approach for a faster, lighter Prisma ORM in this [blog post](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks).

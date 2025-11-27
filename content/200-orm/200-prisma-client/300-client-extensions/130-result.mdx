@@ -13,13 +13,13 @@ Prisma Client extensions are Generally Available from versions 4.16.0 and later.
 
 :::
 
-You can use the `result` [Prisma Client extensions](/orm/prisma-client/client-extensions) component type to add custom fields and methods to query results.
+您可以 use the `result` [Prisma Client extensions](/orm/prisma-client/client-extensions) component type 添加 custom fields and methods to query results.
 
 </TopBlock>
 
-Use the `$extends` [client-level method](/orm/reference/prisma-client-reference#client-methods) to create an _extended client_. An extended client is a variant of the standard Prisma Client that is wrapped by one or more extensions.
+Use the `$extends` [client-level method](/orm/reference/prisma-client-reference#client-methods) 建立 an _extended client_. An extended client is a variant of the standard Prisma Client that is wrapped by one or more extensions.
 
-To add a custom [field](#add-a-custom-field-to-query-results) or [method](#add-a-custom-method-to-the-result-object) to query results, use the following structure. In this example, we add the custom field `myComputedField` to the result of a `user` model query.
+添加 a custom [field](#add-a-custom-field-to-query-results) or [method](#add-a-custom-method-to-the-result-object) to query results, use 以下 structure. In this example, we add the custom field `myComputedField` to 結果 of a `user` model query.
 
 ```ts
 const prisma = new PrismaClient().$extends({
@@ -39,14 +39,14 @@ The parameters are as follows:
 
 - `name`: (optional) specifies a name for the extension that appears in error logs.
 - `result`: defines new fields and methods to the query results.
-- `needs`: an object which describes the dependencies of the result field.
+- `needs`: an object which describes the dependencies of 結果 field.
 - `compute`: a method that defines how the virtual field is computed when it is accessed.
 
 ## Add a custom field to query results
 
-You can use the `result` extension component to add fields to query results. These fields are computed at runtime and are type-safe.
+您可以 use the `result` extension component 添加 fields to query results. These fields are computed at runtime and are type-safe.
 
-In the following example, we add a new virtual field called `fullName` to the `user` model.
+In 以下範例, we add a new virtual field called `fullName` to the `user` model.
 
 ```ts
 const prisma = new PrismaClient().$extends({
@@ -74,7 +74,7 @@ In above example, the input `user` of `compute` is automatically typed according
 
 ## Re-use a computed field in another computed field
 
-The following example computes a user's title and full name in a type-safe way. `titleFullName` is a computed field that reuses the `fullName` computed field.
+以下範例 computes a user's title and full name in a type-safe way. `titleFullName` is a computed field that reuses the `fullName` computed field.
 
 ```ts
 const prisma = new PrismaClient()
@@ -107,8 +107,8 @@ const prisma = new PrismaClient()
 ### Considerations for fields
 
 - For performance reasons, Prisma Client computes results on access, not on retrieval.
-- You can only create computed fields that are based on scalar fields.
-- You can only use computed fields with `select` and you cannot aggregate them. For example:
+- 您可以 only create computed fields that are based on scalar fields.
+- 您可以 only use computed fields with `select` and 您可以not aggregate them. 例如：
 
   ```ts
   const user = await prisma.user.findFirst({
@@ -117,9 +117,9 @@ const prisma = new PrismaClient()
   console.log(user.fullName) // undefined
   ```
 
-## Add a custom method to the result object
+## Add a custom method to 結果 object
 
-You can use the `result` component to add methods to query results. The following example adds a new method, `save` to the result object.
+您可以 use the `result` component 添加 methods to query results. 以下範例 adds a new method, `save` to 結果 object.
 
 ```ts
 const prisma = new PrismaClient().$extends({
@@ -143,13 +143,13 @@ await user.save()
 
 ## Using `omit` query option with `result` extension component
 
-You can use the [`omit` (Preview) option](/orm/reference/prisma-client-reference#omit) with [custom fields](#add-a-custom-field-to-query-results) and fields needed by custom fields.
+您可以 use the [`omit` (Preview) option](/orm/reference/prisma-client-reference#omit) with [custom fields](#add-a-custom-field-to-query-results) and fields needed by custom fields.
 
 ### `omit` fields needed by custom fields from query result
 
 If you `omit` a field that is a dependency of a custom field, it will still be read from the database even though it will not be included in the query result.
 
-The following example omits the `password` field, which is a dependency of the custom field `sanitizedPassword`:
+以下範例 omits the `password` field, which is a dependency of the custom field `sanitizedPassword`:
 
 ```ts
 const xprisma = prisma.$extends({
@@ -172,13 +172,13 @@ const user = await xprisma.user.findFirstOrThrow({
 })
 ```
 
-In this case, although `password` is omitted from the result, it will still be queried from the database because it is a dependency of the `sanitizedPassword` custom field.
+In this case, although `password` is omitted from 結果, it will still be queried from the database because it is a dependency of the `sanitizedPassword` custom field.
 
 ### `omit` custom field and dependencies from query result
 
-To ensure omitted fields are not queried from the database at all, you must omit both the custom field and its dependencies.
+To ensure omitted fields are not queried from the database at all, 您必須 omit both the custom field and its dependencies.
 
-The following example omits both the custom field `sanitizedPassword` and the dependent `password` field:
+以下範例 omits both the custom field `sanitizedPassword` and the dependent `password` field:
 
 ```ts
 const xprisma = prisma.$extends({
@@ -201,10 +201,10 @@ const user = await xprisma.user.findFirstOrThrow({
   },
 })
 ```
-In this case, omitting both `password` and `sanitizedPassword` will exclude both from the result as well as prevent the `password` field from being read from the database.
+In this case, omitting both `password` and `sanitizedPassword` will exclude both from 結果 as well as prevent the `password` field from being read from the database.
 
 ## Limitation
-As of now, Prisma Client's result extension component does not support relation fields. This means that you cannot create custom fields or methods based on related models or fields in a relational relationship (e.g., user.posts, post.author). The needs parameter can only reference scalar fields within the same model. Follow [issue #20091 on GitHub](https://github.com/prisma/prisma/issues/20091).
+As of now, Prisma Client's result extension component does not support relation fields. This means that 您可以not create custom fields or methods based on related models or fields in a relational relationship (e.g., user.posts, post.author). The needs parameter can only reference scalar fields within the same model. Follow [issue #20091 on GitHub](https://github.com/prisma/prisma/issues/20091).
 
 
 ```ts

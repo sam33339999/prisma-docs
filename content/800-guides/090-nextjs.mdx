@@ -16,15 +16,15 @@ community_section: true
 <details>
 <summary>Questions answered in this page</summary>
 
-- How to set up Prisma with Next.js?
-- How to deploy Next.js with Prisma to Vercel?
-- How to handle migrations in production?
+- How 設定 Prisma with Next.js?
+- 如何 deploy Next.js with Prisma to Vercel?
+- 如何 handle migrations in production?
 
 </details>
 
-This guide shows you how to use Prisma with Next.js 15, a fullstack React framework. You'll learn how to create a [Prisma Postgres](/postgres/) instance, set up Prisma ORM with Next.js, handle migrations, and deploy your application to Vercel. 
+本指南向您展示如何 use Prisma with Next.js 15, a fullstack React framework. You'll 學習如何 create a [Prisma Postgres](/postgres/) instance, set up Prisma ORM with Next.js, handle migrations, and deploy your application to Vercel. 
 
-You can find a [deployment-ready example on GitHub](https://github.com/prisma/prisma-examples/blob/latest/orm/nextjs).
+您可以 find a [deployment-ready example on GitHub](https://github.com/prisma/prisma-examples/blob/latest/orm/nextjs).
 
 ## 前置需求
 - [Node.js 18+](https://nodejs.org)
@@ -32,7 +32,7 @@ You can find a [deployment-ready example on GitHub](https://github.com/prisma/pr
 
 ## 1. Set up your project
 
-From the directory where you want to create your project, run `create-next-app` to create a new Next.js app that you will be using for this guide.
+From the directory where you want 建立 your project, run `create-next-app` 建立 a new Next.js app that you will be using for this guide.
 
 ```terminal
 npx create-next-app@latest nextjs-prisma
@@ -64,7 +64,7 @@ cd nextjs-prisma
 
 ### 2.1. Install dependencies
 
-To get started with Prisma, you'll need to install a few dependencies:
+開始使用 with Prisma, you'll need 安裝 a few dependencies:
 
 ```terminal
 npm install prisma tsx @types/pg --save-dev
@@ -73,7 +73,7 @@ npm install @prisma/client @prisma/adapter-pg dotenv pg
 
 :::info
 
-If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. For more information, see [Database drivers](/orm/overview/databases/database-drivers).
+If you are using a different database provider (MySQL, SQL Server, SQLite), install the corresponding driver adapter package instead of `@prisma/adapter-pg`. 欲了解更多資訊, see [Database drivers](/orm/overview/databases/database-drivers).
 
 :::
 
@@ -86,7 +86,7 @@ npx prisma init --db --output ../app/generated/prisma
 You'll need to answer a few questions while setting up your Prisma Postgres database. Select the region closest to your location and a memorable name for your database like "My __________ Project"
 :::
 
-This will create:
+這將 create:
 
 - A `prisma` directory with a `schema.prisma` file.
 - A `prisma.config.ts` file for configuring Prisma
@@ -96,7 +96,7 @@ This will create:
 
 ### 2.2. Define your Prisma Schema
 
-In the `prisma/schema.prisma` file, add the following models:
+In the `prisma/schema.prisma` file, add 以下 models:
 
 ```prisma file=prisma/schema.prisma
 generator client {
@@ -127,7 +127,7 @@ model Post {
 //add-end
 ```
 
-This creates two models: `User` and `Post`, with a one-to-many relationship between them.
+這會建立 two models: `User` and `Post`, with a one-to-many relationship between them.
 
 ### 2.3 Add `dotenv` to `prisma.config.ts`
 
@@ -153,7 +153,7 @@ export default defineConfig({
 
 ### 2.4. Run migrations and generate Prisma Client
 
-Now, run the following command to create the database tables:
+Now, run 以下 command 建立 the database tables:
 
 ```terminal
 npx prisma migrate dev --name init
@@ -226,7 +226,7 @@ export async function main() {
 main();
 ```
 
-Now, tell Prisma how to run this script by updating your `prisma.config.ts`:
+Now, tell Prisma 如何 run this script by updating your `prisma.config.ts`:
 
 ```typescript file=prisma.config.ts
 import 'dotenv/config'
@@ -249,7 +249,7 @@ export default defineConfig({
 
 :::warning
 
-Before starting the development server, note that if you are using Next.js v15.2.0 or v15.2.1, do not use Turbopack as there is a known [issue](https://github.com/vercel/next.js/issues/76497). Remove Turbopack from your dev script by updating your `package.json`
+Before starting the development server, 請注意 if you are using Next.js v15.2.0 or v15.2.1, do not use Turbopack as there is a known [issue](https://github.com/vercel/next.js/issues/76497). Remove Turbopack from your dev script by updating your `package.json`
 ```json file=package.json
 "script":{
     //delete-start
@@ -280,7 +280,7 @@ npx prisma studio
 
 ### 2.6 Set up Prisma Client
 
-Now that you have a database with some initial data, you can set up Prisma Client and connect it to your database.
+Now that you have a database with some initial data, 您可以 set up Prisma Client and connect it to your database.
 
 At the root of your project, create a new `lib` directory and add a `prisma.ts` file to it.
 
@@ -288,7 +288,7 @@ At the root of your project, create a new `lib` directory and add a `prisma.ts` 
 mkdir -p lib && touch lib/prisma.ts
 ```
 
-Now, add the following code to your `lib/prisma.ts` file:
+Now, add 以下 code to your `lib/prisma.ts` file:
 
 ```typescript file=lib/prisma.ts showLineNumbers
 //add-start
@@ -319,11 +319,11 @@ You'll use this client in the next section to run your first queries.
 
 ## 3. Query your database with Prisma ORM
 
-Now that you have an initialized Prisma Client, a connection to your database, and some initial data, you can start querying your data with Prisma ORM.
+Now that you have an initialized Prisma Client, a connection to your database, and some initial data, 您可以 start querying your data with Prisma ORM.
 
 In this example, you'll make the "home" page of your application display all of your users.
 
-Open the `app/page.tsx` file and replace the existing code with the following:
+Open the `app/page.tsx` file and replace the existing code with 以下:
 
 ```tsx file=app/page.tsx
 export default async function Home() {
@@ -374,14 +374,14 @@ Now your home page is dynamic and will display the users from your database.
 If you want to see what happens when data is updated, you could:
 
 - update your `User` table via a SQL browser of your choice
-- change your `seed.ts` file to add more users
+- change your `seed.ts` file 添加 more users
 - change the call to `prisma.user.findMany` to re-order the users, filter the users, or similar.
 
-Just reload the page and you'll see the changes.
+Just reload the page and you'll 參見 changes.
 
 ## 4. Add a new Posts list page
 
-You have your home page working, but you should add a new page that displays all of your posts. 
+You have your home page working, but 您應該 add a new page that displays all of your posts. 
 
 First create a new `posts` directory in the `app` directory and create a new `page.tsx` file inside of it.
 
@@ -389,7 +389,7 @@ First create a new `posts` directory in the `app` directory and create a new `pa
 mkdir -p app/posts && touch app/posts/page.tsx
 ```
 
-Second, add the following code to the `app/posts/page.tsx` file:
+Second, add 以下 code to the `app/posts/page.tsx` file:
 
 ```tsx file=app/posts/page.tsx
 import prisma from "@/lib/prisma";
@@ -440,9 +440,9 @@ export default async function Posts() {
 }
 ```
 
-This works similarly to the home page, but instead of displaying users, it displays posts. You can also see that you've used `include` in your Prisma Client query to fetch the author of each post so you can display the author's name.
+This works similarly to the home page, but instead of displaying users, it displays posts. 您可以 also see that you've used `include` in your Prisma Client query to fetch the author of each post so 您可以 display the author's name.
 
-This "list view" is one of the most common patterns in web applications. You're going to add two more pages to your application which you'll also commonly need: a "detail view" and a "create view".
+This "list view" is one of the most common patterns in web applications. You're going 添加 two more pages to your application which you'll also commonly need: a "detail view" and a "create view".
 
 ## 5. Add a new Posts detail page
 
@@ -454,7 +454,7 @@ In the `posts` directory, create a new `[id]` directory and a new `page.tsx` fil
 mkdir -p "app/posts/[id]" && touch "app/posts/[id]/page.tsx"
 ```
 
-This page will display a single post's title, content, and author. Just like your other pages, add the following code to the `app/posts/new/page.tsx` file:
+This page will display a single post's title, content, and author. Just like your other pages, add 以下 code to the `app/posts/new/page.tsx` file:
 
 ```tsx file=app/posts/[id]/page.tsx
 import prisma from "@/lib/prisma";
@@ -513,11 +513,11 @@ There's a lot of changes here, so let's break it down:
 - In case the post doesn't exist (maybe it was deleted or maybe you typed a wrong ID), you call `notFound()` to display a 404 page.
 - You then display the post's title, content, and author. If the post doesn't have content, you display a placeholder message.
 
-It's not the prettiest page, but it's a good start. Try it out by navigating to `localhost:3000/posts/1` and `localhost:3000/posts/2`. You can also test the 404 page by navigating to `localhost:3000/posts/999`.
+It's not the prettiest page, but it's a good start. Try it out by navigating to `localhost:3000/posts/1` and `localhost:3000/posts/2`. 您可以 also test the 404 page by navigating to `localhost:3000/posts/999`.
 
 ## 6. Add a new Posts create page
 
-To round out your application, you'll add a "create" page for posts. This will let you write your own posts and save them to the database. 
+To round out your application, you'll add a "create" page for posts. 這將 let you write your own posts and save them to the database. 
 
 As with the other pages, you'll start with a static page and then update it to be dynamic.
 
@@ -525,7 +525,7 @@ As with the other pages, you'll start with a static page and then update it to b
 mkdir -p app/posts/new && touch app/posts/new/page.tsx
 ```
 
-Now, add the following code to the `app/posts/new/page.tsx` file:
+Now, add 以下 code to the `app/posts/new/page.tsx` file:
 
 ```tsx file=app/posts/new/page.tsx
 import Form from "next/form";
@@ -653,7 +653,7 @@ Try it out by navigating to `localhost:3000/posts/new` and submitting the form.
 
 ## 7. Deploy your application to Vercel (Optional)
 
-The quickest way to deploy your application to Vercel is to use the [Vercel CLI](https://vercel.com/docs/cli).
+The quickest way to deploy your application to Vercel is 使用 the [Vercel CLI](https://vercel.com/docs/cli).
 
 First, install the Vercel CLI:
 
@@ -667,7 +667,7 @@ Then, run `vercel login` to log in to your Vercel account.
 vercel login
 ```
 
-Before you deploy, you also need to tell Vercel to make sure that the Prisma Client is generated. You can do this by adding a `postinstall` script to your `package.json` file.
+Before you deploy, you also need to tell Vercel to make sure that the Prisma Client is generated. 您可以 do this by adding a `postinstall` script to your `package.json` file.
 
 ```json file=package.json
 {
@@ -709,24 +709,24 @@ Before you deploy, you also need to tell Vercel to make sure that the Prisma Cli
 ```
 
 
-After this change, you can deploy your application to Vercel by running `vercel`.
+After this change, 您可以 deploy your application to Vercel by running `vercel`.
 
 ```terminal
 vercel
 ```
 
-After the deployment is complete, you can visit your application at the URL that Vercel provides. Congratulations, you've just deployed a Next.js application with Prisma ORM!
+After the deployment is complete, 您可以 visit your application at the URL that Vercel provides. Congratulations, you've just deployed a Next.js application with Prisma ORM!
 
 ## 8. 後續步驟
 
-Now that you have a working Next.js application with Prisma ORM, here are some ways you can expand and improve your application:
+Now that you have a working Next.js application with Prisma ORM, here are some ways 您可以 expand and improve your application:
 
 - Add authentication to protect your routes
 - Add the ability to edit and delete posts
 - Add comments to posts
 - Use [Prisma Studio](/orm/tools/prisma-studio) for visual database management
 
-For more information:
+欲了解更多資訊:
 - [Prisma ORM documentation](/orm)
 - [Prisma Client API reference](/orm/prisma-client)
 - [Next.js documentation](https://nextjs.org/docs)

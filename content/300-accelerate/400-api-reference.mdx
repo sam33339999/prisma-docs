@@ -6,7 +6,7 @@ tocDepth: 3
 toc: true
 ---
 
-The Accelerate API reference documentation is based on the following schema:
+The Accelerate API reference documentation is based on 以下 schema:
 
 ```prisma
 model User {
@@ -20,11 +20,11 @@ All example are based on the `User` model.
 
 ## `cacheStrategy`
 
-With the Accelerate extension for Prisma Client, you can use the `cacheStrategy` parameter for model queries and use the [`ttl`](/postgres/database/caching#time-to-live-ttl) and [`swr`](/postgres/database/caching#stale-while-revalidate-swr) parameters to define a cache strategy for Accelerate. The Accelerate extension requires that you install Prisma Client version `4.10.0`.
+With the Accelerate extension for Prisma Client, 您可以 use the `cacheStrategy` parameter for model queries and use the [`ttl`](/postgres/database/caching#time-to-live-ttl) and [`swr`](/postgres/database/caching#stale-while-revalidate-swr) parameters to define a cache strategy for Accelerate. The Accelerate extension 需要 that you install Prisma Client version `4.10.0`.
 
 ### Options
 
-The `cacheStrategy` parameter takes an option with the following keys:
+The `cacheStrategy` parameter takes an option with 以下 keys:
 
 | Option | Example | Type  | Required | Description                                 |
 | ------ | ------- | ----- | -------- | ------------------------------------------- |
@@ -55,7 +55,7 @@ await prisma.user.findMany({
 ```
 ### Supported Prisma Client operations
 
-The following is a list of all read query operations that support `cacheStrategy`:
+以下 is a list of all read query operations that support `cacheStrategy`:
 
 - [`findUnique()`](/orm/reference/prisma-client-reference#findunique)
 - [`findUniqueOrThrow()`](/orm/reference/prisma-client-reference#finduniqueorthrow)
@@ -119,7 +119,7 @@ interface AccelerateInfo {
 
 ## `$accelerate.invalidate`
 
-You can invalidate the cache using the [`$accelerate.invalidate` API](/accelerate/).
+您可以 invalidate the cache using the [`$accelerate.invalidate` API](/accelerate/).
 
 :::note
 
@@ -148,7 +148,7 @@ await prisma.user.findMany({
 });
 ```
 
-You need to provide the cache tag in the `$accelerate.invalidate` API:
+您需要 provide the cache tag in the `$accelerate.invalidate` API:
 
 ```ts
 try {
@@ -171,12 +171,12 @@ try {
 ```
 
 :::note
-You can invalidate up to 5 tags per call.
+您可以 invalidate up to 5 tags per call.
 :::
 
 ## `$accelerate.invalidateAll`
 
-You can invalidate the entire cache using the `$accelerate.invalidateAll` API.
+您可以 invalidate the entire cache using the `$accelerate.invalidateAll` API.
 
 ### Example
 
@@ -231,9 +231,9 @@ This clears cache for the entire environment—use with care.
 
 ## Providing a Custom Fetch Implementation
 
-Starting from Accelerate version `2.0.0`, you can provide a custom implementation of the fetch function when extending the Prisma Client with Accelerate. This allows you greater flexibility and control over how HTTP requests are handled within your application.
+Starting from Accelerate version `2.0.0`, 您可以 provide a custom implementation of the fetch function when extending the Prisma Client with Accelerate. This allows you greater flexibility and control over how HTTP requests are handled within your application.
 
-To pass a custom fetch implementation, you can use the following pattern:
+To pass a custom fetch implementation, 您可以 use 以下 pattern:
 
 ```ts
 const myFetch = (input: URL, init?: RequestInit): Promise<Response> => {
@@ -248,4 +248,4 @@ const prisma = new PrismaClient().$extends(withAccelerate({ fetch: myFetch }));
 
 Prisma Accelerate-related errors start with `P6xxx`.
 
-You can find the full error code reference for Prisma Accelerate [here](/orm/reference/error-reference#prisma-accelerate).
+您可以 find the full error code reference for Prisma Accelerate [here](/orm/reference/error-reference#prisma-accelerate).

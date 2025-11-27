@@ -10,7 +10,7 @@ community_section: true
 
 ## Introduction
 
-This guide shows you how to write guides for Prisma ORM documentation. It covers the required structure, formatting, and style conventions to ensure consistency across all guides. You'll learn about frontmatter requirements, section organization, and writing style.
+本指南向您展示如何 write guides for Prisma ORM documentation. It covers the required structure, formatting, and style conventions to ensure consistency across all guides. You'll 學習關於 frontmatter 需求, section organization, and writing style.
 
 ## 前置需求
 
@@ -25,7 +25,7 @@ Before writing a guide, make sure you have:
 
 ### Required frontmatter
 
-Every guide must include the following frontmatter at the top of the file:
+Every guide must include 以下 frontmatter at the top of the file:
 
 ```mdx
 ---
@@ -38,9 +38,9 @@ community_section: true
 ---
 ```
 
-- `title`: Should be action-oriented and start with "How to"
+- `title`: Should be action-oriented and start with "如何"
 - `metaTitle`: Usually matches the title, used for SEO
-- `description`: A one-sentence summary starting with "Learn how to", used for SEO
+- `description`: A one-sentence summary starting with "學習如何", used for SEO
 - `sidebar_label`: A concise label for the sidebar navigation
 - `image`: A unique header image for social media sharing (coordinate with the design team)
 
@@ -51,9 +51,9 @@ All frontmatter fields should be in sentence case, except for `image`.
 1. **Introduction**
    - Brief overview of what the guide covers
    - What the reader will learn/accomplish
-   - Link to any example repositories or related resources
+   - Link to any example repositories or 相關資源
 
-2. **Prerequisites**
+2. **前置需求**
    - Required software/tools with version numbers
    - Required knowledge/experience
    - Any necessary accounts or access
@@ -64,10 +64,10 @@ All frontmatter fields should be in sentence case, except for `image`.
    - H3 (`###`) for subsections
    - Each step should build on previous steps
 
-4. **Next steps**
+4. **後續步驟**
    - What to do after completing the guide
    - Related guides or documentation
-   - Links to additional resources
+   - Links 添加itional resources
    - Community resources (e.g., Discord)
 
 ## Writing style and voice
@@ -81,15 +81,15 @@ All frontmatter fields should be in sentence case, except for `image`.
 - Avoid jargon and explain technical terms
 - Be concise but thorough
 
-### Code examples
+### 程式碼範例
 
-- Include complete, runnable code examples
+- Include complete, runnable 程式碼範例
 - Use syntax highlighting with language specification
 - Include file paths in code block metadata
 - Use comments to explain complex parts
 - Show both the problem and solution when applicable
 
-Example:
+範例：
 
 ```typescript file=src/index.ts
 // Import required dependencies
@@ -131,7 +131,7 @@ const prisma = new PrismaClient({
 Migration guides follow a specific pattern, as seen in guides like [Migrate from Sequelize](/guides/migrate-from-sequelize) and [Migrate from Mongoose](/guides/migrate-from-mongoose):
 
 1. Clear introduction explaining the migration path
-2. Prerequisites specific to both ORMs
+2. 前置需求 specific to both ORMs
 3. Step-by-step migration process
 4. Code comparison between ORMs
 5. Practical examples of common operations
@@ -159,7 +159,7 @@ Integration guides, like [Using Prisma ORM with Cloudflare D1](/guides/cloudflar
    - Explain why certain approaches are recommended
 
 3. **Consider the context**
-   - Explain prerequisites clearly
+   - Explain 前置需求 clearly
    - Don't assume prior knowledge
    - Link to foundational concepts within or outside of our docs when needed
 
@@ -179,7 +179,7 @@ This is a template for a guide. It is to standarize the format of the guide, the
 
 Before you submit a PR, run through the checklist and make sure to read all Dev Note's and remove them.
 
-To get the guide into the sidebar, you need to add the following to the `sidebars.ts` file:
+To get the guide into the sidebar, 您需要 add 以下 to the `sidebars.ts` file:
 
 ```typescript file=sidebars.ts
 {
@@ -230,7 +230,7 @@ DEVELOPER CHECKLIST - Remove upon completion
 
 - [ ] Project creation options should be detailed in an info admonition in this format:
 ```markdown
-markdown - *Which package manager would you like to use?* `npm` 
+markdown - *Which package manager would you like 使用?* `npm` 
 ```
 - [ ] Ensure the appropriate admonitions (note, warning, tip) are used for important information.
 
@@ -534,13 +534,13 @@ Now that you have a working __________ app connected to a Prisma Postgres databa
 
 ## 後續步驟
 
-After reading this guide, you can:
+After reading this guide, 您可以:
 
 - Start writing your own guide using the provided structure
 - Review existing guides for reference
 - Request a unique header image for your guide
 - Submit your guide for review
 
-For more information:
+欲了解更多資訊:
 - [Prisma documentation style guide](/about/style-guide)
 - [Documentation components](/about/docs-components)

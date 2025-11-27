@@ -9,13 +9,13 @@ slugSwitch: /orm/more/upgrade-guides/upgrade-from-prisma-1/schema-incompatibilit
 ---
 
 :::info Quick summary
-This guide explains common schema incompatibility issues you may encounter when upgrading from Prisma 1 to Prisma ORM (v2+) with PostgreSQL, and how to address them.
+本指南說明 common schema incompatibility issues you may encounter when upgrading from Prisma 1 to Prisma ORM (v2+) with PostgreSQL, and 如何 address them.
 :::
 
  
 ## 概述
 
-Each section on this page describes a potential problem when upgrading from Prisma 1 to Prisma ORM 2._x_ and later and explains the available workarounds.
+Each section on 本頁描述 a potential problem when upgrading from Prisma 1 to Prisma ORM 2._x_ and later and explains the available workarounds.
 
 ## Default values aren't represented in 資料庫
 
@@ -58,14 +58,14 @@ Because the `DEFAULT` constraint has not been added to the database when mapping
 
 #### Manually add a `DEFAULT` constraint to the 資料庫 column
 
-You can alter the column to add the `DEFAULT` constraint as follows:
+您可以 alter the column 添加 the `DEFAULT` constraint as follows:
 
 ```sql
 ALTER TABLE "Post"
 	ALTER COLUMN published SET DEFAULT false;
 ```
 
-After this adjustment, you can re-introspect your database and the `@default` attribute will be added to the `published` field:
+After this adjustment, 您可以 re-introspect your database and the `@default` attribute will be added to the `published` field:
 
 ```prisma line-number file=schema.prisma highlight=3;normal showLineNumbers
 model Post {
@@ -77,7 +77,7 @@ model Post {
 
 #### Manually add a `@default` attribute to the Prisma 模型
 
-You can add the `@default` attribute to the Prisma model:
+您可以 add the `@default` attribute to the Prisma model:
 
 ```prisma line-number file=schema.prisma highlight=3;add showLineNumbers
 model Post {
@@ -87,7 +87,7 @@ model Post {
 }
 ```
 
-If the `@default` attribute is set in the Prisma schema and you run `prisma generate`, the resulting Prisma Client code will generate the specified default values at runtime (similar to what the Prisma 1 server did in Prisma 1).
+If the `@default` attribute is set in the Prisma schema and you run `prisma generate`, 結果ing Prisma Client code will generate the specified default values at runtime (similar to what the Prisma 1 server did in Prisma 1).
 
 ## Generated CUIDs as ID values aren't represented in 資料庫
 
@@ -125,7 +125,7 @@ Because there's no indication of the CUID behavior in the database, Prisma ORM's
 
 ### Workaround
 
-As a workaround, you can manually add the `@default(cuid())` attribute to the Prisma model:
+As a workaround, 您可以 manually add the `@default(cuid())` attribute to the Prisma model:
 
 ```prisma line-number file=schema.prisma highlight=2;add showLineNumbers
 model Post {
@@ -134,9 +134,9 @@ model Post {
 }
 ```
 
-If the `@default` attribute is set in the Prisma schema and you run `prisma generate`, the resulting Prisma Client code will generate the specified default values at runtime (similar to what the Prisma 1 server did in Prisma 1).
+If the `@default` attribute is set in the Prisma schema and you run `prisma generate`, 結果ing Prisma Client code will generate the specified default values at runtime (similar to what the Prisma 1 server did in Prisma 1).
 
-Note that you'll have to re-add the attribute after each introspection because introspection removes it (as the previous version of the Prisma schema is overwritten)!
+請注意 you'll have to re-add the attribute after each introspection because introspection removes it (as the previous version of the Prisma schema is overwritten)!
 
 ## `@createdAt` isn't represented in 資料庫
 
@@ -177,14 +177,14 @@ model Post {
 
 #### Manually add `DEFAULT CURRENT_TIMESTAMP` to the 資料庫 column
 
-You can alter the column to add the `DEFAULT` constraint as follows:
+您可以 alter the column 添加 the `DEFAULT` constraint as follows:
 
 ```sql
 ALTER TABLE "Post"
 	ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP;
 ```
 
-After this adjustment, you can re-introspect your database and the `@default` attribute will be added to the `createdAt` field:
+After this adjustment, 您可以 re-introspect your database and the `@default` attribute will be added to the `createdAt` field:
 
 ```prisma file=schema.prisma showLineNumbers
 model Post {
@@ -195,7 +195,7 @@ model Post {
 
 #### Manually add the `@default(now())` attribute to the Prisma 模型
 
-As a workaround, you can manually add the `@default(now())` attribute to the Prisma model:
+As a workaround, 您可以 manually add the `@default(now())` attribute to the Prisma model:
 
 ```prisma line-number file=schema.prisma highlight=3;normal
 model Post {
@@ -205,9 +205,9 @@ model Post {
 }
 ```
 
-If the `@default` attribute is set in the Prisma schema and you run `prisma generate`, the resulting Prisma Client code will generate the specified default values at runtime (similar to what the Prisma 1 server did in Prisma 1).
+If the `@default` attribute is set in the Prisma schema and you run `prisma generate`, 結果ing Prisma Client code will generate the specified default values at runtime (similar to what the Prisma 1 server did in Prisma 1).
 
-Note that you'll have to re-add the attribute after each introspection because introspection removes it (as the previous version of the Prisma schema is overwritten)!
+請注意 you'll have to re-add the attribute after each introspection because introspection removes it (as the previous version of the Prisma schema is overwritten)!
 
 ## `@updatedAt` isn't represented in 資料庫
 
@@ -248,7 +248,7 @@ model Post {
 
 #### Manually add the `@updatedAt` attribute to the Prisma 模型
 
-As a workaround, you can manually add the `@updatedAt` attribute to the Prisma model:
+As a workaround, 您可以 manually add the `@updatedAt` attribute to the Prisma model:
 
 ```prisma line-number file=schema.prisma highlight=3;add
 model Post {
@@ -258,9 +258,9 @@ model Post {
 }
 ```
 
-If the `@updatedAt` attribute is set in the Prisma schema and you run `prisma generate`, the resulting Prisma Client code will automatically generate values for this column when an existing record is updated (similar to what the Prisma 1 server did in Prisma 1).
+If the `@updatedAt` attribute is set in the Prisma schema and you run `prisma generate`, 結果ing Prisma Client code will automatically generate values for this column when an existing record is updated (similar to what the Prisma 1 server did in Prisma 1).
 
-Note that you'll have to re-add the attribute after each introspection because introspection removes it (as the previous version of the Prisma schema is overwritten)!
+請注意 you'll have to re-add the attribute after each introspection because introspection removes it (as the previous version of the Prisma schema is overwritten)!
 
 ## Inline 1-1 relations are recognized as 1-n (missing `UNIQUE` constraint)
 
@@ -286,7 +286,7 @@ type Profile {
 }
 ```
 
-Note that omitting the `@relation` directive in this case would result in the same behavior because `link: INLINE` is the _default_ for 1-1 relations.
+請注意 omitting the `@relation` directive in this case would result in the same behavior because `link: INLINE` is the _default_ for 1-1 relations.
 
 #### Prisma 1 generated SQL 遷移
 
@@ -323,14 +323,14 @@ Because there's no `UNIQUE` constraint defined on the `user` column (which repre
 
 #### Manually add `UNIQUE` constraint to the foreign key column
 
-You can alter the foreign key column to add the `UNIQUE` constraint as follows:
+您可以 alter the foreign key column 添加 the `UNIQUE` constraint as follows:
 
 ```sql
 ALTER TABLE "Profile"
   ADD CONSTRAINT userId_unique UNIQUE ("user");
 ```
 
-After this adjustment, you can re-introspect your database and the 1-1 relation will be properly recognized:
+After this adjustment, 您可以 re-introspect your database and the 1-1 relation will be properly recognized:
 
 ```prisma line-number file=schema.prisma highlight=3;normal
 model User {
@@ -410,7 +410,7 @@ Because the relation table that was created by Prisma 1 uses the same [conventio
 
 ### Workaround
 
-As a workaround, you can migrate the data into a structure that's compatible with Prisma ORM's 1-n relation:
+As a workaround, 您可以 migrate the data into a structure that's 相容於 Prisma ORM's 1-n relation:
 
 1. Create new column `authorId` on the `Post` table. This column should be a _foreign key_ that references the `id` field of the `User` table:
    ```sql
@@ -434,7 +434,7 @@ As a workaround, you can migrate the data into a structure that's compatible wit
    DROP TABLE "_PostToUser";
    ```
 
-After that you can introspect your database and the relation will now be recognized as 1-n:
+After that 您可以 introspect your database and the relation will now be recognized as 1-n:
 
 ```prisma line-number file=schema.prisma highlight=3,8,9;normal
 model User {
@@ -489,13 +489,13 @@ model User {
 
 ### Workaround
 
-You can manually change the type of the column to `JSON`
+您可以 manually change the type of the column to `JSON`
 
 ```sql
 ALTER TABLE "User" ALTER COLUMN "jsonData" TYPE JSON  USING "jsonData"::json;
 ```
 
-After this adjustment, you can re-introspect your database and the field will now be recognized as `Json`:
+After this adjustment, 您可以 re-introspect your database and the field will now be recognized as `Json`:
 
 ```prisma line-number file=schema.prisma highlight=3;normal showLineNumbers
 model User {
@@ -547,7 +547,7 @@ model User {
 
 ### Workaround
 
-You can manually turn the `role` column into an enum with your desired values:
+您可以 manually turn the `role` column into an enum with your desired values:
 
 1. Create an `enum` in your database that mirrors the `enum` you defined in the Prisma 1 datamodel:
    ```sql
@@ -610,7 +610,7 @@ model User {
 
 ### Workaround
 
-You can manually turn the `VARCHAR(25)` columns into `VARCHAR(30)`:
+您可以 manually turn the `VARCHAR(25)` columns into `VARCHAR(30)`:
 
 ```sql
 ALTER TABLE "User" ALTER COLUMN "id" SET DATA TYPE character varying(30);
@@ -622,9 +622,9 @@ ALTER TABLE "User" ALTER COLUMN "id" SET DATA TYPE character varying(30);
 
 ### Problem
 
-In Prisma 1, you can define lists of _scalar_ types on your models. Under the hood, this is implemented with an extra table that keeps track of the values in the list.
+In Prisma 1, 您可以 define lists of _scalar_ types on your models. Under the hood, this is implemented with an extra table that keeps track of the values in the list.
 
-To remove the approach with the extra table which incurred hidden performance costs, Prisma ORM 2._x_ and later versions only support scalar lists only when they're natively supported by the database you use. At the moment, only [PostgreSQL supports scalar lists (arrays) natively](https://www.postgresql.org/docs/9.1/arrays.html).
+移除 the approach with the extra table which incurred hidden performance costs, Prisma ORM 2._x_ and later versions only support scalar lists only when they're natively 支援 the database you use. At the moment, only [PostgreSQL supports scalar lists (arrays) natively](https://www.postgresql.org/docs/9.1/arrays.html).
 
 With PostgreSQL, you therefore can keep using scalar lists in Prisma ORM 2._x_ and later versions, but you'll need to perform a data migration to transfer the data from the extra table from Prisma 1 into an actual PostgreSQL array.
 
@@ -673,7 +673,7 @@ model User_coinflips {
 }
 ```
 
-Note that you can now generate Prisma Client and you'll be able to access the data from the scalar lists through the extra table. PostgreSQL users can alternatively migrate the data into a native PostgreSQL array and continue to benefit from the slicker Prisma Client API for scalar lists (read the section below for more info).
+請注意 您可以 now generate Prisma Client and you'll be able to access the data from the scalar lists through the extra table. PostgreSQL users can alternatively migrate the data into a native PostgreSQL array and continue to benefit from the slicker Prisma Client API for scalar lists (read the section below for more info).
 
 <details>
 
@@ -711,7 +711,7 @@ This is the `result of the query:
 }
 ```
 
-To access just the boolean values from the list, you can `map` over the `coinflips` on `user` as follows:
+To access just the boolean values from the list, 您可以 `map` over the `coinflips` on `user` as follows:
 
 ```ts
 const currentCoinflips = user!.coinflips.map((cf) => cf.value)
@@ -729,11 +729,11 @@ Here's the value of `currentCoinflips` after the call to `map`:
 
 ### Workaround
 
-The following workaround is only available for PostgreSQL users!
+以下 workaround is only available for PostgreSQL users!
 
-As scalar lists (i.e. [arrays](https://www.postgresql.org/docs/9.1/arrays.html)) are available as a native PostgreSQL feature, you can keep using the same notation of `coinflips: Boolean[]` in your Prisma schema.
+As scalar lists (i.e. [arrays](https://www.postgresql.org/docs/9.1/arrays.html)) are available as a native PostgreSQL feature, 您可以 keep using the same notation of `coinflips: Boolean[]` in your Prisma schema.
 
-However, in order to do so you need to manually migrate the underlying data from the `User_coinflips` table into a PostgreSQL array. Here's how you can do that:
+However, in order to do so 您需要 manually migrate the underlying data from the `User_coinflips` table into a PostgreSQL array. Here's how 您可以 do that:
 
 1. Add the new `coinflips` column to the `User` tables:
    ```sql
@@ -750,12 +750,12 @@ However, in order to do so you need to manually migrate the underlying data from
    ) t
    where t."nodeId" = "User"."id";
    ```
-1. To cleanup, you can delete the `User_coinflips` table:
+1. To cleanup, 您可以 delete the `User_coinflips` table:
    ```sql
    DROP TABLE "User_coinflips";
    ```
 
-You can now introspect your database and the `coinflips` field will be represented as an array in your new Prisma schema:
+您可以 now introspect your database and the `coinflips` field will be represented as an array in your new Prisma schema:
 
 ```prisma file=schema.prisma showLineNumbers
 model User {
@@ -764,7 +764,7 @@ model User {
 }
 ```
 
-You can keep using Prisma Client as before:
+您可以 keep using Prisma Client as before:
 
 ```ts
 const user = await prisma.user.findUnique({
@@ -772,7 +772,7 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-This is the result from the API call:
+This is 結果 from the API call:
 
 ```js
 {

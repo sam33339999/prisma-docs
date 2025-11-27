@@ -14,17 +14,17 @@ Common questions about how Prisma Postgres works, how queries are billed, and ho
 
 ### Can I use Prisma Postgres without Prisma ORM?  
 
-Yes, you can use Prisma Postgres with any database library or tool via a [direct connection](/postgres/database/direct-connections).
+Yes, 您可以 use Prisma Postgres with any database library or tool via a [direct connection](/postgres/database/direct-connections).
 
 ### How do I switch from GitHub login to email and password login?
 
 If you previously signed up using GitHub and want to switch to email and password login, follow these steps:
 
 1. Verify Your GitHub Email Address
-    - Check the primary email address associated with your GitHub account (e.g., from your GitHub profile or notification settings).
+    - Check 主要 email address associated with your GitHub account (e.g., from your GitHub profile or notification settings).
 2. Create a New Email/Password Account
     - Go to the email/password sign-up page.
-    - Use the _same email address_ linked to your GitHub account to create the new account.
+    - Use the _same email address_ linked to your GitHub account 建立 the new account.
     - Our system will automatically connect your new email/password account to your existing data.
 3. Test Your Login
     - Log out and try logging in with your email and the password you just created.
@@ -36,16 +36,16 @@ If you encounter any issues, please contact our support team for help linking yo
 
 If you add the Prisma Client extension for Accelerate to an existing project that is currently open in VS Code, the editor might not immediately recognize the `$extends` method.
 
-This might be an issue with the TypeScript server not yet recognizing the regenerated Prisma Client. To resolve this, you need to restart TypeScript.
+This might be an issue with the TypeScript server not yet recognizing the regenerated Prisma Client. To resolve this, 您需要 restart TypeScript.
 
-1. In VS Code, open the Command Palette. You can do so when you press F1 or select **View** > **Command Palette**.
+1. In VS Code, open the Command Palette. 您可以 do so when you press F1 or select **View** > **Command Palette**.
 2. Enter `typescript` and select and run the **TypeScript: Restart TS server** command.
 
 VS Code should now recognize the `$extends` method.
 
-## What regions is Prisma Postgres available in?
+## What regions is Prisma Postgres 可用於?
 
-Prisma Postgres is currently available in the following regions:
+Prisma Postgres is currently 可用於 以下 regions:
 
 | Region Code      | Location       |
 | ---------------- | -------------- |
@@ -76,13 +76,13 @@ No, cost for Prisma Postgres is based solely on the _number of operations_, not 
 
 Whether a query takes 10ms or 10sec to execute, its pricing impact remains the same.
 
-### How does pricing differ between using Prisma ORM and direct TCP connections?
+### 如何 pricing differ between using Prisma ORM and direct TCP connections?
 
 The fundamental principle of operations-based pricing remains the same for Prisma ORM and [direct TCP connection](/postgres/database/direct-connections). However, depending on whether you use Prisma ORM or direct SQL to interact with your database, an operation is something different:
 - when using Prisma ORM: a query sent with Prisma Client (e.g. `prisma.user.findMany()`)
 - when using another tool: a SQL query sent via the direct connection (e.g. `SELECT * from "User"`)
 
-Note that a single Prisma ORM query may translate into multiple SQL queries which may make using Prisma ORM more economical than direct SQL.
+請注意 a single Prisma ORM query may translate into multiple SQL queries which may make using Prisma ORM more economical than direct SQL.
 
 ### Do read and write 查詢 cost the same?
 
@@ -94,11 +94,11 @@ Yes, a query like `SELECT 1` counts as an operation and will be billed according
 
 ### How can I estimate the number of operations in Prisma ORM?
 
-You can estimate your operation usage in Prisma ORM by integrating an application performance monitoring tool like Prometheus. 
+您可以 estimate your operation usage in Prisma ORM by integrating an application performance monitoring tool like Prometheus. 
 
 ### What strategies can I use to optimize cost per operation?
 
-Prisma Postgres bills by operation. The more you can perform using a single operation, the lower your bill. Some tips to reduce the number of operations:
+Prisma Postgres bills by operation. The more 您可以 perform using a single operation, the lower your bill. Some tips to reduce the number of operations:
 
 - [**Batch your writes**](/orm/prisma-client/queries/transactions#batchbulk-operations) with `createMany`, `updateMany`, or `deleteMany` instead of looping over single-row calls.
 
@@ -113,7 +113,7 @@ Prisma Postgres bills by operation. The more you can perform using a single oper
   })
   ```
 
-- **Use nested-relation helpers** such as [`connectOrCreate`](/orm/reference/prisma-client-reference#connectorcreate) or [`set`](/orm/reference/prisma-client-reference#set) to create or link related records in a single operation.
+- **Use nested-relation helpers** such as [`connectOrCreate`](/orm/reference/prisma-client-reference#connectorcreate) or [`set`](/orm/reference/prisma-client-reference#set) 建立 or link related records in a single operation.
 
   ```ts
   // Post and (if needed) its author, all in one request
@@ -146,13 +146,13 @@ Prisma Postgres bills by operation. The more you can perform using a single oper
   ])
   ```
 
-If a later query needs the result of an earlier one (for example, you need the user ID you just created), stick with an interactive transaction for correctness. Otherwise, batching and array transactions let you collapse multiple queries into a single billed operation, keeping both your operation count, and your cost down.
+If a later query needs 結果 of an earlier one (例如, you need the user ID you just created), stick with an interactive transaction for correctness. Otherwise, batching and array transactions let you collapse multiple queries into a single billed operation, keeping both your operation count, and your cost down.
 
 ### Is there a sample workload to estimate my expected charges?
 
 We will demonstrate three example workloads and estimate bills for small, medium, and large workloads. Each combine a realistic number of monthly active users (MAUs), a typical level of daily activity per user, and a rounded storage footprint. 
 
-We will use the following equations to estimate the monthly bill:
+We will use 以下 equations to estimate the monthly bill:
 
 ```
 total_ops            = MAUs x actions_per_user_per_day x 30      
@@ -167,11 +167,11 @@ total_monthly_cost   = ops_cost + storage_cost + base_plan_fee
 
 :::note
 
-You can use your own MAU count, activity level, and storage used to project costs on any plan using the equations above.
+您可以 use your own MAU count, activity level, and storage used to project costs on any plan using the equations above.
 
 :::
 
-We will associate each workload with a paid plan and its corresponding pricing details, for example, the **Starter plan** for the small workload, the **Pro plan** for the medium workload, and the **Business plan** for the large workload. Then we will apply the equations to the example workloads to generate a rough estimate of a monthly bill. For example:
+We will associate each workload with a paid plan and its corresponding pricing details, 例如, the **Starter plan** for the small workload, the **Pro plan** for the medium workload, and the **Business plan** for the large workload. Then we will apply the equations to the example workloads to generate a rough estimate of a monthly bill. 例如：
 
 :::note[Pricing details]
 
@@ -190,13 +190,13 @@ Here are the details for each pricing plan:
   - Included operations - 50,000,000
   - Storage - 100 GB free then \$1 per additional GB
 
-We also have a Free plan, but we are leaving it out in the following calculations because it's intended for evaluation only and is not meant for production workloads. You can also learn more about the pricing details for each plan on the [pricing page](https://www.prisma.io/pricing?utm_source=docs).
+We also have a Free plan, but we are leaving it out in 以下 calculations because it's intended for evaluation only and is not meant for production workloads. 您可以 also learn more about the pricing details for each plan on the [pricing page](https://www.prisma.io/pricing?utm_source=docs).
 
 :::
 
 **Example of a small workload on the Starter plan**:
 
-A hobby or early-stage side-project with ~`500` MAUs. Each user performs ~`10` actions per day, and the entire database uses ~`0.5` GB of storage. Based on the assumptions, you would calculate the monthly bill using the following equations:
+A hobby or early-stage side-project with ~`500` MAUs. Each user performs ~`10` actions per day, and the entire database uses ~`0.5` GB of storage. Based on the assumptions, you would calculate the monthly bill using 以下 equations:
 
 - `total_ops` = `500` x `10` x `30` = `150000`
 - `billable_ops` = `0` (150,000 operations is below the 1 million free operations)
@@ -208,7 +208,7 @@ A hobby or early-stage side-project with ~`500` MAUs. Each user performs ~`10` a
 
 **Example of a medium workload on the Pro plan**:
 
-A growing SaaS product serving ~`5000` MAUs. Power users average ~`40` actions per day, and the app stores ~`6` GB of data. Based on the assumptions, you would calculate the monthly bill using the following equations:
+A growing SaaS product serving ~`5000` MAUs. Power users average ~`40` actions per day, and the app stores ~`6` GB of data. Based on the assumptions, you would calculate the monthly bill using 以下 equations:
 
 - `total_ops` = `5000` x `40` x `30` = `6000000`
 - `billable_ops` = `0` (6 million operations is below the 10 million free operations) 
@@ -220,7 +220,7 @@ A growing SaaS product serving ~`5000` MAUs. Power users average ~`40` actions p
 
 **Example of a large workload on the Business plan**:
 
-A production-grade, consumer-facing application handling ~`50000` MAUs. Heavy usage with ~`60` actions per user per day drives significant traffic, and the dataset reaches ~`40` GB.  Based on the assumptions, you would calculate the monthly bill using the following equations:
+A production-grade, consumer-facing application handling ~`50000` MAUs. Heavy usage with ~`60` actions per user per day drives significant traffic, and the dataset reaches ~`40` GB.  Based on the assumptions, you would calculate the monthly bill using 以下 equations:
 
 - `total_ops` = `50000` x `60` x `30` = `90000000`
 - `billable_ops` = `90000000` - `50000000` = `40000000`
@@ -250,13 +250,13 @@ To upgrade your plan via Vercel, follow these steps:
 Prisma Postgres includes built-in connection pooling and global caching. These features improve performance by optimizing how your queries are routed and cached.
 
 
-### How does Prisma Postgres's cache layer know what region to fetch the cache from?
+### 如何 Prisma Postgres's cache layer know what region to fetch the cache from?
 
 Under the hood, Prisma Postgres's cache layer uses Cloudflare, which uses [Anycast](https://www.cloudflare.com/learning/cdn/glossary/anycast-network/) for network addressing and routing. An incoming request will be routed to the nearest data center or "node" in their network that has the capacity to process the request efficiently. To learn more about how this works, we recommend looking into [Anycast](https://www.cloudflare.com/learning/cdn/glossary/anycast-network/).
 
 ### How can I invalidate a cache for Prisma Postgres?
 
-You can invalidate the cache on-demand via the [`$accelerate.invalidate` API](/accelerate/api-reference#accelerateinvalidate) if you're on a [paid plan](https://www.prisma.io/pricing#accelerate), or you can invalidate your entire cache, on a project level, a maximum of five times a day. This limit is set based on [your plan](https://www.prisma.io/pricing). You can manage this via the Accelerate configuration page.
+您可以 invalidate the cache on-demand via the [`$accelerate.invalidate` API](/accelerate/api-reference#accelerateinvalidate) if you're on a [paid plan](https://www.prisma.io/pricing#accelerate), or 您可以 invalidate your entire cache, on a project level, a maximum of five times a day. This limit is set based on [your plan](https://www.prisma.io/pricing). 您可以 manage this via the Accelerate configuration page.
 
 ### 什麼是 Prisma Postgres's 快取 layer's consistency 模型?
 
@@ -264,7 +264,7 @@ The caching layer in Prisma Postgres does not have a consistency model. It is no
 
 Prisma Postgres implements a [read-through caching strategy](https://www.prisma.io/dataguide/managing-databases/introduction-database-caching#read-through) particularly suitable for read-heavy workloads.
 
-The freshness of the data served by the cache depends on the cache strategy defined in your query. Refer to [this section](/postgres/database/caching#selecting-a-cache-strategy) for more information on selecting the right cache strategy for your query.
+The freshness of the data served by the cache depends on the cache strategy defined in your query. 參閱 [this section](/postgres/database/caching#selecting-a-cache-strategy) 欲了解更多資訊 on selecting the right cache strategy for your query.
 
 ### How is Prisma Postgres's 快取 layer different from other 快取 tools, such as Redis?
 
@@ -272,7 +272,7 @@ The caching layer of Prisma Postgres:
 
 - Is a _specialized_ cache that allows you to optimize data access in code at the query level with a cache strategy. On the other hand, tools such as Redis and Memcached are _general-purpose_ caches designed to be adaptable and flexible.
 - Is a managed service that reduces the time, risk, and engineering effort of building and maintaining a cache service.
-- Is globally distributed, by default, reducing the latency of your queries. Other cache tools would require additional configuration to make them available globally.
+- Is globally distributed, 預設情況下, reducing the latency of your queries. Other cache tools would require additional configuration to make them available globally.
 
 ### When should I not use Prisma Postgres's 快取 功能?
 
@@ -280,13 +280,13 @@ The caching layer of Prisma Postgres is a global data cache and connection pool 
 
 This global cache feature may not be a good fit for your app if:
 
-- Your app is exclusively used within a specific region and both your application server and database are situated in that same region on the same network. For example, database queries will likely be much faster if your application server and database are in the same region and network. However, If your application server is in different regions or networks from your database, the cache nodes will speed up your queries because the data will be cached in the closest data center to your application.
+- Your app is exclusively used within a specific region and both your application server and database are situated in that same region on the same network. 例如, database queries will likely be much faster if your application server and database are in the same region and network. However, If your application server is in different regions or networks from your database, the cache nodes will speed up your queries because the data will be cached in the closest data center to your application.
 
 - Your application data _always_ needs to be up-to-date on retrieval, making it difficult to establish a reasonable cache strategy.
 
 ### 什麼是 the maximum allowed value for the `ttl` parameter when configuring `cacheStrategy`?
 
-The [Time-to-live](/postgres/database/caching#time-to-live-ttl) (`ttl`) parameter can be set for up to a _year_. However, it's important to note that items within the cache may be evicted if they are not frequently accessed.
+The [Time-to-live](/postgres/database/caching#time-to-live-ttl) (`ttl`) parameter can be set for up to a _year_. However, it's important to 請注意 items within the cache may be evicted if they are not frequently accessed.
 
 Based on our experimentation, we’ve seen cache items persist for around 18 hours. While items may remain in the cache for an extended period if they are actively accessed, there is no guarantee.
 
@@ -298,13 +298,13 @@ Even frequently accessed items may occasionally be evicted from the cache. It's 
 
 ### Why do I sometimes see unexpected cache behavior?
 
-Prisma Postgres's cache layer performs best when it observes a higher load from a project. Many cache operations, such as committing data to cache and refreshing stale data, happen asynchronously. When benchmarking the cache layer, we recommend doing so with loops or a load testing approach. This will mimic higher load scenarios better and reduce outliers from low frequency operations.
+Prisma Postgres's cache layer performs best when it observes a higher load from a project. Many cache operations, such as committing data to cache and refreshing stale data, happen asynchronously. When benchmarking the cache layer, we recommend doing so with loops or a load testing approach. 這將 mimic higher load scenarios better and reduce outliers from low frequency operations.
 
 Prisma operations are sent to Prisma Postgres over HTTP. As a result, the first request to Prisma Postgres must establish an HTTP handshake and may have additional latency as a result. We're exploring ways to reduce this initial request latency in the future.
 
-### What regions are Prisma Postgres's cache nodes available in?
+### What regions are Prisma Postgres's cache nodes 可用於?
 
-Prisma Postgres's cache layer runs on Cloudflare's network and cache hits are served from Cloudflare's 300+ locations. You can find the regions where Prisma Postgres's cache nodes are available here: [https://www.cloudflare.com/network/](https://www.cloudflare.com/network/).
+Prisma Postgres's cache layer runs on Cloudflare's network and cache hits are served from Cloudflare's 300+ locations. 您可以 find the regions where Prisma Postgres's cache nodes are available here: [https://www.cloudflare.com/network/](https://www.cloudflare.com/network/).
 
 ### How long does it take to invalidate a cache 查詢 result?
 
@@ -328,7 +328,7 @@ The [cache invalidate API](/postgres/database/caching#on-demand-cache-invalidati
 
 - **Content updates**: When critical changes occur, such as edits to a published article, product updates, or profile modifications, that need to be visible immediately.
 - **Inventory management**: In real-time applications, like inventory or booking systems, where stock levels, availability, or reservation statuses must reflect the latest information.
-- **High-priority data**: For time-sensitive data, like breaking news or urgent notifications, where it’s essential for users to see the most current information right away.
+- **High-priority data**: For time-sensitive data, like breaking news or urgent notifications, where it’s essential for users to 參見 most current information right away.
 
 Using on-demand cache invalidation in these scenarios helps keep only the necessary data refreshed, preserving system performance while ensuring accurate, up-to-date information for users.
 
@@ -337,7 +337,7 @@ Using on-demand cache invalidation in these scenarios helps keep only the necess
 
 #### Can I increase the 查詢 duration and response size limits for my Prisma Postgres instance?
 
-Yes, you can increase your Prisma Postgres limits based on your subscription plan. Here are the configurable limits:
+Yes, 您可以 increase your Prisma Postgres limits based on your subscription plan. Here are the configurable limits:
 
 | Limit                                | Free             | Starter           | Pro Plan          | Business Plan     |
 |--------------------------------------|------------------|-------------------|-------------------|-------------------|
@@ -348,17 +348,17 @@ Yes, you can increase your Prisma Postgres limits based on your subscription pla
 Check the [pricing page](https://www.prisma.io/pricing) for more details on the available plans and their corresponding limits.
 
 :::warning
-While you can increase these limits based on your subscription plan, it's *still* recommended to optimize your database operations. [Learn more in our troubleshooting guide.](/postgres/database/api-reference/error-reference)
+While 您可以 increase these limits based on your subscription plan, it's *still* recommended to optimize your database operations. [Learn more in our troubleshooting guide.](/postgres/database/api-reference/error-reference)
 :::
 
 
 ## 查詢最佳化
 
-Prisma Postgres allows query optimization via [Prisma Optimize](/optimize) and provides performance recommendations to help improve your database queries during development. You can enable it with Prisma Postgres or [also use it with your own database](/optimize/getting-started), but setup and integration steps differ.
+Prisma Postgres allows query optimization via [Prisma Optimize](/optimize) and provides performance recommendations to help improve your database queries during development. 您可以 enable it with Prisma Postgres or [also use it with your own database](/optimize/getting-started), but setup and integration steps differ.
 
 ### Can you automatically implement optimizations?
 
-Prisma Postgres's query optimization feature offers insights and recommendations on how to improve your database queries. It does not alter any existing queries or your Prisma schema.
+Prisma Postgres's query optimization feature offers insights and recommendations on 如何 improve your database queries. It does not alter any existing queries or your Prisma schema.
 
 ### How long is a recording session retained?
 
@@ -366,11 +366,11 @@ There are no limits on the storage retention period. A query performance recordi
 
 ### Do recommendation limits reset monthly?
 
-Yes, the recommendation usage resets at the beginning of each calendar month. For example, if you use `5` recommendations by the end of the month, your usage will reset to `0` at the start of the next month.
+Yes, the recommendation usage resets at the beginning of each calendar month. 例如, if you use `5` recommendations by the end of the month, your usage will reset to `0` at the start of the next month.
 
 ### Can I get charged for exceeding the recommendation limit on the starter plan?
 
-Yes, if you’re on the starter plan, exceeding `5` recommendations in a billing cycle will result in a `$5` charge at the end of that cycle. For more information, visit [our pricing page](https://www.prisma.io/pricing#optimize).
+Yes, if you’re on the starter plan, exceeding `5` recommendations in a billing cycle will result in a `$5` charge at the end of that cycle. 欲了解更多資訊, visit [our pricing page](https://www.prisma.io/pricing#optimize).
 
 ### How are viewed Prisma AI 建議 tracked for billing? Are they counted based on generated or viewed 建議?
 
@@ -380,7 +380,7 @@ They are counted based on viewed recommendations. Once you click on a recommenda
 
 No, query optimizations for Prisma Postgres is not meant to be enabled for production use. It is specifically designed for local development, providing valuable insights and optimizations during that phase. While it's technically possible to run it in a production environment, doing so could result in performance problems or unexpected behaviors, as this is not built to handle the complexity and scale of production workloads. For the best experience, we recommend testing query optimization solely in your development environment.
 
-You can use the `enable` property in the client extension to run it [only in development environment](https://www.npmjs.com/package/@prisma/extension-optimize). By default, the `enable` property is set to `true`.
+您可以 use the `enable` property in the client extension to run it [only in development environment](https://www.npmjs.com/package/@prisma/extension-optimize). 預設情況下, the `enable` property is set to `true`.
 
 ```ts file=script.ts copy showLineNumbers
 import { PrismaClient } from '@prisma/client'

@@ -4,7 +4,7 @@ metaTitle: '部署 a Prisma app to Railway'
 metaDescription: '學習如何 to 部署 an app that uses Prisma ORM and Prisma Postgres to Railway.'
 ---
 
-This guide explains how to deploy an app that uses Prisma ORM and Prisma Postgres to [Railway](https://railway.com?utm_medium=integration&utm_source=docs&utm_campaign=prisma). The app exposes a REST API and uses Prisma Client to query a Prisma Postgres database. Your app will run on Railway and connect to a managed Prisma Postgres database.
+本指南說明如何 deploy an app that uses Prisma ORM and Prisma Postgres to [Railway](https://railway.com?utm_medium=integration&utm_source=docs&utm_campaign=prisma). The app exposes a REST API and uses Prisma Client to query a Prisma Postgres database. Your app will run on Railway and connect to a managed Prisma Postgres database.
 
 Railway is a deployment platform that simplifies the software development lifecycle with instant deployments, built-in observability, and effortless scaling. It supports code repositories and container images from popular registries. Railway handles configuration management, environment variables, and provides private networking between services.
 
@@ -14,13 +14,13 @@ This template automates the provisioning and setup of a Prisma Postgres database
 
 ## 前置需求
 
-To get started, all you need is:
+開始使用, all you need is:
 
 * A [Railway account](https://railway.com?utm_medium=integration&utm_source=docs&utm_campaign=prisma)
 * A GitHub repository with your application code.
 
 :::note
-If you don't have a project ready, you can use our [example Prisma project](https://github.com/prisma/prisma-examples/tree/latest/deployment-platforms/railway). It's a simple Hono application that uses Prisma ORM and includes a REST API, a frontend for testing endpoints, and a defined Prisma schema with migrations.
+If you don't have a project ready, 您可以 use our [example Prisma project](https://github.com/prisma/prisma-examples/tree/latest/deployment-platforms/railway). It's a simple Hono application that uses Prisma ORM and includes a REST API, a frontend for testing endpoints, and a defined Prisma schema with migrations.
 :::
 
 ## Deploy your application
@@ -71,7 +71,7 @@ Once the deployment completes with the database URL configured:
 
 Go to the generated URL and you'll see your deployed app!
 
-If you used the example project, you should see three api endpoints already set up:
+If you used the example project, 您應該 see three api endpoints already set up:
 - Check API status (`/api`)
 - Load feed (`/api/feed`)
 - Seed data (`/api/seed`)

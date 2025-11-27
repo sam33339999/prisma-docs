@@ -196,7 +196,7 @@ datasource db {
 
 ### 索引
 
-在使用外鍵約束的關聯式資料庫中，資料庫通常也會隱式地為外鍵欄位建立索引。例如，[MySQL 將在所有外鍵欄位上建立索引](https://dev.mysql.com/doc/refman/8.0/en/constraint-foreign-key.html#:~:text=MySQL%20requires%20that%20foreign%20key%20columns%20be%20indexed%3B%20if%20you%20create%20a%20table%20with%20a%20foreign%20key%20constraint%20but%20no%20index%20on%20a%20given%20column%2C%20an%20index%20is%20created.)。這是為了允許外鍵檢查快速運行，而不需要資料表掃描。
+在使用外鍵約束的關聯式資料庫中，資料庫通常也會隱式地為外鍵欄位建立索引。例如，[MySQL 將在所有外鍵欄位上建立索引](https://dev.mysql.com/doc/refman/8.0/en/constraint-foreign-key.html#:~:text=MySQL%20需要%20that%20foreign%20key%20columns%20be%20indexed%3B%20if%20you%20create%20a%20table%20with%20a%20foreign%20key%20constraint%20but%20no%20index%20on%20a%20given%20column%2C%20an%20index%20is%20created.)。這是為了允許外鍵檢查快速運行，而不需要資料表掃描。
 
 `prisma` 關聯模式不使用外鍵，因此當您使用 Prisma Migrate 或 `db push` 將更改應用到資料庫時不會建立索引。您需要使用 [`@@index`](/orm/reference/prisma-schema-reference#index) 屬性（或 [`@unique`](/orm/reference/prisma-schema-reference#unique)、[`@@unique`](/orm/reference/prisma-schema-reference#unique-1) 或 [`@@id`](/orm/reference/prisma-schema-reference#id-1) 屬性，如果適用）手動在關聯純量欄位上新增索引。
 

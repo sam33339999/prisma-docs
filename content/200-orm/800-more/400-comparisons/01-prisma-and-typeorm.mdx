@@ -5,7 +5,7 @@ metaDescription: '學習 how Prisma compares to TypeORM.'
 community_section: true
 ---
 
-This page compares Prisma ORM and [TypeORM](https://typeorm.io/). If you want to learn how to migrate from TypeORM to Prisma ORM, check out this [guide](/guides/migrate-from-typeorm).
+This page compares Prisma ORM and [TypeORM](https://typeorm.io/). If you want to 學習如何 migrate from TypeORM to Prisma ORM, 查看 this [guide](/guides/migrate-from-typeorm).
 
 ## TypeORM vs Prisma ORM
 
@@ -21,13 +21,13 @@ It uses the [Prisma schema](/orm/prisma-schema) to define application models in 
 
 TypeORM and Prisma ORM operate on different levels of abstraction. TypeORM is closer to mirroring SQL in its API while Prisma Client provides a higher-level abstraction that was carefully designed with the common tasks of application developers in mind. Prisma ORM's API design heavily leans on the idea of [making the right thing easy](https://jason.energy/right-thing-easy-thing/).
 
-While Prisma Client operates at a higher level of abstraction, it strives to expose the full power of the underlying database, allowing you to drop down to [raw SQL](/orm/prisma-client/using-raw-sql/raw-queries) at any time if your use case requires it.
+While Prisma Client operates at a higher level of abstraction, it strives to expose the full power of the underlying database, allowing you to drop down to [raw SQL](/orm/prisma-client/using-raw-sql/raw-queries) at any time if your use case 需要 it.
 
-The following sections examine a few examples for how Prisma ORM's and TypeORM's APIs differ in certain scenarios and what the rationale of Prisma ORM's API design is in these cases.
+以下 sections examine a few examples for how Prisma ORM's and TypeORM's APIs differ in certain scenarios and what the rationale of Prisma ORM's API design is in these cases.
 
 ### Filtering
 
-TypeORM primarily leans on SQL operators for filtering lists or records, e.g. with the `find` method. Prisma ORM on the other hand, provides a more [generic set of operators](/orm/prisma-client/queries/filtering-and-sorting#filter-conditions-and-operators) that are intuitive to use. It should also be noted that, as explained in the type-safety section [below](#filtering-1), TypeORM loses type-safety in filter queries in many scenarios.
+TypeORM primarily leans on SQL operators for filtering lists or records, e.g. with the `find` method. Prisma ORM on the other hand, provides a more [generic set of operators](/orm/prisma-client/queries/filtering-and-sorting#filter-conditions-and-operators) that are intuitive 使用. It should also be noted that, as explained in the type-safety section [below](#filtering-1), TypeORM loses type-safety in filter queries in many scenarios.
 
 A good example of how the filtering APIs of both TypeORM and Prisma ORM differ is by looking at `string` filters. While TypeORM primarily provides the filter based on the `ILike` operator which comes directly from SQL, Prisma ORM provides more specific operators that developers can use, e.g.: `contains`, `startsWith` and `endsWith`.
 
@@ -145,7 +145,7 @@ const posts = await postRepository.find({
 
 ### Pagination
 
-TypeORM only offers limit-offset pagination while Prisma ORM conveniently provides dedicated APIs for both limit-offset but also cursor-based. You can learn more about both approaches in the [Pagination](/orm/prisma-client/queries/pagination) section of the docs or in the API comparison [below](#pagination-1).
+TypeORM only offers limit-offset pagination while Prisma ORM conveniently provides dedicated APIs for both limit-offset but also cursor-based. 您可以 learn more about both approaches in the [Pagination](/orm/prisma-client/queries/pagination) section of the docs or in the API comparison [below](#pagination-1).
 
 ### Relations
 
@@ -165,7 +165,7 @@ Prisma models are defined in the [Prisma schema](/orm/prisma-schema) while TypeO
 
 Prisma ORM on the other hand generates a lightweight database client that exposes a tailored and fully type-safe API to read and write data for the models that are defined in the Prisma schema, following the DataMapper ORM pattern rather than Active Record.
 
-Prisma ORM's DSL for data modeling is lean, simple and intuitive to use. When modeling data in VS Code, you can further take advantage of Prisma ORM's powerful VS Code extension with features like autocompletion, quick fixes, jump to definition and other benefits that increase developer productivity.
+Prisma ORM's DSL for data modeling is lean, simple and intuitive 使用. When modeling data in VS Code, 您可以 further take advantage of Prisma ORM's powerful VS Code extension with features like autocompletion, quick fixes, jump to definition and other benefits that increase developer productivity.
 
 <ParallelBlocks>
 
@@ -246,15 +246,15 @@ Migrations work in similar fashions in TypeORM and Prisma ORM. Both tools follow
 
 TypeORM has been one of the first ORMs in the Node.js ecosystem to fully embrace TypeScript and has done a great job in enabling developers to get a certain level of type safety for their database queries.
 
-However, there are numerous situations where the type safety guarantees of TypeORM fall short. The following sections describe the scenarios where Prisma ORM can provide stronger guarantees for the types of query results.
+However, there are numerous situations where the type safety guarantees of TypeORM fall short. 以下 sections describe the scenarios where Prisma ORM can provide stronger guarantees for the types of query results.
 
 ### Selecting fields
 
-This section explains the differences in type safety when selecting a subset of a model's fields in a query.
+本節說明 the differences in type safety when selecting a subset of a model's fields in a query.
 
 #### TypeORM
 
-TypeORM provides a `select` option for its [`find`](https://typeorm.io/find-options) methods (e.g. `find`, `findByIds`, `findOne`, ...), for example:
+TypeORM provides a `select` option for its [`find`](https://typeorm.io/find-options) methods (e.g. `find`, `findByIds`, `findOne`, ...), 例如：
 
 <TabbedContent code>
 
@@ -296,7 +296,7 @@ export class Post {
 
 </TabbedContent>
 
-While each object in the returned `publishedPosts` array only carries the selected `id` and `title` properties at runtime, the TypeScript compiler doesn't have any knowledge of this. It will allow you to access any other properties defined on the `Post` entity after the query, for example:
+While each object in the returned `publishedPosts` array only carries the selected `id` and `title` properties at runtime, the TypeScript compiler doesn't have any knowledge of this. It will allow you to access any other properties defined on the `Post` entity after the query, 例如：
 
 ```ts
 const post = publishedPosts[0]
@@ -360,7 +360,7 @@ model Post {
 
 </TabbedContent>
 
-In this case, the TypeScript compiler will throw the following error already at compile-time:
+In this case, the TypeScript compiler will throw 以下 error already at compile-time:
 
 ```
 [ERROR] 14:03:39 ⨯ Unable to compile TypeScript:
@@ -382,13 +382,13 @@ It therefore is impossible for you to accidentally access a property on a model 
 
 ### Loading relations
 
-This section explains the differences in type safety when loading relations of a model in a query. In traditional ORMs, this is sometimes called _eager loading_.
+本節說明 the differences in type safety when loading relations of a model in a query. In traditional ORMs, this is sometimes called _eager loading_.
 
 #### TypeORM
 
 TypeORM allows to eagerly load relations from the database via the `relations` option that can be passed to its [`find`](https://typeorm.io/find-options) methods.
 
-Consider this example:
+Consider this 範例：
 
 <TabbedContent code>
 
@@ -447,7 +447,7 @@ export class User {
 
 </TabbedContent>
 
-Unlike with `select`, TypeORM does _not_ provide autocompletion, nor any type-safety for the strings that are passed to the `relations` option. This means, the TypeScript compiler is not able to catch any typos that are made when querying these relations. For example, it would allow for the following query:
+Unlike with `select`, TypeORM does _not_ provide autocompletion, nor any type-safety for the strings that are passed to the `relations` option. This means, the TypeScript compiler is not able to catch any typos that are made when querying these relations. 例如, it would allow for 以下 query:
 
 ```ts
 const publishedPosts: Post[] = await postRepository.find({
@@ -457,7 +457,7 @@ const publishedPosts: Post[] = await postRepository.find({
 })
 ```
 
-This subtle typo would now lead to the following runtime error:
+This subtle typo would now lead to 以下 runtime error:
 
 ```
 UnhandledPromiseRejectionWarning: Error: Relation "authors" was not found; please check if it is correct and really exists in your entity.
@@ -465,7 +465,7 @@ UnhandledPromiseRejectionWarning: Error: Relation "authors" was not found; pleas
 
 #### Prisma ORM
 
-Prisma ORM protects you from mistakes like this and thus eliminates a whole class of errors that can occur in your application at runtime. When using `include` to load a relation in a Prisma Client query, you can not only take advantage of autocompletion to specify the query, but the result of the query will also be properly typed:
+Prisma ORM protects you from mistakes like this and thus eliminates a whole class of errors that can occur in your application at runtime. When using `include` to load a relation in a Prisma Client query, 您可以 not only take advantage of autocompletion to specify the query, but 結果 of the query will also be properly typed:
 
 <TabbedContent code>
 
@@ -548,7 +548,7 @@ export type Post = {
 
 ### Filtering
 
-This section explains the differences in type safety when filtering a list of records using `where`.
+本節說明 the differences in type safety when filtering a list of records using `where`.
 
 #### TypeORM
 
@@ -556,7 +556,7 @@ TypeORM allows to pass a `where` option to its [`find`](https://typeorm.io/find-
 
 ##### Loosing type-safety using operators
 
-Consider this example:
+Consider this 範例：
 
 <TabbedContent code>
 
@@ -606,7 +606,7 @@ export class Post {
 
 This code runs properly and produces a valid query at runtime. However, the `where` option is not really type-safe in various different scenarios. When using a `FindOperator` like `ILike` or `MoreThan` that only work for specific types (`ILike` works for strings, `MoreThan` for numbers), you're losing the guarantee of providing the correct type for the model's field.
 
-For example, you can provide a string to the `MoreThan` operator. The TypeScript compiler will not complain and your application will only fail at runtime:
+例如, 您可以 provide a string to the `MoreThan` operator. The TypeScript compiler will not complain and your application will only fail at runtime:
 
 ```ts
 const postRepository = getManager().getRepository(Post)
@@ -627,7 +627,7 @@ error: error: invalid input syntax for type integer: "test"
 
 ##### Specifying non-existing properties
 
-Also note that the TypeScript compiler allows you to specify properties on the `where` option that don't exist on your models – again resulting in runtime errors:
+Also 請注意 the TypeScript compiler allows you to specify properties on the `where` option that don't exist on your models – again resulting in runtime errors:
 
 ```ts
 const publishedPosts: Post[] = await postRepository.find({
@@ -639,7 +639,7 @@ const publishedPosts: Post[] = await postRepository.find({
 })
 ```
 
-In this case, your application again fails at runtime with the following error:
+In this case, your application again fails at runtime with 以下 error:
 
 ```
 EntityColumnNotFound: No entity column "viewCount" was found.
@@ -675,7 +675,7 @@ const publishedPosts = await prisma.post.findMany({
 })
 ```
 
-The TypeScript compiler would catch this and throw the following error to protect you from a runtime failure of the app:
+The TypeScript compiler would catch this and throw 以下 error to protect you from a runtime failure of the app:
 
 ```
 [ERROR] 16:13:50 ⨯ Unable to compile TypeScript:
@@ -703,7 +703,7 @@ const publishedPosts = await prisma.post.findMany({
 })
 ```
 
-Again, the TypeScript compiler complains with the following message to protect you from your own mistakes:
+Again, the TypeScript compiler complains with 以下 message to protect you from your own mistakes:
 
 ```ts
 [ERROR] 16:16:16 ⨯ Unable to compile TypeScript:
@@ -715,13 +715,13 @@ src/index.ts:39:5 - error TS2322: Type '{ published: boolean; title: { contains:
 
 ### Creating new records
 
-This section explains the differences in type safety when creating new records.
+本節說明 the differences in type safety when creating new records.
 
 #### TypeORM
 
-With TypeORM, there are two main ways to create new records in the database: `insert` and `save`. Both methods allow developers to submit data that can lead to runtime errors when _required_ fields are not provided.
+With TypeORM, there are two main ways 建立 new records in the database: `insert` and `save`. Both methods allow developers to submit data that can lead to runtime errors when _required_ fields are not provided.
 
-Consider this example:
+Consider this 範例：
 
 <TabbedContent code>
 
@@ -770,7 +770,7 @@ export class User {
 
 </TabbedContent>
 
-No matter if you're using `save` or `insert` for record creation with TypeORM, you will get the following runtime error if you forget to provide the value for a required field:
+No matter if you're using `save` or `insert` for record creation with TypeORM, you will get 以下 runtime error if you forget to provide the value for a required field:
 
 ```
 QueryFailedError: null value in column "email" of relation "user" violates not-null constraint
@@ -782,7 +782,7 @@ The `email` field is defined as required on the `User` entity (which is enforced
 
 Prisma ORM protects you from these kind of mistakes by enforcing that you submit values for _all_ required fields of a model.
 
-For example, the following attempt to create a new `User` where the required `email` field is missing would be caught by the TypeScript compiler:
+例如, 以下 attempt 建立 a new `User` where the required `email` field is missing would be caught by the TypeScript compiler:
 
 <TabbedContent code>
 
@@ -812,7 +812,7 @@ model User {
 
 </TabbedContent>
 
-It would lead to the following compile-time error:
+It would lead to 以下 compile-time error:
 
 ```
 [ERROR] 10:39:07 ⨯ Unable to compile TypeScript:
@@ -971,7 +971,7 @@ Prisma ORM generates many [additional filters](/orm/prisma-client/queries/filter
 
 **TypeORM**
 
-TypeORM provides [built-in operators](https://typeorm.io/find-options#advanced-options) that can be used to create more complex comparisons
+TypeORM provides [built-in operators](https://typeorm.io/find-options#advanced-options) that can be used 建立 more complex comparisons
 
 ### Relation filters
 
@@ -979,7 +979,7 @@ TypeORM provides [built-in operators](https://typeorm.io/find-options#advanced-o
 
 Prisma ORM lets you filter a list based on a criteria that applies not only to the models of the list being retrieved, but to a _relation_ of that model.
 
-For example, the following query returns users with one or more posts with "Hello" in the title:
+例如, 以下 query returns users with one or more posts with "Hello" in the title:
 
 ```ts
 const posts = await prisma.user.findMany({
@@ -997,7 +997,7 @@ const posts = await prisma.user.findMany({
 
 **TypeORM**
 
-TypeORM doesn't offer a dedicated API for relation filters. You can get similar functionality by using the `QueryBuilder` or writing the queries by hand.
+TypeORM doesn't offer a dedicated API for relation filters. 您可以 get similar functionality by using the `QueryBuilder` or writing the queries by hand.
 
 ### Pagination
 
@@ -1162,7 +1162,7 @@ const user = await prisma.user.updateMany({
 
 **TypeORM**
 
-You can use the [query builder to update entities in your database](https://typeorm.io/update-query-builder).
+您可以 use the [query builder 更新 entities in your database](https://typeorm.io/update-query-builder).
 
 ### Batch deletes
 

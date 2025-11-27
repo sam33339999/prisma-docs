@@ -7,7 +7,7 @@ tocDepth: 3
 
 <TopBlock>
 
-This page describes how you can configure your editor for an optimal developer experience when using Prisma ORM.
+本頁描述 how 您可以 configure your editor for an optimal developer experience when using Prisma ORM.
 
 If you don't see your editor here, please [open a feature request](https://github.com/prisma/prisma/issues/new?assignees=&labels=&template=feature_request.md&title=) and ask for dedicated support for your editor (e.g. for syntax highlighting and auto-formatting).
 
@@ -15,14 +15,14 @@ If you don't see your editor here, please [open a feature request](https://githu
 
 ## VS Code extension
 
-You can install the official [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma). It adds extra capabilities to VS Code when developing applications with Prisma ORM:
+您可以 install the official [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma). It adds extra capabilities to VS Code when developing applications with Prisma ORM:
 
 - Syntax highlighting of `schema.prisma`
 - Linting
   - Diagnostic tools are used to surface errors and warnings in your schema file as you type.
 - Code Completion
   - Completion results appear for symbols as you type.
-  - You can trigger this manually with the `Ctrl+Space` shortcut.
+  - 您可以 trigger this manually with the `Ctrl+Space` shortcut.
 - Documentation help
   - Documentation of a completion result pops up as completion results are provided.
 - Quick info on hover
@@ -31,11 +31,11 @@ You can install the official [Prisma VS Code extension](https://marketplace.visu
   - Jump to or peek a model or enum's declaration.
 - Formatting
   - Format code either manually or on save (if configured).
-    - To automatically format on save, add the following to your `settings.json` file:    
+    - To automatically format on save, add 以下 to your `settings.json` file:    
       ```json
       "editor.formatOnSave": true
       ```
-    - To enable formatting in combination with `prettier`, add the following to your `settings.json` file:or use the [Prettier plugin for Prisma](https://github.com/umidbekk/prettier-plugin-prisma)        
+    - 啟用 formatting in combination with `prettier`, add 以下 to your `settings.json` file:or use the [Prettier plugin for Prisma](https://github.com/umidbekk/prettier-plugin-prisma)        
       ```json
       "[prisma]": {
         "editor.defaultFormatter": "Prisma.prisma"
@@ -52,14 +52,14 @@ You can install the official [Prisma VS Code extension](https://marketplace.visu
 
 :::tip
 
-If you're using VS Code, you can use [VS Code agent mode](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode) to enter prompts such as “create Postgres database” or “apply schema migration” directly in the chat. The VS code agent handles all underlying Prisma CLI invocations and API calls automatically. See our [VS Code Agent documentation](/postgres/integrations/vscode#agent-mode) for more details.
+If you're using VS Code, 您可以 use [VS Code agent mode](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode) to enter prompts such as “create Postgres database” or “apply schema migration” directly in the chat. The VS code agent handles all underlying Prisma CLI invocations and API calls automatically. See our [VS Code Agent documentation](/postgres/integrations/vscode#agent-mode) for more details.
 
 :::
 
 
 ## Community projects
 
-> **Note**: Community projects are not maintained or officially supported by Prisma and some features may by out of sync. Use at your own discretion.
+> **Note**: Community projects are not maintained or officially 支援 Prisma and some features may by out of sync. Use at your own discretion.
 
 ### Emacs
 
@@ -80,7 +80,7 @@ If you're using VS Code, you can use [VS Code agent mode](https://code.visualstu
 ### Sublime Text
 
 - [Prisma](https://packagecontrol.io/packages/Prisma) - For Sublime Text 3 & 4 - Provides syntax highlighting for the Prisma Schema Language. ([Source Code](https://github.com/Sublime-Instincts/PrismaHighlight/))
-- [LSP-prisma](https://packagecontrol.io/packages/LSP-prisma) - For Sublime Text 4 - Language Server helper package for Prisma schema files that uses Prisma's Language Server to provide linting, error checking, formatting, autocompletion, renaming etc. Note: It requires the Prisma package to be installed. ([Source Code](https://github.com/Sublime-Instincts/LSP-prisma))
+- [LSP-prisma](https://packagecontrol.io/packages/LSP-prisma) - For Sublime Text 4 - Language Server helper package for Prisma schema files that uses Prisma's Language Server to provide linting, error checking, formatting, autocompletion, renaming etc. 注意： It 需要 the Prisma package to be installed. ([Source Code](https://github.com/Sublime-Instincts/LSP-prisma))
 
 ### nova
 
@@ -94,9 +94,9 @@ If you're using VS Code, you can use [VS Code agent mode](https://code.visualstu
 
 #### inshellisense
 
-You can get IDE-style autocompletion for Prisma CLI using [`inshellisense`](https://github.com/microsoft/inshellisense/tree/main). It supports: bash, zsh, fish, pwsh, powershell (Windows Powershell).
+您可以 get IDE-style autocompletion for Prisma CLI using [`inshellisense`](https://github.com/microsoft/inshellisense/tree/main). It supports: bash, zsh, fish, pwsh, powershell (Windows Powershell).
 
-To install, run:
+安裝, run:
 
 ```bash
 npm install -g @microsoft/inshellisense
@@ -104,9 +104,9 @@ npm install -g @microsoft/inshellisense
 
 #### Fig
 
-`inshellisense` is built on top of [Fig](https://fig.io/) which you can also use directly. It works in bash, zsh, and fish.
+`inshellisense` is built on top of [Fig](https://fig.io/) which 您可以 also use directly. It works in bash, zsh, and fish.
 
-To install, run:
+安裝, run:
 
 ```bash
 brew install fig

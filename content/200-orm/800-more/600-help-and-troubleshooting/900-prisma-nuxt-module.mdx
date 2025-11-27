@@ -79,22 +79,22 @@ The `@prisma/nuxt` module is currently not supported with Prisma ORM 7 or when u
           authorId  Int
         }
        ```
-    4. Prompt you to run a migration to create database tables with [Prisma Migrate](/orm/prisma-migrate/understanding-prisma-migrate/overview)
+    4. Prompt you to run a migration 建立 database tables with [Prisma Migrate](/orm/prisma-migrate/understanding-prisma-migrate/overview)
         :::note
-          The database migrates automatically the first time you start the module if there isn't a `migrations` folder. After that, you need to run `npx prisma migrate dev` manually in the CLI to apply any schema changes. Running the `npx prisma migrate dev` command manually makes it easier and safer to manage migrations and also to [troubleshoot](/orm/prisma-migrate/workflows/troubleshooting) any migration-related errors.
+          The database migrates automatically the first time you start the module if there isn't a `migrations` folder. After that, 您需要 run `npx prisma migrate dev` manually in the CLI to apply any schema changes. Running the `npx prisma migrate dev` command manually makes it easier and safer to manage migrations and also to [troubleshoot](/orm/prisma-migrate/workflows/troubleshooting) any migration-related errors.
         :::
     5. Install and generate a [Prisma Client](/orm/reference/prisma-client-reference) which enables you to query your DB
     6. Automatically start [Prisma Studio](/orm/tools/prisma-studio)
 
-4. You can now use Prisma ORM in your project. If you accepted the prompt to add Prisma Studio, you can access Prisma Studio through the Nuxt Devtools. See the [usage section](#usage) to learn how to use Prisma Client in your app.
+4. 您可以 now use Prisma ORM in your project. If you accepted the prompt 添加 Prisma Studio, 您可以 access Prisma Studio through the Nuxt Devtools. 參見 [usage section](#usage) to 學習如何使用 Prisma Client in your app.
 
 ## Using a different database provider
 
-The `@prisma/nuxt` module works with any [database provider that Prisma ORM supports](/orm/reference/supported-databases). You can configure the [getting started example](#getting-started) to use a database of your choice. The steps would be different for a [database without existing data](#using-a-database-without-existing-data) and a [database with pre-existing data](#using-a-database-with-pre-existing-data). 
+The `@prisma/nuxt` module 適用於 any [database provider that Prisma ORM supports](/orm/reference/supported-databases). 您可以 configure the [getting started example](#getting-started) 使用 a database of your choice. The steps would be different for a [database without existing data](#using-a-database-without-existing-data) and a [database with pre-existing data](#using-a-database-with-pre-existing-data). 
 
 ### Using a database without existing data
 
-To configure [the getting started example](#getting-started) to use a PostgreSQL database without any existing data:
+配置 [the getting started example](#getting-started) 使用 a PostgreSQL database without any existing data:
 
 1. Stop the Nuxt development server and Prisma Studio (if they are still running):
     ```terminal
@@ -145,12 +145,12 @@ To configure [the getting started example](#getting-started) to use a PostgreSQL
     ```terminal
     npm run dev
     ```
-    Starting the development server will prompt you to migrate the schema changes to the database, to which you should agree. Then agree to the prompt to install and access Prisma Studio from the Nuxt Devtools.
-5. The `@prisma/nuxt` module is ready to use with your PostgreSQL database. See the [usage section](#usage) to learn how to use Prisma Client in your app.
+    Starting the development server will prompt you to migrate the schema changes to the database, to which 您應該 agree. Then agree to the prompt 安裝 and access Prisma Studio from the Nuxt Devtools.
+5. The `@prisma/nuxt` module is ready 使用 with your PostgreSQL database. 參見 [usage section](#usage) to 學習如何使用 Prisma Client in your app.
 
 ### Using a database with pre-existing data
 
-To configure [the getting started example](#getting-started) to use a PostgreSQL database that already has data in it:
+配置 [the getting started example](#getting-started) 使用 a PostgreSQL database that already has data in it:
 
 1. Stop the dev server and Prisma Studio (if they are still running):
     ```terminal
@@ -169,8 +169,8 @@ To configure [the getting started example](#getting-started) to use a PostgreSQL
     DATABASE_URL="postgresql://janedoe:mypassword@localhost:5432/mydb?schema=sample"
     ```
 4. To generate a Prisma Schema and migrations folder from the existing database, you have to [introspect](/orm/prisma-schema/introspection) the database. Complete **step 1** to **step 4** from the [introspection guide](/orm/prisma-migrate/getting-started#adding-prisma-migrate-to-an-existing-project) and continue.
-5. Starting the development server will skip the prompt to migrate the schema changes to the database, as the migrations folder already exists. Agree to the prompt to install and access Prisma Studio from the Nuxt Devtools.
-6. The `@prisma/nuxt` module is ready to be used with your PostgreSQL database. See the [usage section](#usage) to learn how to use Prisma Client in your app.
+5. Starting the development server will skip the prompt to migrate the schema changes to the database, as the migrations folder already exists. Agree to the prompt 安裝 and access Prisma Studio from the Nuxt Devtools.
+6. The `@prisma/nuxt` module is ready to be used with your PostgreSQL database. 參見 [usage section](#usage) to 學習如何使用 Prisma Client in your app.
 
 ## Usage 
 
@@ -178,7 +178,7 @@ To configure [the getting started example](#getting-started) to use a PostgreSQL
 
 #### Using the composable in your Nuxt server component
 
-If you're using [Nuxt server components](https://nuxt.com/docs/guide/directory-structure/components#server-components), you can use the global instance of the Prisma Client in your `.server.vue` files:
+If you're using [Nuxt server components](https://nuxt.com/docs/guide/directory-structure/components#server-components), 您可以 use the global instance of the Prisma Client in your `.server.vue` files:
 ```html
 <script setup>
   const prisma = usePrismaClient()
@@ -211,7 +211,7 @@ export default prisma
 if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prisma
 ```
 
-You can customize Prisma Client's capabilities by using client extensions in your `lib/prisma.ts` file. Here is an example using the [Accelerate client extension](https://www.npmjs.com/package/@prisma/extension-accelerate):
+您可以 customize Prisma Client's capabilities by using client extensions in your `lib/prisma.ts` file. Here is an example using the [Accelerate client extension](https://www.npmjs.com/package/@prisma/extension-accelerate):
 
 ```typescript file=lib/prisma.ts
 import { PrismaClient } from '../prisma/generated/client'
@@ -240,7 +240,7 @@ Use the `prisma` instance from the `lib` folder if you want to leverage a client
 
 #### Using the global Prisma Client instance in your API route
 
-You can use the global instance of the Prisma Client in your Nuxt API route as follows:
+您可以 use the global instance of the Prisma Client in your Nuxt API route as follows:
 ```typescript
 import prisma from "~/lib/prisma";
 
@@ -253,7 +253,7 @@ export default defineEventHandler(async (event) => {
 
 #### Using the global Prisma Client instance in your Nuxt server component
 
-If you're using [Nuxt server components](https://nuxt.com/docs/guide/directory-structure/components#server-components), you can use the global instance of the Prisma Client `.server.vue` files:
+If you're using [Nuxt server components](https://nuxt.com/docs/guide/directory-structure/components#server-components), 您可以 use the global instance of the Prisma Client `.server.vue` files:
 ```html
 <script setup>
   import prisma from '~/lib/prisma';
@@ -267,7 +267,7 @@ If you're using [Nuxt server components](https://nuxt.com/docs/guide/directory-s
 
 ## Configuration
 
-You can configure the `@prisma/nuxt` module by using the `prisma` key in `nuxt.config.ts`:
+您可以 configure the `@prisma/nuxt` module by using the `prisma` key in `nuxt.config.ts`:
 
 ```ts file=nuxt.config.ts
 export default defineNuxtConfig({
@@ -279,20 +279,20 @@ export default defineNuxtConfig({
 ```
 <br />
 :::note
-  The `prisma` key is available in `nuxt.config.ts` after successfully setting up the module by running `npm run dev`
+  The `prisma` key is 可用於 `nuxt.config.ts` after successfully setting up the module by running `npm run dev`
 :::
 
 | Option              | Type      | Default | Description |
 |---------------------|-----------|---------|-------------|
-| **installCLI**      | `boolean` |  true   | Whether to install the [Prisma CLI](/orm/tools/prisma-cli). |
-| **installClient**   | `boolean` |  true   | Whether to install the [Prisma Client](/orm/prisma-client) library in the project. |
-| **generateClient**  | `boolean` |  true   | Whether to [generate](/orm/prisma-client/setup-and-configuration/generating-prisma-client) the `PrismaClient` instance. Executes `npx prisma generate` on every run to update the client based on the schema changes. |
+| **installCLI**      | `boolean` |  true   | Whether 安裝 the [Prisma CLI](/orm/tools/prisma-cli). |
+| **installClient**   | `boolean` |  true   | Whether 安裝 the [Prisma Client](/orm/prisma-client) library in the project. |
+| **generateClient**  | `boolean` |  true   | Whether to [generate](/orm/prisma-client/setup-and-configuration/generating-prisma-client) the `PrismaClient` instance. Executes `npx prisma generate` on every run 更新 the client based on the schema changes. |
 | **formatSchema**    | `boolean` |  true   | Whether to [format](/orm/reference/prisma-cli-reference#format) the [Prisma Schema](/orm/prisma-schema) file. |
-| **installStudio**   | `boolean` |  true   | Whether to install and start [Prisma Studio](https://www.prisma.io/studio) in the Nuxt Devtools. |
+| **installStudio**   | `boolean` |  true   | Whether 安裝 and start [Prisma Studio](https://www.prisma.io/studio) in the Nuxt Devtools. |
 | **autoSetupPrisma** | `boolean` |  false  | Whether to skip all prompts during setup. This option is useful for automating Prisma setup in scripts or CI/CD pipelines. |
 | **skipPrompts** | `false` |  false  | Skips all prompts |
-| **prismaRoot** | `string` |  false  | Required when using [Nuxt layers](https://nuxt.com/docs/getting-started/layers). For example, if you have a Nuxt layer called `database`, the `prismaRoot` would be `./database` in the base nuxt config. This refers to the folder where Prisma will be initialized or checked. |
-| **prismaSchemaPath** | `string` |  `undefined`  | Required when using [Nuxt layers](https://nuxt.com/docs/getting-started/layers). For example, if you have a Nuxt layer called `database`, the `prismaSchemaPath` would be `./database/prisma/schema.prisma` in the base nuxt config. |
+| **prismaRoot** | `string` |  false  | Required when using [Nuxt layers](https://nuxt.com/docs/getting-started/layers). 例如, if you have a Nuxt layer called `database`, the `prismaRoot` would be `./database` in the base nuxt config. This refers to the folder where Prisma will be initialized or checked. |
+| **prismaSchemaPath** | `string` |  `undefined`  | Required when using [Nuxt layers](https://nuxt.com/docs/getting-started/layers). 例如, if you have a Nuxt layer called `database`, the `prismaSchemaPath` would be `./database/prisma/schema.prisma` in the base nuxt config. |
 | **runMigration**    | `boolean` |  true   | Whether to run a Prisma Migration automatically.  If you are using MongoDB or PlanetScale, use the [`npx prisma db push` command](/orm/prisma-migrate/workflows/prototyping-your-schema#choosing-db-push-or-prisma-migrate). Migrations aren’t supported for these databases, so this command will ensure your schema is updated appropriately. |
 
 ## Limitations
@@ -309,28 +309,28 @@ The `usePrismaClient` composable currently relies on a `PrismaClient` instance t
 
 ### Prisma Studio not opening with `pnpm`
 
-If you're encountering the following error when using `pnpm` and Prisma Studio isn't opening:
+If you're encountering 以下 error when using `pnpm` and Prisma Studio isn't opening:
 
 ```terminal
 Uncaught SyntaxError: The requested module '/_nuxt/node_modules/.pnpm/*@*/node_modules/@prisma/client/index-browser.js?v=' does not provide an export named 'PrismaClient' (at plugin.mjs?v=*)
 ```
 
-To resolve this issue, create a `.npmrc` file in your project root and add the following configuration to hoist Prisma dependencies:
+To resolve this issue, create a `.npmrc` file in your project root and add 以下 configuration to hoist Prisma dependencies:
 
 ```.npmrc file=.npmrc
 hoist-pattern[]=*prisma*
 ```
 
-This will ensure that Prisma dependencies are properly resolved by `pnpm`.
+這將 ensure that Prisma dependencies are properly resolved by `pnpm`.
 
 ### Resolving `TypeError: Failed to resolve module specifier ".prisma/client/index-browser"`
 
-If you encounter the following error message in the browser console after building and previewing your application:
+If you encounter 以下 error message in the browser console after building and previewing your application:
 
 ```
 TypeError: Failed to resolve module specifier ".prisma/client/index-browser" 
 ```
-To resolve this issue, add the following configuration to your nuxt.config.ts file:
+To resolve this issue, add 以下 configuration to your nuxt.config.ts file:
 
 ```ts file=nuxt.config.ts
 import { defineNuxtConfig } from 'nuxt'
@@ -354,13 +354,13 @@ This configuration ensures that the module specifier is correctly mapped to the 
 
 ### Limitations in package manager support
 
-The module is designed to work with popular package managers, including npm, Yarn, and pnpm. However, as of `v0.2`, it is not fully compatible with Bun due to an issue causing an indefinite installation loop.
+The module is designed to work with popular package managers, including npm, Yarn, and pnpm. However, as of `v0.2`, it is not fully 相容於 Bun due to an issue causing an indefinite installation loop.
 
 Additionally, this package has not been tested with Deno and is therefore not officially **supported.**
 
 ### Resolving `Error: @prisma/client did not initialize yet. Please run "prisma generate" and try to import it again.`
 
-If you encounter the following message even if you have generated the client.
+If you encounter 以下 message even if you have generated the client.
 
 ```terminal
 Error: @prisma/client did not initialize yet. Please run "prisma generate" and try to import it again.

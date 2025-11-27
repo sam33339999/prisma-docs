@@ -5,7 +5,7 @@ metaDescription: '如何 讀取, 寫入, and 篩選 by Json fields.'
 tocDepth: 3
 ---
 
-Use the [`Json`](/orm/reference/prisma-schema-reference#json) Prisma ORM field type to read, write, and perform basic filtering on JSON types in the underlying database. In the following example, the `User` model has an optional `Json` field named `extendedPetsData`:
+Use the [`Json`](/orm/reference/prisma-schema-reference#json) Prisma ORM field type to read, write, and perform basic filtering on JSON types in the underlying database. In 以下範例, the `User` model has an optional `Json` field named `extendedPetsData`:
 
 ```prisma highlight=6;normal
 model User {
@@ -34,7 +34,7 @@ Example field value:
 ```
 
 
-The `Json` field supports a few additional types, such as `string` and `boolean`. These additional types exist to match the types supported by [`JSON.parse()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse):
+The `Json` field supports a few additional types, such as `string` and `boolean`. These additional types exist to match the types 支援 [`JSON.parse()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse):
 
 ```ts
 export type JsonValue =
@@ -50,12 +50,12 @@ export type JsonValue =
 
 Reasons to store data as JSON rather than representing data as related models include:
 
-- You need to store data that does not have a consistent structure
+- 您需要 store data that does not have a consistent structure
 - You are importing data from another system and do not want to map that data to Prisma models
 
 ## Reading a `Json` field
 
-You can use the `Prisma.JsonArray` and `Prisma.JsonObject` utility classes to work with the contents of a `Json` field:
+您可以 use the `Prisma.JsonArray` and `Prisma.JsonObject` utility classes to work with the contents of a `Json` field:
 
 ```ts
 const { PrismaClient, Prisma } = require('@prisma/client')
@@ -80,11 +80,11 @@ if (
 }
 ```
 
-See also: [Advanced example: Update a nested JSON key value](#advanced-example-update-a-nested-json-key-value)
+另請參閱: [Advanced 範例： Update a nested JSON key value](#advanced-example-update-a-nested-json-key-value)
 
 ## Writing to a `Json` field
 
-The following example writes a JSON object to the `extendedPetsData` field:
+以下範例 writes a JSON object to the `extendedPetsData` field:
 
 ```ts
 var json = [
@@ -100,17 +100,17 @@ const createUser = await prisma.user.create({
 })
 ```
 
-> **Note**: JavaScript objects (for example, `{ extendedPetsData: "none"}`) are automatically converted to JSON.
+> **Note**: JavaScript objects (例如, `{ extendedPetsData: "none"}`) are automatically converted to JSON.
 
-See also: [Advanced example: Update a nested JSON key value](#advanced-example-update-a-nested-json-key-value)
+另請參閱: [Advanced 範例： Update a nested JSON key value](#advanced-example-update-a-nested-json-key-value)
 
 ## Filter on a `Json` field (simple)
 
-You can filter rows of `Json` type.
+您可以 filter rows of `Json` type.
 
 ### Filter on exact field value
 
-The following query returns all users where the value of `extendedPetsData` matches the `json` variable exactly:
+以下 query returns all users where the value of `extendedPetsData` matches the `json` variable exactly:
 
 ```ts
 var json = [{ name: 'Bob the dog' }, { name: 'Claudine the cat' }]
@@ -124,7 +124,7 @@ const getUsers = await prisma.user.findMany({
 })
 ```
 
-The following query returns all users where the value of `extendedPetsData` does **not** match the `json` variable exactly:
+以下 query returns all users where the value of `extendedPetsData` does **not** match the `json` variable exactly:
 
 ```ts
 var json = [{ name: 'Bob the dog' }, { name: 'Claudine the cat' }]
@@ -140,7 +140,7 @@ const getUsers = await prisma.user.findMany({
 
 ## Filter on a `Json` field (advanced)
 
-You can also filter rows by the data inside a `Json` field. We call this **advanced `Json` filtering**. This functionality is supported by [PostgreSQL](/orm/overview/databases/postgresql) and [MySQL](/orm/overview/databases/mysql) only with [different syntaxes for the `path` option](#path-syntax-depending-on-database).
+您可以 also filter rows by the data inside a `Json` field. We call this **advanced `Json` filtering**. This functionality is 支援 [PostgreSQL](/orm/overview/databases/postgresql) and [MySQL](/orm/overview/databases/mysql) only with [different syntaxes for the `path` option](#path-syntax-depending-on-database).
 
 :::warning
 
@@ -154,7 +154,7 @@ The availability of advanced `Json` filtering depends on your Prisma version:
 
 - v4.0.0 or later: advanced `Json` filtering is [generally available](/orm/more/releases#generally-available-ga).
 - From v2.23.0, but before v4.0.0: advanced `Json` filtering is a [preview feature](/orm/reference/preview-features/client-preview-features). Add `previewFeatures = ["filterJson"]` to your schema. [Learn more](/orm/reference/preview-features/client-preview-features#enabling-a-prisma-client-preview-feature).
-- Before v2.23.0: you can [filter on the exact `Json` field value](#filter-on-exact-field-value), but you cannot use the other features described in this section.
+- Before v2.23.0: 您可以 [filter on the exact `Json` field value](#filter-on-exact-field-value), but 您可以not use the other features described 在本節中.
 
 :::
 
@@ -165,13 +165,13 @@ The filters below use a `path` option to select specific parts of the `Json` val
 - The [MySQL connector](/orm/overview/databases/mysql) uses [MySQL's implementation of JSON path](https://dev.mysql.com/doc/refman/8.0/en/json.html#json-path-syntax)
 - The [PostgreSQL connector](/orm/overview/databases/postgresql) uses the custom JSON functions and operators [supported in version 12 _and earlier_](https://www.postgresql.org/docs/11/functions-json.html)
 
-For example, the following is a valid MySQL `path` value:
+例如, 以下 is a valid MySQL `path` value:
 
 ```
 $petFeatures.petName
 ```
 
-The following is a valid PostgreSQL `path` value:
+以下 is a valid PostgreSQL `path` value:
 
 ```
 ["petFeatures", "petName"]
@@ -179,7 +179,7 @@ The following is a valid PostgreSQL `path` value:
 
 ### Filter on object property
 
-You can filter on a specific property inside a block of JSON. In the following examples, the value of `extendedPetsData` is a one-dimensional, unnested JSON object:
+您可以 filter on a specific property inside a block of JSON. In 以下範例, the value of `extendedPetsData` is a one-dimensional, unnested JSON object:
 
 ```json highlight=11;normal
 {
@@ -188,7 +188,7 @@ You can filter on a specific property inside a block of JSON. In the following e
 }
 ```
 
-The following query returns all users where the value of `petName` is `"Claudine"`:
+以下 query returns all users where the value of `petName` is `"Claudine"`:
 
 <TabbedContent code>
 <TabItem value="PostgreSQL">
@@ -222,7 +222,7 @@ const getUsers = await prisma.user.findMany({
 
 </TabbedContent>
 
-The following query returns all users where the value of `petType` _contains_ `"cat"`:
+以下 query returns all users where the value of `petType` _contains_ `"cat"`:
 
 <TabbedContent code>
 <TabItem value="PostgreSQL">
@@ -255,13 +255,13 @@ const getUsers = await prisma.user.findMany({
 </TabItem>
 </TabbedContent>
 
-The following string filters are available:
+以下 string filters are available:
 
 - [`string_contains`](/orm/reference/prisma-client-reference#string_contains)
 - [`string_starts_with`](/orm/reference/prisma-client-reference#string_starts_with)
 - [`string_ends_with`](/orm/reference/prisma-client-reference#string_ends_with) .
 
-To use case insensitive filter with these, you can use the [`mode`](/orm/reference/prisma-client-reference#mode) option:
+使用 case insensitive filter with these, 您可以 use the [`mode`](/orm/reference/prisma-client-reference#mode) option:
 
 <TabbedContent code>
 <TabItem value="PostgreSQL">
@@ -298,7 +298,7 @@ const getUsers = await prisma.user.findMany({
 
 ### Filter on nested object property
 
-You can filter on nested JSON properties. In the following examples, the value of `extendedPetsData` is a JSON object with several levels of nesting.
+您可以 filter on nested JSON properties. In 以下範例, the value of `extendedPetsData` is a JSON object with several levels of nesting.
 
 ```json
 {
@@ -317,7 +317,7 @@ You can filter on nested JSON properties. In the following examples, the value o
 }
 ```
 
-The following query returns all users where `"pet2"` &rarr; `"petName"` is `"Sunny"`:
+以下 query returns all users where `"pet2"` &rarr; `"petName"` is `"Sunny"`:
 
 <TabbedContent code>
 <TabItem value="PostgreSQL">
@@ -350,7 +350,7 @@ const getUsers = await prisma.user.findMany({
 </TabItem>
 </TabbedContent>
 
-The following query returns all users where:
+以下 query returns all users where:
 
 - `"pet2"` &rarr; `"petName"` is `"Sunny"`
 - `"pet2"` &rarr; `"features"` &rarr; `"furColor"` contains `"black"`
@@ -409,13 +409,13 @@ const getUsers = await prisma.user.findMany({
 
 ### Filtering on an array value
 
-You can filter on the presence of a specific value in a scalar array (strings, integers). In the following example, the value of `extendedPetsData` is an array of strings:
+您可以 filter on the presence of a specific value in a scalar array (strings, integers). In 以下範例, the value of `extendedPetsData` is an array of strings:
 
 ```json
 ["Claudine", "Sunny"]
 ```
 
-The following query returns all users with a pet named `"Claudine"`:
+以下 query returns all users with a pet named `"Claudine"`:
 
 <TabbedContent code>
 <TabItem value="PostgreSQL">
@@ -453,7 +453,7 @@ const getUsers = await prisma.user.findMany({
 
 </TabbedContent>
 
-The following array filters are available:
+以下 array filters are available:
 
 - [`array_contains`](/orm/reference/prisma-client-reference#array_contains)
 - [`array_starts_with`](/orm/reference/prisma-client-reference#array_starts_with)
@@ -461,7 +461,7 @@ The following array filters are available:
 
 ### Filtering on nested array value
 
-You can filter on the presence of a specific value in a scalar array (strings, integers). In the following examples, the value of `extendedPetsData` includes nested scalar arrays of names:
+您可以 filter on the presence of a specific value in a scalar array (strings, integers). In 以下範例, the value of `extendedPetsData` includes nested scalar arrays of names:
 
 ```json
 {
@@ -472,7 +472,7 @@ You can filter on the presence of a specific value in a scalar array (strings, i
 
 #### Scalar value arrays
 
-The following query returns all users that foster a cat named `"Fido"`:
+以下 query returns all users that foster a cat named `"Fido"`:
 
 <TabbedContent code>
 <TabItem value="PostgreSQL">
@@ -511,7 +511,7 @@ const getUsers = await prisma.user.findMany({
 </TabItem>
 </TabbedContent>
 
-The following query returns all users that foster cats named `"Fido"` _and_ `"Bob"`:
+以下 query returns all users that foster cats named `"Fido"` _and_ `"Bob"`:
 
 <TabbedContent code>
 <TabItem value="PostgreSQL">
@@ -581,14 +581,14 @@ const checkJson = await prisma.user.findMany({
 </TabItem>
 </TabbedContent>
 
-- If you are using PostgreSQL, you must pass in an array of objects to match, even if that array only contains one object:
+- If you are using PostgreSQL, 您必須 pass in an array of objects to match, even if that array only contains one object:
 
   ```json5
   [{ status: 'expired', insuranceID: 92 }]
   // PostgreSQL
   ```
 
-  If you are using MySQL, you must pass in a single object to match:
+  If you are using MySQL, 您必須 pass in a single object to match:
 
   ```json5
   { status: 'expired', insuranceID: 92 }
@@ -597,7 +597,7 @@ const checkJson = await prisma.user.findMany({
 
 - If your filter array contains multiple objects, PostgreSQL will only return results if _all_ objects are present - not if at least one object is present.
 
-- You must set `array_contains` to a JSON object, not a string. If you use a string, Prisma Client escapes the quotation marks and the query will not return results. For example:
+- 您必須 set `array_contains` to a JSON object, not a string. If you use a string, Prisma Client escapes the quotation marks and the query will not return results. 例如：
 
   ```ts
   array_contains: '[{"status": "expired", "insuranceID": 92}]'
@@ -611,7 +611,7 @@ const checkJson = await prisma.user.findMany({
 
 ### Targeting an array element by index
 
-You can filter on the value of an element in a specific position.
+您可以 filter on the value of an element in a specific position.
 
 ```json
 { "owned": ["Bob", "Sunny"], "fostering": ["Fido"] }
@@ -652,15 +652,15 @@ const getUsers = await prisma.user.findMany({
 
 ### Filtering on object key value inside array
 
-Depending on your provider, you can filter on the key value of an object inside an array.
+Depending on your provider, 您可以 filter on the key value of an object inside an array.
 
 :::warning
 
-Filtering on object key values within an array is **only** supported by the [MySQL database connector](/orm/overview/databases/mysql). However, you can still [filter on the presence of entire JSON objects](#json-object-arrays).
+Filtering on object key values within an array is **only** 支援 the [MySQL database connector](/orm/overview/databases/mysql). However, 您可以 still [filter on the presence of entire JSON objects](#json-object-arrays).
 
 :::
 
-In the following example, the value of `extendedPetsData` is an array of objects with a nested `insurances` array, which contains two objects:
+In 以下範例, the value of `extendedPetsData` is an array of objects with a nested `insurances` array, which contains two objects:
 
 ```json
 [
@@ -687,7 +687,7 @@ In the following example, the value of `extendedPetsData` is an array of objects
 ]
 ```
 
-The following query returns all users where at least one pet is a moose:
+以下 query returns all users where at least one pet is a moose:
 
 ```ts
 const getUsers = await prisma.user.findMany({
@@ -703,7 +703,7 @@ const getUsers = await prisma.user.findMany({
 - `$[*]` is the root array of pet objects
 - `petType` matches the `petType` key in any pet object
 
-The following query returns all users where at least one pet has an expired insurance:
+以下 query returns all users where at least one pet has an expired insurance:
 
 ```ts
 const getUsers = await prisma.user.findMany({
@@ -720,9 +720,9 @@ const getUsers = await prisma.user.findMany({
 - `insurances[*]` matches any `insurances` array inside any pet object
 - `status` matches any `status` key in any insurance object
 
-## Advanced example: Update a nested JSON key value
+## Advanced 範例： Update a nested JSON key value
 
-The following example assumes that the value of `extendedPetsData` is some variation of the following:
+以下範例 assumes that the value of `extendedPetsData` is some variation of 以下:
 
 ```json
 {
@@ -735,7 +735,7 @@ The following example assumes that the value of `extendedPetsData` is some varia
 }
 ```
 
-The following example:
+以下範例:
 
 1. Gets all users
 1. Change the `"status"` of each insurance object to `"expired"`
@@ -880,7 +880,7 @@ There are two types of `null` values possible for a `JSON` field in an SQL datab
 - Database `NULL`: The value in the database is a `NULL`.
 - JSON `null`: The value in the database contains a JSON value that is `null`.
 
-To differentiate between these possibilities, we've introduced three _null enums_ you can use:
+To differentiate between these possibilities, we've introduced three _null enums_ 您可以 use:
 
 - `JsonNull`: Represents the `null` value in JSON.
 - `DbNull`: Represents the `NULL` value in the database.
@@ -894,13 +894,13 @@ From v4.0.0, `JsonNull`, `DbNull`, and `AnyNull` are objects. Before v4.0.0, the
 
 :::info
 
-- When filtering using any of the _null enums_ you can not use a shorthand and leave the `equals` operator off.
+- When filtering using any of the _null enums_ 您可以 not use a shorthand and leave the `equals` operator off.
 - These _null enums_ do not apply to MongoDB because there the difference between a JSON `null` and a database `NULL` does not exist.
 - The _null enums_ do not apply to the `array_contains` operator in all databases because there can only be a JSON `null` within a JSON array. Since there cannot be a database `NULL` within a JSON array, `{ array_contains: null }` is not ambiguous.
 
 :::
   
-For example:
+例如：
 
 ```prisma
 model Log {
@@ -976,7 +976,7 @@ These _null enums_ do not apply to MongoDB because MongoDB does not differentiat
 
 ## Typed `Json` Fields
 
-Prisma's `Json` fields are untyped by default. To add strong typing, you can use the external package [prisma-json-types-generator](https://www.npmjs.com/package/prisma-json-types-generator).
+Prisma's `Json` fields are untyped 預設情況下. 添加 strong typing, 您可以 use the external package [prisma-json-types-generator](https://www.npmjs.com/package/prisma-json-types-generator).
 
 1.  First, install the package and add the generator to your `schema.prisma`:
 
@@ -1024,7 +1024,7 @@ Now, `Log.meta` will be strongly typed as `{ timestamp: number; host: string }`.
 
 ### Typing `String` Fields and Advanced Features
 
-You can also apply these techniques to `String` fields. This is especially useful for creating string-based enums directly in your schema when your database does not support enum types.
+您可以 also apply these techniques to `String` fields. This is especially useful for creating string-based enums directly in your schema when your database does not support enum types.
 
 ```prisma
 model Post {
@@ -1040,7 +1040,7 @@ model Post {
 
 This results in `post.status` being strongly typed as `'draft' | 'published'` and `post.meta` as `LogMetaType[]`.
 
-For a complete guide on configuration, monorepo setup, and other advanced features, please refer to the [official `prisma-json-types-generator` documentation](https://github.com/arthurfiorette/prisma-json-types-generator#readme).
+For a complete guide on configuration, monorepo setup, and other advanced features, please 參閱 the [official `prisma-json-types-generator` documentation](https://github.com/arthurfiorette/prisma-json-types-generator#readme).
 
 ## `Json` FAQs
 
@@ -1060,9 +1060,9 @@ No - [case insensitive filtering](https://github.com/prisma/prisma/issues/7390) 
 
 No, [sorting object properties within a JSON value](https://github.com/prisma/prisma/issues/10346) (order-by-prop) is not currently supported.
 
-### How to set a default value for JSON fields?
+### 如何 set a default value for JSON fields?
 
-When you want to set a `@default` value the `Json` type, you need to enclose it with double-quotes inside the `@default` attribute (and potentially escape any "inner" double-quotes using a backslash), for example:
+When you want to set a `@default` value the `Json` type, 您需要 enclose it with double-quotes inside the `@default` attribute (and potentially escape any "inner" double-quotes using a backslash), 例如：
 
 ```prisma
 model User {
