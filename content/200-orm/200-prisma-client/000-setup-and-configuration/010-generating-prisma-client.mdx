@@ -1,20 +1,20 @@
 ---
-title: 'Generating Prisma Client'
-metaTitle: 'Generating Prisma Client'
-metaDescription: 'This page explains how to generate Prisma Client. It also provides additional context on the generated client, typical workflows and Node.js configuration.'
+title: '生成 Prisma Client'
+metaTitle: '生成 Prisma Client'
+metaDescription: '本頁面說明如何生成 Prisma Client。它也提供了生成客戶端、典型工作流程和 Node.js 配置的額外背景資訊。'
 ---
 
-Prisma Client is a generated database client that's tailored to your database schema. By default, Prisma Client is generated into the `node_modules/.prisma/client` folder, but we highly recommend [you specify an output location](#using-a-custom-output-path).
+Prisma Client 是一個根據您的資料庫 schema 量身打造的生成資料庫客戶端。預設情況下,Prisma Client 會生成到 `node_modules/.prisma/client` 資料夾,但我們強烈建議[您指定輸出位置](#using-a-custom-output-path)。
 
 :::warning
 
-In Prisma ORM 7, Prisma Client will no longer be generated in `node_modules` by default and will require an output path to be defined. [Learn more below on how to define an output path](#using-a-custom-output-path).
+在 Prisma ORM 7 中,Prisma Client 將不再預設生成在 `node_modules` 中,並且需要定義輸出路徑。[在下方了解更多關於如何定義輸出路徑](#using-a-custom-output-path)。
 
 :::
 
-:::tip Use Prisma ORM without Rust binaries
+:::tip 使用不含 Rust 二進位檔的 Prisma ORM
 
-If Prisma ORM's Rust engine binaries cause large bundle sizes, slow builds, or deployment issues (for example, in serverless or edge environments), you can use it without them using this configuration of your `generator` block:
+如果 Prisma ORM 的 Rust 引擎二進位檔導致大型套件大小、緩慢建置或部署問題(例如在 serverless 或 edge 環境中),您可以使用此 `generator` 區塊配置來使用它而不需要它們:
 
 ```prisma
 generator client {
@@ -22,31 +22,31 @@ generator client {
   output     = "./generated"
   engineType = "client"
 }
-``` 
+```
 
-Prisma ORM without Rust binaries has been [Generally Available](/orm/more/releases#generally-available-ga) since [v6.16.0](https://pris.ly/release/6.16.0).
+不含 Rust 二進位檔的 Prisma ORM 自 [v6.16.0](https://pris.ly/release/6.16.0) 起已[正式可用](/orm/more/releases#generally-available-ga)。
 
-Note that you need to use a [driver adapter](/orm/overview/databases/database-drivers#driver-adapters) in this case.
+請注意,在這種情況下您需要使用[驅動程式適配器](/orm/overview/databases/database-drivers#driver-adapters)。
 
-When using this architecture:
+使用此架構時:
 
-- No Rust query engine binary is downloaded or shipped.
-- The database connection pool is maintained by the native JS database driver you install (e.g., `@prisma/adapter-pg` for PostgreSQL).
+- 不會下載或交付 Rust 查詢引擎二進位檔。
+- 資料庫連線池由您安裝的原生 JS 資料庫驅動程式維護(例如,PostgreSQL 的 `@prisma/adapter-pg`)。
 
-This setup can simplify deployments in serverless or edge runtimes. Learn more in the [docs here](/orm/prisma-client/setup-and-configuration/no-rust-engine). 
+此設定可以簡化 serverless 或 edge 執行環境中的部署。在[此處的文件](/orm/prisma-client/setup-and-configuration/no-rust-engine)中了解更多。
 
 :::
 
 
-To generate and instantiate Prisma Client:
+要生成和實例化 Prisma Client:
 
-1. Ensure that you have [Prisma CLI installed on your machine](/orm/tools/prisma-cli#installation).
+1. 確保您已在機器上[安裝 Prisma CLI](/orm/tools/prisma-cli#installation)。
 
    ```terminal
    npm install prisma --save-dev
    ```
 
-1. Add the following `generator` definition to your Prisma schema:
+1. 將以下 `generator` 定義加入您的 Prisma schema:
 
    ```prisma
    generator client {
@@ -57,23 +57,23 @@ To generate and instantiate Prisma Client:
 
    :::note
 
-   Feel free to customize the output location to match your application. Common directories are `prisma`, `src`, or even the root of your project.
+   請隨意自訂輸出位置以符合您的應用程式。常見的目錄有 `prisma`、`src`,甚至是您專案的根目錄。
 
    :::
 
-1. Install the `@prisma/client` npm package:
+1. 安裝 `@prisma/client` npm 套件:
 
    ```terminal
    npm install @prisma/client
    ```
 
-1. Generate Prisma Client with the following command:
+1. 使用以下指令生成 Prisma Client:
 
    ```terminal
    npx prisma generate
    ```
 
-1. You can now [instantiate Prisma Client](/orm/prisma-client/setup-and-configuration/instantiate-prisma-client) in your code:
+1. 您現在可以在程式碼中[實例化 Prisma Client](/orm/prisma-client/setup-and-configuration/instantiate-prisma-client):
 
     ```ts
     import { PrismaClient } from './prisma/generated/client'
@@ -81,23 +81,23 @@ To generate and instantiate Prisma Client:
     // use `prisma` in your application to read and write data in your DB
     ```
 
-> **Important**: You need to re-run the `prisma generate` command after every change that's made to your Prisma schema to update the generated Prisma Client code.
+> **重要**: 在您對 Prisma schema 進行任何變更後,您需要重新執行 `prisma generate` 指令以更新生成的 Prisma Client 程式碼。
 
-Here is a graphical illustration of the typical workflow for generation of Prisma Client:
+以下是 Prisma Client 生成的典型工作流程圖示:
 
 ![Graphical illustration of the typical workflow for generation of Prisma Client](./prisma-client-generation-workflow.png)
 
-## The location of Prisma Client
+## Prisma Client 的位置
 
 :::warning
 
-We strongly recommend you define a custom `output` path. In Prisma ORM version `6.6.0`, not defining an `output` path will result in a warning. In Prisma ORM 7, the field will be required.
+我們強烈建議您定義自訂的 `output` 路徑。在 Prisma ORM 版本 `6.6.0` 中,不定義 `output` 路徑將導致警告。在 Prisma ORM 7 中,此欄位將是必需的。
 
 :::
 
-### Using a custom `output` path
+### 使用自訂 `output` 路徑
 
-You can also specify a custom `output` path on the `generator` configuration, for example (assuming your `schema.prisma` file is located at the default `prisma` subfolder):
+您也可以在 `generator` 配置中指定自訂的 `output` 路徑,例如(假設您的 `schema.prisma` 檔案位於預設的 `prisma` 子資料夾):
 
 ```prisma
 generator client {
@@ -106,42 +106,42 @@ generator client {
 }
 ```
 
-After running `prisma generate` for that schema file, the Prisma Client package will be located in:
+在為該 schema 檔案執行 `prisma generate` 後,Prisma Client 套件將位於:
 
 ```
 ./src/generated/client
 ```
 
-To import the `PrismaClient` from a custom location (for example, from a file named `./src/script.ts`):
+要從自訂位置匯入 `PrismaClient`(例如,從名為 `./src/script.ts` 的檔案):
 
 ```ts
 import { PrismaClient } from './generated/client'
 ```
 
-:::note 
+:::note
 
 
-For improved compatibility with ECMAScript modules (ESM) and to ensure consistent behaviour of Prisma ORM across different Node.js runtimes, you can also use the newer [`prisma-client`](/orm/prisma-schema/overview/generators#prisma-client) generator. This generator is specifically designed to handle common challenges with module resolution and runtime variations, providing a smoother integration experience and less friction with bundlers.
+為了提升與 ECMAScript 模組 (ESM) 的相容性,並確保 Prisma ORM 在不同 Node.js 執行環境中的一致行為,您也可以使用較新的 [`prisma-client`](/orm/prisma-schema/overview/generators#prisma-client) 生成器。此生成器專門設計用於處理模組解析和執行環境變化的常見挑戰,提供更順暢的整合體驗和更少的打包工具摩擦。
 
 :::
 
-## Loading environment variables
+## 載入環境變數
 
-To load environment variables in your Prisma application, you can use the `prisma.config.ts` file along with the `env` helper from `prisma/config`. This approach provides better type safety and configuration management.
+要在您的 Prisma 應用程式中載入環境變數,您可以使用 `prisma.config.ts` 檔案以及來自 `prisma/config` 的 `env` 輔助函式。此方法提供更好的型別安全性和配置管理。
 
-1. First, install the required dependency:
+1. 首先,安裝所需的依賴項:
 
    ```bash
    npm install dotenv --save-dev
    ```
 
-2. Create a `.env` file in your project root (if it doesn't exist) and add your database connection string:
+2. 在您的專案根目錄中建立 `.env` 檔案(如果它不存在)並加入您的資料庫連線字串:
 
    ```env
    DATABASE_URL="your_database_connection_string_here"
    ```
 
-3. Update your `prisma.config.ts` file in your project root:
+3. 在您的專案根目錄中更新 `prisma.config.ts` 檔案:
 
    ```ts
    import "dotenv/config";
@@ -158,27 +158,27 @@ To load environment variables in your Prisma application, you can use the `prism
    });
    ```
 
-## The `@prisma/client` npm package
+## `@prisma/client` npm 套件
 
-The `@prisma/client` npm package consists of two key parts:
+`@prisma/client` npm 套件由兩個關鍵部分組成:
 
-- The `@prisma/client` module itself, which only changes when you re-install the package
-- The `.prisma/client` folder, which is the [default location](#using-a-custom-output-path) for the unique Prisma Client generated from your schema
+- `@prisma/client` 模組本身,僅在您重新安裝套件時才會變更
+- `.prisma/client` 資料夾,這是從您的 schema 生成的獨特 Prisma Client 的[預設位置](#using-a-custom-output-path)
 
-`@prisma/client/index.d.ts` exports `.prisma/client`:
+`@prisma/client/index.d.ts` 匯出 `.prisma/client`:
 
 ```ts
 export * from '.prisma/client'
 ```
 
-This means that you still import `@prisma/client` in your own `.ts` files:
+這意味著您仍然在自己的 `.ts` 檔案中匯入 `@prisma/client`:
 
 ```ts
 import { PrismaClient } from '@prisma/client'
 ```
 
-Prisma Client is generated from your Prisma schema and is unique to your project. Each time you change the schema (for example, by performing a [schema migration](/orm/prisma-migrate)) and run `prisma generate`, Prisma Client's code changes:
+Prisma Client 從您的 Prisma schema 生成,並且是您專案獨有的。每次您變更 schema(例如,透過執行 [schema 遷移](/orm/prisma-migrate))並執行 `prisma generate` 時,Prisma Client 的程式碼都會變更:
 
 ![The .prisma and @prisma folders](./prisma-client-node-module.png)
 
-The `.prisma` folder is unaffected by [pruning](https://docs.npmjs.com/cli/prune.html) in Node.js package managers.
+`.prisma` 資料夾不受 Node.js 套件管理器中的[修剪](https://docs.npmjs.com/cli/prune.html)影響。

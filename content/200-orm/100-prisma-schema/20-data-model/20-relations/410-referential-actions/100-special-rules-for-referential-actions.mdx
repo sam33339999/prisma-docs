@@ -1,24 +1,24 @@
 ---
-title: 'Special rules for referential actions in SQL Server and MongoDB'
-metaTitle: 'Special rules for referential actions in SQL Server and MongoDB'
-metaDescription: 'Circular references or multiple cascade paths can cause validation errors on Microsoft SQL Server and MongoDB. Since the database does not handle these situations out of the box, learn how to solve this problem.'
+title: 'SQL Server 和 MongoDB 中參照動作的特殊規則'
+metaTitle: 'SQL Server 和 MongoDB 中參照動作的特殊規則'
+metaDescription: '循環引用或多個級聯路徑可能在 Microsoft SQL Server 和 MongoDB 上引起驗證錯誤。由於資料庫不能開箱即用地處理這些情況，請了解如何解決此問題。'
 tocDepth: 3
 ---
 
-:::info Quick summary
-This page explains special rules and common issues when using referential actions with SQL Server and MongoDB, including how to avoid cycles and multiple cascade paths.
+:::info 快速摘要
+本頁說明在 SQL Server 和 MongoDB 中使用參照動作時的特殊規則和常見問題，包括如何避免循環和多個級聯路徑。
 :::
 
 
 <TopBlock>
 
-Some databases have specific requirements that you should consider if you are using referential actions.
+某些資料庫在使用參照動作時有特定的要求需要考慮。
 
-- Microsoft SQL Server doesn't allow cascading referential actions on a foreign key, if the relation chain causes a cycle or multiple cascade paths. If the referential actions on the foreign key are set to something other than `NO ACTION` (or `NoAction` if Prisma ORM is managing referential integrity), the server will check for cycles or multiple cascade paths and return an error when executing the SQL.
+- Microsoft SQL Server 不允許外鍵上的級聯參照動作，如果關聯鏈導致循環或多個級聯路徑。如果外鍵上的參照動作設定為 `NO ACTION` 以外的值（或者如果 Prisma ORM 正在管理參照完整性則為 `NoAction`），伺服器將檢查循環或多個級聯路徑，並在執行 SQL 時返回錯誤。
 
-- With MongoDB, using referential actions in Prisma ORM requires that for any data model with self-referential relations or cycles between three models, you must set the referential action of `NoAction` to prevent the referential action emulations from looping infinitely. Be aware that by default, the `relationMode = "prisma"` mode is used for MongoDB, which means that Prisma ORM manages [referential integrity](/orm/prisma-schema/data-model/relations/relation-mode).
+- 對於 MongoDB，在 Prisma ORM 中使用參照動作要求對於具有自我參照關聯或三個 model 之間循環的任何資料模型，您必須將參照動作設定為 `NoAction`，以防止參照動作模擬無限循環。請注意，預設情況下，MongoDB 使用 `relationMode = "prisma"` 模式，這意味著 Prisma ORM 管理[參照完整性](/orm/prisma-schema/data-model/relations/relation-mode)。
 
-Given the SQL:
+給定以下 SQL：
 
 ```sql
 CREATE TABLE [dbo].[Employee] (
@@ -33,28 +33,28 @@ ALTER TABLE [dbo].[Employee]
     ON DELETE CASCADE ON UPDATE CASCADE;
 ```
 
-When the SQL is run, the database would throw the following error:
+當執行 SQL 時，資料庫會拋出以下錯誤：
 
 ```terminal wrap
 Introducing FOREIGN KEY constraint 'FK__Employee__managerId' on table 'Employee' may cause cycles or multiple cascade paths. Specify ON DELETE NO ACTION or ON UPDATE NO ACTION, or modify other FOREIGN KEY constraints.
 ```
 
-In more complicated data models, finding the cascade paths can get complex. Therefore in Prisma ORM, the data model is validated _before_ generating any SQL to be run during any migrations, highlighting relations that are part of the paths. This makes it much easier to find and break these action chains.
+在更複雜的資料模型中，尋找級聯路徑可能會變得複雜。因此在 Prisma ORM 中，資料模型在生成任何要在遷移期間執行的 SQL _之前_進行驗證，突出顯示屬於路徑一部分的關聯。這使得尋找和打破這些動作鏈變得容易得多。
 
 </TopBlock>
 
 <details>
-<summary>Questions answered in this page</summary>
+<summary>本頁回答的問題</summary>
 
-- How do I fix cascade cycles on SQL Server?
-- Do MongoDB self-relations require NoAction?
-- How do I handle multiple cascade paths?
+- 如何修復 SQL Server 上的級聯循環？
+- MongoDB 自我關聯是否需要 NoAction？
+- 如何處理多個級聯路徑？
 
 </details>
 
-## Self-relation (SQL Server and MongoDB)
+## 自我關聯（SQL Server 和 MongoDB）
 
-The following model describes a self-relation where an `Employee` can have a manager and managees, referencing entries of the same model.
+以下 model 描述了一個自我關聯，其中 `Employee` 可以有一個經理和被管理者，引用同一個 model 的條目。
 
 ```prisma
 model Employee {
@@ -65,20 +65,20 @@ model Employee {
 }
 ```
 
-This will result in the following error:
+這將導致以下錯誤：
 
 ```terminal wrap
 Error parsing attribute "@relation": A self-relation must have `onDelete` and `onUpdate` referential actions set to `NoAction` in one of the @relation attributes. (Implicit default `onDelete`: `SetNull`, and `onUpdate`: `Cascade`)
 ```
 
-By not defining any actions, Prisma ORM will use the following default values depending if the underlying [scalar fields](/orm/prisma-schema/data-model/models#scalar-fields) are set to be optional or required.
+透過不定義任何動作，Prisma ORM 將根據底層[純量欄位](/orm/prisma-schema/data-model/models#scalar-fields)是設定為選填還是必填來使用以下預設值。
 
-| Clause     | All of the scalar fields are optional | At least one scalar field is required |
+| 子句       | 所有純量欄位都是選填的 | 至少有一個純量欄位是必填的 |
 | :--------- | :------------------------------------ | :------------------------------------ |
 | `onDelete` | `SetNull`                             | `NoAction`                            |
 | `onUpdate` | `Cascade`                             | `Cascade`                             |
 
-Since the default referential action for `onUpdate` in the above relation would be `Cascade` and for `onDelete` it would be `SetNull`, it creates a cycle and the solution is to explicitly set the `onUpdate` and `onDelete` values to `NoAction`.
+由於上述關聯中 `onUpdate` 的預設參照動作是 `Cascade`，而 `onDelete` 是 `SetNull`，這會建立一個循環，解決方案是明確地將 `onUpdate` 和 `onDelete` 值設定為 `NoAction`。
 
 ```prisma highlight=3;delete|4;add
 model Employee {
@@ -92,9 +92,9 @@ model Employee {
 }
 ```
 
-## Cyclic relation between three tables (SQL Server and MongoDB)
+## 三個資料表之間的循環關聯（SQL Server 和 MongoDB）
 
-The following models describe a cyclic relation between a `Chicken`, an `Egg` and a `Fox`, where each model references the other.
+以下 model 描述了 `Chicken`、`Egg` 和 `Fox` 之間的循環關聯，其中每個 model 都引用另一個。
 
 ```prisma
 model Chicken {
@@ -119,27 +119,27 @@ model Fox {
 }
 ```
 
-This will result in three validation errors in every relation field that is part of the cycle.
+這將導致循環中屬於一部分的每個關聯欄位產生三個驗證錯誤。
 
-The first one is in the relation `egg` in the `Chicken` model:
+第一個錯誤在 `Chicken` model 中的關聯 `egg`：
 
 ```terminal wrap
 Error parsing attribute "@relation": Reference causes a cycle. One of the @relation attributes in this cycle must have `onDelete` and `onUpdate` referential actions set to `NoAction`. Cycle path: Chicken.egg → Egg.predator → Fox.meal. (Implicit default `onUpdate`: `Cascade`)
 ```
 
-The second one is in the relation `predator` in the `Egg` model:
+第二個錯誤在 `Egg` model 中的關聯 `predator`：
 
 ```terminal wrap
 Error parsing attribute "@relation": Reference causes a cycle. One of the @relation attributes in this cycle must have `onDelete` and `onUpdate` referential actions set to `NoAction`. Cycle path: Egg.predator → Fox.meal → Chicken.egg. (Implicit default `onUpdate`: `Cascade`)
 ```
 
-And the third one is in the relation `meal` in the `Fox` model:
+第三個錯誤在 `Fox` model 中的關聯 `meal`：
 
 ```terminal wrap
 Error parsing attribute "@relation": Reference causes a cycle. One of the @relation attributes in this cycle must have `onDelete` and `onUpdate` referential actions set to `NoAction`. Cycle path: Fox.meal → Chicken.egg → Egg.predator. (Implicit default `onUpdate`: `Cascade`)
 ```
 
-As the relation fields are required, the default referential action for `onDelete` is `NoAction` but for `onUpdate` it is `Cascade`, which causes a referential action cycle. The solution is to set the `onUpdate` value to `NoAction` in any one of the relations.
+由於關聯欄位是必填的，`onDelete` 的預設參照動作是 `NoAction`，但 `onUpdate` 是 `Cascade`，這會導致參照動作循環。解決方案是在任何一個關聯中將 `onUpdate` 值設定為 `NoAction`。
 
 ```prisma highlight=3;delete|4;add
 model Chicken {
@@ -153,7 +153,7 @@ model Chicken {
 }
 ```
 
-or
+或
 
 ```prisma highlight=3;delete|4;add
 model Egg {
@@ -167,7 +167,7 @@ model Egg {
 }
 ```
 
-or
+或
 
 ```prisma highlight=3;delete|4;add
 model Fox {
@@ -181,9 +181,9 @@ model Fox {
 }
 ```
 
-## Multiple cascade paths between two models (SQL Server only)
+## 兩個 model 之間的多個級聯路徑（僅限 SQL Server）
 
-The data model describes two different paths between same models, with both relations triggering cascading referential actions.
+資料模型描述了相同 model 之間的兩個不同路徑，兩個關聯都觸發級聯參照動作。
 
 ```prisma
 model User {
@@ -208,23 +208,23 @@ model Comment {
 }
 ```
 
-The problem in this data model is how there are two paths from `Comment` to the `User`, and how the default `onUpdate` action in both relations is `Cascade`. This leads into two validation errors:
+此資料模型的問題在於從 `Comment` 到 `User` 有兩條路徑，以及兩個關聯中預設的 `onUpdate` 動作都是 `Cascade`。這導致兩個驗證錯誤：
 
-The first one is in the relation `writtenBy`:
-
-```terminal wrap
-Error parsing attribute "@relation": When any of the records in model `User` is updated or deleted, the referential actions on the relations cascade to model `Comment` through multiple paths. Please break one of these paths by setting the `onUpdate` and `onDelete` to `NoAction`. (Implicit default `onUpdate`: `Cascade`)
-```
-
-The second one is in the relation `post`:
+第一個錯誤在關聯 `writtenBy` 中：
 
 ```terminal wrap
 Error parsing attribute "@relation": When any of the records in model `User` is updated or deleted, the referential actions on the relations cascade to model `Comment` through multiple paths. Please break one of these paths by setting the `onUpdate` and `onDelete` to `NoAction`. (Implicit default `onUpdate`: `Cascade`)
 ```
 
-The error means that by updating a primary key in a record in the `User` model, the update will cascade once between the `Comment` and `User` through the `writtenBy` relation, and again through the `Post` model from the `post` relation due to `Post` being related with the `Comment` model.
+第二個錯誤在關聯 `post` 中：
 
-The fix is to set the `onUpdate` referential action to `NoAction` in the `writtenBy` or `post` relation fields, or from the `Post` model by changing the actions in the `author` relation:
+```terminal wrap
+Error parsing attribute "@relation": When any of the records in model `User` is updated or deleted, the referential actions on the relations cascade to model `Comment` through multiple paths. Please break one of these paths by setting the `onUpdate` and `onDelete` to `NoAction`. (Implicit default `onUpdate`: `Cascade`)
+```
+
+該錯誤意味著透過更新 `User` model 中記錄的主鍵，更新將透過 `writtenBy` 關聯在 `Comment` 和 `User` 之間級聯一次，並且由於 `Post` 與 `Comment` model 相關，將再次透過 `Post` model 從 `post` 關聯級聯。
+
+修復方法是在 `writtenBy` 或 `post` 關聯欄位中將 `onUpdate` 參照動作設定為 `NoAction`，或者從 `Post` model 透過更改 `author` 關聯中的動作：
 
 ```prisma highlight=5;delete|6;add
 model Comment {
@@ -239,7 +239,7 @@ model Comment {
 }
 ```
 
-or
+或
 
 ```prisma highlight=6;delete|7;add
 model Comment {
@@ -254,7 +254,7 @@ model Comment {
 }
 ```
 
-or
+或
 
 ```prisma highlight=4;delete|5;add
 model Post {

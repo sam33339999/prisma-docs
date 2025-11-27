@@ -1,8 +1,8 @@
 ---
-title: 'Introduction to Prisma Client'
-sidebar_label: 'Introduction'
-metaTitle: 'Introduction to Prisma Client'
-metaDescription: 'Learn how to set up Prisma Client.'
+title: 'Prisma Client 介紹'
+sidebar_label: '介紹'
+metaTitle: 'Prisma Client 介紹'
+metaDescription: '學習如何設定 Prisma Client。'
 ---
 
 import {
@@ -11,21 +11,21 @@ import {
 
 <TopBlock>
 
-Prisma Client is an auto-generated and type-safe query builder that's _tailored_ to your data. The easiest way to get started with Prisma Client is by following the **[Quickstart](/getting-started/prisma-orm/quickstart/sqlite)**.
+Prisma Client 是一個自動生成且型別安全的查詢建構器,專為您的資料_量身打造_。開始使用 Prisma Client 最簡單的方式是遵循 **[快速開始](/getting-started/prisma-orm/quickstart/sqlite)**。
 
 <Link className="button button--primary" to="/getting-started/prisma-orm/quickstart/sqlite">
   <Icon icon="fa-solid fa-star" size="18px" />
-  Quickstart (5 min)
+  快速開始 (5 分鐘)
 </Link>
 
-The setup instructions [below](#set-up) provide a high-level overview of the steps needed to set up Prisma Client. If you want to get started using Prisma Client with your own database, follow one of these guides:
+[以下](#set-up)的設定說明提供了設定 Prisma Client 所需步驟的高階概覽。如果您想要使用自己的資料庫開始使用 Prisma Client,請遵循以下其中一個指南:
 
 <Link
   className="button button--primary"
   to="/getting-started/prisma-orm/quickstart/postgresql"
 >
   <Icon icon="fa-solid fa-rocket" size="18px" />
-  Set up a new project from scratch
+  從零開始設定新專案
 </Link>
 <br />
 <Link
@@ -33,16 +33,16 @@ The setup instructions [below](#set-up) provide a high-level overview of the ste
   to="/getting-started/prisma-orm/add-to-existing-project/postgresql"
 >
   <Icon icon="fa-solid fa-plus" size="18px" />
-  Add Prisma to an existing project
+  將 Prisma 加入現有專案
 </Link>
 
 </TopBlock>
 
-## Set up
+## 設定
 
-### 1. Prerequisites
+### 1. 前置需求
 
-In order to set up Prisma Client, you need a [Prisma schema file](/orm/prisma-schema) with your database connection, the Prisma Client generator, and at least one model:
+為了設定 Prisma Client,您需要一個包含資料庫連線、Prisma Client 生成器和至少一個模型的 [Prisma schema 檔案](/orm/prisma-schema):
 
 ```prisma file=schema.prisma
 datasource db {
@@ -62,24 +62,24 @@ model User {
 }
 ```
 
-Also make sure to [install the Prisma CLI](/orm/tools/prisma-cli#installation):
+同時請確保[安裝 Prisma CLI](/orm/tools/prisma-cli#installation):
 
 ```
 npm install prisma --save-dev
 npx prisma
 ```
 
-### 2. Installation
+### 2. 安裝
 
-Install Prisma Client in your project with the following command:
+使用以下指令在您的專案中安裝 Prisma Client:
 
 ```
 npm install @prisma/client
 ```
 
-### 3. Importing Prisma Client
+### 3. 匯入 Prisma Client
 
-There are multiple ways to import Prisma Client in your project depending on your use case:
+根據您的使用情境,有多種方式可以在您的專案中匯入 Prisma Client:
 
 <TabbedContent code>
 
@@ -107,7 +107,7 @@ const prisma = new PrismaClient()
 
 </TabbedContent>
 
-For edge environments, you can import Prisma Client as follows:
+對於 edge 環境,您可以如下匯入 Prisma Client:
 
 <TabbedContent code>
 
@@ -135,11 +135,11 @@ const prisma = new PrismaClient()
 
 </TabbedContent>
 
-> **Note**: If you're using [driver adapters](/orm/overview/databases/database-drivers#driver-adapters), you can import from the location spefified in your generator's `output` path directly, e.g. `./src/generated/prisma`. No need to import from `./src/generated/prisma/edge`.
+> **注意**: 如果您使用[驅動程式適配器](/orm/overview/databases/database-drivers#driver-adapters),您可以直接從生成器的 `output` 路徑指定位置匯入,例如 `./src/generated/prisma`。不需要從 `./src/generated/prisma/edge` 匯入。
 
-### 4. Use Prisma Client to send queries to your database
+### 4. 使用 Prisma Client 向您的資料庫發送查詢
 
-Once you have instantiated `PrismaClient`, you can start sending queries in your code:
+一旦您實例化了 `PrismaClient`,您就可以在程式碼中開始發送查詢:
 
 ```ts
 // run inside `async` function
@@ -155,13 +155,13 @@ const users = await prisma.user.findMany()
 
 :::info
 
-All Prisma Client methods return an instance of [`PrismaPromise`](/orm/reference/prisma-client-reference#prismapromise-behavior) which only executes when you call `await` or `.then()` or `.catch()`.
+所有 Prisma Client 方法都會回傳一個 [`PrismaPromise`](/orm/reference/prisma-client-reference#prismapromise-behavior) 實例,只有在您呼叫 `await` 或 `.then()` 或 `.catch()` 時才會執行。
 
 :::
 
-### 5. Evolving your application
+### 5. 演進您的應用程式
 
-Whenever you make changes to your database that are reflected in the Prisma schema, you need to manually re-generate Prisma Client to update the generated code in your output directory:
+每當您對資料庫進行變更並反映在 Prisma schema 中時,您需要手動重新生成 Prisma Client 以更新輸出目錄中的生成程式碼:
 
 ```
 prisma generate

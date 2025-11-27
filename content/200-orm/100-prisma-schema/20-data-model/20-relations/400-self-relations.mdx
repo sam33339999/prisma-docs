@@ -1,24 +1,24 @@
 ---
-title: Self-relations
-metaDescription: How to define and work with self-relations in Prisma.
+title: 自身關聯
+metaDescription: 如何在 Prisma 中定義和使用自身關聯。
 ---
 
-A relation field can also reference its own model, in this case the relation is called a _self-relation_. Self-relations can be of any cardinality, 1-1, 1-n and m-n.
+關聯欄位也可以引用它自己的 model，在這種情況下，關聯被稱為_自身關聯_。自身關聯可以是任何基數，1-1、1-n 和 m-n。
 
 <details>
-<summary>Questions answered in this page</summary>
+<summary>本頁回答的問題</summary>
 
-- How do I model self-relations?
-- Do self-relations always require @relation?
-- How do 1-1 vs 1-n self-relations differ?
+- 如何建立自身關聯模型？
+- 自身關聯是否總是需要 @relation？
+- 1-1 與 1-n 自身關聯有何不同？
 
 </details>
 
-Note that self-relations always require the `@relation` attribute.
+請注意，自身關聯總是需要 `@relation` 屬性。
 
-## One-to-one self-relations
+## 一對一自身關聯
 
-The following example models a one-to-one self-relation:
+以下範例建立一個一對一自身關聯的模型：
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -49,22 +49,22 @@ model User {
 </TabItem>
 </TabbedContent>
 
-This relation expresses the following:
+此關聯表達以下內容：
 
-- "a user can have one or zero predecessors" (for example, Sarah is Mary's predecessor as blog owner)
-- "a user can have one or zero successors" (for example, Mary is Sarah's successor as blog owner)
+- 「一個使用者可以有一個或零個前任」（例如，Sarah 是 Mary 的部落格擁有者前任）
+- 「一個使用者可以有一個或零個繼任者」（例如，Mary 是 Sarah 的部落格擁有者繼任者）
 
-> **Note**: One-to-one self-relations cannot be made required on both sides. One or both sides must be optional, otherwise it becomes impossible to create the first `User` record.
+> **注意**：一對一自身關聯不能在雙方都設為必填。一方或雙方必須是選填的，否則將無法建立第一個 `User` 記錄。
 
-To create a one-to-one self-relation:
+要建立一對一自身關聯：
 
-- Both sides of the relation must define a `@relation` attribute that share the same name - in this case, **BlogOwnerHistory**.
-- One relation field must be a [fully annotated](/orm/prisma-schema/data-model/relations#relation-fields). In this example, the `successor` field defines both the `field` and `references` arguments.
-- One relation field must be backed by a foreign key. The `successor` field is backed by the `successorId` foreign key, which references a value in the `id` field. The `successorId` scalar relation field also requires a `@unique` attribute to guarantee a one-to-one relation.
+- 關聯的雙方都必須定義一個共享相同名稱的 `@relation` 屬性 - 在本例中為 **BlogOwnerHistory**。
+- 一個關聯欄位必須是[完全註解的](/orm/prisma-schema/data-model/relations#relation-fields)。在此範例中，`successor` 欄位同時定義了 `field` 和 `references` 參數。
+- 一個關聯欄位必須由外鍵支持。`successor` 欄位由 `successorId` 外鍵支持，它引用 `id` 欄位中的值。`successorId` 純量關聯欄位還需要 `@unique` 屬性來保證一對一關聯。
 
-> **Note**: One-to-one self relations require two sides even if both sides are equal in the relationship. For example, to model a 'best friends' relation, you would need to create two relation fields: `bestfriend1` and a `bestfriend2`.
+> **注意**：一對一自身關聯需要兩方，即使雙方在關係中是平等的。例如，要建立「最好的朋友」關係模型，您需要建立兩個關聯欄位：`bestfriend1` 和 `bestfriend2`。
 
-Either side of the relation can be backed by a foreign key. In the previous example, repeated below, `successor` is backed by `successorId`:
+關聯的任一側都可以由外鍵支持。在下面重複的先前範例中，`successor` 由 `successorId` 支持：
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -97,7 +97,7 @@ model User {
 </TabItem>
 </TabbedContent>
 
-Alternatively, you could rewrite this so that `predecessor` is backed by `predecessorId`:
+或者，您可以重寫此範例，使 `predecessor` 由 `predecessorId` 支持：
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -132,7 +132,7 @@ model User {
 </TabItem>
 </TabbedContent>
 
-No matter which side is backed by a foreign key, Prisma Client surfaces both the `predecessor` and `successor` fields:
+無論哪一側由外鍵支持，Prisma Client 都會同時顯示 `predecessor` 和 `successor` 欄位：
 
 ```ts showLineNumbers
 const x = await prisma.user.create({
@@ -154,11 +154,11 @@ const x = await prisma.user.create({
 });
 ```
 
-### One-to-one self relations in the database
+### 資料庫中的一對一自身關聯
 
-### Relational databases
+### 關聯式資料庫
 
-In **relational databases only**, a one-to-one self-relation is represented by the following SQL:
+**僅限關聯式資料庫**，一對一自身關聯由以下 SQL 表示：
 
 ```sql
 CREATE TABLE "User" (
@@ -174,9 +174,9 @@ ALTER TABLE "User" ADD CONSTRAINT successor_unique UNIQUE ("successorId");
 
 ### MongoDB
 
-For MongoDB, Prisma ORM currently uses a [normalized data model design](https://www.mongodb.com/docs/manual/data-modeling/), which means that documents reference each other by ID in a similar way to relational databases.
+對於 MongoDB，Prisma ORM 目前使用[正規化資料模型設計](https://www.mongodb.com/docs/manual/data-modeling/)，這意味著文件透過 ID 相互引用，類似於關聯式資料庫。
 
-The following MongoDB documents represent a one-to-one self-relation between two users:
+以下 MongoDB 文件表示兩個使用者之間的一對一自身關聯：
 
 ```json
 { "_id": { "$oid": "60d97df70080618f000e3ca9" }, "name": "Elsa the Elder" }
@@ -190,9 +190,9 @@ The following MongoDB documents represent a one-to-one self-relation between two
 }
 ```
 
-## One-to-many self relations
+## 一對多自身關聯
 
-A one-to-many self-relation looks as follows:
+一對多自身關聯如下所示：
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -223,18 +223,18 @@ model User {
 </TabItem>
 </TabbedContent>
 
-This relation expresses the following:
+此關聯表達以下內容：
 
-- "a user has zero or one _teachers_ "
-- "a user can have zero or more _students_"
+- 「一個使用者有零個或一個_老師_」
+- 「一個使用者可以有零個或多個_學生_」
 
-Note that you can also require each user to have a teacher by making the `teacher` field [required](/orm/prisma-schema/data-model/models#optional-and-mandatory-fields).
+請注意，您也可以透過將 `teacher` 欄位設為[必填](/orm/prisma-schema/data-model/models#optional-and-mandatory-fields)來要求每個使用者都有一位老師。
 
-### One-to-many self-relations in the database
+### 資料庫中的一對多自身關聯
 
-### Relational databases
+### 關聯式資料庫
 
-In relational databases, a one-to-many self-relation is represented by the following SQL:
+在關聯式資料庫中，一對多自身關聯由以下 SQL 表示：
 
 ```sql
 CREATE TABLE "User" (
@@ -246,13 +246,13 @@ CREATE TABLE "User" (
 ALTER TABLE "User" ADD CONSTRAINT fk_teacherid_user FOREIGN KEY ("teacherId") REFERENCES "User" (id);
 ```
 
-Notice the lack of `UNIQUE` constraint on `teacherId` - multiple students can have the same teacher.
+請注意 `teacherId` 上缺少 `UNIQUE` 約束 - 多個學生可以有相同的老師。
 
 ### MongoDB
 
-For MongoDB, Prisma ORM currently uses a [normalized data model design](https://www.mongodb.com/docs/manual/data-modeling/), which means that documents reference each other by ID in a similar way to relational databases.
+對於 MongoDB，Prisma ORM 目前使用[正規化資料模型設計](https://www.mongodb.com/docs/manual/data-modeling/)，這意味著文件透過 ID 相互引用，類似於關聯式資料庫。
 
-The following MongoDB documents represent a one-to-many self-relation between three users - one teacher and two students with the same `teacherId`:
+以下 MongoDB 文件表示三個使用者之間的一對多自身關聯 - 一位老師和兩個具有相同 `teacherId` 的學生：
 
 ```json
 {
@@ -277,9 +277,9 @@ The following MongoDB documents represent a one-to-many self-relation between th
 }
 ```
 
-## Many-to-many self relations
+## 多對多自身關聯
 
-A many-to-many self-relation looks as follows:
+多對多自身關聯如下所示：
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -310,14 +310,14 @@ model User {
 </TabItem>
 </TabbedContent>
 
-This relation expresses the following:
+此關聯表達以下內容：
 
-- "a user can be followed by zero or more users"
-- "a user can follow zero or more users"
+- 「一個使用者可以被零個或多個使用者追蹤」
+- 「一個使用者可以追蹤零個或多個使用者」
 
-Note that for relational databases, this many-to-many-relation is [implicit](/orm/prisma-schema/data-model/relations/many-to-many-relations#implicit-many-to-many-relations). This means Prisma ORM maintains a [relation table](/orm/prisma-schema/data-model/relations/many-to-many-relations#relation-tables) for it in the underlying database.
+請注意，對於關聯式資料庫，這個多對多關聯是[隱式的](/orm/prisma-schema/data-model/relations/many-to-many-relations#implicit-many-to-many-relations)。這意味著 Prisma ORM 在底層資料庫中維護一個[關聯表](/orm/prisma-schema/data-model/relations/many-to-many-relations#relation-tables)。
 
-If you need the relation to hold other fields, you can create an [explicit](/orm/prisma-schema/data-model/relations/many-to-many-relations#explicit-many-to-many-relations) many-to-many self relation as well. The explicit version of the self relation shown previously is as follows:
+如果您需要關聯持有其他欄位，您也可以建立[顯式的](/orm/prisma-schema/data-model/relations/many-to-many-relations#explicit-many-to-many-relations)多對多自身關聯。先前顯示的自身關聯的顯式版本如下：
 
 ```prisma
 model User {
@@ -337,11 +337,11 @@ model Follows {
 }
 ```
 
-### Many-to-many self-relations in the database
+### 資料庫中的多對多自身關聯
 
-### Relational databases
+### 關聯式資料庫
 
-In relational databases, a many-to-many self-relation (implicit) is represented by the following SQL:
+在關聯式資料庫中，多對多自身關聯（隱式）由以下 SQL 表示：
 
 ```sql
 CREATE TABLE "User" (
@@ -356,9 +356,9 @@ CREATE TABLE "_UserFollows" (
 
 ### MongoDB
 
-For MongoDB, Prisma ORM currently uses a [normalized data model design](https://www.mongodb.com/docs/manual/data-modeling/), which means that documents reference each other by ID in a similar way to relational databases.
+對於 MongoDB，Prisma ORM 目前使用[正規化資料模型設計](https://www.mongodb.com/docs/manual/data-modeling/)，這意味著文件透過 ID 相互引用，類似於關聯式資料庫。
 
-The following MongoDB documents represent a many-to-many self-relation between five users - two users that follow `"Bob"`, and two users that follow him:
+以下 MongoDB 文件表示五個使用者之間的多對多自身關聯 - 兩個追蹤 `"Bob"` 的使用者，以及兩個被他追蹤的使用者：
 
 ```json
 {
@@ -407,9 +407,9 @@ The following MongoDB documents represent a many-to-many self-relation between f
 }
 ```
 
-## Defining multiple self-relations on the same model
+## 在同一個 model 上定義多個自身關聯
 
-You can also define multiple self-relations on the same model at once. Taking all relations from the previous sections as example, you could define a `User` model as follows:
+您也可以同時在同一個 model 上定義多個自身關聯。以先前章節中的所有關聯為例，您可以按如下方式定義 `User` model：
 
 <TabbedContent code>
 <TabItem value="Relational databases">

@@ -1,30 +1,30 @@
 ---
 title: 'CRUD'
-metaTitle: 'CRUD (Reference)'
-metaDescription: 'How to perform CRUD with Prisma Client.'
+metaTitle: 'CRUD (參考)'
+metaDescription: '如何使用 Prisma Client 執行 CRUD 操作。'
 toc_max_heading_level: 4
 ---
 
 <TopBlock>
 
-This page describes how to perform CRUD operations with your generated Prisma Client API. CRUD is an acronym that stands for:
+本頁面說明如何使用生成的 Prisma Client API 執行 CRUD 操作。CRUD 是一個縮寫,代表:
 
-- [Create](#create)
-- [Read](#read)
-- [Update](#update)
-- [Delete](#delete)
+- [建立](#create)
+- [讀取](#read)
+- [更新](#update)
+- [刪除](#delete)
 
-Refer to the [Prisma Client API reference documentation](/orm/reference/prisma-client-reference) for detailed explanations of each method.
+有關每個方法的詳細說明,請參閱 [Prisma Client API 參考文件](/orm/reference/prisma-client-reference)。
 
 </TopBlock>
 
-## Example schema
+## 範例 schema
 
-All examples are based on the following schema:
+所有範例都基於以下 schema:
 
 <details>
 
-<summary>Expand for sample schema</summary>
+<summary>展開查看範例 schema</summary>
 
 <TabbedContent code>
 <TabItem value="Relational databases">
@@ -141,19 +141,19 @@ enum Role {
 
 </details>
 
-For **relational databases**, use `db push` command to push the example schema to your own database
+對於**關聯式資料庫**,使用 `db push` 命令將範例 schema 推送到您自己的資料庫
 
 ```terminal
 npx prisma db push
 ```
 
-For **MongoDB**, ensure your data is in a uniform shape and matches the model defined in the Prisma schema.
+對於 **MongoDB**,請確保您的資料具有統一的形狀,並與 Prisma schema 中定義的模型相符。
 
-## Create
+## 建立
 
-### Create a single record
+### 建立單一記錄
 
-The following query creates ([`create()`](/orm/reference/prisma-client-reference#create)) a single user with two fields:
+以下查詢建立 ([`create()`](/orm/reference/prisma-client-reference#create)) 一個具有兩個欄位的單一使用者:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -184,11 +184,11 @@ const user = await prisma.user.create({
 </cmdResult>
 </CodeWithResult>
 
-The user's `id` is auto-generated, and your schema determines [which fields are mandatory](/orm/prisma-schema/data-model/models#optional-and-mandatory-fields).
+使用者的 `id` 是自動生成的,而您的 schema 決定[哪些欄位是必填的](/orm/prisma-schema/data-model/models#optional-and-mandatory-fields)。
 
-#### Create a single record using generated types
+#### 使用生成的類型建立單一記錄
 
-The following example produces an identical result, but creates a `UserCreateInput` variable named `user` _outside_ the context of the `create()` query. After completing a simple check ("Should posts be included in this `create()` query?"), the `user` variable is passed into the query:
+以下範例產生相同的結果,但在 `create()` 查詢的上下文_之外_建立一個名為 `user` 的 `UserCreateInput` 變數。在完成簡單檢查("是否應在此 `create()` 查詢中包含貼文?")後,將 `user` 變數傳入查詢:
 
 ```ts
 import { PrismaClient, Prisma } from '../prisma/generated/client'
@@ -224,13 +224,13 @@ async function main() {
 main()
 ```
 
-For more information about working with generated types, see: [Generated types](/orm/prisma-client/type-safety).
+有關使用生成類型的更多資訊,請參閱:[生成的類型](/orm/prisma-client/type-safety)。
 
-### Create multiple records
+### 建立多個記錄
 
-Prisma Client supports bulk inserts as a GA feature in [2.20.0](https://github.com/prisma/prisma/releases/2.20.0) and later.
+Prisma Client 在 [2.20.0](https://github.com/prisma/prisma/releases/2.20.0) 及更高版本中支援批量插入作為 GA 功能。
 
-The following [`createMany()`](/orm/reference/prisma-client-reference#createmany) query creates multiple users and skips any duplicates (`email` must be unique):
+以下 [`createMany()`](/orm/reference/prisma-client-reference#createmany) 查詢建立多個使用者並跳過任何重複項(`email` 必須是唯一的):
 
 <CodeWithResult expanded="{true}" outputResultText="query">
 <cmd>
@@ -262,11 +262,11 @@ const createMany = await prisma.user.createMany({
 
 :::warning
 
-Note `skipDuplicates` is not supported when using MongoDB, SQLServer, or SQLite.
+注意:使用 MongoDB、SQLServer 或 SQLite 時不支援 `skipDuplicates`。
 
 :::
 
-`createMany()` uses a single `INSERT INTO` statement with multiple values, which is generally more efficient than a separate `INSERT` per row:
+`createMany()` 使用單一 `INSERT INTO` 語句配合多個值,這通常比每行使用單獨的 `INSERT` 更有效率:
 
 ```sql
 BEGIN
@@ -275,9 +275,9 @@ COMMIT
 SELECT "public"."User"."country", "public"."User"."city", "public"."User"."email", SUM("public"."User"."profileViews"), COUNT(*) FROM "public"."User" WHERE 1=1 GROUP BY "public"."User"."country", "public"."User"."city", "public"."User"."email" HAVING AVG("public"."User"."profileViews") >= $1 ORDER BY "public"."User"."country" ASC OFFSET $2
 ```
 
-> **Note**: Multiple `create()` statements inside a `$transaction` results in multiple `INSERT` statements.
+> **注意**: `$transaction` 內的多個 `create()` 語句會產生多個 `INSERT` 語句。
 
-The following video demonstrates how to use `createMany()` and [faker.js](https://github.com/faker-js/faker/) to seed a database with sample data:
+以下影片示範如何使用 `createMany()` 和 [faker.js](https://github.com/faker-js/faker/) 來為資料庫填充範例資料:
 
 <div class="videoWrapper">
   <iframe
@@ -290,19 +290,19 @@ The following video demonstrates how to use `createMany()` and [faker.js](https:
   ></iframe>
 </div>
 
-### Create records and connect or create related records
+### 建立記錄並連接或建立相關記錄
 
-See [Working with relations > Nested writes](/orm/prisma-client/queries/relation-queries#nested-writes) for information about creating a record and one or more related records at the same time.
+有關同時建立一個記錄和一個或多個相關記錄的資訊,請參閱 [使用關聯 > 巢狀寫入](/orm/prisma-client/queries/relation-queries#nested-writes)。
 
-### Create and return multiple records
+### 建立並返回多個記錄
 
 :::info
 
-This feature is available in Prisma ORM version 5.14.0 and later for PostgreSQL, CockroachDB and SQLite.
+此功能在 Prisma ORM 5.14.0 及更高版本中適用於 PostgreSQL、CockroachDB 和 SQLite。
 
 :::
 
-You can use `createManyAndReturn()` in order to create many records and return the resulting objects.
+您可以使用 `createManyAndReturn()` 來建立多個記錄並返回結果物件。
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -342,15 +342,15 @@ const users = await prisma.user.createManyAndReturn({
 
 :::warning
 
-`relationLoadStrategy: join` is not available when using `createManyAndReturn()`.
+使用 `createManyAndReturn()` 時無法使用 `relationLoadStrategy: join`。
 
 :::
 
-## Read
+## 讀取
 
-### Get record by ID or unique identifier
+### 透過 ID 或唯一識別符號取得記錄
 
-The following queries return a single record ([`findUnique()`](/orm/reference/prisma-client-reference#findunique)) by unique identifier or ID:
+以下查詢透過唯一識別符號或 ID 返回單一記錄 ([`findUnique()`](/orm/reference/prisma-client-reference#findunique)):
 
 ```ts
 // By unique identifier
@@ -368,7 +368,7 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-If you are using the MongoDB connector and your underlying ID type is `ObjectId`, you can use the string representation of that `ObjectId`:
+如果您使用 MongoDB 連接器且底層 ID 類型為 `ObjectId`,您可以使用該 `ObjectId` 的字串表示:
 
 ```ts
 // By ID
@@ -379,22 +379,22 @@ const user = await prisma.user.findUnique({
 })
 ```
 
-### Get all records
+### 取得所有記錄
 
-The following [`findMany()`](/orm/reference/prisma-client-reference#findmany) query returns _all_ `User` records:
+以下 [`findMany()`](/orm/reference/prisma-client-reference#findmany) 查詢返回_所有_ `User` 記錄:
 
 ```ts
 const users = await prisma.user.findMany()
 ```
 
-You can also [paginate your results](/orm/prisma-client/queries/pagination).
+您也可以[分頁您的結果](/orm/prisma-client/queries/pagination)。
 
-### Get the first record that matches a specific criteria
+### 取得符合特定條件的第一個記錄
 
-The following [`findFirst()`](/orm/reference/prisma-client-reference#findfirst) query returns the _most recently created user_ with at least one post that has more than 100 likes:
+以下 [`findFirst()`](/orm/reference/prisma-client-reference#findfirst) 查詢返回_最近建立的使用者_,該使用者至少有一篇貼文擁有超過 100 個讚:
 
-1. Order users by descending ID (largest first) - the largest ID is the most recent
-2. Return the first user in descending order with at least one post that has more than 100 likes
+1. 按降序 ID 排序使用者(最大的在前) - 最大的 ID 是最近的
+2. 返回降序排列中第一個至少有一篇貼文擁有超過 100 個讚的使用者
 
 ```ts
 const findUser = await prisma.user.findFirst({
@@ -413,13 +413,13 @@ const findUser = await prisma.user.findFirst({
 })
 ```
 
-### Get a filtered list of records
+### 取得篩選後的記錄清單
 
-Prisma Client supports [filtering](/orm/prisma-client/queries/filtering-and-sorting) on record fields and related record fields.
+Prisma Client 支援對記錄欄位和相關記錄欄位進行[篩選](/orm/prisma-client/queries/filtering-and-sorting)。
 
-#### Filter by a single field value
+#### 按單一欄位值篩選
 
-The following query returns all `User` records with an email that ends in `"prisma.io"`:
+以下查詢返回所有 `email` 以 `"prisma.io"` 結尾的 `User` 記錄:
 
 ```ts
 const users = await prisma.user.findMany({
@@ -431,9 +431,9 @@ const users = await prisma.user.findMany({
 })
 ```
 
-#### Filter by multiple field values
+#### 按多個欄位值篩選
 
-The following query uses a combination of [operators](/orm/reference/prisma-client-reference#filter-conditions-and-operators) to return users whose name start with `E` _or_ administrators with at least 1 profile view:
+以下查詢使用[運算子](/orm/reference/prisma-client-reference#filter-conditions-and-operators)的組合來返回名字以 `E` 開頭_或_至少有 1 次個人資料檢視的管理員:
 
 ```ts
 const users = await prisma.user.findMany({
@@ -459,9 +459,9 @@ const users = await prisma.user.findMany({
 })
 ```
 
-#### Filter by related record field values
+#### 按相關記錄欄位值篩選
 
-The following query returns users with an email that ends with `prisma.io` _and_ have at least _one_ post (`some`) that is not published:
+以下查詢返回 email 以 `prisma.io` 結尾_且_至少有_一篇_貼文 (`some`) 尚未發布的使用者:
 
 ```ts
 const users = await prisma.user.findMany({
@@ -478,11 +478,11 @@ const users = await prisma.user.findMany({
 })
 ```
 
-See [Working with relations](/orm/prisma-client/queries/relation-queries) for more examples of filtering on related field values.
+有關按相關欄位值篩選的更多範例,請參閱 [使用關聯](/orm/prisma-client/queries/relation-queries)。
 
-### Select a subset of fields
+### 選擇欄位子集
 
-The following `findUnique()` query uses `select` to return the `email` and `name` fields of a specific `User` record:
+以下 `findUnique()` 查詢使用 `select` 返回特定 `User` 記錄的 `email` 和 `name` 欄位:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -509,17 +509,17 @@ const user = await prisma.user.findUnique({
 </cmdResult>
 </CodeWithResult>
 
-For more information about including relations, refer to:
+有關包含關聯的更多資訊,請參閱:
 
-- [Select fields](/orm/prisma-client/queries/select-fields)
-- [Relation queries](/orm/prisma-client/queries/relation-queries)
+- [選擇欄位](/orm/prisma-client/queries/select-fields)
+- [關聯查詢](/orm/prisma-client/queries/relation-queries)
 
-#### Select a subset of related record fields
+#### 選擇相關記錄欄位的子集
 
-The following query uses a nested `select` to return:
+以下查詢使用巢狀 `select` 返回:
 
-- The user's `email`
-- The `likes` field of each post
+- 使用者的 `email`
+- 每篇貼文的 `likes` 欄位
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -550,15 +550,15 @@ const user = await prisma.user.findUnique({
 </cmdResult>
 </CodeWithResult>
 
-For more information about including relations, see [Select fields and include relations](/orm/prisma-client/queries/select-fields).
+有關包含關聯的更多資訊,請參閱 [選擇欄位並包含關聯](/orm/prisma-client/queries/select-fields)。
 
-### Select distinct field values
+### 選擇不重複的欄位值
 
-See [Select `distinct`](/orm/prisma-client/queries/aggregation-grouping-summarizing#select-distinct) for information about selecting distinct field values.
+有關選擇不重複欄位值的資訊,請參閱 [選擇 `distinct`](/orm/prisma-client/queries/aggregation-grouping-summarizing#select-distinct)。
 
-### Include related records
+### 包含相關記錄
 
-The following query returns all `ADMIN` users and includes each user's posts in the result:
+以下查詢返回所有 `ADMIN` 使用者並在結果中包含每個使用者的貼文:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -619,17 +619,17 @@ const users = await prisma.user.findMany({
 </cmdResult>
 </CodeWithResult>
 
-For more information about including relations, see [Select fields and include relations](/orm/prisma-client/queries/select-fields).
+有關包含關聯的更多資訊,請參閱 [選擇欄位並包含關聯](/orm/prisma-client/queries/select-fields)。
 
-#### Include a filtered list of relations
+#### 包含已篩選的關聯清單
 
-See [Working with relations](/orm/prisma-client/queries/relation-queries#filter-a-list-of-relations) to find out how to combine [`include`](/orm/reference/prisma-client-reference#include) and `where` for a filtered list of relations - for example, only include a user's published posts.
+請參閱 [使用關聯](/orm/prisma-client/queries/relation-queries#filter-a-list-of-relations) 以了解如何結合 [`include`](/orm/reference/prisma-client-reference#include) 和 `where` 來取得已篩選的關聯清單 - 例如,只包含使用者已發布的貼文。
 
-## Update
+## 更新
 
-### Update a single record
+### 更新單一記錄
 
-The following query uses [`update()`](/orm/reference/prisma-client-reference#update) to find and update a single `User` record by `email`:
+以下查詢使用 [`update()`](/orm/reference/prisma-client-reference#update) 透過 `email` 尋找並更新單一 `User` 記錄:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -662,9 +662,9 @@ const updateUser = await prisma.user.update({
 </cmdResult>
 </CodeWithResult>
 
-### Update multiple records
+### 更新多個記錄
 
-The following query uses [`updateMany()`](/orm/reference/prisma-client-reference#updatemany) to update all `User` records that contain `prisma.io`:
+以下查詢使用 [`updateMany()`](/orm/reference/prisma-client-reference#updatemany) 更新所有包含 `prisma.io` 的 `User` 記錄:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -693,15 +693,15 @@ const updateUsers = await prisma.user.updateMany({
 </cmdResult>
 </CodeWithResult>
 
-### Update and return multiple records
+### 更新並返回多個記錄
 
 :::info
 
-This feature is available in Prisma ORM version 6.2.0 and later for PostgreSQL, CockroachDB, and SQLite.
+此功能在 Prisma ORM 6.2.0 及更高版本中適用於 PostgreSQL、CockroachDB 和 SQLite。
 
 :::
 
-You can use `updateManyAndReturn()` in order to update many records and return the resulting objects.
+您可以使用 `updateManyAndReturn()` 來更新多個記錄並返回結果物件。
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -745,13 +745,13 @@ const users = await prisma.user.updateManyAndReturn({
 
 :::warning
 
-`relationLoadStrategy: join` is not available when using `updateManyAndReturn()`.
+使用 `updateManyAndReturn()` 時無法使用 `relationLoadStrategy: join`。
 
 :::
 
-### Update _or_ create records
+### 更新_或_建立記錄
 
-The following query uses [`upsert()`](/orm/reference/prisma-client-reference#upsert) to update a `User` record with a specific email address, or create that `User` record if it does not exist:
+以下查詢使用 [`upsert()`](/orm/reference/prisma-client-reference#upsert) 更新具有特定電子郵件地址的 `User` 記錄,或者如果該記錄不存在則建立它:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -790,21 +790,21 @@ const upsertUser = await prisma.user.upsert({
 
 :::info
 
-From version 4.6.0, Prisma Client carries out upserts with database native SQL commands where possible. [Learn more](/orm/reference/prisma-client-reference#database-upserts).
+從 4.6.0 版本開始,Prisma Client 盡可能使用資料庫原生 SQL 命令執行 upsert。[了解更多](/orm/reference/prisma-client-reference#database-upserts)。
 
 :::
 
-Prisma Client does not have a `findOrCreate()` query. You can use `upsert()` as a workaround. To make `upsert()` behave like a `findOrCreate()` method, provide an empty `update` parameter to `upsert()`.
+Prisma Client 沒有 `findOrCreate()` 查詢。您可以使用 `upsert()` 作為替代方案。要使 `upsert()` 的行為像 `findOrCreate()` 方法,請為 `upsert()` 提供一個空的 `update` 參數。
 
 :::warning
 
-A limitation to using `upsert()` as a workaround for `findOrCreate()` is that `upsert()` will only accept unique model fields in the `where` condition. So it's not possible to use `upsert()` to emulate `findOrCreate()` if the `where` condition contains non-unique fields.
+使用 `upsert()` 作為 `findOrCreate()` 替代方案的限制是,`upsert()` 只會在 `where` 條件中接受唯一的模型欄位。因此,如果 `where` 條件包含非唯一欄位,則無法使用 `upsert()` 來模擬 `findOrCreate()`。
 
 :::
 
-### Update a number field
+### 更新數字欄位
 
-Use [atomic number operations](/orm/reference/prisma-client-reference#atomic-number-operations) to update a number field **based on its current value** - for example, increment or multiply. The following query increments the `views` and `likes` fields by `1`:
+使用[原子數字運算](/orm/reference/prisma-client-reference#atomic-number-operations)來**根據目前值**更新數字欄位 - 例如,遞增或相乘。以下查詢將 `views` 和 `likes` 欄位遞增 `1`:
 
 ```ts
 const updatePosts = await prisma.post.updateMany({
@@ -819,15 +819,15 @@ const updatePosts = await prisma.post.updateMany({
 })
 ```
 
-### Connect and disconnect related records
+### 連接和斷開相關記錄
 
-Refer to [Working with relations](/orm/prisma-client/queries/relation-queries) for information about disconnecting ([`disconnect`](/orm/reference/prisma-client-reference#disconnect)) and connecting ([`connect`](/orm/reference/prisma-client-reference#connect)) related records.
+有關斷開 ([`disconnect`](/orm/reference/prisma-client-reference#disconnect)) 和連接 ([`connect`](/orm/reference/prisma-client-reference#connect)) 相關記錄的資訊,請參閱 [使用關聯](/orm/prisma-client/queries/relation-queries)。
 
-## Delete
+## 刪除
 
-### Delete a single record
+### 刪除單一記錄
 
-The following query uses [`delete()`](/orm/reference/prisma-client-reference#delete) to delete a single `User` record:
+以下查詢使用 [`delete()`](/orm/reference/prisma-client-reference#delete) 刪除單一 `User` 記錄:
 
 ```ts
 const deleteUser = await prisma.user.delete({
@@ -837,11 +837,11 @@ const deleteUser = await prisma.user.delete({
 })
 ```
 
-Attempting to delete a user with one or more posts result in an error, as every `Post` requires an author - see [cascading deletes](#cascading-deletes-deleting-related-records).
+嘗試刪除擁有一篇或多篇貼文的使用者會導致錯誤,因為每篇 `Post` 都需要一個作者 - 請參閱[級聯刪除](#cascading-deletes-deleting-related-records)。
 
-### Delete multiple records
+### 刪除多個記錄
 
-The following query uses [`deleteMany()`](/orm/reference/prisma-client-reference#deletemany) to delete all `User` records where `email` contains `prisma.io`:
+以下查詢使用 [`deleteMany()`](/orm/reference/prisma-client-reference#deletemany) 刪除所有 `email` 包含 `prisma.io` 的 `User` 記錄:
 
 ```ts
 const deleteUsers = await prisma.user.deleteMany({
@@ -853,27 +853,27 @@ const deleteUsers = await prisma.user.deleteMany({
 })
 ```
 
-Attempting to delete a user with one or more posts result in an error, as every `Post` requires an author - see [cascading deletes](#cascading-deletes-deleting-related-records).
+嘗試刪除擁有一篇或多篇貼文的使用者會導致錯誤,因為每篇 `Post` 都需要一個作者 - 請參閱[級聯刪除](#cascading-deletes-deleting-related-records)。
 
-### Delete all records
+### 刪除所有記錄
 
-The following query uses [`deleteMany()`](/orm/reference/prisma-client-reference#deletemany) to delete all `User` records:
+以下查詢使用 [`deleteMany()`](/orm/reference/prisma-client-reference#deletemany) 刪除所有 `User` 記錄:
 
 ```ts
 const deleteUsers = await prisma.user.deleteMany({})
 ```
 
-Be aware that this query will fail if the user has any related records (such as posts). In this case, you need to [delete the related records first](#cascading-deletes-deleting-related-records).
+請注意,如果使用者有任何相關記錄(例如貼文),此查詢將會失敗。在這種情況下,您需要[先刪除相關記錄](#cascading-deletes-deleting-related-records)。
 
-### Cascading deletes (deleting related records)
+### 級聯刪除(刪除相關記錄)
 
 :::warning
 
-In [2.26.0](https://github.com/prisma/prisma/releases/tag/2.26.0) and later it is possible to do cascading deletes using the **preview feature** [referential actions](/orm/prisma-schema/data-model/relations/referential-actions).
+在 [2.26.0](https://github.com/prisma/prisma/releases/tag/2.26.0) 及更高版本中,可以使用**預覽功能** [參照動作](/orm/prisma-schema/data-model/relations/referential-actions) 進行級聯刪除。
 
 :::
 
-The following query uses [`delete()`](/orm/reference/prisma-client-reference#delete) to delete a single `User` record:
+以下查詢使用 [`delete()`](/orm/reference/prisma-client-reference#delete) 刪除單一 `User` 記錄:
 
 ```ts
 const deleteUser = await prisma.user.delete({
@@ -883,15 +883,15 @@ const deleteUser = await prisma.user.delete({
 })
 ```
 
-However, the example schema includes a **required relation** between `Post` and `User`, which means that you cannot delete a user with posts:
+然而,範例 schema 包含 `Post` 和 `User` 之間的**必要關聯**,這意味著您無法刪除擁有貼文的使用者:
 
 ```
 The change you are trying to make would violate the required relation 'PostToUser' between the `Post` and `User` models.
 ```
 
-To resolve this error, you can:
+要解決此錯誤,您可以:
 
-- Make the relation optional:
+- 將關聯設為可選:
 
   ```prisma highlight=3,4;add|5,6;delete
   model Post {
@@ -907,9 +907,9 @@ To resolve this error, you can:
   }
   ```
 
-- Change the author of the posts to another user before deleting the user.
+- 在刪除使用者之前將貼文的作者更改為另一個使用者。
 
-- Delete a user and all their posts with two separate queries in a transaction (all queries must succeed):
+- 在交易中使用兩個單獨的查詢刪除使用者及其所有貼文(所有查詢都必須成功):
 
   ```ts
   const deletePosts = prisma.post.deleteMany({
@@ -927,15 +927,15 @@ To resolve this error, you can:
   const transaction = await prisma.$transaction([deletePosts, deleteUser])
   ```
 
-### Delete all records from all tables
+### 刪除所有資料表的所有記錄
 
-Sometimes you want to remove all data from all tables but keep the actual tables. This can be particularly useful in a development environment and whilst testing.
+有時您想要從所有資料表中移除所有資料,但保留實際的資料表。這在開發環境和測試時特別有用。
 
-The following shows how to delete all records from all tables with Prisma Client and with Prisma Migrate.
+以下顯示如何使用 Prisma Client 和 Prisma Migrate 從所有資料表中刪除所有記錄。
 
-#### Deleting all data with `deleteMany()`
+#### 使用 `deleteMany()` 刪除所有資料
 
-When you know the order in which your tables should be deleted, you can use the [`deleteMany`](/orm/reference/prisma-client-reference#deletemany) function. This is executed synchronously in a [`$transaction`](/orm/prisma-client/queries/transactions) and can be used with all types of databases.
+當您知道應該刪除資料表的順序時,可以使用 [`deleteMany`](/orm/reference/prisma-client-reference#deletemany) 函式。這會在 [`$transaction`](/orm/prisma-client/queries/transactions) 中同步執行,並且可以與所有類型的資料庫一起使用。
 
 ```ts
 const deletePosts = prisma.post.deleteMany()
@@ -946,24 +946,24 @@ const deleteUsers = prisma.user.deleteMany()
 await prisma.$transaction([deleteProfile, deletePosts, deleteUsers])
 ```
 
-✅ **Pros**:
+✅ **優點**:
 
-- Works well when you know the structure of your schema ahead of time
-- Synchronously deletes each tables data
+- 當您事先知道 schema 的結構時效果很好
+- 同步刪除每個資料表的資料
 
-❌ **Cons**:
+❌ **缺點**:
 
-- When working with relational databases, this function doesn't scale as well as having a more generic solution which looks up and `TRUNCATE`s your tables regardless of their relational constraints. Note that this scaling issue does not apply when using the MongoDB connector.
+- 在使用關聯式資料庫時,此函式的擴展性不如使用更通用的解決方案,該解決方案會查找並 `TRUNCATE` 您的資料表,而不管它們的關聯約束如何。請注意,使用 MongoDB 連接器時不會出現此擴展問題。
 
-> **Note**: The `$transaction` performs a cascading delete on each models table so they have to be called in order.
+> **注意**: `$transaction` 對每個模型的資料表執行級聯刪除,因此必須按順序呼叫它們。
 
-#### Deleting all data with raw SQL / `TRUNCATE`
+#### 使用原始 SQL / `TRUNCATE` 刪除所有資料
 
-If you are comfortable working with raw SQL, you can perform a `TRUNCATE` query on a table using [`$executeRawUnsafe`](/orm/prisma-client/using-raw-sql/raw-queries#executerawunsafe).
+如果您熟悉原始 SQL,可以使用 [`$executeRawUnsafe`](/orm/prisma-client/using-raw-sql/raw-queries#executerawunsafe) 對資料表執行 `TRUNCATE` 查詢。
 
-In the following examples, the first tab shows how to perform a `TRUNCATE` on a Postgres database by using a `$queryRaw` look up that maps over the table and `TRUNCATES` all tables in a single query.
+在以下範例中,第一個標籤顯示如何透過使用 `$queryRaw` 查找來對 Postgres 資料庫執行 `TRUNCATE`,該查找會映射資料表並在單一查詢中 `TRUNCATE` 所有資料表。
 
-The second tab shows performing the same function but with a MySQL database. In this instance the constraints must be removed before the `TRUNCATE` can be executed, before being reinstated once finished. The whole process is run as a `$transaction`
+第二個標籤顯示對 MySQL 資料庫執行相同的功能。在這種情況下,必須在執行 `TRUNCATE` 之前移除約束,然後在完成後重新建立約束。整個過程作為 `$transaction` 執行
 
 <TabbedContent code>
 
@@ -1022,32 +1022,32 @@ try {
 
 </TabbedContent>
 
-✅ **Pros**:
+✅ **優點**:
 
-- Scalable
-- Very fast
+- 可擴展
+- 非常快速
 
-❌ **Cons**:
+❌ **缺點**:
 
-- Can't undo the operation
-- Using reserved SQL key words as tables names can cause issues when trying to run a raw query
+- 無法撤銷操作
+- 使用保留的 SQL 關鍵字作為資料表名稱可能會在嘗試執行原始查詢時造成問題
 
-#### Deleting all records with Prisma Migrate
+#### 使用 Prisma Migrate 刪除所有記錄
 
-If you use Prisma Migrate, you can use `migrate reset`, this will:
+如果您使用 Prisma Migrate,可以使用 `migrate reset`,這將會:
 
-1. Drop the database
-2. Create a new database
-3. Apply migrations
-4. Seed the database with data
+1. 刪除資料庫
+2. 建立新資料庫
+3. 套用遷移
+4. 用資料填充資料庫
 
-## Advanced query examples
+## 進階查詢範例
 
-### Create a deeply nested tree of records
+### 建立深度巢狀的記錄樹
 
-- A single `User`
-- Two new, related `Post` records
-- Connect or create `Category` per post
+- 單一 `User`
+- 兩個新的相關 `Post` 記錄
+- 每個貼文連接或建立 `Category`
 
 ```ts
 const u = await prisma.user.create({

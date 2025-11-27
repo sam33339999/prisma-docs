@@ -1,45 +1,45 @@
 ---
-title: Table inheritance
-metaTitle: Table inheritance
-metaDescription: Learn about the use cases and patterns for table inheritance in Prisma ORM that enable usage of union types or polymorphic structures in your application.
+title: 資料表繼承
+metaTitle: 資料表繼承
+metaDescription: 了解在 Prisma ORM 中資料表繼承的使用案例和模式，這些模式能讓您在應用程式中使用聯合類型或多型結構。
 tocDepth: 3
 ---
 
-## Overview
+## 概述
 
-Table inheritance is a software design pattern that allows the modeling of hierarchical relationships between entities. Using table inheritance on the database level can also enable the use of union types in your JavaScript/TypeScript application or share a set of common properties across multiple models.
+資料表繼承是一種軟體設計模式，允許對實體之間的階層關係進行建模。在資料庫層級使用資料表繼承還可以在您的 JavaScript/TypeScript 應用程式中使用聯合類型，或在多個模型之間共享一組通用屬性。
 
-This page introduces two approaches to table inheritance and explains how to use them with Prisma ORM.
+本頁面介紹資料表繼承的兩種方法，並說明如何在 Prisma ORM 中使用它們。
 
-A common use case for table inheritance may be when an application needs to display a _feed_ of some kind of _content activities_. A content activity in this case, could be a _video_ or an _article_. As an example, let's assume that:
+資料表繼承的常見使用案例可能是當應用程式需要顯示某種_內容活動_的_動態_時。在這種情況下，內容活動可以是_影片_或_文章_。例如，讓我們假設：
 
-- a content activity always has an `id` and a `url`
-- in addition to `id` and a `url`, a video also has a `duration` (modeled as an `Int`)
-- in addition to `id` and a `url`, an article also a `body` (modeled as a `String`)
+- 內容活動始終具有 `id` 和 `url`
+- 除了 `id` 和 `url` 之外，影片還具有 `duration`（建模為 `Int`）
+- 除了 `id` 和 `url` 之外，文章還具有 `body`（建模為 `String`）
 
-### Use cases
+### 使用案例
 
-#### Union types
+#### 聯合類型
 
-Union types are a convenient feature in TypeScript that allows developers to work more flexibly with the types in their data model.
+聯合類型是 TypeScript 中的一個便利功能，允許開發人員更靈活地使用其資料模型中的類型。
 
-In TypeScript, union types look as follows:
+在 TypeScript 中，聯合類型如下所示：
 
 ```ts no-copy
 type Activity = Video | Article
 ```
 
-While [it's currently not possible to model union types in the Prisma schema](https://github.com/prisma/prisma/issues/2505), you can use them with Prisma ORM by using table inheritance and some additional type definitions.
+雖然[目前無法在 Prisma schema 中建模聯合類型](https://github.com/prisma/prisma/issues/2505)，但您可以透過使用資料表繼承和一些額外的類型定義，在 Prisma ORM 中使用它們。
 
-#### Sharing properties across multiple models
+#### 在多個模型之間共享屬性
 
-If you have a use case where multiple models should share a particular set of properties, you can model this using table inheritance as well.
+如果您有一個使用案例，其中多個模型應該共享特定的屬性集，您也可以使用資料表繼承來建模。
 
-For example, if both the `Video` and `Article` models from above should have a shared `title` property, you can achieve this with table inheritance as well.
+例如，如果上面的 `Video` 和 `Article` 模型都應該具有共享的 `title` 屬性，您也可以透過資料表繼承來實現此目的。
 
-### Example
+### 範例
 
-In a simple Prisma schema, this would look as follows. Note that we're adding a `User` model as well to illustrate how this can work with relations:
+在簡單的 Prisma schema 中，這將如下所示。請注意，我們還加入了一個 `User` 模型來說明這如何與關聯一起工作：
 
 ```prisma file=schema.prisma showLineNumbers
 model Video {
@@ -68,22 +68,22 @@ model User {
 }
 ```
 
-Let's investigate how we can model this using table inheritance.
+讓我們探討如何使用資料表繼承來建模這個情況。
 
-### Single-table vs multi-table inheritance
+### 單表繼承與多表繼承
 
-Here is a quick comparison of the two main approaches for table inheritance:
+以下是資料表繼承的兩種主要方法的快速比較：
 
-- **Single-table inheritance (STI)**: Uses a _single_ table to store data of _all_ the different entities in one location. In our example, there'd be a single `Activity` table with the `id`, `url` as well as the `duration` and `body` column. It also uses a `type` column that indicates whether an _activity_ is a _video_ or an _article_.
-- **Multi-table inheritance (MTI)**: Uses _multiple_ tables to store the data of the different entities separately and links them via foreign keys. In our example, there'd be an `Activity` table with the `id`, `url` column, a `Video` table with the `duration` and a foreign key to `Activity` as well as an `Article` table with the `body` and a foreign key. There is also a `type` column that acts as a discriminator and indicates whether an _activity_ is a _video_ or an _article_. Note that multi-table inheritance is also sometimes called _delegated types_.
+- **單表繼承（STI）**：使用_單一_資料表在一個位置儲存_所有_不同實體的資料。在我們的範例中，將有一個單一的 `Activity` 資料表，包含 `id`、`url` 以及 `duration` 和 `body` 欄位。它還使用一個 `type` 欄位來指示_活動_是_影片_還是_文章_。
+- **多表繼承（MTI）**：使用_多個_資料表分別儲存不同實體的資料，並透過外鍵將它們連結。在我們的範例中，將有一個包含 `id`、`url` 欄位的 `Activity` 資料表，一個包含 `duration` 和指向 `Activity` 外鍵的 `Video` 資料表，以及一個包含 `body` 和外鍵的 `Article` 資料表。還有一個 `type` 欄位作為判別器，指示_活動_是_影片_還是_文章_。請注意，多表繼承有時也稱為_委派類型_。
 
-You can learn about the tradeoffs of both approaches [below](#tradeoffs-between-sti-and-mti).
+您可以在[下方](#tradeoffs-between-sti-and-mti)了解這兩種方法的權衡。
 
-## Single-table inheritance (STI)
+## 單表繼承（STI）
 
-### Data model
+### 資料模型
 
-Using STI, the above scenario can be modeled as follows:
+使用 STI，上述情境可以建模如下：
 
 ```prisma
 model Activity {
@@ -109,18 +109,18 @@ model User {
 }
 ```
 
-A few things to note:
+需要注意以下幾點：
 
-- The model-specific properties `duration` and `body` must be marked as optional (i.e., with `?`). That's because a record in the `Activity` table that represents a _video_ must not have a value for `body`. Conversely, an `Activity` record representing an _article_ can never have a `duration` set.
-- The `type` discriminator column indicates whether each record represents a _video_ or an _article_ item.
+- 模型特定的屬性 `duration` 和 `body` 必須標記為可選（即使用 `?`）。這是因為 `Activity` 資料表中代表_影片_的記錄不能有 `body` 的值。相反地，代表_文章_的 `Activity` 記錄永遠不能設定 `duration`。
+- `type` 判別器欄位指示每個記錄代表_影片_還是_文章_項目。
 
 ### Prisma Client API
 
-Due to how Prisma ORM generates types and an API for the data model, there will only to be an `Activity` type and the CRUD queries that belong to it (`create`, `update`, `delete`, ...) available to you.
+由於 Prisma ORM 為資料模型產生類型和 API 的方式，您只能使用 `Activity` 類型及其所屬的 CRUD 查詢（`create`、`update`、`delete`...）。
 
-#### Querying for videos and articles
+#### 查詢影片和文章
 
-You can now query for only _videos_ or _articles_ by filtering on the `type` column. For example:
+您現在可以透過在 `type` 欄位上進行篩選來僅查詢_影片_或_文章_。例如：
 
 ```ts
 // Query all videos
@@ -134,11 +134,11 @@ const articles = await prisma.activity.findMany({
 })
 ```
 
-#### Defining dedicated types
+#### 定義專用類型
 
-When querying for videos and articles like that, TypeScript will still only recognize an `Activity` type. That can be annoying because even the objects in `videos` will have (optional) `body` and the objects in `articles` will have (optional) `duration` fields.
+當這樣查詢影片和文章時，TypeScript 仍然只會識別 `Activity` 類型。這可能會很煩人，因為即使 `videos` 中的物件也會有（可選的）`body`，而 `articles` 中的物件會有（可選的）`duration` 欄位。
 
-If you want to have type safety for these objects, you need to define dedicated types for them. You can do this, for example, by using the generated `Activity` type and the TypeScript `Omit` utility type to remove properties from it:
+如果您希望對這些物件擁有類型安全性，您需要為它們定義專用類型。例如，您可以透過使用產生的 `Activity` 類型和 TypeScript 的 `Omit` 實用類型來從中移除屬性：
 
 ```ts
 import { Activity } from '../prisma/generated/client'
@@ -147,7 +147,7 @@ type Video = Omit<Activity, 'body' | 'type'>
 type Article = Omit<Activity, 'duration' | 'type'>
 ```
 
-In addition, it will be helpful to create mapping functions that convert an object of type `Activity` to the `Video` and `Article` types:
+此外，建立將 `Activity` 類型的物件轉換為 `Video` 和 `Article` 類型的對應函式會很有幫助：
 
 ```ts
 function activityToVideo(activity: Activity): Video {
@@ -167,7 +167,7 @@ function activityToArticle(activity: Activity): Article {
 }
 ```
 
-Now you can turn an `Activity` into a more specific type (i.e., `Article` or `Video`) after querying:
+現在您可以在查詢後將 `Activity` 轉換為更特定的類型（即 `Article` 或 `Video`）：
 
 ```ts
 const videoActivities = await prisma.activity.findMany({
@@ -176,15 +176,15 @@ const videoActivities = await prisma.activity.findMany({
 const videos: Video[] = videoActivities.map(activityToVideo)
 ```
 
-#### Using Prisma Client extension for a more convenient API
+#### 使用 Prisma Client 擴充功能以獲得更方便的 API
 
-You can use [Prisma Client extensions](/orm/prisma-client/client-extensions) to create a more convenient API for the table structures in your database.
+您可以使用 [Prisma Client 擴充功能](/orm/prisma-client/client-extensions)為資料庫中的資料表結構建立更方便的 API。
 
-## Multi-table inheritance (MTI)
+## 多表繼承（MTI）
 
-### Data model
+### 資料模型
 
-Using MTI, the above scenario can be modeled as follows:
+使用 MTI，上述情境可以建模如下：
 
 ```prisma
 model Activity {
@@ -225,19 +225,19 @@ model User {
 }
 ```
 
-A few things to note:
+需要注意以下幾點：
 
-- A 1-1 relation is needed between `Activity` and `Video` as well as `Activity` and `Article`. This relationship is used to fetch the specific information about a record when needed.
-- The model-specific properties `duration` and `body` can be made _required_ with this approach.
-- The `type` discriminator column indicates whether each record represents a _video_ or an _article_ item.
+- `Activity` 和 `Video` 以及 `Activity` 和 `Article` 之間需要 1-1 關聯。此關聯用於在需要時擷取有關記錄的特定資訊。
+- 使用此方法，模型特定的屬性 `duration` 和 `body` 可以設為_必填_。
+- `type` 判別器欄位指示每個記錄代表_影片_還是_文章_項目。
 
 ### Prisma Client API
 
-This time, you can query for videos and articles directly via the `video` and `article` properties on your `PrismaClient` instance.
+這次，您可以透過 `PrismaClient` 實例上的 `video` 和 `article` 屬性直接查詢影片和文章。
 
-#### Querying for videos and articles
+#### 查詢影片和文章
 
-If you want to access the shared properties, you need to use `include` to fetch the relation to `Activity`.
+如果您想要存取共享屬性，您需要使用 `include` 來擷取與 `Activity` 的關聯。
 
 ```ts
 // Query all videos
@@ -251,7 +251,7 @@ const articles = await prisma.article.findMany({
 })
 ```
 
-Depending on your needs, you may also query the other way around by filtering on the `type` discriminator column:
+根據您的需求，您也可以透過在 `type` 判別器欄位上進行篩選來以另一種方式查詢：
 
 ```ts
 // Query all videos
@@ -261,11 +261,11 @@ const videoActivities = await prisma.activity.findMany({
 })
 ```
 
-#### Defining dedicated types
+#### 定義專用類型
 
-While a bit more convenient in terms of types compared to STI, the generated typings likely still won't fit all your needs.
+雖然與 STI 相比，在類型方面更方便一些，但產生的類型可能仍然無法滿足您的所有需求。
 
-Here's how you can define `Video` and `Article` types by combining Prisma ORM's generated `Video` and `Article` types with the `Activity` type. These combinations create a new type with the desired properties. Note that we're also omitting the `type` discriminator column because that's not needed anymore on the specific types:
+以下是如何透過結合 Prisma ORM 產生的 `Video` 和 `Article` 類型與 `Activity` 類型來定義 `Video` 和 `Article` 類型。這些組合建立了一個具有所需屬性的新類型。請注意，我們還省略了 `type` 判別器欄位，因為在特定類型上不再需要它：
 
 ```ts
 import {
@@ -278,7 +278,7 @@ type Video = Omit<VideoDB & Activity, 'type'>
 type Article = Omit<ArticleDB & Activity, 'type'>
 ```
 
-Once these types are defined, you can define mapping functions to convert the types you receive from the queries above into the desired `Video` and `Article` types. Here's the example for the `Video` type:
+一旦定義了這些類型，您就可以定義對應函式，將從上述查詢收到的類型轉換為所需的 `Video` 和 `Article` 類型。以下是 `Video` 類型的範例：
 
 ```ts
 import { Prisma, Video as VideoDB, Activity } from '../prisma/generated/client'
@@ -303,7 +303,7 @@ function toVideo(a: VideoWithActivity): Video {
 }
 ```
 
-Now you can take the objects returned by the queries above and transform them using `toVideo`:
+現在您可以獲取上述查詢返回的物件，並使用 `toVideo` 對其進行轉換：
 
 ```ts
 const videoWithActivities = await prisma.video.findMany({
@@ -312,17 +312,17 @@ const videoWithActivities = await prisma.video.findMany({
 const videos: Video[] = videoWithActivities.map(toVideo)
 ```
 
-#### Using Prisma Client extension for a more convenient API
+#### 使用 Prisma Client 擴充功能以獲得更方便的 API
 
-You can use [Prisma Client extensions](/orm/prisma-client/client-extensions) to create a more convenient API for the table structures in your database.
+您可以使用 [Prisma Client 擴充功能](/orm/prisma-client/client-extensions)為資料庫中的資料表結構建立更方便的 API。
 
-## Tradeoffs between STI and MTI
+## STI 和 MTI 之間的權衡
 
-- **Data model**: The data model may feel more clean with MTI. With STI, you may end up with very wide rows and lots of columns that have `NULL` values in them.
-- **Performance**: MTI may come with a performance cost because you need to join the parent and child tables to access _all_ properties relevant for a model.
-- **Typings**: With Prisma ORM, MTI gives you proper typings for the specific models (i.e., `Article` and `Video` in the examples above) already, while you need to create these from scratch with STI.
-- **IDs / Primary keys**: With MTI, records have two IDs (one on the parent and another on the child table) that may not match. You need to consider this in the business logic of your application.
+- **資料模型**：使用 MTI 可能會讓資料模型感覺更乾淨。使用 STI，您最終可能會得到非常寬的行以及許多包含 `NULL` 值的欄位。
+- **效能**：MTI 可能會帶來效能成本，因為您需要連接父表和子表才能存取與模型相關的_所有_屬性。
+- **類型**：使用 Prisma ORM，MTI 已經為您提供了特定模型的適當類型（即上述範例中的 `Article` 和 `Video`），而使用 STI 則需要從頭建立這些類型。
+- **ID / 主鍵**：使用 MTI，記錄有兩個 ID（一個在父表上，另一個在子表上），它們可能不匹配。您需要在應用程式的業務邏輯中考慮這一點。
 
-## Third-party solutions
+## 第三方解決方案
 
-While Prisma ORM doesn't natively support union types or polymorphism at the moment, you can check out [Zenstack](https://github.com/zenstackhq/zenstack) which is adding an extra layer of features to the Prisma schema. Read their [blog post about polymorphism in Prisma ORM](https://zenstack.dev/blog/polymorphism) to learn more.
+雖然 Prisma ORM 目前本身不支援聯合類型或多型，但您可以查看 [Zenstack](https://github.com/zenstackhq/zenstack)，它為 Prisma schema 加入了額外的功能層。閱讀他們關於 [Prisma ORM 中的多型](https://zenstack.dev/blog/polymorphism)的部落格文章以了解更多資訊。

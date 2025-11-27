@@ -1,29 +1,29 @@
 ---
-title: 'Filtering and Sorting'
-metaTitle: 'Filtering and Sorting (Concepts)'
-metaDescription: 'Use Prisma Client API to filter records by any combination of fields or related record fields, and/or sort query results.'
+title: '篩選和排序'
+metaTitle: '篩選和排序 (概念)'
+metaDescription: '使用 Prisma Client API 透過任何欄位組合或相關記錄欄位來篩選記錄,及/或對查詢結果進行排序。'
 tocDepth: 3
 ---
 
-Prisma Client supports [filtering](#filtering) with the `where` query option, and [sorting](#sorting) with the `orderBy` query option.
+Prisma Client 支援使用 `where` 查詢選項進行[篩選](#filtering),以及使用 `orderBy` 查詢選項進行[排序](#sorting)。
 
-## Filtering
+## 篩選
 
-Prisma Client allows you to filter records on any combination of model fields, [including related models](#filter-on-relations), and supports a variety of [filter conditions](#filter-conditions-and-operators).
+Prisma Client 允許您根據模型欄位的任何組合(包括[相關模型](#filter-on-relations))來篩選記錄,並支援多種[篩選條件](#filter-conditions-and-operators)。
 
 :::warning
 
-Some filter conditions use the SQL operators `LIKE` and `ILIKE` which may cause unexpected behavior in your queries. Please refer to [our filtering FAQs](#filtering-faqs) for more information.
+某些篩選條件使用 SQL 運算子 `LIKE` 和 `ILIKE`,這可能會在您的查詢中造成意外行為。請參閱[我們的篩選常見問題](#filtering-faqs)了解更多資訊。
 
 :::
 
-The following query:
+以下查詢:
 
-- Returns all `User` records with:
-  - an email address that ends with `prisma.io` _and_
-  - at least one published post (a relation query)
-- Returns all `User` fields
-- Includes all related `Post` records where `published` equals `true`
+- 返回所有 `User` 記錄,其中:
+  - 電子郵件地址以 `prisma.io` 結尾_且_
+  - 至少有一篇已發布的貼文(關聯查詢)
+- 返回所有 `User` 欄位
+- 包含所有 `published` 等於 `true` 的相關 `Post` 記錄
 
 <CodeWithResult>
 <cmd>
@@ -81,13 +81,13 @@ const result = await prisma.user.findMany({
 </cmdResult>
 </CodeWithResult>
 
-### Filter conditions and operators
+### 篩選條件和運算子
 
-Refer to Prisma Client's reference documentation for [a full list of operators](/orm/reference/prisma-client-reference#filter-conditions-and-operators) , such as `startsWith` and `contains`.
+請參閱 Prisma Client 的參考文件以獲取[完整的運算子清單](/orm/reference/prisma-client-reference#filter-conditions-and-operators),例如 `startsWith` 和 `contains`。
 
-#### Combining operators
+#### 組合運算子
 
-You can use operators (such as [`NOT`](/orm/reference/prisma-client-reference#not-1) and [`OR`](/orm/reference/prisma-client-reference#or) ) to filter by a combination of conditions. The following query returns all users whose `email` ends with `gmail.com` or `company.com`, but excludes any emails ending with `admin.company.com`
+您可以使用運算子(例如 [`NOT`](/orm/reference/prisma-client-reference#not-1) 和 [`OR`](/orm/reference/prisma-client-reference#or))來根據條件組合進行篩選。以下查詢返回所有 `email` 以 `gmail.com` 或 `company.com` 結尾的使用者,但排除以 `admin.company.com` 結尾的任何電子郵件
 
 <CodeWithResult>
 <cmd>
@@ -125,9 +125,9 @@ const result = await prisma.user.findMany({
 </cmdResult>
 </CodeWithResult>
 
-### Filter on null fields
+### 對 null 欄位進行篩選
 
-The following query returns all posts whose `content` field is `null`:
+以下查詢返回所有 `content` 欄位為 `null` 的貼文:
 
 ```ts
 const posts = await prisma.post.findMany({
@@ -137,9 +137,9 @@ const posts = await prisma.post.findMany({
 })
 ```
 
-### Filter for non-null fields
+### 對非 null 欄位進行篩選
 
-The following query returns all posts whose `content` field is **not** `null`:
+以下查詢返回所有 `content` 欄位**不是** `null` 的貼文:
 
 ```ts
 const posts = await prisma.post.findMany({
@@ -149,9 +149,9 @@ const posts = await prisma.post.findMany({
 })
 ```
 
-### Filter on relations
+### 對關聯進行篩選
 
-Prisma Client supports [filtering on related records](/orm/prisma-client/queries/relation-queries#relation-filters). For example, in the following schema, a user can have many blog posts:
+Prisma Client 支援[對相關記錄進行篩選](/orm/prisma-client/queries/relation-queries#relation-filters)。例如,在以下 schema 中,使用者可以有多篇部落格貼文:
 
 ```prisma highlight=5,12-13;normal
 model User {
@@ -173,7 +173,7 @@ model Post {
 }
 ```
 
-The one-to-many relation between `User` and `Post` allows you to query users based on their posts - for example, the following query returns all users where _at least one_ post (`some`) has more than 10 views:
+`User` 和 `Post` 之間的一對多關聯允許您根據貼文查詢使用者 - 例如,以下查詢返回所有_至少有一篇_貼文 (`some`) 瀏覽次數超過 10 的使用者:
 
 ```ts
 const result = await prisma.user.findMany({
@@ -189,7 +189,7 @@ const result = await prisma.user.findMany({
 })
 ```
 
-You can also query posts based on the properties of the author. For example, the following query returns all posts where the author's `email` contains `"prisma.io"`:
+您也可以根據作者的屬性查詢貼文。例如,以下查詢返回所有作者的 `email` 包含 `"prisma.io"` 的貼文:
 
 ```ts
 const res = await prisma.post.findMany({
@@ -203,9 +203,9 @@ const res = await prisma.post.findMany({
 })
 ```
 
-### Filter on scalar lists / arrays
+### 對純量清單/陣列進行篩選
 
-Scalar lists (for example, `String[]`) have a special set of [filter conditions](/orm/reference/prisma-client-reference#scalar-list-filters) - for example, the following query returns all posts where the `tags` array contains `databases`:
+純量清單(例如 `String[]`)有一組特殊的[篩選條件](/orm/reference/prisma-client-reference#scalar-list-filters) - 例如,以下查詢返回所有 `tags` 陣列包含 `databases` 的貼文:
 
 ```ts
 const posts = await client.post.findMany({
@@ -217,11 +217,11 @@ const posts = await client.post.findMany({
 })
 ```
 
-### Case-insensitive filtering
+### 不區分大小寫的篩選
 
-Case-insensitive filtering [is available as a feature for the PostgreSQL and MongoDB providers](/orm/prisma-client/queries/case-sensitivity#options-for-case-insensitive-filtering). MySQL, MariaDB and Microsoft SQL Server are case-insensitive by default, and do not require a Prisma Client feature to make case-insensitive filtering possible.
+不區分大小寫的篩選[作為 PostgreSQL 和 MongoDB 提供者的功能可用](/orm/prisma-client/queries/case-sensitivity#options-for-case-insensitive-filtering)。MySQL、MariaDB 和 Microsoft SQL Server 預設不區分大小寫,不需要 Prisma Client 功能來實現不區分大小寫的篩選。
 
-To use case-insensitive filtering, add the `mode` property to a particular filter and specify `insensitive`:
+要使用不區分大小寫的篩選,請向特定篩選器新增 `mode` 屬性並指定 `insensitive`:
 
 ```ts highlight=5;normal
 const users = await prisma.user.findMany({
@@ -237,15 +237,15 @@ const users = await prisma.user.findMany({
 })
 ```
 
-See also: [Case sensitivity](/orm/prisma-client/queries/case-sensitivity)
+另請參閱: [大小寫敏感性](/orm/prisma-client/queries/case-sensitivity)
 
-### Filtering FAQs
+### 篩選常見問題
 
-#### How does filtering work at the database level?
+#### 篩選在資料庫層級如何運作?
 
-For MySQL and PostgreSQL, Prisma Client utilizes the [`LIKE`](https://www.w3schools.com/sql/sql_like.asp) (and [`ILIKE`](https://www.postgresql.org/docs/current/functions-matching.html#FUNCTIONS-LIKE)) operator to search for a given pattern. The operators have built-in pattern matching using symbols unique to `LIKE`. The pattern-matching symbols include `%` for zero or more characters (similar to `*` in other regex implementations) and `_` for one character (similar to `.`)
+對於 MySQL 和 PostgreSQL,Prisma Client 使用 [`LIKE`](https://www.w3schools.com/sql/sql_like.asp)(和 [`ILIKE`](https://www.postgresql.org/docs/current/functions-matching.html#FUNCTIONS-LIKE))運算子來搜尋給定的模式。這些運算子具有內建的模式匹配,使用 `LIKE` 特有的符號。模式匹配符號包括 `%` 表示零個或多個字元(類似於其他正規表示式實現中的 `*`)和 `_` 表示一個字元(類似於 `.`)
 
-To match the literal characters, `%` or `_`, make sure you escape those characters. For example:
+要匹配字面字元 `%` 或 `_`,請確保轉義這些字元。例如:
 
 
 ```ts
@@ -259,7 +259,7 @@ const users = await prisma.user.findMany({
 ```
 
 
-The above query will match any user whose name starts with a character followed by `benny` such as `7benny` or `&benny`. If you instead wanted to find any user whose name starts with the literal string `_benny`, you could do:
+上述查詢將匹配名字以一個字元後接 `benny` 開頭的任何使用者,例如 `7benny` 或 `&benny`。如果您想要找到名字以字面字串 `_benny` 開頭的任何使用者,您可以這樣做:
 
 
 ```ts highlight=4
@@ -273,9 +273,9 @@ const users = await prisma.user.findMany({
 ```
 
 
-## Sorting
+## 排序
 
-Use [`orderBy`](/orm/reference/prisma-client-reference#orderby) to sort a list of records or a nested list of records by a particular field or set of fields. For example, the following query returns all `User` records sorted by `role` and `name`, **and** each user's posts sorted by `title`:
+使用 [`orderBy`](/orm/reference/prisma-client-reference#orderby) 根據特定欄位或欄位集對記錄清單或巢狀記錄清單進行排序。例如,以下查詢返回按 `role` 和 `name` 排序的所有 `User` 記錄,**並且**每個使用者的貼文按 `title` 排序:
 
 <CodeWithResult>
 
@@ -348,12 +348,11 @@ const usersWithPosts = await prisma.user.findMany({
 
 </CodeWithResult>
 
-> **Note**: You can also [sort lists of nested records](/orm/prisma-client/queries/relation-queries#filter-a-list-of-relations)
-> to retrieve a single record by ID.
+> **注意**: 您也可以[對巢狀記錄清單進行排序](/orm/prisma-client/queries/relation-queries#filter-a-list-of-relations)以透過 ID 檢索單一記錄。
 
-### Sort by relation
+### 根據關聯排序
 
-You can also sort by properties of a relation. For example, the following query sorts all posts by the author's email address:
+您也可以根據關聯的屬性進行排序。例如,以下查詢根據作者的電子郵件地址對所有貼文進行排序:
 
 ```ts
 const posts = await prisma.post.findMany({
@@ -365,11 +364,11 @@ const posts = await prisma.post.findMany({
 })
 ```
 
-### Sort by relation aggregate value
+### 根據關聯聚合值排序
 
-In [2.19.0](https://github.com/prisma/prisma/releases/2.19.0) and later, you can sort by the **count of related records**.
+在 [2.19.0](https://github.com/prisma/prisma/releases/2.19.0) 及更高版本中,您可以根據**相關記錄的計數**進行排序。
 
-For example, the following query sorts users by the number of related posts:
+例如,以下查詢根據相關貼文的數量對使用者進行排序:
 
 ```ts
 const getActiveUsers = await prisma.user.findMany({
@@ -382,15 +381,15 @@ const getActiveUsers = await prisma.user.findMany({
 })
 ```
 
-> **Note**: It is not currently possible to [return the count of a relation](https://github.com/prisma/prisma/issues/5079).
+> **注意**: 目前無法[返回關聯的計數](https://github.com/prisma/prisma/issues/5079)。
 
-### Sort by relevance (PostgreSQL and MySQL)
+### 根據相關性排序(PostgreSQL 和 MySQL)
 
-In [3.5.0+](https://github.com/prisma/prisma/releases/3.5.0) for PostgreSQL and [3.8.0+](https://github.com/prisma/prisma/releases/3.8.0) for MySQL, you can sort records by relevance to the query using the `_relevance` keyword. This uses the relevance ranking functions from full text search features.
+在 PostgreSQL 的 [3.5.0+](https://github.com/prisma/prisma/releases/3.5.0) 和 MySQL 的 [3.8.0+](https://github.com/prisma/prisma/releases/3.8.0) 中,您可以使用 `_relevance` 關鍵字根據與查詢的相關性對記錄進行排序。這使用了全文搜尋功能中的相關性排名函式。
 
-This feature is further explain in [the PostgreSQL documentation](https://www.postgresql.org/docs/12/textsearch-controls.html) and [the MySQL documentation](https://dev.mysql.com/doc/refman/8.0/en/fulltext-search.html).
+此功能在 [PostgreSQL 文件](https://www.postgresql.org/docs/12/textsearch-controls.html)和 [MySQL 文件](https://dev.mysql.com/doc/refman/8.0/en/fulltext-search.html)中有進一步說明。
 
-**For PostgreSQL**, you need to enable order by relevance with the `fullTextSearchPostgres` [preview feature](/orm/prisma-client/queries/full-text-search):
+**對於 PostgreSQL**,您需要使用 `fullTextSearchPostgres` [預覽功能](/orm/prisma-client/queries/full-text-search)啟用根據相關性排序:
 
 ```prisma
 generator client {
@@ -400,9 +399,9 @@ generator client {
 }
 ```
 
-Ordering by relevance can be used either separately from or together with the `search` filter: `_relevance` is used to order the list, while `search` filters the unordered list. 
+根據相關性排序可以單獨使用,也可以與 `search` 篩選器一起使用:`_relevance` 用於排序清單,而 `search` 篩選未排序的清單。
 
-For example, the following query uses `_relevance` to filter by the term `developer` in the `bio` field, and then sorts the result by relevance in a _descending_ manner:
+例如,以下查詢使用 `_relevance` 在 `bio` 欄位中根據術語 `developer` 進行篩選,然後以_降序_方式根據相關性對結果進行排序:
 
 ```ts
 const getUsersByRelevance = await prisma.user.findMany({
@@ -421,26 +420,26 @@ const getUsersByRelevance = await prisma.user.findMany({
 
 :::note
 
-Prior to Prisma ORM 5.16.0, enabling the `fullTextSearch` preview feature would rename the `<Model>OrderByWithRelationInput` TypeScript types to `<Model>OrderByWithRelationAndSearchRelevanceInput`. If you are using the Preview feature, you will need to update your type imports.
+在 Prisma ORM 5.16.0 之前,啟用 `fullTextSearch` 預覽功能會將 `<Model>OrderByWithRelationInput` TypeScript 類型重新命名為 `<Model>OrderByWithRelationAndSearchRelevanceInput`。如果您正在使用預覽功能,您需要更新類型匯入。
 
 :::
 
 
-### Sort with null records first or last
+### 將 null 記錄排序在最前面或最後面
 
 :::info
 
-Notes:
+注意事項:
 
-- This feature is generally available in version `4.16.0` and later. To use this feature in versions [`4.1.0`](https://github.com/prisma/prisma/releases/tag/4.1.0) to [`4.15.0`](https://github.com/prisma/prisma/releases/tag/4.15.0) the [Preview feature](/orm/reference/preview-features/client-preview-features#enabling-a-prisma-client-preview-feature) `orderByNulls` will need to be enabled.
-- This feature is not available for MongoDB.
-- You can only sort by nulls on optional [scalar](/orm/prisma-schema/data-model/models#scalar-fields) fields. If you try to sort by nulls on a required or [relation](/orm/prisma-schema/data-model/models#relation-fields) field, Prisma Client throws a [P2009 error](/orm/reference/error-reference#p2009).
+- 此功能在版本 `4.16.0` 及更高版本中正式可用。要在版本 [`4.1.0`](https://github.com/prisma/prisma/releases/tag/4.1.0) 到 [`4.15.0`](https://github.com/prisma/prisma/releases/tag/4.15.0) 中使用此功能,需要啟用[預覽功能](/orm/reference/preview-features/client-preview-features#enabling-a-prisma-client-preview-feature) `orderByNulls`。
+- 此功能不適用於 MongoDB。
+- 您只能對可選的[純量](/orm/prisma-schema/data-model/models#scalar-fields)欄位按 null 排序。如果您嘗試對必填或[關聯](/orm/prisma-schema/data-model/models#relation-fields)欄位按 null 排序,Prisma Client 會拋出 [P2009 錯誤](/orm/reference/error-reference#p2009)。
 
 :::
 
-You can sort the results so that records with `null` fields appear either first or last.
+您可以對結果進行排序,使具有 `null` 欄位的記錄顯示在最前面或最後面。
 
-If `name` is an optional field, then the following query using `last` sorts users by `name`, with `null` records at the end:
+如果 `name` 是可選欄位,則以下使用 `last` 的查詢會根據 `name` 對使用者進行排序,`null` 記錄在最後:
 
 ```ts
 const users = await prisma.user.findMany({
@@ -451,7 +450,7 @@ const users = await prisma.user.findMany({
 })
 ```
 
-If you want the records with `null` values to appear at the beginning of the returned array, use `first`:
+如果您希望具有 `null` 值的記錄顯示在返回陣列的開頭,請使用 `first`:
 
 ```ts
 const users = await prisma.user.findMany({
@@ -462,10 +461,10 @@ const users = await prisma.user.findMany({
 })
 ```
 
-Note that `first` also is the default value, so if you omit the `null` option, `null` values will appear first in the returned array.
+請注意,`first` 也是預設值,因此如果您省略 `null` 選項,`null` 值將顯示在返回陣列的最前面。
 
-### Sorting FAQs
+### 排序常見問題
 
-#### Can I perform case-insensitive sorting?
+#### 我可以執行不區分大小寫的排序嗎?
 
-Follow [issue #841 on GitHub](https://github.com/prisma/prisma-client-js/issues/841).
+請關注 [GitHub 上的問題 #841](https://github.com/prisma/prisma-client-js/issues/841)。

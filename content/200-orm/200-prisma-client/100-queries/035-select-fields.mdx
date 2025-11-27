@@ -1,18 +1,18 @@
 ---
-title: 'Select fields'
-metaTitle: 'Select fields'
-metaDescription: 'This page explains how to select only a subset of a model''s fields and/or include relations ("eager loading") in a Prisma Client query.'
+title: '選擇欄位'
+metaTitle: '選擇欄位'
+metaDescription: '本頁面說明如何在 Prisma Client 查詢中僅選擇模型欄位的子集及/或包含關聯("預先載入")。'
 tocDepth: 3
 ---
 
-## Overview
+## 概述
 
-By default, when a query returns records (as opposed to a count), the result includes:
+預設情況下,當查詢返回記錄時(而不是計數),結果包括:
 
-- **All scalar fields** of a model (including enums)
-- **No relations** defined on a model
+- 模型的**所有純量欄位**(包括列舉)
+- 模型上定義的**無關聯**
 
-As an example, consider this schema:
+例如,考慮以下 schema:
 
 ```prisma
 model User {
@@ -37,7 +37,7 @@ enum Role {
 }
 ```
 
-A query to the `User` model will include the `id`, `email`, `name` and `role` fields (because these are _scalar_ fields), but not the `posts` field (because that's a _relation_ field):
+對 `User` 模型的查詢將包含 `id`、`email`、`name` 和 `role` 欄位(因為這些是_純量_欄位),但不包含 `posts` 欄位(因為那是_關聯_欄位):
 
 <CodeWithResult expanded="{true}" outputResultText="query">
 <cmd>
@@ -61,21 +61,21 @@ const users = await prisma.user.findFirst()
 </cmdResult>
 </CodeWithResult>
 
-If you want to customize the result and have a different combination of fields returned, you can:
+如果您想自訂結果並返回不同的欄位組合,您可以:
 
-- Use [`select`](/orm/reference/prisma-client-reference#select) to return specific fields. You can also use a [nested `select`](/orm/prisma-client/queries/relation-queries#select-specific-fields-of-included-relations) by selecting relation fields.
-- Use [`omit`](/orm/reference/prisma-client-reference#omit) to exclude specific fields from the result. `omit` can be seen as the "opposite" to `select`.
-- Use [`include`](/orm/reference/prisma-client-reference#include) to additionally [include relations](/orm/prisma-client/queries/relation-queries#nested-reads).
+- 使用 [`select`](/orm/reference/prisma-client-reference#select) 返回特定欄位。您也可以透過選擇關聯欄位來使用[巢狀 `select`](/orm/prisma-client/queries/relation-queries#select-specific-fields-of-included-relations)。
+- 使用 [`omit`](/orm/reference/prisma-client-reference#omit) 從結果中排除特定欄位。`omit` 可以看作是 `select` 的"相反"。
+- 使用 [`include`](/orm/reference/prisma-client-reference#include) 額外[包含關聯](/orm/prisma-client/queries/relation-queries#nested-reads)。
 
-In all cases, the query result will be statically typed, ensuring that you don't accidentally access any fields that you did not actually query from the database.
+在所有情況下,查詢結果都將是靜態類型的,確保您不會意外存取任何實際上沒有從資料庫查詢的欄位。
 
-Selecting only the fields and relations that you require rather than relying on the default selection set can reduce the size of the response and improve query speed.
+僅選擇您需要的欄位和關聯,而不是依賴預設選擇集,可以減少回應的大小並提高查詢速度。
 
-Since version [5.9.0](https://github.com/prisma/prisma/releases/tag/5.9.0), when doing a relation query with `include` or by using `select` on a relation field, you can also specify the `relationLoadStrategy` to decide whether you want to use a database-level join or perform multiple queries and merge the data on the application level. This feature is currently in [Preview](/orm/more/releases#preview), you can learn more about it [here](/orm/prisma-client/queries/relation-queries#relation-load-strategies-preview).
+從版本 [5.9.0](https://github.com/prisma/prisma/releases/tag/5.9.0) 開始,當使用 `include` 或在關聯欄位上使用 `select` 進行關聯查詢時,您還可以指定 `relationLoadStrategy` 來決定是要使用資料庫層級的 join 還是執行多個查詢並在應用程式層級合併資料。此功能目前處於[預覽](/orm/more/releases#preview)狀態,您可以在[這裡](/orm/prisma-client/queries/relation-queries#relation-load-strategies-preview)了解更多資訊。
 
-## Example schema
+## 範例 schema
 
-All following examples on this page are based on the following schema:
+本頁面的所有後續範例都基於以下 schema:
 
 ```prisma
 model User {
@@ -111,9 +111,9 @@ enum Role {
 ```
 
 
-## Return the default fields
+## 返回預設欄位
 
-The following query returns the default fields (all scalar fields, no relations):
+以下查詢返回預設欄位(所有純量欄位,無關聯):
 
 <CodeWithResult expanded="{true}" outputResultText="query">
 <cmd>
@@ -139,9 +139,9 @@ const user = await prisma.user.findFirst()
 </cmdResult>
 </CodeWithResult>
 
-## Select specific fields
+## 選擇特定欄位
 
-Use `select` to return a _subset_ of fields instead of _all_ fields. The following example returns the `email` and `name` fields only:
+使用 `select` 返回欄位的_子集_而不是_所有_欄位。以下範例僅返回 `email` 和 `name` 欄位:
 
 <CodeWithResult expanded="{true}" outputResultText="query">
 <cmd>
@@ -168,11 +168,11 @@ const user = await prisma.user.findFirst({
 </cmdResult>
 </CodeWithResult>
 
-## Return nested objects by selecting relation fields
+## 透過選擇關聯欄位返回巢狀物件
 
-You can also return relations by nesting `select` multiple times on [relation fields](/orm/prisma-schema/data-model/relations#relation-fields).
+您也可以透過在[關聯欄位](/orm/prisma-schema/data-model/relations#relation-fields)上多次巢狀 `select` 來返回關聯。
 
-The following query uses a nested `select` to select each user's `name` and the `title` of each related post:
+以下查詢使用巢狀 `select` 選擇每個使用者的 `name` 和每篇相關貼文的 `title`:
 
 <CodeWithResult expanded="{true}" outputResultText="query">
 <cmd>
@@ -204,7 +204,7 @@ const usersWithPostTitles = await prisma.user.findFirst({
 </cmdResult>
 </CodeWithResult>
 
-The following query uses `select` within an `include`, and returns _all_ user fields and each post's `title` field:
+以下查詢在 `include` 中使用 `select`,並返回_所有_使用者欄位和每篇貼文的 `title` 欄位:
 
 <CodeWithResult expanded="{true}" outputResultText="query">
 <cmd>
@@ -240,10 +240,10 @@ const usersWithPostTitles = await prisma.user.findFirst({
 </cmdResult>
 </CodeWithResult>
 
-You can nest your queries arbitrarily deep. The following query fetches:
-- the `title` of a `Post`
-- the `name` of the related `User`
-- the `biography` of the related `Profile`
+您可以任意深度巢狀查詢。以下查詢獲取:
+- `Post` 的 `title`
+- 相關 `User` 的 `name`
+- 相關 `Profile` 的 `biography`
 
 <CodeWithResult expanded="{true}" outputResultText="query">
 <cmd>
@@ -285,20 +285,20 @@ const postsWithAuthorsAndProfiles = await prisma.post.findFirst({
 
 :::note
 
-Be careful when deeply nesting relations because the underlying database query may become slow due it needing to access a lot of different tables. To ensure your queries always have optimal speed, consider adding a caching layer with [Prisma Accelerate](/accelerate) or use [Prisma Optimize](/optimize/) to get query insights and recommendations for performance optimizations.  
+當深度巢狀關聯時請小心,因為底層資料庫查詢可能會因為需要存取許多不同的資料表而變慢。為確保您的查詢始終具有最佳速度,請考慮使用 [Prisma Accelerate](/accelerate) 新增快取層,或使用 [Prisma Optimize](/optimize/) 取得查詢洞察和效能最佳化建議。
 
 :::
 
-For more information about querying relations, refer to the following documentation:
+有關查詢關聯的更多資訊,請參閱以下文件:
 
-- [Include a relation (including all fields)](/orm/prisma-client/queries/relation-queries#include-all-fields-for-a-specific-relation)
-- [Select specific relation fields](/orm/prisma-client/queries/relation-queries#select-specific-fields-of-included-relations)
+- [包含關聯(包括所有欄位)](/orm/prisma-client/queries/relation-queries#include-all-fields-for-a-specific-relation)
+- [選擇特定關聯欄位](/orm/prisma-client/queries/relation-queries#select-specific-fields-of-included-relations)
 
-## Omit specific fields
+## 省略特定欄位
 
-There may be situations when you want to return _most_ fields of a model, excluding only a _small_ subset. A common example for this is when you query a `User` but want to exclude the `password` field for security reasons.
+在某些情況下,您可能想要返回模型的_大部分_欄位,僅排除_一小部分_。一個常見的例子是當您查詢 `User` 但出於安全原因想要排除 `password` 欄位時。
 
-In these cases, you can use `omit`, which can be seen as the counterpart to `select`:
+在這些情況下,您可以使用 `omit`,它可以看作是 `select` 的對應物:
 
 <CodeWithResult expanded="{true}" outputResultText="query">
 <cmd>
@@ -328,8 +328,8 @@ const users = await prisma.user.findFirst({
 </cmdResult>
 </CodeWithResult>
 
-Notice how the returned object does _not_ contain the `password` field.
+請注意,返回的物件_不_包含 `password` 欄位。
 
-## Relation count
+## 關聯計數
 
-In [3.0.1](https://github.com/prisma/prisma/releases/3.0.1) and later, you can `include` or `select` a [count of relations](/orm/prisma-client/queries/aggregation-grouping-summarizing#count-relations) alongside fields. For example, a user's post count.
+在 [3.0.1](https://github.com/prisma/prisma/releases/3.0.1) 及更高版本中,您可以在欄位旁邊 `include` 或 `select` [關聯的計數](/orm/prisma-client/queries/aggregation-grouping-summarizing#count-relations)。例如,使用者的貼文數量。

@@ -1,32 +1,32 @@
 ---
-title: 'Relation queries'
-metaTitle: 'Relation queries (Concepts)'
-metaDescription: 'Prisma Client provides convenient queries for working with relations, such as a fluent API, nested writes (transactions), nested reads and relation filters.'
+title: '關聯查詢'
+metaTitle: '關聯查詢 (概念)'
+metaDescription: 'Prisma Client 提供便利的查詢來處理關聯,例如流暢的 API、巢狀寫入(交易)、巢狀讀取和關聯篩選。'
 toc_max_heading_level: 4
 ---
 
-A key feature of Prisma Client is the ability to query [relations](/orm/prisma-schema/data-model/relations) between two or more models. Relation queries include:
+Prisma Client 的一個關鍵功能是能夠查詢兩個或更多模型之間的[關聯](/orm/prisma-schema/data-model/relations)。關聯查詢包括:
 
-- [Nested reads](#nested-reads) (sometimes referred to as _eager loading_) via [`select`](/orm/reference/prisma-client-reference#select) and [`include`](/orm/reference/prisma-client-reference#include)
-- [Nested writes](#nested-writes) with [transactional](/orm/prisma-client/queries/transactions) guarantees
-- [Filtering on related records](#relation-filters)
+- 透過 [`select`](/orm/reference/prisma-client-reference#select) 和 [`include`](/orm/reference/prisma-client-reference#include) 進行[巢狀讀取](#nested-reads)(有時稱為_預先載入_)
+- 具有[交易](/orm/prisma-client/queries/transactions)保證的[巢狀寫入](#nested-writes)
+- [對相關記錄進行篩選](#relation-filters)
 
-Prisma Client also has a [fluent API for traversing relations](#fluent-api).
+Prisma Client 還有一個[用於遍歷關聯的流暢 API](#fluent-api)。
 
-## Nested reads
+## 巢狀讀取
 
-Nested reads allow you to read related data from multiple tables in your database - such as a user and that user's posts. You can:
+巢狀讀取允許您從資料庫中的多個資料表讀取相關資料 - 例如使用者和該使用者的貼文。您可以:
 
-- Use [`include`](/orm/reference/prisma-client-reference#include) to include related records, such as a user's posts or profile, in the query response.
-- Use a nested [`select`](/orm/reference/prisma-client-reference#select) to include specific fields from a related record. You can also nest `select` inside an `include`.
+- 使用 [`include`](/orm/reference/prisma-client-reference#include) 在查詢回應中包含相關記錄,例如使用者的貼文或個人資料。
+- 使用巢狀 [`select`](/orm/reference/prisma-client-reference#select) 包含相關記錄的特定欄位。您也可以在 `include` 內巢狀 `select`。
 
-### Relation load strategies (Preview)
+### 關聯載入策略(預覽)
 
-Since version [5.8.0](https://github.com/prisma/prisma/releases/tag/5.8.0), you can decide on a per-query-level _how_ you want Prisma Client to execute a relation query (i.e. what _load strategy_ should be applied) via the `relationLoadStrategy` option for PostgreSQL databases.
+從版本 [5.8.0](https://github.com/prisma/prisma/releases/tag/5.8.0) 開始,您可以在每個查詢層級決定_如何_讓 Prisma Client 執行關聯查詢(即應套用什麼_載入策略_),透過 `relationLoadStrategy` 選項適用於 PostgreSQL 資料庫。
 
-Since version [5.10.0](https://github.com/prisma/prisma/releases/tag/5.10.0), this feature is also available for MySQL.
+從版本 [5.10.0](https://github.com/prisma/prisma/releases/tag/5.10.0) 開始,此功能也適用於 MySQL。
 
-Because the `relationLoadStrategy` option is currently in Preview, you need to enable it via the `relationJoins` preview feature flag in your Prisma schema file:
+因為 `relationLoadStrategy` 選項目前處於預覽狀態,您需要透過 Prisma schema 檔案中的 `relationJoins` 預覽功能標誌來啟用它:
 
 ```prisma file=schema.prisma showLineNumbers
 generator client {
@@ -36,22 +36,22 @@ generator client {
 }
 ```
 
-After adding this flag, you need to run `prisma generate` again to re-generate Prisma Client. The `relationJoins` feature is currently available on PostgreSQL, CockroachDB and MySQL.
+新增此標誌後,您需要再次執行 `prisma generate` 來重新生成 Prisma Client。`relationJoins` 功能目前在 PostgreSQL、CockroachDB 和 MySQL 上可用。
 
-Prisma Client supports two load strategies for relations:
+Prisma Client 支援兩種關聯載入策略:
 
-- `join` (default): Uses a database-level `LATERAL JOIN` (PostgreSQL) or correlated subqueries (MySQL) and fetches all data with a single query to the database.
-- `query`: Sends multiple queries to the database (one per table) and joins them on the application level.
+- `join`(預設):使用資料庫層級的 `LATERAL JOIN`(PostgreSQL)或相關子查詢(MySQL),並透過單一查詢從資料庫獲取所有資料。
+- `query`:向資料庫發送多個查詢(每個資料表一個)並在應用程式層級連接它們。
 
-Another important difference between these two options is that the `join` strategy uses JSON aggregation on the database level. That means that it creates the JSON structures returned by Prisma Client already in the database which saves computation resources on the application level.
+這兩個選項之間另一個重要的區別是,`join` 策略在資料庫層級使用 JSON 聚合。這意味著它在資料庫中建立 Prisma Client 返回的 JSON 結構,從而節省應用程式層級的運算資源。
 
-> **Note**: Once `relationLoadStrategy` moves from [Preview](/orm/more/releases#preview) into [General Availability](/orm/more/releases/#generally-available-ga), `join` will universally become the default for all relation queries.
+> **注意**: 一旦 `relationLoadStrategy` 從[預覽](/orm/more/releases#preview)進入[正式版本](/orm/more/releases/#generally-available-ga),`join` 將普遍成為所有關聯查詢的預設值。
 
-#### Examples
+#### 範例
 
-You can use the `relationLoadStrategy` option on the top-level in any query that supports `include` or `select`.
+您可以在支援 `include` 或 `select` 的任何查詢的頂層使用 `relationLoadStrategy` 選項。
 
-Here is an example with `include`:
+以下是使用 `include` 的範例:
 
 ```ts
 const users = await prisma.user.findMany({
@@ -62,7 +62,7 @@ const users = await prisma.user.findMany({
 })
 ```
 
-And here is another example with `select`:
+以下是使用 `select` 的另一個範例:
 
 ```ts
 const users = await prisma.user.findMany({
@@ -73,15 +73,15 @@ const users = await prisma.user.findMany({
 })
 ```
 
-#### When to use which load strategy?
+#### 何時使用哪種載入策略?
 
-- The `join` strategy (default) will be more effective in most scenarios. On PostgreSQL, it uses a combination of `LATERAL JOINs` and JSON aggregation to reduce redundancy in result sets and delegate the work of transforming the query results into the expected JSON structures on the database server. On MySQL, it uses correlated subqueries to fetch the results with a single query.
-- There may be edge cases where `query` could be more performant depending on the characteristics of the dataset and query. We recommend that you profile your database queries to identify these situations.
-- Use `query` if you want to save resources on the database server and do heavy-lifting of merging and transforming data in the application server which might be easier to scale.
+- `join` 策略(預設)在大多數情況下會更有效。在 PostgreSQL 上,它使用 `LATERAL JOINs` 和 JSON 聚合的組合來減少結果集中的冗餘,並將轉換查詢結果為預期 JSON 結構的工作委派給資料庫伺服器。在 MySQL 上,它使用相關子查詢透過單一查詢獲取結果。
+- 根據資料集和查詢的特性,在某些邊緣情況下 `query` 可能更高效。我們建議您分析資料庫查詢以識別這些情況。
+- 如果您想節省資料庫伺服器上的資源並在應用程式伺服器中執行合併和轉換資料的繁重工作(這可能更容易擴展),請使用 `query`。
 
-### Include a relation
+### 包含關聯
 
-The following example returns a single user and that user's posts:
+以下範例返回單一使用者和該使用者的貼文:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -131,9 +131,9 @@ const user = await prisma.user.findFirst({
 </cmdResult>
 </CodeWithResult>
 
-### Include all fields for a specific relation
+### 包含特定關聯的所有欄位
 
-The following example returns a post and its author:
+以下範例返回一篇貼文及其作者:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -172,9 +172,9 @@ const post = await prisma.post.findFirst({
 </cmdResult>
 </CodeWithResult>
 
-### Include deeply nested relations
+### 包含深度巢狀的關聯
 
-You can nest `include` options to include relations of relations. The following example returns a user's posts, and each post's categories:
+您可以巢狀 `include` 選項來包含關聯的關聯。以下範例返回使用者的貼文以及每篇貼文的分類:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -239,9 +239,9 @@ const user = await prisma.user.findFirst({
 </CodeWithResult>
 
 
-### Select specific fields of included relations
+### 選擇包含關聯的特定欄位
 
-You can use a nested `select` to choose a subset of fields of relations to return. For example, the following query returns the user's `name` and the `title` of each related post:
+您可以使用巢狀 `select` 選擇要返回的關聯欄位的子集。例如,以下查詢返回使用者的 `name` 和每篇相關貼文的 `title`:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -272,7 +272,7 @@ const user = await prisma.user.findFirst({
 </cmdResult>
 </CodeWithResult>
 
-You can also nest a `select` inside an `include` - the following example returns _all_ `User` fields and the `title` field of each post:
+您也可以在 `include` 內巢狀 `select` - 以下範例返回_所有_ `User` 欄位和每篇貼文的 `title` 欄位:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -310,7 +310,7 @@ const user = await prisma.user.findFirst({
 </cmdResult>
 </CodeWithResult>
 
-Note that you **cannot** use `select` and `include` _on the same level_. This means that if you choose to `include` a user's post and `select` each post's title, you cannot `select` only the users' `email`:
+請注意,您**不能**在_同一層級_使用 `select` 和 `include`。這意味著,如果您選擇 `include` 使用者的貼文並 `select` 每篇貼文的標題,您不能只 `select` 使用者的 `email`:
 
 <CodeWithResult>
 <cmd>
@@ -364,7 +364,7 @@ Please either use `include` or `select`, but not both at the same time.
 </cmdResult>
 </CodeWithResult>
 
-Instead, use nested `select` options:
+相反,請使用巢狀 `select` 選項:
 
 ```ts
 const user = await prisma.user.findFirst({
@@ -380,9 +380,9 @@ const user = await prisma.user.findFirst({
 })
 ```
 
-## Relation count
+## 關聯計數
 
-In [3.0.1](https://github.com/prisma/prisma/releases/3.0.1) and later, you can [`include` or `select` a count of relations](/orm/prisma-client/queries/aggregation-grouping-summarizing#count-relations) alongside fields - for example, a user's post count.
+在 [3.0.1](https://github.com/prisma/prisma/releases/3.0.1) 及更高版本中,您可以在欄位旁邊 [`include` 或 `select` 關聯的計數](/orm/prisma-client/queries/aggregation-grouping-summarizing#count-relations) - 例如,使用者的貼文數量。
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -411,11 +411,11 @@ const relationCount = await prisma.user.findMany({
 </cmdResult>
 </CodeWithResult>
 
-## Filter a list of relations
+## 篩選關聯清單
 
-When you use `select` or `include` to return a subset of the related data, you can **filter and sort the list of relations** inside the `select` or `include`.
+當您使用 `select` 或 `include` 返回相關資料的子集時,您可以在 `select` 或 `include` 內**篩選和排序關聯清單**。
 
-For example, the following query returns list of titles of the unpublished posts associated with the user:
+例如,以下查詢返回與使用者關聯的未發布貼文的標題清單:
 
 ```ts
 const result = await prisma.user.findFirst({
@@ -435,7 +435,7 @@ const result = await prisma.user.findFirst({
 })
 ```
 
-You can also write the same query using `include` as follows:
+您也可以使用 `include` 撰寫相同的查詢,如下所示:
 
 ```ts
 const result = await prisma.user.findFirst({
@@ -452,19 +452,19 @@ const result = await prisma.user.findFirst({
 })
 ```
 
-## Nested writes
+## 巢狀寫入
 
-A nested write allows you to write **relational data** to your database in **a single transaction**.
+巢狀寫入允許您在**單一交易**中將**關聯資料**寫入資料庫。
 
-Nested writes:
+巢狀寫入:
 
-- Provide **transactional guarantees** for creating, updating or deleting data across multiple tables in a single Prisma Client query. If any part of the query fails (for example, creating a user succeeds but creating posts fails), Prisma Client rolls back all changes.
-- Support any level of nesting supported by the data model.
-- Are available for [relation fields](/orm/prisma-schema/data-model/relations#relation-fields) when using the model's create or update query. The following section shows the nested write options that are available per query.
+- 為在單一 Prisma Client 查詢中跨多個資料表建立、更新或刪除資料提供**交易保證**。如果查詢的任何部分失敗(例如,建立使用者成功但建立貼文失敗),Prisma Client 會回滾所有變更。
+- 支援資料模型支援的任何巢狀層級。
+- 在使用模型的建立或更新查詢時可用於[關聯欄位](/orm/prisma-schema/data-model/relations#relation-fields)。以下部分顯示每個查詢可用的巢狀寫入選項。
 
-### Create a related record
+### 建立相關記錄
 
-You can create a record and one or more related records at the same time. The following query creates a `User` record and two related `Post` records:
+您可以同時建立一個記錄和一個或多個相關記錄。以下查詢建立一個 `User` 記錄和兩個相關的 `Post` 記錄:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -526,31 +526,31 @@ const result = await prisma.user.create({
 </cmdResult>
 </CodeWithResult>
 
-### Create a single record and multiple related records
+### 建立單一記錄和多個相關記錄
 
-There are two ways to create or update a single record and multiple related records - for example, a user with multiple posts:
+有兩種方式可以建立或更新單一記錄和多個相關記錄 - 例如,一個使用者與多篇貼文:
 
-- Use a nested [`create`](/orm/reference/prisma-client-reference#create) query
-- Use a nested [`createMany`](/orm/reference/prisma-client-reference#createmany-1) query
+- 使用巢狀 [`create`](/orm/reference/prisma-client-reference#create) 查詢
+- 使用巢狀 [`createMany`](/orm/reference/prisma-client-reference#createmany-1) 查詢
 
-In most cases, a nested `create` will be preferable unless the [`skipDuplicates` query option](/orm/reference/prisma-client-reference#nested-createmany-options) is required. Here's a quick table describing the differences between the two options:
+在大多數情況下,巢狀 `create` 更可取,除非需要 [`skipDuplicates` 查詢選項](/orm/reference/prisma-client-reference#nested-createmany-options)。以下是描述這兩個選項之間差異的快速表格:
 
-| Feature                               | `create` | `createMany` | Notes                                                                                                                                                                                           |
-| :------------------------------------ | :------- | :----------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Supports nesting additional relations | ✔        | ✘ \*         | For example, you can create a user, several posts, and several comments per post in one query.<br />\* You can manually set a foreign key in a has-one relation - for example: `{ authorId: 9}` |
-| Supports 1-n relations           | ✔        | ✔            | For example, you can create a user and multiple posts (one user has many posts)                                                                                                                 |
-| Supports m-n relations       | ✔        | ✘            | For example, you can create a post and several categories (one post can have many categories, and one category can have many posts)                                                             |
-| Supports skipping duplicate records   | ✘        | ✔            | Use `skipDuplicates` query option.                                                                                                                                                              |
+| 功能                          | `create` | `createMany` | 注意事項                                                                                                                                                                                        |
+| :--------------------------- | :------- | :----------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 支援巢狀額外關聯               | ✔        | ✘ \*         | 例如,您可以在一個查詢中建立使用者、多篇貼文和每篇貼文的多個評論。<br />\* 您可以在一對一關聯中手動設定外鍵 - 例如: `{ authorId: 9}` |
+| 支援一對多關聯                 | ✔        | ✔            | 例如,您可以建立使用者和多篇貼文(一個使用者有多篇貼文)                                                                                                                 |
+| 支援多對多關聯                 | ✔        | ✘            | 例如,您可以建立貼文和多個分類(一篇貼文可以有多個分類,一個分類可以有多篇貼文)                                                             |
+| 支援跳過重複記錄               | ✘        | ✔            | 使用 `skipDuplicates` 查詢選項。                                                                                                                                                              |
 
-#### Using nested `create`
+#### 使用巢狀 `create`
 
-The following query uses nested [`create`](/orm/reference/prisma-client-reference#create) to create:
+以下查詢使用巢狀 [`create`](/orm/reference/prisma-client-reference#create) 來建立:
 
-- One user
-- Two posts
-- One post category
+- 一個使用者
+- 兩篇貼文
+- 一個貼文分類
 
-The example also uses a nested `include` to include all posts and post categories in the returned data.
+此範例還使用巢狀 `include` 在返回的資料中包含所有貼文和貼文分類。
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -634,18 +634,18 @@ const result = await prisma.user.create({
 </cmdResult>
 </CodeWithResult>
 
-Here's a visual representation of how a nested create operation can write to several tables in the database as once:
+以下是巢狀建立操作如何一次寫入資料庫中多個資料表的視覺化表示:
 
 ![](/img/orm/nested-create.png)
 
-#### Using nested `createMany`
+#### 使用巢狀 `createMany`
 
-The following query uses a nested [`createMany`](/orm/reference/prisma-client-reference#createmany) to create:
+以下查詢使用巢狀 [`createMany`](/orm/reference/prisma-client-reference#createmany) 來建立:
 
-- One user
-- Two posts
+- 一個使用者
+- 兩篇貼文
 
-The example also uses a nested `include` to include all posts in the returned data.
+此範例還使用巢狀 `include` 在返回的資料中包含所有貼文。
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -708,9 +708,9 @@ const result = await prisma.user.create({
 </cmdResult>
 </CodeWithResult>
 
-Note that it is **not possible** to nest an additional `create` or `createMany` inside the highlighted query, which means that you cannot create a user, posts, and post categories at the same time.
+請注意,**不可能**在標記的查詢內巢狀額外的 `create` 或 `createMany`,這意味著您無法同時建立使用者、貼文和貼文分類。
 
-As a workaround, you can send a query to create the records that will be connected first, and then create the actual records. For example:
+作為替代方案,您可以先發送查詢來建立將要連接的記錄,然後再建立實際的記錄。例如:
 
 ```ts
 const categories = await prisma.category.createManyAndReturn({
@@ -739,12 +739,12 @@ const posts = await prisma.post.createManyAndReturn({
 });
 ```
 
-If you want to create _all_ records in a single database query, consider using a [`$transaction`](/orm/prisma-client/queries/transactions#the-transaction-api) or [type-safe, raw SQL](/orm/prisma-client/using-raw-sql/typedsql).
+如果您想在單一資料庫查詢中建立_所有_記錄,請考慮使用 [`$transaction`](/orm/prisma-client/queries/transactions#the-transaction-api) 或[類型安全的原始 SQL](/orm/prisma-client/using-raw-sql/typedsql)。
 
 
-### Create multiple records and multiple related records
+### 建立多個記錄和多個相關記錄
 
-You cannot access relations in a `createMany()` or `createManyAndReturn()` query, which means that you cannot create multiple users and multiple posts in a single nested write. The following is **not** possible:
+您無法在 `createMany()` 或 `createManyAndReturn()` 查詢中存取關聯,這意味著您無法在單一巢狀寫入中建立多個使用者和多篇貼文。以下**不可能**:
 
 ```ts highlight=6-8,13-15;delete
 const createMany = await prisma.user.createMany({
@@ -771,9 +771,9 @@ const createMany = await prisma.user.createMany({
 })
 ```
 
-### Connect multiple records
+### 連接多個記錄
 
-The following query creates ([`create`](/orm/reference/prisma-client-reference#create) ) a new `User` record and connects that record ([`connect`](/orm/reference/prisma-client-reference#connect) ) to three existing posts:
+以下查詢建立 ([`create`](/orm/reference/prisma-client-reference#create)) 一個新的 `User` 記錄,並將該記錄連接 ([`connect`](/orm/reference/prisma-client-reference#connect)) 到三篇現有貼文:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -822,11 +822,11 @@ const result = await prisma.user.create({
 </cmdResult>
 </CodeWithResult>
 
-> **Note**: Prisma Client throws an exception if any of the post records cannot be found: `connect: [{ id: 8 }, { id: 9 }, { id: 10 }]`
+> **注意**: 如果找不到任何貼文記錄,Prisma Client 會拋出異常: `connect: [{ id: 8 }, { id: 9 }, { id: 10 }]`
 
-### Connect a single record
+### 連接單一記錄
 
-You can [`connect`](/orm/reference/prisma-client-reference#connect) an existing record to a new or existing user. The following query connects an existing post (`id: 11`) to an existing user (`id: 9`)
+您可以將現有記錄 [`connect`](/orm/reference/prisma-client-reference#connect) 到新的或現有的使用者。以下查詢將現有貼文 (`id: 11`) 連接到現有使用者 (`id: 9`)
 
 ```ts highlight=6-9;normal
 const result = await prisma.user.update({
@@ -848,12 +848,12 @@ const result = await prisma.user.update({
 })
 ```
 
-### Connect _or_ create a record
+### 連接_或_建立記錄
 
-If a related record may or may not already exist, use [`connectOrCreate`](/orm/reference/prisma-client-reference#connectorcreate) to connect the related record:
+如果相關記錄可能存在也可能不存在,請使用 [`connectOrCreate`](/orm/reference/prisma-client-reference#connectorcreate) 連接相關記錄:
 
-- Connect a `User` with the email address `viola@prisma.io` _or_
-- Create a new `User` with the email address `viola@prisma.io` if the user does not already exist
+- 連接電子郵件地址為 `viola@prisma.io` 的 `User` _或_
+- 如果使用者尚不存在,則建立電子郵件地址為 `viola@prisma.io` 的新 `User`
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -907,9 +907,9 @@ const result = await prisma.post.create({
 </cmdResult>
 </CodeWithResult>
 
-### Disconnect a related record
+### 斷開相關記錄
 
-To `disconnect` one out of a list of records (for example, a specific blog post) provide the ID or unique identifier of the record(s) to disconnect:
+要從記錄清單中 `disconnect` 一個(例如,特定的部落格貼文),請提供要斷開的記錄的 ID 或唯一識別符號:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -950,7 +950,7 @@ const result = await prisma.user.update({
 </cmdResult>
 </CodeWithResult>
 
-To `disconnect` _one_ record (for example, a post's author), use `disconnect: true`:
+要斷開_一個_記錄(例如,貼文的作者),請使用 `disconnect: true`:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -992,9 +992,9 @@ const result = await prisma.post.update({
 </cmdResult>
 </CodeWithResult>
 
-### Disconnect all related records
+### 斷開所有相關記錄
 
-To [`disconnect`](/orm/reference/prisma-client-reference#disconnect) _all_ related records in a one-to-many relation (a user has many posts), `set` the relation to an empty list as shown:
+要在一對多關聯中(使用者有多篇貼文) [`disconnect`](/orm/reference/prisma-client-reference#disconnect) _所有_相關記錄,請將關聯 `set` 為空清單,如下所示:
 
 <CodeWithResult outputResultText="query">
 <cmd>
@@ -1035,9 +1035,9 @@ const result = await prisma.user.update({
 </cmdResult>
 </CodeWithResult>
 
-### Delete all related records
+### 刪除所有相關記錄
 
-Delete all related `Post` records:
+刪除所有相關的 `Post` 記錄:
 
 ```ts highlight=6-8;normal
 const result = await prisma.user.update({
@@ -1057,9 +1057,9 @@ const result = await prisma.user.update({
 })
 ```
 
-### Delete specific related records
+### 刪除特定相關記錄
 
-Update a user by deleting all unpublished posts:
+透過刪除所有未發布的貼文來更新使用者:
 
 ```ts highlight=6-10;normal
 const result = await prisma.user.update({
@@ -1081,7 +1081,7 @@ const result = await prisma.user.update({
 })
 ```
 
-Update a user by deleting specific posts:
+透過刪除特定貼文來更新使用者:
 
 ```ts highlight=6-8;normal
 const result = await prisma.user.update({
@@ -1101,9 +1101,9 @@ const result = await prisma.user.update({
 })
 ```
 
-### Update all related records (or filter)
+### 更新所有相關記錄(或篩選)
 
-You can use a nested `updateMany` to update _all_ related records for a particular user. The following query unpublishes all posts for a specific user:
+您可以使用巢狀 `updateMany` 更新特定使用者的_所有_相關記錄。以下查詢取消發布特定使用者的所有貼文:
 
 ```ts highlight=6-15;normal
 const result = await prisma.user.update({
@@ -1130,7 +1130,7 @@ const result = await prisma.user.update({
 })
 ```
 
-### Update a specific related record
+### 更新特定相關記錄
 
 ```ts highlight=6-15;normal
 const result = await prisma.user.update({
@@ -1157,9 +1157,9 @@ const result = await prisma.user.update({
 })
 ```
 
-### Update _or_ create a related record
+### 更新_或_建立相關記錄
 
-The following query uses a nested `upsert` to update `"bob@prisma.io"` if that user exists, or create the user if they do not exist:
+以下查詢使用巢狀 `upsert` 更新 `"bob@prisma.io"` 如果該使用者存在,或者如果不存在則建立使用者:
 
 ```ts highlight=6-17;normal
 const result = await prisma.post.update({
@@ -1188,9 +1188,9 @@ const result = await prisma.post.update({
 })
 ```
 
-### Add new related records to an existing record
+### 將新的相關記錄新增到現有記錄
 
-You can nest `create` or `createMany` inside an `update` to add new related records to an existing record. The following query adds two posts to a user with an `id` of 9:
+您可以在 `update` 內巢狀 `create` 或 `createMany` 以將新的相關記錄新增到現有記錄。以下查詢將兩篇貼文新增到 `id` 為 9 的使用者:
 
 ```ts highlight=6-10;normal
 const result = await prisma.user.update({
@@ -1212,24 +1212,24 @@ const result = await prisma.user.update({
 })
 ```
 
-## Relation filters
+## 關聯篩選
 
-### Filter on "-to-many" relations
+### 對"一對多"關聯進行篩選
 
-Prisma Client provides the [`some`](/orm/reference/prisma-client-reference#some), [`every`](/orm/reference/prisma-client-reference#every), and [`none`](/orm/reference/prisma-client-reference#none) options to filter records by the properties of related records on the "-to-many" side of the relation. For example, filtering users based on properties of their posts.
+Prisma Client 提供 [`some`](/orm/reference/prisma-client-reference#some)、[`every`](/orm/reference/prisma-client-reference#every) 和 [`none`](/orm/reference/prisma-client-reference#none) 選項,可透過關聯的"一對多"側相關記錄的屬性來篩選記錄。例如,根據貼文的屬性篩選使用者。
 
-For example:
+例如:
 
-| Requirement                                                                       | Query option to use                 |
+| 需求                                                                       | 要使用的查詢選項                 |
 | --------------------------------------------------------------------------------- | ----------------------------------- |
-| "I want a list of every `User` that has _at least one_ unpublished `Post` record" | `some` posts are unpublished        |
-| "I want a list of every `User` that has _no_ unpublished `Post` records"          | `none` of the posts are unpublished |
-| "I want a list of every `User` that has _only_ unpublished `Post` records"        | `every` post is unpublished         |
+| "我想要一個清單,列出至少有一篇未發布 `Post` 記錄的每個 `User`" | `some` 貼文未發布        |
+| "我想要一個清單,列出沒有未發布 `Post` 記錄的每個 `User`"          | `none` 的貼文未發布 |
+| "我想要一個清單,列出只有未發布 `Post` 記錄的每個 `User`"        | `every` 貼文未發布         |
 
-For example, the following query returns `User` that meet the following criteria:
+例如,以下查詢返回符合以下條件的 `User`:
 
-- No posts with more than 100 views
-- All posts have less than, or equal to 50 likes
+- 沒有瀏覽次數超過 100 的貼文
+- 所有貼文的讚數少於或等於 50
 
 ```ts
 const users = await prisma.user.findMany({
@@ -1255,14 +1255,14 @@ const users = await prisma.user.findMany({
 })
 ```
 
-### Filter on "-to-one" relations
+### 對"一對一"關聯進行篩選
 
-Prisma Client provides the [`is`](/orm/reference/prisma-client-reference#is) and [`isNot`](/orm/reference/prisma-client-reference#isnot) options to filter records by the properties of related records on the "-to-one" side of the relation. For example, filtering posts based on properties of their author.
+Prisma Client 提供 [`is`](/orm/reference/prisma-client-reference#is) 和 [`isNot`](/orm/reference/prisma-client-reference#isnot) 選項,可透過關聯的"一對一"側相關記錄的屬性來篩選記錄。例如,根據作者的屬性篩選貼文。
 
-For example, the following query returns `Post` records that meet the following criteria:
+例如,以下查詢返回符合以下條件的 `Post` 記錄:
 
-- Author's name is not Bob
-- Author is older than 40
+- 作者的名字不是 Bob
+- 作者年齡超過 40
 
 ```ts highlight=3-13;normal
 const users = await prisma.post.findMany({
@@ -1286,9 +1286,9 @@ const users = await prisma.post.findMany({
 })
 ```
 
-### Filter on absence of "-to-many" records
+### 對缺少"一對多"記錄進行篩選
 
-For example, the following query uses `none` to return all users that have zero posts:
+例如,以下查詢使用 `none` 返回所有沒有貼文的使用者:
 
 ```ts highlight=3-5;normal
 const usersWithZeroPosts = await prisma.user.findMany({
@@ -1305,9 +1305,9 @@ const usersWithZeroPosts = await prisma.user.findMany({
 })
 ```
 
-### Filter on absence of "-to-one" relations
+### 對缺少"一對一"關聯進行篩選
 
-The following query returns all posts that don't have an author relation:
+以下查詢返回所有沒有作者關聯的貼文:
 
 ```js highlight=3;normal
 const postsWithNoAuthor = await prisma.post.findMany({
@@ -1321,9 +1321,9 @@ const postsWithNoAuthor = await prisma.post.findMany({
 })
 ```
 
-### Filter on presence of related records
+### 對存在相關記錄進行篩選
 
-The following query returns all users with at least one post:
+以下查詢返回至少有一篇貼文的所有使用者:
 
 ```ts highlight=3-5;normal
 const usersWithSomePosts = await prisma.user.findMany({
@@ -1340,11 +1340,11 @@ const usersWithSomePosts = await prisma.user.findMany({
 })
 ```
 
-## Fluent API
+## 流暢 API
 
-The fluent API lets you _fluently_ traverse the [relations](/orm/prisma-schema/data-model/relations) of your models via function calls. Note that the _last_ function call determines the return type of the entire query (the respective type annotations are added in the code snippets below to make that explicit).
+流暢 API 讓您透過函式呼叫_流暢地_遍歷模型的[關聯](/orm/prisma-schema/data-model/relations)。請注意,_最後_的函式呼叫決定整個查詢的返回類型(下面的程式碼片段中新增了相應的類型註釋以使其明確)。
 
-This query returns all `Post` records by a specific `User`:
+此查詢返回特定 `User` 的所有 `Post` 記錄:
 
 ```ts
 const postsByUser: Post[] = await prisma.user
@@ -1352,7 +1352,7 @@ const postsByUser: Post[] = await prisma.user
   .posts()
 ```
 
-This is equivalent to the following `findMany` query:
+這等同於以下 `findMany` 查詢:
 
 ```ts
 const postsByUser = await prisma.post.findMany({
@@ -1364,11 +1364,11 @@ const postsByUser = await prisma.post.findMany({
 })
 ```
 
-The main difference between the queries is that the fluent API call is translated into two separate database queries while the other one only generates a single query (see this [GitHub issue](https://github.com/prisma/prisma/issues/1984))
+查詢之間的主要區別在於,流暢 API 呼叫被轉換為兩個單獨的資料庫查詢,而另一個只產生單一查詢(請參閱此 [GitHub 問題](https://github.com/prisma/prisma/issues/1984))
 
-> **Note**: You can use the fact that `.findUnique({ where: { email: 'alice@prisma.io' } }).posts()` queries are automatically batched by the Prisma dataloader in Prisma Client to [avoid the n+1 problem in GraphQL resolvers](/orm/prisma-client/queries/query-optimization-performance#solving-n1-in-graphql-with-findunique-and-prisma-clients-dataloader).
+> **注意**: 您可以利用 `.findUnique({ where: { email: 'alice@prisma.io' } }).posts()` 查詢會由 Prisma Client 中的 Prisma 資料載入器自動批次處理這一事實,來[避免 GraphQL 解析器中的 n+1 問題](/orm/prisma-client/queries/query-optimization-performance#solving-n1-in-graphql-with-findunique-and-prisma-clients-dataloader)。
 
-This request returns all categories by a specific post:
+此請求返回特定貼文的所有分類:
 
 ```ts
 const categoriesOfPost: Category[] = await prisma.post
@@ -1376,7 +1376,7 @@ const categoriesOfPost: Category[] = await prisma.post
   .categories()
 ```
 
-Note that you can chain as many queries as you like. In this example, the chaining starts at `Profile` and goes over `User` to `Post`:
+請注意,您可以鏈接任意多個查詢。在此範例中,鏈接從 `Profile` 開始,經過 `User` 到達 `Post`:
 
 ```ts
 const posts: Post[] = await prisma.profile
@@ -1385,9 +1385,9 @@ const posts: Post[] = await prisma.profile
   .posts()
 ```
 
-The only requirement for chaining is that the previous function call must return only a _single object_ (e.g. as returned by a `findUnique` query or a "to-one relation" like `profile.user()`).
+鏈接的唯一要求是前一個函式呼叫必須僅返回_單一物件_(例如,由 `findUnique` 查詢或"一對一關聯"如 `profile.user()` 返回)。
 
-The following query is **not possible** because `findMany` does not return a single object but a _list_:
+以下查詢**不可能**,因為 `findMany` 不返回單一物件而是_清單_:
 
 ```ts
 // This query is illegal

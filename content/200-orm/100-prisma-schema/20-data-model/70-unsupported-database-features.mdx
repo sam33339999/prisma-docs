@@ -1,21 +1,21 @@
 ---
-title: 'Unsupported database features (Prisma Schema)'
-sidebar_label: 'Unsupported database features'
-metaTitle: 'Prisma schema: Unsupported database features'
-metaDescription: 'How to support database features that do not have an equivalent syntax in Prisma Schema Language.'
+title: '不支援的資料庫功能（Prisma Schema）'
+sidebar_label: '不支援的資料庫功能'
+metaTitle: 'Prisma schema：不支援的資料庫功能'
+metaDescription: '如何支援在 Prisma Schema Language 中沒有等效語法的資料庫功能。'
 tocDepth: 2
 toc_max_heading_level: 2
 ---
 
 <TopBlock>
 
-Not all database functions and features of Prisma ORM's supported databases have a Prisma Schema Language equivalent. Refer to the [database features matrix](/orm/reference/database-features) for a complete list of supported features.
+並非 Prisma ORM 支援的資料庫的所有資料庫函式和功能都有 Prisma Schema Language 等效項。請參閱[資料庫功能矩陣](/orm/reference/database-features)以取得支援功能的完整清單。
 
 </TopBlock>
 
-## Native database functions
+## 原生資料庫函式
 
-Prisma Schema Language supports several [functions](/orm/reference/prisma-schema-reference#attribute-functions) that you can use to set the default value of a field. The following example uses the Prisma ORM-level `uuid()` function to set the value of the `id` field:
+Prisma Schema Language 支援多個[函式](/orm/reference/prisma-schema-reference#attribute-functions)，您可以使用它們來設定欄位的預設值。以下範例使用 Prisma ORM 層級的 `uuid()` 函式來設定 `id` 欄位的值：
 
 ```prisma
 model Post {
@@ -23,7 +23,7 @@ model Post {
 }
 ```
 
-However, you can also use **native database functions** to define default values with [`dbgenerated(...)`](/orm/reference/prisma-schema-reference#dbgenerated) on relational databases (MongoDB does not have the concept of database-level functions). The following example uses the PostgreSQL `gen_random_uuid()` function to populate the `id` field:
+然而，您也可以在關聯式資料庫上使用 [`dbgenerated(...)`](/orm/reference/prisma-schema-reference#dbgenerated) 來使用**原生資料庫函式**定義預設值（MongoDB 沒有資料庫層級函式的概念）。以下範例使用 PostgreSQL 的 `gen_random_uuid()` 函式來填充 `id` 欄位：
 
 ```prisma
 model User {
@@ -31,14 +31,14 @@ model User {
 }
 ```
 
-### When to use a database-level function
+### 何時使用資料庫層級函式
 
-There are two reasons to use a database-level function:
+使用資料庫層級函式有兩個原因：
 
-- There is no equivalent Prisma ORM function (for example, `gen_random_bytes` in PostgreSQL).
-- You cannot or do not want to rely on functions such `uuid()` and `cuid()`, which are only implemented at a Prisma ORM level and do not manifest in the database.
+- 沒有等效的 Prisma ORM 函式（例如，PostgreSQL 中的 `gen_random_bytes`）。
+- 您不能或不想依賴諸如 `uuid()` 和 `cuid()` 等函式，這些函式僅在 Prisma ORM 層級實作，不會在資料庫中呈現。
 
-  Consider the following example, which sets the `id` field to a randomly generated `UUID`:
+  考慮以下範例，它將 `id` 欄位設定為隨機產生的 `UUID`：
 
   ```prisma
   model Post {
@@ -46,15 +46,15 @@ There are two reasons to use a database-level function:
   }
   ```
 
-  The UUID is _only_ generated if you use Prisma Client to create the `Post`. If you create posts in any other way, such as a bulk import script written in plain SQL, you must generate the UUID yourself.
+  UUID _僅_在您使用 Prisma Client 建立 `Post` 時產生。如果您以任何其他方式建立貼文，例如以純 SQL 撰寫的批次匯入指令碼，則必須自己產生 UUID。
 
-### Enable PostgreSQL extensions for native database functions
+### 為原生資料庫函式啟用 PostgreSQL 擴充功能
 
-In PostgreSQL, some native database functions are part of an extension. For example, in PostgreSQL versions 12.13 and earlier, the `gen_random_uuid()` function is part of the [`pgcrypto`](https://www.postgresql.org/docs/10/pgcrypto.html) extension.
+在 PostgreSQL 中，某些原生資料庫函式是擴充功能的一部分。例如，在 PostgreSQL 版本 12.13 及更早版本中，`gen_random_uuid()` 函式是 [`pgcrypto`](https://www.postgresql.org/docs/10/pgcrypto.html) 擴充功能的一部分。
 
-To use a PostgreSQL extension, you must first install it on the file system of your database server.
+若要使用 PostgreSQL 擴充功能，您必須先將其安裝在資料庫伺服器的檔案系統上。
 
-In Prisma ORM versions 4.5.0 and later, you can then activate the extension by declaring it in your Prisma schema with the [`postgresqlExtensions` preview feature](/orm/prisma-schema/postgresql-extensions):
+在 Prisma ORM 版本 4.5.0 及更高版本中，您可以透過在 Prisma schema 中使用 [`postgresqlExtensions` 預覽功能](/orm/prisma-schema/postgresql-extensions)來宣告它以啟用擴充功能：
 
 ```prisma file=schema.prisma highlight=3,9;add showLineNumbers
 generator client {
@@ -72,24 +72,24 @@ datasource db {
 ```
 ```
 
-In earlier versions of Prisma ORM, you must instead run a SQL command to activate the extension:
+在較早版本的 Prisma ORM 中，您必須改為執行 SQL 指令來啟用擴充功能：
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 ```
 
-If your project uses [Prisma Migrate](/orm/prisma-migrate), you must [install the extension as part of a migration](/orm/prisma-migrate/workflows/native-database-functions) . Do not install the extension manually, because it is also required by the shadow database.
+如果您的專案使用 [Prisma Migrate](/orm/prisma-migrate)，您必須[將擴充功能作為遷移的一部分安裝](/orm/prisma-migrate/workflows/native-database-functions)。請勿手動安裝擴充功能，因為影子資料庫也需要它。
 
-Prisma Migrate returns the following error if the extension is not available:
+如果擴充功能不可用，Prisma Migrate 會返回以下錯誤：
 
 ```
 Migration `20210221102106_failed_migration` failed to apply cleanly to a temporary database.
 Database error: Error querying the database: db error: ERROR: type "pgcrypto" does not exist
 ```
 
-## Unsupported field types
+## 不支援的欄位類型
 
-Some database types of relational databases, such as `polygon` or `geometry`, do not have a Prisma Schema Language equivalent. Use the [`Unsupported`](/orm/reference/prisma-schema-reference#unsupported) field type to represent the field in your Prisma schema:
+某些關聯式資料庫的資料庫類型（例如 `polygon` 或 `geometry`）沒有 Prisma Schema Language 等效項。使用 [`Unsupported`](/orm/reference/prisma-schema-reference#unsupported) 欄位類型在您的 Prisma schema 中表示該欄位：
 
 ```prisma highlight=3;normal
 model Star {
@@ -99,8 +99,8 @@ model Star {
 }
 ```
 
-The `prisma migrate dev` and `prisma db push` command will both create a `position` field of type `circle` in the database. However, the field will not be available in the generated Prisma Client.
+`prisma migrate dev` 和 `prisma db push` 指令都會在資料庫中建立類型為 `circle` 的 `position` 欄位。然而，該欄位將不會在產生的 Prisma Client 中可用。
 
-## Unsupported database features
+## 不支援的資料庫功能
 
-Some features, like SQL views or partial indexes, cannot be represented in the Prisma schema. If your project uses [Prisma Migrate](/orm/prisma-migrate), you must [include unsupported features as part of a migration](/orm/prisma-migrate/workflows/unsupported-database-features) .
+某些功能（如 SQL 視圖或部分索引）無法在 Prisma schema 中表示。如果您的專案使用 [Prisma Migrate](/orm/prisma-migrate)，您必須[將不支援的功能作為遷移的一部分包含在內](/orm/prisma-migrate/workflows/unsupported-database-features)。

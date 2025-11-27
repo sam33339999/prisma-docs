@@ -1,20 +1,20 @@
 ---
-title: 'Relation mode'
-metaTitle: 'Manage relations between records with relation modes in Prisma'
-metaDescription: 'Manage relations between records with relation modes in Prisma'
+title: '關聯模式'
+metaTitle: '在 Prisma 中使用關聯模式管理記錄之間的關聯'
+metaDescription: '在 Prisma 中使用關聯模式管理記錄之間的關聯'
 tocDepth: 3
 ---
 
 <details>
-<summary>Questions answered in this page</summary>
+<summary>本頁回答的問題</summary>
 
-- What is `relationMode` in Prisma?
-- When should I use `prisma` vs `foreignKeys`?
-- How does relation emulation affect constraints?
+- Prisma 中的 `relationMode` 是什麼？
+- 何時應該使用 `prisma` 與 `foreignKeys`？
+- 關聯模擬如何影響約束？
 
 </details>
 
-In Prisma schema, relations between records are defined with the [`@relation`](/orm/reference/prisma-schema-reference#relation) attribute. For example, in the following schema there is a one-to-many relation between the `User` and `Post` models:
+在 Prisma schema 中，記錄之間的關聯使用 [`@relation`](/orm/reference/prisma-schema-reference#relation) 屬性來定義。例如，在以下 schema 中，`User` 和 `Post` model 之間有一個一對多關聯：
 
 ```prisma file=schema.prisma highlight=4,5,10;normal showLineNumbers
 model Post {
@@ -33,16 +33,16 @@ model User {
 }
 ```
 
-Prisma ORM has two _relation modes_, `foreignKeys` and `prisma`, that specify how relations between records are enforced.
+Prisma ORM 有兩種_關聯模式_，`foreignKeys` 和 `prisma`，用於指定如何強制執行記錄之間的關聯。
 
-If you use Prisma ORM with a relational database, then by default Prisma ORM uses the [`foreignKeys` relation mode](#handle-relations-in-your-relational-database-with-the-foreignkeys-relation-mode), which enforces relations between records at the database level with foreign keys. A foreign key is a column or group of columns in one table that take values based on the primary key in another table. Foreign keys allow you to:
+如果您使用 Prisma ORM 與關聯式資料庫，則預設情況下 Prisma ORM 使用 [`foreignKeys` 關聯模式](#handle-relations-in-your-relational-database-with-the-foreignkeys-relation-mode)，它在資料庫層級使用外鍵強制執行記錄之間的關聯。外鍵是一個資料表中的欄位或欄位組，它根據另一個資料表中的主鍵取值。外鍵允許您：
 
-- set constraints that prevent you from making changes that break references
-- set [referential actions](/orm/prisma-schema/data-model/relations/referential-actions) that define how changes to records are handled
+- 設定約束以防止您進行會破壞引用的更改
+- 設定[參照動作](/orm/prisma-schema/data-model/relations/referential-actions)，定義如何處理對記錄的更改
 
-Together these constraints and referential actions guarantee the _referential integrity_ of the data.
+這些約束和參照動作共同保證了資料的_參照完整性_。
 
-For the example schema above, Prisma Migrate will generate the following SQL by default if you use the PostgreSQL connector:
+對於上述範例 schema，如果您使用 PostgreSQL 連接器，Prisma Migrate 預設將生成以下 SQL：
 
 ```sql highlight=19-22;normal
 
@@ -71,19 +71,17 @@ ALTER TABLE "Post"
 //highlight-end
 ```
 
-In this case, the foreign key constraint on the `authorId` column of the `Post` table references the `id` column of the `User` table, and guarantees that a post must have an author that exists. If you update or delete a user then the `ON DELETE` and `ON UPDATE` referential actions specify the `CASCADE` option, which will also delete or update all posts belonging to the user.
+在這種情況下，`Post` 資料表的 `authorId` 欄位上的外鍵約束引用 `User` 資料表的 `id` 欄位，並保證文章必須有一個存在的作者。如果您更新或刪除使用者，`ON DELETE` 和 `ON UPDATE` 參照動作指定 `CASCADE` 選項，這也會刪除或更新屬於該使用者的所有文章。
 
-Some databases, such as MongoDB or [PlanetScale](/orm/overview/databases/planetscale#differences-to-consider), do not support foreign keys. Additionally, in some cases developers may prefer not to use foreign keys in their relational database that usually does support foreign keys. For these situations, Prisma ORM offers [the `prisma` relation mode](#emulate-relations-in-prisma-orm-with-the-prisma-relation-mode), which emulates some properties of relations in relational databases. When you use Prisma Client with the `prisma` relation mode enabled, the behavior of queries is identical or similar, but referential actions and some constraints are handled by the Prisma engine rather than in the database.
+一些資料庫，例如 MongoDB 或 [PlanetScale](/orm/overview/databases/planetscale#differences-to-consider)，不支援外鍵。此外，在某些情況下，開發人員可能更願意不在通常支援外鍵的關聯式資料庫中使用外鍵。對於這些情況，Prisma ORM 提供了[`prisma` 關聯模式](#emulate-relations-in-prisma-orm-with-the-prisma-relation-mode)，它模擬關聯式資料庫中關聯的某些屬性。當您使用啟用 `prisma` 關聯模式的 Prisma Client 時，查詢的行為是相同或相似的，但參照動作和某些約束由 Prisma 引擎處理，而不是在資料庫中處理。
 
 :::warning
-  There are performance implications to emulation of referential integrity and
-  referential actions in Prisma Client. In cases where the underlying database
-  supports foreign keys, it is usually the preferred choice.
+  在 Prisma Client 中模擬參照完整性和參照動作會影響效能。在底層資料庫支援外鍵的情況下，通常是首選。
 :::
 
-## How to set the relation mode in your Prisma schema
+## 如何在 Prisma schema 中設定關聯模式
 
-To set the relation mode, add the `relationMode` field in the `datasource` block:
+要設定關聯模式，請在 `datasource` 區塊中新增 `relationMode` 欄位：
 
 ```prisma file=schema.prisma highlight=4,9;add showLineNumbers
 datasource db {
@@ -95,79 +93,76 @@ datasource db {
 
 :::info
 
-The ability to set the relation mode was introduced as part of the `referentialIntegrity` preview feature in Prisma ORM version 3.1.1, and is generally available in Prisma ORM versions 4.8.0 and later.<br /><br />The `relationMode` field was renamed in Prisma ORM version 4.5.0, and was previously named `referentialIntegrity`.
+設定關聯模式的功能是在 Prisma ORM 3.1.1 版中作為 `referentialIntegrity` 預覽功能的一部分引入的，並在 Prisma ORM 4.8.0 及更高版本中正式可用。<br /><br />`relationMode` 欄位在 Prisma ORM 4.5.0 版中重新命名，以前稱為 `referentialIntegrity`。
 
 :::
 
-For relational databases, the available options are:
+對於關聯式資料庫，可用的選項有：
 
-- `foreignKeys`: this handles relations in the database with foreign keys. This is the default option for all relational database connectors and is active if no `relationMode` is explicitly set in the `datasource` block.
-- `prisma`: this emulates relations in Prisma Client. You should also [enable this option](/orm/overview/databases/planetscale#option-1-emulate-relations-in-prisma-client) when you use the MySQL connector with a PlanetScale database and don't have native foreign key constraints enabled in your PlanetScale database settings.
+- `foreignKeys`：這使用外鍵在資料庫中處理關聯。這是所有關聯式資料庫連接器的預設選項，如果 `datasource` 區塊中沒有明確設定 `relationMode`，則此選項為活動狀態。
+- `prisma`：這在 Prisma Client 中模擬關聯。當您使用 MySQL 連接器與 PlanetScale 資料庫並且未在 PlanetScale 資料庫設定中啟用原生外鍵約束時，您也應該[啟用此選項](/orm/overview/databases/planetscale#option-1-emulate-relations-in-prisma-client)。
 
-For MongoDB, the only available option is the `prisma` relation mode. This mode is also active if no `relationMode` is explicitly set in the `datasource` block.
+對於 MongoDB，唯一可用的選項是 `prisma` 關聯模式。如果 `datasource` 區塊中沒有明確設定 `relationMode`，則此模式也是活動的。
 
 :::warning
 
-If you switch between relation modes, Prisma ORM will add or remove foreign keys to your database next time you apply changes to your schema with Prisma Migrate or `db push`. See [Switch between relation modes](#switch-between-relation-modes) for more information.
+如果您在關聯模式之間切換，下次使用 Prisma Migrate 或 `db push` 將更改應用到 schema 時，Prisma ORM 將向資料庫新增或移除外鍵。有關更多資訊，請參閱[在關聯模式之間切換](#switch-between-relation-modes)。
 
 :::
 
-## Handle relations in your relational database with the `foreignKeys` relation mode
+## 使用 `foreignKeys` 關聯模式在關聯式資料庫中處理關聯
 
-The `foreignKeys` relation mode handles relations in your relational database with foreign keys. This is the default option when you use a relational database connector (PostgreSQL, MySQL, SQLite, SQL Server, CockroachDB).
+`foreignKeys` 關聯模式使用外鍵在關聯式資料庫中處理關聯。當您使用關聯式資料庫連接器（PostgreSQL、MySQL、SQLite、SQL Server、CockroachDB）時，這是預設選項。
 
-The `foreignKeys` relation mode is not available when you use the MongoDB connector. Some relational databases, [such as PlanetScale](/orm/overview/databases/planetscale#option-1-emulate-relations-in-prisma-client), also forbid the use of foreign keys. In these cases, you should instead [emulate relations in Prisma ORM with the `prisma` relation mode](#emulate-relations-in-prisma-orm-with-the-prisma-relation-mode).
+當您使用 MongoDB 連接器時，`foreignKeys` 關聯模式不可用。一些關聯式資料庫，[例如 PlanetScale](/orm/overview/databases/planetscale#option-1-emulate-relations-in-prisma-client)，也禁止使用外鍵。在這些情況下，您應該改為[在 Prisma ORM 中使用 `prisma` 關聯模式模擬關聯](#emulate-relations-in-prisma-orm-with-the-prisma-relation-mode)。
 
-### Referential integrity
+### 參照完整性
 
-The `foreignKeys` relation mode maintains referential integrity at the database level with foreign key constraints and referential actions.
+`foreignKeys` 關聯模式使用外鍵約束和參照動作在資料庫層級維護參照完整性。
 
-#### Foreign key constraints
+#### 外鍵約束
 
-When you _create_ or _update_ a record with a relation to another record, the related record needs to exist. Foreign key constraints enforce this behavior in the database. If the record does not exist, the database will return an error message.
+當您_建立_或_更新_與另一筆記錄有關聯的記錄時，相關記錄需要存在。外鍵約束在資料庫中強制執行此行為。如果記錄不存在，資料庫將返回錯誤訊息。
 
-#### Referential actions
+#### 參照動作
 
-When you _update_ or _delete_ a record with a relation to another record, referential actions are triggered in the database. To maintain referential integrity in related records, referential actions prevent changes that would break referential integrity, cascade changes through to related records, or set the value of fields that reference the updated or deleted records to a `null` or default value.
+當您_更新_或_刪除_與另一筆記錄有關聯的記錄時，參照動作會在資料庫中觸發。為了在相關記錄中維護參照完整性，參照動作會防止會破壞參照完整性的更改、將更改級聯到相關記錄，或將引用已更新或刪除記錄的欄位值設為 `null` 或預設值。
 
-For more information, see the [referential actions](/orm/prisma-schema/data-model/relations/referential-actions) page.
+有關更多資訊，請參閱[參照動作](/orm/prisma-schema/data-model/relations/referential-actions)頁面。
 
-### Introspection
+### 內省
 
-When you introspect a relational database with the `db pull` command with the `foreignKeys` relation mode enabled, a `@relation` attribute will be added to your Prisma schema for relations where foreign keys exist.
+當您使用啟用 `foreignKeys` 關聯模式的 `db pull` 命令內省關聯式資料庫時，會為存在外鍵的關聯向您的 Prisma schema 新增 `@relation` 屬性。
 
-### Prisma Migrate and `db push`
+### Prisma Migrate 和 `db push`
 
-When you apply changes to your Prisma schema with Prisma Migrate or `db push` with the `foreignKeys` relation mode enabled, foreign keys will be created in your database for all `@relation` attributes in your schema.
+當您使用啟用 `foreignKeys` 關聯模式的 Prisma Migrate 或 `db push` 將更改應用到 Prisma schema 時，將為 schema 中的所有 `@relation` 屬性在資料庫中建立外鍵。
 
-## Emulate relations in Prisma ORM with the `prisma` relation mode
+## 在 Prisma ORM 中使用 `prisma` 關聯模式模擬關聯
 
-The `prisma` relation mode emulates some foreign key constraints and referential actions for each Prisma Client query to maintain referential integrity, using some additional database queries and logic.
+`prisma` 關聯模式為每個 Prisma Client 查詢模擬一些外鍵約束和參照動作，以維護參照完整性，使用一些額外的資料庫查詢和邏輯。
 
-The `prisma` relation mode is the default option for the MongoDB connector. It should also be set if you use a relational database that does not support foreign keys. For example, [if you use PlanetScale](/orm/overview/databases/planetscale#option-1-emulate-relations-in-prisma-client) without foreign key constraints, you should use the `prisma` relation mode.
+`prisma` 關聯模式是 MongoDB 連接器的預設選項。如果您使用不支援外鍵的關聯式資料庫，也應該設定它。例如，[如果您使用 PlanetScale](/orm/overview/databases/planetscale#option-1-emulate-relations-in-prisma-client) 而沒有外鍵約束，您應該使用 `prisma` 關聯模式。
 
 :::warning
-  There are performance implications to emulation of referential integrity in
-  Prisma Client, because it uses additional database queries to maintain
-  referential integrity. In cases where the underlying database can handle
-  referential integrity with foreign keys, it is usually the preferred choice.
+  在 Prisma Client 中模擬參照完整性會影響效能，因為它使用額外的資料庫查詢來維護參照完整性。在底層資料庫可以使用外鍵處理參照完整性的情況下，通常是首選。
 :::
 
-Emulation of relations is only available for Prisma Client queries and does not apply to raw queries.
+關聯的模擬僅適用於 Prisma Client 查詢，不適用於原始查詢。
 
-### Which foreign key constraints are emulated?
+### 模擬了哪些外鍵約束？
 
-When you _update_ a record, Prisma ORM will emulate foreign key constraints. This means that when you update a record with a relation to another record, the related record needs to exist. If the record does not exist, Prisma Client will return an error message.
+當您_更新_記錄時，Prisma ORM 將模擬外鍵約束。這意味著當您更新與另一筆記錄有關聯的記錄時，相關記錄需要存在。如果記錄不存在，Prisma Client 將返回錯誤訊息。
 
-However, when you _create_ a record, Prisma ORM does not emulate any foreign key constraints. You will be able to create invalid data.
+但是，當您_建立_記錄時，Prisma ORM 不會模擬任何外鍵約束。您將能夠建立無效資料。
 
-### Which referential actions are emulated?
+### 模擬了哪些參照動作？
 
-When you _update_ or _delete_ a record with related records, Prisma ORM will emulate referential actions.
+當您_更新_或_刪除_具有相關記錄的記錄時，Prisma ORM 將模擬參照動作。
 
-The following table shows which emulated referential actions are available for each database connector:
+下表顯示了每個資料庫連接器可用的模擬參照動作：
 
-| Database    | Cascade | Restrict | NoAction | SetNull | SetDefault |
+| 資料庫      | Cascade | Restrict | NoAction | SetNull | SetDefault |
 | :---------- | :------ | :------- | :------- | :------ | :--------- |
 | PostgreSQL  | **✔️**  | **✔️**   | **❌**‡  | **✔️**  | **❌**†    |
 | MySQL       | **✔️**  | **✔️**   | **✔️**   | **✔️**  | **❌**†    |
@@ -176,38 +171,38 @@ The following table shows which emulated referential actions are available for e
 | CockroachDB | **✔️**  | **✔️**   | **✔️**   | **✔️**  | **❌**†    |
 | MongoDB     | **✔️**  | **✔️**   | **✔️**   | **✔️**  | **❌**†    |
 
-- † The `SetDefault` referential action is not supported in the `prisma` relation mode.
-- ‡ The `NoAction` referential action is not supported in the `prisma` relation mode for PostgreSQL and SQLite. Instead, use the `Restrict` action.
+- † `prisma` 關聯模式不支援 `SetDefault` 參照動作。
+- ‡ `prisma` 關聯模式不支援 PostgreSQL 和 SQLite 的 `NoAction` 參照動作。請改用 `Restrict` 動作。
 
-### Error messages
+### 錯誤訊息
 
-Error messages returned by emulated constraints and referential actions in the `prisma` relation mode are generated by Prisma Client and differ slightly from the error messages in the `foreignKeys` relation mode:
+`prisma` 關聯模式中模擬的約束和參照動作返回的錯誤訊息由 Prisma Client 生成，與 `foreignKeys` 關聯模式中的錯誤訊息略有不同：
 
 ```jsx
-Example:
+範例：
 // foreignKeys:
 ... Foreign key constraint failed on the field: `ProfileOneToOne_userId_fkey (index)`
 // prisma:
 ... The change you are trying to make would violate the required relation 'ProfileOneToOneToUserOneToOne' between the `ProfileOneToOne` and `UserOneToOne` models.
 ```
 
-### Introspection
+### 內省
 
-When you introspect a database with the `db pull` command with the `prisma` relation mode enabled, relations will not be automatically added to your schema. You will instead need to add any relations manually with the `@relation` attribute. This only needs to be done once – next time you introspect your database, Prisma ORM will keep your added `@relation` attributes.
+當您使用啟用 `prisma` 關聯模式的 `db pull` 命令內省資料庫時，關聯不會自動新增到您的 schema。您需要使用 `@relation` 屬性手動新增任何關聯。這只需要做一次 - 下次內省資料庫時，Prisma ORM 將保留您新增的 `@relation` 屬性。
 
-### Prisma Migrate and `db push`
+### Prisma Migrate 和 `db push`
 
-When you apply changes to your Prisma schema with Prisma Migrate or `db push` with the `prisma` relation mode enabled, Prisma ORM will not use foreign keys in your database.
+當您使用啟用 `prisma` 關聯模式的 Prisma Migrate 或 `db push` 將更改應用到 Prisma schema 時，Prisma ORM 不會在資料庫中使用外鍵。
 
-### Indexes
+### 索引
 
-In relational databases that use foreign key constraints, the database usually also implicitly creates an index for the foreign key columns. For example, [MySQL will create an index on all foreign key columns](https://dev.mysql.com/doc/refman/8.0/en/constraint-foreign-key.html#:~:text=MySQL%20requires%20that%20foreign%20key%20columns%20be%20indexed%3B%20if%20you%20create%20a%20table%20with%20a%20foreign%20key%20constraint%20but%20no%20index%20on%20a%20given%20column%2C%20an%20index%20is%20created.). This is to allow foreign key checks to run fast and not require a table scan.
+在使用外鍵約束的關聯式資料庫中，資料庫通常也會隱式地為外鍵欄位建立索引。例如，[MySQL 將在所有外鍵欄位上建立索引](https://dev.mysql.com/doc/refman/8.0/en/constraint-foreign-key.html#:~:text=MySQL%20requires%20that%20foreign%20key%20columns%20be%20indexed%3B%20if%20you%20create%20a%20table%20with%20a%20foreign%20key%20constraint%20but%20no%20index%20on%20a%20given%20column%2C%20an%20index%20is%20created.)。這是為了允許外鍵檢查快速運行，而不需要資料表掃描。
 
-The `prisma` relation mode does not use foreign keys, so no indexes are created when you use Prisma Migrate or `db push` to apply changes to your database. You instead need to manually add an index on your relation scalar fields with the [`@@index`](/orm/reference/prisma-schema-reference#index) attribute (or the [`@unique`](/orm/reference/prisma-schema-reference#unique), [`@@unique`](/orm/reference/prisma-schema-reference#unique-1) or [`@@id`](/orm/reference/prisma-schema-reference#id-1) attributes, if applicable).
+`prisma` 關聯模式不使用外鍵，因此當您使用 Prisma Migrate 或 `db push` 將更改應用到資料庫時不會建立索引。您需要使用 [`@@index`](/orm/reference/prisma-schema-reference#index) 屬性（或 [`@unique`](/orm/reference/prisma-schema-reference#unique)、[`@@unique`](/orm/reference/prisma-schema-reference#unique-1) 或 [`@@id`](/orm/reference/prisma-schema-reference#id-1) 屬性，如果適用）手動在關聯純量欄位上新增索引。
 
-#### Index validation
+#### 索引驗證
 
-If you do not add the index manually, queries might require full table scans. This can be slow, and also expensive on database providers that bill per accessed row. To help avoid this, Prisma ORM warns you when your schema contains fields that are used in a `@relation` that does not have an index defined. For example, take the following schema with a relation between the `User` and `Post` models:
+如果您不手動新增索引，查詢可能需要完整的資料表掃描。這可能很慢，並且在按存取的行計費的資料庫提供商上也很昂貴。為了幫助避免這種情況，當您的 schema 包含在 `@relation` 中使用但沒有定義索引的欄位時，Prisma ORM 會警告您。例如，考慮以下在 `User` 和 `Post` model 之間具有關聯的 schema：
 
 ```prisma file=schema.prisma showLineNumbers
 datasource db {
@@ -227,13 +222,13 @@ model Post {
 }
 ```
 
-Prisma ORM displays the following warning when you run `prisma format` or `prisma validate`:
+當您執行 `prisma format` 或 `prisma validate` 時，Prisma ORM 會顯示以下警告：
 
 ```terminal wrap
 With `relationMode = "prisma"`, no foreign keys are used, so relation fields will not benefit from the index usually created by the relational database under the hood. This can lead to poor performance when querying these fields. We recommend adding an index manually.
 ```
 
-To fix this, add an index to your `Post` model:
+要修復此問題，請向您的 `Post` model 新增索引：
 
 ```prisma file=schema.prisma highlight=6;add showLineNumbers
 model Post {
@@ -246,22 +241,22 @@ model Post {
 }
 ```
 
-If you use the [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) (or our [language server in another editor](/orm/more/development-environment/editor-setup)), the warning is augmented with a Quick Fix that adds the required index for you:
+如果您使用 [Prisma VS Code 擴充功能](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma)（或在[另一個編輯器中使用我們的語言伺服器](/orm/more/development-environment/editor-setup)），警告會附帶一個快速修復，可為您新增所需的索引：
 
 ![The Quick Fix pop-up for adding an index on a relation scalar field in VS Code](./quick-fix-index.png)
 
-## Switch between relation modes
+## 在關聯模式之間切換
 
-It is only possible to switch between relation modes when you use a relational database connector (PostgreSQL, MySQL, SQLite, SQL Server, CockroachDB).
+只有當您使用關聯式資料庫連接器（PostgreSQL、MySQL、SQLite、SQL Server、CockroachDB）時，才能在關聯模式之間切換。
 
-### Switch from `foreignKeys` to `prisma`
+### 從 `foreignKeys` 切換到 `prisma`
 
-The default relation mode if you use a relational database and do not include the `relationMode` field in your `datasource` block is `foreignKeys`. To switch to the `prisma` relation mode, add the `relationMode` field with a value of `prisma`, or update the `relationMode` field value to `prisma` if it already exists.
+如果您使用關聯式資料庫並且不在 `datasource` 區塊中包含 `relationMode` 欄位，預設的關聯模式是 `foreignKeys`。要切換到 `prisma` 關聯模式，請新增值為 `prisma` 的 `relationMode` 欄位，或者如果它已經存在，請將 `relationMode` 欄位值更新為 `prisma`。
 
-When you switch the relation mode from `foreignKeys` to `prisma`, after you first apply changes to your schema with Prisma Migrate or `db push` Prisma ORM will remove all previously created foreign keys in the next migration.
+當您將關聯模式從 `foreignKeys` 切換到 `prisma` 時，首次使用 Prisma Migrate 或 `db push` 將更改應用到 schema 後，Prisma ORM 將在下一次遷移中移除所有先前建立的外鍵。
 
-If you keep the same database, you can then continue to work as normal. If you switch to a database that does not support foreign keys at all, your existing migration history contains SQL DDL that creates foreign keys, which might trigger errors if you ever have to rerun these migrations. In this case, we recommend that you delete the `migrations` directory. (If you use PlanetScale, which does not support foreign keys, we generally recommend that you [use `db push` rather than Prisma Migrate](/orm/overview/databases/planetscale#differences-to-consider).)
+如果您保留相同的資料庫，您可以繼續正常工作。如果您切換到完全不支援外鍵的資料庫，您現有的遷移歷史記錄包含建立外鍵的 SQL DDL，如果您需要重新運行這些遷移，可能會觸發錯誤。在這種情況下，我們建議您刪除 `migrations` 目錄。（如果您使用不支援外鍵的 PlanetScale，我們通常建議您[使用 `db push` 而不是 Prisma Migrate](/orm/overview/databases/planetscale#differences-to-consider)。）
 
-### Switch from `prisma` to `foreignKeys`
+### 從 `prisma` 切換到 `foreignKeys`
 
-To switch from the `prisma` relation mode to the `foreignKeys` relation mode, update the `relationMode` field value from `prisma` to `foreignKeys`. To do this, the database must support foreign keys. When you apply changes to your schema with Prisma Migrate or `db push` for the first time after you switch relation modes, Prisma ORM will create foreign keys for all relations in the next migration.
+要從 `prisma` 關聯模式切換到 `foreignKeys` 關聯模式，請將 `relationMode` 欄位值從 `prisma` 更新為 `foreignKeys`。要執行此操作，資料庫必須支援外鍵。首次在切換關聯模式後使用 Prisma Migrate 或 `db push` 將更改應用到 schema 時，Prisma ORM 將在下一次遷移中為所有關聯建立外鍵。

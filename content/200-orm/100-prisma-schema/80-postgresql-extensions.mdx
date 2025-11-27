@@ -1,52 +1,52 @@
 ---
-title: 'PostgreSQL extensions'
-metaTitle: 'How to use PostgreSQL extensions with Prisma ORM'
-metaDescription: 'How to install and manage PostgreSQL extensions with Prisma ORM using customized migrations, and how to use them in Prisma Client.'
+title: 'PostgreSQL 擴充功能'
+metaTitle: '如何在 Prisma ORM 中使用 PostgreSQL 擴充功能'
+metaDescription: '如何使用自訂遷移在 Prisma ORM 中安裝和管理 PostgreSQL 擴充功能，以及如何在 Prisma Client 中使用它們。'
 tocDepth: 3
 ---
 
-This page is about [PostgreSQL extensions](https://www.postgresql.org/docs/current/external-extensions.html) and explains how to use them with Prisma ORM.
+本頁面介紹 [PostgreSQL 擴充功能](https://www.postgresql.org/docs/current/external-extensions.html)，並說明如何在 Prisma ORM 中使用它們。
 
 :::warning
 
-Between Prisma ORM v4.5.0 and v6.16.0, you could enable extensions in the Prisma schema via the `postgresqlExtensions` preview feature flag. This feature flag has been deprecated in v6.16.0 and the recommended approach for using PostgreSQL extensions now is to install them via [customized migrations](/orm/prisma-migrate/workflows/customizing-migrations).
+在 Prisma ORM v4.5.0 和 v6.16.0 之間，您可以透過 `postgresqlExtensions` 預覽功能旗標在 Prisma schema 中啟用擴充功能。此功能旗標已在 v6.16.0 中棄用，現在使用 PostgreSQL 擴充功能的建議方法是透過[自訂遷移](/orm/prisma-migrate/workflows/customizing-migrations)來安裝它們。
 
 :::
 
-## What are PostgreSQL extensions?
+## 什麼是 PostgreSQL 擴充功能？
 
-PostgreSQL allows you to extend your database functionality by installing and activating packages known as _extensions_. For example, the `citext` extension adds a case-insensitive string data type. Some extensions, such as `citext`, are supplied directly by PostgreSQL, while other extensions are developed externally. For more information on extensions, see [the PostgreSQL documentation](https://www.postgresql.org/docs/current/sql-createextension.html).
+PostgreSQL 允許您透過安裝和啟用稱為_擴充功能_的套件來擴充您的資料庫功能。例如，`citext` 擴充功能加入了不區分大小寫的字串資料類型。某些擴充功能（如 `citext`）由 PostgreSQL 直接提供，而其他擴充功能則由外部開發。有關擴充功能的更多資訊，請參閱 [PostgreSQL 文件](https://www.postgresql.org/docs/current/sql-createextension.html)。
 
-To use an extension, it must first be _installed_ on the local file system of your database server. You then need to _activate_ the extension, which runs a script file that adds the new functionality.
+若要使用擴充功能，必須先將其_安裝_在資料庫伺服器的本機檔案系統上。然後需要_啟用_擴充功能，這會執行一個加入新功能的指令檔。
 
-## Using a PostgreSQL extension with Prisma ORM
+## 在 Prisma ORM 中使用 PostgreSQL 擴充功能
 
-Let's walk through an example of installing the `citext` extension.
+讓我們逐步介紹安裝 `citext` 擴充功能的範例。
 
-### 1. Create an empty migration
+### 1. 建立空白遷移
 
-Run the following command to create an empty migration that you can [customize](/orm/prisma-migrate/workflows/customizing-migrations):
+執行以下指令以建立一個您可以[自訂](/orm/prisma-migrate/workflows/customizing-migrations)的空白遷移：
 
 ```terminal
 npx prisma migrate dev --create-only
 ```
 
-### 2. Add a SQL statement to install the extension
+### 2. 加入安裝擴充功能的 SQL 陳述式
 
-In the new migration file that was created in the `migrations` directory, add the following statement:
+在 `migrations` 目錄中建立的新遷移檔案中，加入以下陳述式：
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS citext;
 ```
 
-### 3. Deploy the migration
+### 3. 部署遷移
 
-Run the following command to deploy the migration and apply to your database:
+執行以下指令以部署遷移並套用到您的資料庫：
 
 ```terminal
 npx prisma migrate deploy
 ```
 
-### 4. Use the extension 
+### 4. 使用擴充功能
 
-You can now use the extension in your queries with Prisma Client. If the extension has special data types that currently can't be natively represented in the Prisma schema, you can still define fields of that type on your models using the [`Unsupported`](/orm/prisma-schema/data-model/models#unsupported-types) fallback type.
+您現在可以在 Prisma Client 的查詢中使用擴充功能。如果擴充功能具有目前無法在 Prisma schema 中原生表示的特殊資料類型，您仍然可以使用 [`Unsupported`](/orm/prisma-schema/data-model/models#unsupported-types) 後備類型在模型上定義該類型的欄位。
