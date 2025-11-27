@@ -1,18 +1,18 @@
 ---
-title: 'Pagination'
-metaTitle: 'Pagination (Reference)'
-metaDescription: 'Prisma Client supports both offset pagination and cursor-based pagination. Learn more about the pros and cons of different pagination approaches and how to implement them.'
+title: '分頁'
+metaTitle: '分頁 (參考)'
+metaDescription: 'Prisma Client 支援位移分頁和基於游標的分頁。了解更多關於不同分頁方法的優缺點以及如何實作它們。'
 ---
 
 <TopBlock>
 
-Prisma Client supports both offset pagination and cursor-based pagination.
+Prisma Client 支援位移分頁和基於游標的分頁。
 
 </TopBlock>
 
-## Offset pagination
+## 位移分頁
 
-Offset pagination uses `skip` and `take` to skip a certain number of results and select a limited range. The following query skips the first 3 `Post` records and returns records 4 - 7:
+位移分頁使用 `skip` 和 `take` 來跳過一定數量的結果並選擇有限的範圍。以下查詢跳過前 3 筆 `Post` 記錄並返回第 4 - 7 筆記錄：
 
 ```ts line-number
 const results = await prisma.post.findMany({
@@ -23,24 +23,24 @@ const results = await prisma.post.findMany({
 
 ![](/img/orm/offset-skip-take.png)
 
-To implement pages of results, you would just `skip` the number of pages multiplied by the number of results you show per page.
+要實作分頁結果，你只需要 `skip` 頁數乘以每頁顯示的結果數量。
 
-### ✔ Pros of offset pagination
+### ✔ 位移分頁的優點
 
-- You can jump to any page immediately. For example, you can `skip` 200 records and `take` 10, which simulates jumping straight to page 21 of the result set (the underlying SQL uses `OFFSET`). This is not possible with cursor-based pagination.
-- You can paginate the same result set in any sort order. For example, you can jump to page 21 of a list of `User` records sorted by first name. This is not possible with cursor-based pagination, which requires sorting by a unique, sequential column.
+- 你可以立即跳到任何頁面。例如，你可以 `skip` 200 筆記錄並 `take` 10 筆，這模擬了直接跳到結果集的第 21 頁（底層 SQL 使用 `OFFSET`）。這在基於游標的分頁中是不可能的。
+- 你可以以任何排序順序對相同的結果集進行分頁。例如，你可以跳到按名字排序的 `User` 記錄列表的第 21 頁。這在基於游標的分頁中是不可能的，因為它需要按唯一的、連續的欄位排序。
 
-### ✘ Cons of offset pagination
+### ✘ 位移分頁的缺點
 
-- Offset pagination **does not scale** at a database level. For example, if you skip 200,000 records and take the first 10, the database still has to traverse the first 200,000 records before returning the 10 that you asked for - this negatively affects performance.
+- 位移分頁**無法擴展**在資料庫層級。例如，如果你跳過 200,000 筆記錄並取得前 10 筆，資料庫仍然必須遍歷前 200,000 筆記錄才能返回你要求的 10 筆 - 這會負面影響效能。
 
-### Use cases for offset pagination
+### 位移分頁的使用情境
 
-- Shallow pagination of a small result set. For example, a blog interface that allows you to filter `Post` records by author and paginate the results.
+- 小結果集的淺層分頁。例如，一個部落格介面允許你按作者篩選 `Post` 記錄並對結果進行分頁。
 
-### Example: Filtering and offset pagination
+### 範例：篩選和位移分頁
 
-The following query returns all records where the `email` field contains `prisma.io`. The query skips the first 40 records and returns records 41 - 50.
+以下查詢返回所有 `email` 欄位包含 `prisma.io` 的記錄。查詢跳過前 40 筆記錄並返回第 41 - 50 筆記錄。
 
 ```ts line-number
 const results = await prisma.post.findMany({
@@ -54,9 +54,9 @@ const results = await prisma.post.findMany({
 })
 ```
 
-### Example: Sorting and offset pagination
+### 範例：排序和位移分頁
 
-The following query returns all records where the `email` field contains `Prisma`, and sorts the result by the `title` field. The query skips the first 200 records and returns records 201 - 220.
+以下查詢返回所有 `email` 欄位包含 `Prisma` 的記錄，並按 `title` 欄位排序結果。查詢跳過前 200 筆記錄並返回第 201 - 220 筆記錄。
 
 ```ts line-number
 const results = await prisma.post.findMany({
@@ -73,13 +73,13 @@ const results = await prisma.post.findMany({
 })
 ```
 
-## Cursor-based pagination
+## 基於游標的分頁
 
-Cursor-based pagination uses `cursor` and `take` to return a limited set of results before or after a given **cursor**. A cursor bookmarks your location in a result set and must be a unique, sequential column - such as an ID or a timestamp.
+基於游標的分頁使用 `cursor` 和 `take` 在給定的**游標**之前或之後返回有限的結果集。游標會為你在結果集中的位置做書籤，並且必須是唯一的、連續的欄位 - 例如 ID 或時間戳記。
 
-The following example returns the first 4 `Post` records that contain the word `"Prisma"` and saves the ID of the last record as `myCursor`:
+以下範例返回包含 `"Prisma"` 一詞的前 4 筆 `Post` 記錄，並將最後一筆記錄的 ID 儲存為 `myCursor`：
 
-> **Note**: Since this is the first query, there is no cursor to pass in.
+> **注意**：由於這是第一個查詢，沒有游標需要傳入。
 
 ```ts showLineNumbers
 const firstQueryResults = await prisma.post.findMany({
@@ -103,11 +103,11 @@ const myCursor = lastPostInResults.id // Example: 29
 //highlight-end
 ```
 
-The following diagram shows the IDs of the first 4 results - or page 1. The cursor for the next query is **29**:
+以下圖表顯示了前 4 個結果的 ID - 或第 1 頁。下一個查詢的游標是 **29**：
 
 ![](/img/orm/cursor-1.png)
 
-The second query returns the first 4 `Post` records that contain the word `"Prisma"` **after the supplied cursor** (in other words - IDs that are larger than **29**):
+第二個查詢返回包含 `"Prisma"` 一詞且**在提供的游標之後**的前 4 筆 `Post` 記錄（換句話說 - ID 大於 **29** 的記錄）：
 
 ```ts line-number
 const secondQueryResults = await prisma.post.findMany({
@@ -132,55 +132,55 @@ const lastPostInResults = secondQueryResults[3] // Remember: zero-based index! :
 const myCursor = lastPostInResults.id // Example: 52
 ```
 
-The following diagram shows the first 4 `Post` records **after** the record with ID **29**. In this example, the new cursor is **52**:
+以下圖表顯示了 ID 為 **29** 的記錄**之後**的前 4 筆 `Post` 記錄。在這個範例中，新的游標是 **52**：
 
 ![](/img/orm/cursor-2.png)
 
 ### FAQ
 
-#### Do I always have to skip: 1?
+#### 我是否總是需要 skip: 1？
 
-If you do not `skip: 1`, your result set will include your previous cursor. The first query returns four results and the cursor is **29**:
+如果你不使用 `skip: 1`，你的結果集將包含你的前一個游標。第一個查詢返回四個結果，游標是 **29**：
 
 ![](/img/orm/cursor-1.png)
 
-Without `skip: 1`, the second query returns 4 results after (and _including_) the cursor:
+沒有 `skip: 1`，第二個查詢返回游標之後（和_包含_）的 4 個結果：
 
 ![](/img/orm/cursor-3.png)
 
-If you `skip: 1`, the cursor is not included:
+如果你使用 `skip: 1`，游標不會被包含：
 
 ![](/img/orm/cursor-2.png)
 
-You can choose to `skip: 1` or not depending on the pagination behavior that you want.
+你可以選擇是否使用 `skip: 1`，這取決於你想要的分頁行為。
 
-#### Can I guess the value of the cursor?
+#### 我可以猜測游標的值嗎？
 
-If you guess the value of the next cursor, you will page to an unknown location in your result set. Although IDs are sequential, you cannot predict the rate of increment (`2`, `20`, `32` is more likely than `1`, `2`, `3`, particularly in a filtered result set).
+如果你猜測下一個游標的值，你將分頁到結果集中的未知位置。雖然 ID 是連續的，但你無法預測增量的速率（`2`、`20`、`32` 比 `1`、`2`、`3` 更有可能，特別是在已篩選的結果集中）。
 
-#### Does cursor-based pagination use the concept of a cursor in the underlying database?
+#### 基於游標的分頁使用底層資料庫中的游標概念嗎？
 
-No, cursor pagination does not use cursors in the underlying database ([e.g. PostgreSQL](https://www.postgresql.org/docs/9.2/plpgsql-cursors.html)).
+不，游標分頁不使用底層資料庫中的游標（[例如 PostgreSQL](https://www.postgresql.org/docs/9.2/plpgsql-cursors.html)）。
 
-#### What happens if the cursor value does not exist?
+#### 如果游標值不存在會發生什麼？
 
-Using a nonexistent cursor returns `null`. Prisma Client does not try to locate adjacent values.
+使用不存在的游標會返回 `null`。Prisma Client 不會嘗試定位相鄰的值。
 
-### ✔ Pros of cursor-based pagination
+### ✔ 基於游標的分頁的優點
 
-- Cursor-based pagination **scales**. The underlying SQL does not use `OFFSET`, but instead queries all `Post` records with an ID greater than the value of `cursor`.
+- 基於游標的分頁**可以擴展**。底層 SQL 不使用 `OFFSET`，而是查詢所有 ID 大於 `cursor` 值的 `Post` 記錄。
 
-### ✘ Cons of cursor-based pagination
+### ✘ 基於游標的分頁的缺點
 
-- You must sort by your cursor, which has to be a unique, sequential column.
-- You cannot jump to a specific page using only a cursor. For example, you cannot accurately predict which cursor represents the start of page 400 (page size 20) without first requesting pages 1 - 399.
+- 你必須按你的游標排序，這必須是唯一的、連續的欄位。
+- 你不能僅使用游標跳到特定頁面。例如，你無法準確預測哪個游標代表第 400 頁（頁面大小 20）的開始，而不先請求第 1 - 399 頁。
 
-### Use cases for cursor-based pagination
+### 基於游標的分頁的使用情境
 
-- Infinite scroll - for example, sort blog posts by date/time descending and request 10 blog posts at a time.
-- Paging through an entire result set in batches - for example, as part of a long-running data export.
+- 無限滾動 - 例如，按日期/時間降序排序部落格文章，每次請求 10 篇部落格文章。
+- 批次分頁瀏覽整個結果集 - 例如，作為長時間運行的資料匯出的一部分。
 
-### Example: Filtering and cursor-based pagination
+### 範例：篩選和基於游標的分頁
 
 ```ts line-number
 const secondQuery = await prisma.post.findMany({
@@ -202,13 +202,13 @@ const secondQuery = await prisma.post.findMany({
 })
 ```
 
-### Sorting and cursor-based pagination
+### 排序和基於游標的分頁
 
-Cursor-based pagination requires you to sort by a sequential, unique column such as an ID or a timestamp. This value - known as a cursor - bookmarks your place in the result set and allows you to request the next set.
+基於游標的分頁需要你按連續的、唯一的欄位（如 ID 或時間戳記）排序。這個值 - 稱為游標 - 會為你在結果集中的位置做書籤，並允許你請求下一組資料。
 
-### Example: Paging backwards with cursor-based pagination
+### 範例：使用基於游標的分頁向後翻頁
 
-To page backwards, set `take` to a negative value. The following query returns 4 `Post` records with an `id` of less than 200, excluding the cursor:
+要向後翻頁，將 `take` 設定為負值。以下查詢返回 `id` 小於 200 的 4 筆 `Post` 記錄，不包括游標：
 
 ```ts line-number
 const myOldCursor = 200

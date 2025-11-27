@@ -1,64 +1,64 @@
 ---
-title: Database connections
-metaTitle: Database connections
-metaDescription: 'Databases connections'
+title: 資料庫連線
+metaTitle: 資料庫連線
+metaDescription: '資料庫連線'
 tocDepth: 3
 ---
 
 <TopBlock>
 
-Databases can handle a limited number of concurrent connections. Each connection requires RAM, which means that simply increasing the database connection limit without scaling available resources:
+資料庫可以處理有限數量的並行連線。每個連線都需要 RAM，這意味著僅僅增加資料庫連線限制而不擴展可用資源：
 
-- ✔ might allow more processes to connect _but_
-- ✘ significantly affects **database performance**, and can result in the database being **shut down** due to an out of memory error
+- ✔ 可能允許更多進程連線，_但是_
+- ✘ 會顯著影響**資料庫效能**，並可能導致資料庫因記憶體不足錯誤而**關閉**
 
-The way your application **manages connections** also impacts performance. This guide describes how to approach connection management in [serverless environments](#serverless-environments-faas) and [long-running processes](#long-running-processes).
+應用程式**管理連線**的方式也會影響效能。本指南描述如何在 [serverless 環境](#serverless-environments-faas)和[長時間執行的進程](#long-running-processes)中處理連線管理。
 
 :::warning
 
-This guide focuses on **relational databases** and how to configure and tune the Prisma ORM connection pool (MongoDB uses the MongoDB driver connection pool).
+本指南著重於**關聯式資料庫**以及如何配置和調整 Prisma ORM 連線池（MongoDB 使用 MongoDB 驅動程式連線池）。
 
 :::
 
 </TopBlock>
 
-## Long-running processes
+## 長時間執行的進程
 
-Examples of long-running processes include Node.js applications hosted on a service like Heroku or a virtual machine. Use the following checklist as a guide to connection management in long-running environments:
+長時間執行的進程範例包括託管在 Heroku 或虛擬機等服務上的 Node.js 應用程式。使用以下檢查清單作為長時間執行環境中連線管理的指南：
 
-- Start with the [recommended pool size (`connection_limit`)](#recommended-connection-pool-size) and [tune it](#optimizing-the-connection-pool)
-- Make sure you have [**one** global instance of `PrismaClient`](#prismaclient-in-long-running-applications)
+- 從[建議的連線池大小（`connection_limit`）](#recommended-connection-pool-size)開始，並[調整它](#optimizing-the-connection-pool)
+- 確保你有[**一個**全域的 `PrismaClient` 實例](#prismaclient-in-long-running-applications)
 
-### Recommended connection pool size
+### 建議的連線池大小
 
-The recommended connection pool size (`connection_limit`) to [start with](#optimizing-the-connection-pool) for long-running processes is the **default pool size** (`num_physical_cpus * 2 + 1`) ÷ **number of application instances**.
+長時間執行進程的建議連線池大小（`connection_limit`）[起始值](#optimizing-the-connection-pool)為**預設連線池大小**（`num_physical_cpus * 2 + 1`）÷ **應用程式實例數量**。
 
 :::info
 
-`num_physical_cpus` refers to the the number of CPUs of the machine your application is running on.
+`num_physical_cpus` 指的是應用程式執行所在機器的 CPU 數量。
 
 :::
 
-If you have **one** application instances:
+如果你有**一個**應用程式實例：
 
-- The default pool size applies by default (`num_physical_cpus * 2 + 1`) - you do not need to set the `connection_limit` parameter.
-- You can optionally [tune the pool size](#optimizing-the-connection-pool).
+- 預設連線池大小預設為（`num_physical_cpus * 2 + 1`）- 你不需要設定 `connection_limit` 參數。
+- 你可以選擇性地[調整連線池大小](#optimizing-the-connection-pool)。
 
-If you have **multiple** application instances:
+如果你有**多個**應用程式實例：
 
-- You must **manually** [set the `connection_limit` parameter](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool#setting-the-connection-pool-size) . For example, if your calculated pool size is _10_ and you have _2_ instances of your app, the `connection_limit` parameter should be **no more than _5_**.
-- You can optionally [tune the pool size](#optimizing-the-connection-pool).
+- 你必須**手動**[設定 `connection_limit` 參數](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool#setting-the-connection-pool-size)。例如，如果你計算的連線池大小為 _10_，並且你有 _2_ 個應用程式實例，則 `connection_limit` 參數應**不超過 _5_**。
+- 你可以選擇性地[調整連線池大小](#optimizing-the-connection-pool)。
 
-### `PrismaClient` in long-running applications
+### 長時間執行應用程式中的 `PrismaClient`
 
-In **long-running** applications, we recommend that you:
+在**長時間執行**的應用程式中，我們建議你：
 
-- ✔ Create **one** instance of `PrismaClient` and re-use it across your application
-- ✔ Assign `PrismaClient` to a global variable _in dev environments only_ to [prevent hot reloading from creating new instances](#prevent-hot-reloading-from-creating-new-instances-of-prismaclient)
+- ✔ 建立**一個** `PrismaClient` 實例並在整個應用程式中重複使用
+- ✔ _僅在開發環境中_將 `PrismaClient` 指派給全域變數，以[防止熱重載建立新實例](#prevent-hot-reloading-from-creating-new-instances-of-prismaclient)
 
-#### Re-using a single `PrismaClient` instance
+#### 重複使用單一 `PrismaClient` 實例
 
-To re-use a single instance, create a module that exports a `PrismaClient` object:
+要重複使用單一實例，請建立一個匯出 `PrismaClient` 物件的模組：
 
 ```ts file=client.ts
 import { PrismaClient } from '../prisma/generated/client'
@@ -68,7 +68,7 @@ let prisma = new PrismaClient()
 export default prisma
 ```
 
-The object is [cached](https://nodejs.org/api/modules.html#modules_caching) the first time the module is imported. Subsequent requests return the cached object rather than creating a new `PrismaClient`:
+該物件在第一次匯入模組時會被[快取](https://nodejs.org/api/modules.html#modules_caching)。後續請求會返回快取的物件，而不是建立新的 `PrismaClient`：
 
 ```ts file=app.ts
 import prisma from './client'
@@ -80,17 +80,17 @@ async function main() {
 main()
 ```
 
-You do not have to replicate the example above exactly - the goal is to make sure `PrismaClient` is cached. For example, you can [instantiate `PrismaClient` in the `context` object](https://github.com/prisma/prisma-examples/blob/9f1a6b9e7c25b9e1851bd59b273046158d748995/typescript/graphql-express/src/context.ts#L9) that you [pass into an Express app](https://github.com/prisma/prisma-examples/blob/9f1a6b9e7c25b9e1851bd59b273046158d748995/typescript/graphql-express/src/server.ts#L12).
+你不必完全複製上面的範例 - 目標是確保 `PrismaClient` 被快取。例如，你可以[在 `context` 物件中實例化 `PrismaClient`](https://github.com/prisma/prisma-examples/blob/9f1a6b9e7c25b9e1851bd59b273046158d748995/typescript/graphql-express/src/context.ts#L9)，然後[傳遞給 Express 應用程式](https://github.com/prisma/prisma-examples/blob/9f1a6b9e7c25b9e1851bd59b273046158d748995/typescript/graphql-express/src/server.ts#L12)。
 
-#### Do not explicitly `$disconnect()`
+#### 不要明確呼叫 `$disconnect()`
 
-You [do not need to explicitly `$disconnect()`](/orm/prisma-client/setup-and-configuration/databases-connections/connection-management#calling-disconnect-explicitly) in the context of a long-running application that is continuously serving requests. Opening a new connection takes time and can slow down your application if you disconnect after each query.
+在持續提供請求的長時間執行應用程式的情境中，你[不需要明確呼叫 `$disconnect()`](/orm/prisma-client/setup-and-configuration/databases-connections/connection-management#calling-disconnect-explicitly)。建立新連線需要時間，如果你在每次查詢後斷開連線，可能會減慢應用程式速度。
 
-#### Prevent hot reloading from creating new instances of `PrismaClient`
+#### 防止熱重載建立新的 `PrismaClient` 實例
 
-Frameworks like [Next.js](https://nextjs.org/) support hot reloading of changed files, which enables you to see changes to your application without restarting. However, if the framework refreshes the module responsible for exporting `PrismaClient`, this can result in **additional, unwanted instances of `PrismaClient` in a development environment**.
+像 [Next.js](https://nextjs.org/) 這樣的框架支援變更檔案的熱重載，這使你能夠在不重新啟動的情況下看到應用程式的變更。然而，如果框架刷新負責匯出 `PrismaClient` 的模組，這可能會導致**在開發環境中建立額外、不需要的 `PrismaClient` 實例**。
 
-As a workaround, you can store `PrismaClient` as a global variable in development environments only, as global variables are not reloaded:
+作為解決方法，你可以僅在開發環境中將 `PrismaClient` 儲存為全域變數，因為全域變數不會被重新載入：
 
 ```ts file=client.ts
 import { PrismaClient } from '../prisma/generated/client'
@@ -103,7 +103,7 @@ export const prisma =
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 ```
 
-The way that you import and use Prisma Client does not change:
+匯入和使用 Prisma Client 的方式不變：
 
 ```ts file=app.ts
 import { prisma } from './client'
@@ -115,60 +115,60 @@ async function main() {
 main()
 ```
 
-## Connections Created per CLI Command
+## 每個 CLI 命令建立的連線
 
-In local tests with Postgres, MySQL, and SQLite, each Prisma CLI command typically uses a single connection. The table below shows the ranges observed in these tests. Your environment *may* produce slightly different results.
+在對 Postgres、MySQL 和 SQLite 的本地測試中，每個 Prisma CLI 命令通常使用單一連線。下表顯示在這些測試中觀察到的範圍。你的環境*可能*產生略有不同的結果。
 
-| Command | Connections | Description |
+| 命令 | 連線數 | 描述 |
 |---------|-------------|-------------|
-| [`migrate status`](/orm/reference/prisma-cli-reference#migrate-status) | 1 | Checks the status of migrations |
-| [`migrate dev`](/orm/reference/prisma-cli-reference#migrate-dev) | 1–4 | Applies pending migrations in development |
-| [`migrate diff`](/orm/reference/prisma-cli-reference#migrate-diff) | 1–2 | Compares database schema with migration history |
-| [`migrate reset`](/orm/reference/prisma-cli-reference#migrate-reset) | 1–2 | Resets the database and reapplies migrations |
-| [`migrate deploy`](/orm/reference/prisma-cli-reference#migrate-deploy) | 1–2 | Applies pending migrations in production |
-| [`db pull`](/orm/reference/prisma-cli-reference#db-pull) | 1 | Pulls the database schema into the Prisma schema |
-| [`db push`](/orm/reference/prisma-cli-reference#db-push) | 1–2 | Pushes the Prisma schema to the database |
-| [`db execute`](/orm/reference/prisma-cli-reference#db-execute) | 1 | Executes raw SQL commands |
-| [`db seed`](/orm/reference/prisma-cli-reference#db-seed) | 1 | Seeds the database with initial data |
+| [`migrate status`](/orm/reference/prisma-cli-reference#migrate-status) | 1 | 檢查遷移的狀態 |
+| [`migrate dev`](/orm/reference/prisma-cli-reference#migrate-dev) | 1–4 | 在開發中應用待處理的遷移 |
+| [`migrate diff`](/orm/reference/prisma-cli-reference#migrate-diff) | 1–2 | 比較資料庫綱要與遷移歷史 |
+| [`migrate reset`](/orm/reference/prisma-cli-reference#migrate-reset) | 1–2 | 重置資料庫並重新應用遷移 |
+| [`migrate deploy`](/orm/reference/prisma-cli-reference#migrate-deploy) | 1–2 | 在生產環境中應用待處理的遷移 |
+| [`db pull`](/orm/reference/prisma-cli-reference#db-pull) | 1 | 將資料庫綱要拉取到 Prisma 綱要 |
+| [`db push`](/orm/reference/prisma-cli-reference#db-push) | 1–2 | 將 Prisma 綱要推送到資料庫 |
+| [`db execute`](/orm/reference/prisma-cli-reference#db-execute) | 1 | 執行原始 SQL 命令 |
+| [`db seed`](/orm/reference/prisma-cli-reference#db-seed) | 1 | 使用初始資料填充資料庫 |
 
-## Serverless environments (FaaS)
+## Serverless 環境（FaaS）
 
-Examples of serverless environments include Node.js functions hosted on AWS Lambda, Vercel or Netlify Functions. Use the following checklist as a guide to connection management in serverless environments:
+Serverless 環境範例包括託管在 AWS Lambda、Vercel 或 Netlify Functions 上的 Node.js 函式。使用以下檢查清單作為 serverless 環境中連線管理的指南：
 
-- Familiarize yourself with the [serverless connection management challenge](#the-serverless-challenge)
-- [Set pool size (`connection_limit`)](#recommended-connection-pool-size-1) based on whether you have an external connection pooler, and optionally [tune the pool size](#optimizing-the-connection-pool)
-- [Instantiate `PrismaClient` outside the handler](#instantiate-prismaclient-outside-the-handler) and do not explicitly `$disconnect()`
-- Configure [function concurrency](#concurrency-limits) and handle [idle connections](#zombie-connections)
+- 熟悉 [serverless 連線管理挑戰](#the-serverless-challenge)
+- 根據你是否有外部連線池器[設定連線池大小（`connection_limit`）](#recommended-connection-pool-size-1)，並可選擇性地[調整連線池大小](#optimizing-the-connection-pool)
+- [在處理程序外實例化 `PrismaClient`](#instantiate-prismaclient-outside-the-handler)，並且不要明確呼叫 `$disconnect()`
+- 配置[函式並行性](#concurrency-limits)並處理[閒置連線](#zombie-connections)
 
-### The serverless challenge
+### Serverless 挑戰
 
-In a serverless environment, each function creates **its own instance** of `PrismaClient`, and each client instance has its own connection pool.
+在 serverless 環境中，每個函式建立**自己的實例** `PrismaClient`，每個客戶端實例都有自己的連線池。
 
-Consider the following example, where a single AWS Lambda function uses `PrismaClient` to connect to a database. The `connection_limit` is **3**:
+考慮以下範例，其中單一 AWS Lambda 函式使用 `PrismaClient` 連線到資料庫。`connection_limit` 為 **3**：
 
 ![An AWS Lambda function connecting to a database.](./serverless-connections.png)
 
-A traffic spike causes AWS Lambda to spawn two additional lambdas to handle the increased load. Each lambda creates an instance of `PrismaClient`, each with a `connection_limit` of **3**, which results in a maximum of **9** connections to the database:
+流量激增導致 AWS Lambda 產生兩個額外的 lambda 來處理增加的負載。每個 lambda 建立一個 `PrismaClient` 實例，每個的 `connection_limit` 為 **3**，這導致資料庫最多有 **9** 個連線：
 
 ![Three AWS Lambda function connecting to a database.](./serverless-connections-2.png)
 
-200 _concurrent functions_ (and therefore 600 possible connections) responding to a traffic spike 📈 can exhaust the database connection limit very quickly. Furthermore, any functions that are **paused** keep their connections open by default and block them from being used by another function.
+200 個_並行函式_（因此有 600 個可能的連線）回應流量激增 📈 可能會很快耗盡資料庫連線限制。此外，任何**暫停**的函式預設會保持其連線開啟，並阻止其他函式使用它們。
 
-1. Start by [setting the `connection_limit` to `1`](#recommended-connection-pool-size-1)
-2. If a smaller pool size is not enough, consider using an [external connection pooler like PgBouncer](#external-connection-poolers)
+1. 從[將 `connection_limit` 設定為 `1`](#recommended-connection-pool-size-1) 開始
+2. 如果較小的連線池大小不夠，請考慮使用[外部連線池器，如 PgBouncer](#external-connection-poolers)
 
-### Recommended connection pool size
+### 建議的連線池大小
 
-The recommended pool size (`connection_limit`) in serverless environments depends on:
+serverless 環境中建議的連線池大小（`connection_limit`）取決於：
 
-- Whether you are using an [external connection pooler](#external-connection-poolers)
-- Whether your functions are [designed to send queries in parallel](#optimizing-for-parallel-requests)
+- 你是否使用[外部連線池器](#external-connection-poolers)
+- 你的函式是否[設計為並行發送查詢](#optimizing-for-parallel-requests)
 
-#### Without an external connection pooler
+#### 不使用外部連線池器
 
-If you are **not** using an external connection pooler, _start_ by setting the pool size (`connection_limit`) to **1**, then [optimize](#optimizing-for-parallel-requests). Each incoming request starts a short-lived Node.js process, and many concurrent functions with a high `connection_limit` can quickly **exhaust the _database_ connection limit** during a traffic spike.
+如果你**沒有**使用外部連線池器，請_先_將連線池大小（`connection_limit`）設定為 **1**，然後[優化](#optimizing-for-parallel-requests)。每個傳入請求啟動一個短暫的 Node.js 進程，在流量激增期間，許多具有高 `connection_limit` 的並行函式可以快速**耗盡_資料庫_連線限制**。
 
-The following example demonstrates how to set the `connection_limit` to 1 in your connection URL:
+以下範例示範如何在連線 URL 中將 `connection_limit` 設定為 1：
 
 <TabbedContent code>
 <TabItem value="PostgreSQL">
@@ -189,17 +189,17 @@ mysql://USER:PASSWORD@HOST:PORT/DATABASE?connection_limit=1
 
 :::tip
 
-If you are using AWS Lambda and _not_ configuring a `connection_limit`, refer to the following GitHub issue for information about the expected default pool size: https://github.com/prisma/docs/issues/667
+如果你使用 AWS Lambda 並且_沒有_配置 `connection_limit`，請參閱以下 GitHub issue 以獲取有關預期預設連線池大小的資訊：https://github.com/prisma/docs/issues/667
 
 :::
 
-#### With an external connection pooler
+#### 使用外部連線池器
 
-If you are using an external connection pooler, use the default pool size (`num_physical_cpus * 2 + 1`) as a starting point and then [tune the pool size](#optimizing-the-connection-pool). The external connection pooler should prevent a traffic spike from overwhelming the database.
+如果你使用外部連線池器，請使用預設連線池大小（`num_physical_cpus * 2 + 1`）作為起點，然後[調整連線池大小](#optimizing-the-connection-pool)。外部連線池器應該防止流量激增壓垮資料庫。
 
-#### Optimizing for parallel requests
+#### 為並行請求優化
 
-If you rarely or never exceed the database connection limit with the pool size set to 1, you can further optimize the connection pool size. Consider a function that sends queries in parallel:
+如果你很少或從不在連線池大小設定為 1 的情況下超過資料庫連線限制，你可以進一步優化連線池大小。考慮一個並行發送查詢的函式：
 
 ```ts
 Promise.all() {
@@ -211,16 +211,16 @@ Promise.all() {
 }
 ```
 
-If the `connection_limit` is 1, this function is forced to send queries **serially** (one after the other) rather than **in parallel**. This slows down the function's ability to process requests, and may result in pool timeout errors. Tune the `connection_limit` parameter until a traffic spike:
+如果 `connection_limit` 為 1，此函式被迫**串行**發送查詢（一個接一個），而不是**並行**。這會減慢函式處理請求的能力，並可能導致連線池逾時錯誤。調整 `connection_limit` 參數，直到流量激增：
 
-- Does not exhaust the database connection limit
-- Does not result in pool timeout errors
+- 不會耗盡資料庫連線限制
+- 不會導致連線池逾時錯誤
 
-### `PrismaClient` in serverless environments
+### Serverless 環境中的 `PrismaClient`
 
-#### Instantiate `PrismaClient` outside the handler
+#### 在處理程序外實例化 `PrismaClient`
 
-Instantiate `PrismaClient` [outside the scope of the function handler](https://github.com/prisma/e2e-tests/blob/5d1041d3f19245d3d237d959eca94d1d796e3a52/platforms/serverless-lambda/index.ts#L3) to increase the chances of reuse. As long as the handler remains 'warm' (in use), the connection is potentially reusable:
+在[函式處理程序範圍之外](https://github.com/prisma/e2e-tests/blob/5d1041d3f19245d3d237d959eca94d1d796e3a52/platforms/serverless-lambda/index.ts#L3)實例化 `PrismaClient` 以增加重複使用的機會。只要處理程序保持「溫暖」（使用中），連線就可能被重複使用：
 
 ```ts highlight=3;normal
 import { PrismaClient } from '../prisma/generated/client'
@@ -232,44 +232,44 @@ export async function handler() {
 }
 ```
 
-#### Do not explicitly `$disconnect()`
+#### 不要明確呼叫 `$disconnect()`
 
-You [do not need to explicitly `$disconnect()`](/orm/prisma-client/setup-and-configuration/databases-connections/connection-management#calling-disconnect-explicitly) at the end of a function, as there is a possibility that the container might be reused. Opening a new connection takes time and slows down your function's ability to process requests.
+你[不需要在函式結尾明確呼叫 `$disconnect()`](/orm/prisma-client/setup-and-configuration/databases-connections/connection-management#calling-disconnect-explicitly)，因為容器可能被重複使用。建立新連線需要時間，會減慢函式處理請求的能力。
 
-### Other serverless considerations
+### 其他 serverless 注意事項
 
-#### Container reuse
+#### 容器重複使用
 
-There is no guarantee that subsequent nearby invocations of a function will hit the same container - for example, AWS can choose to create a new container at any time.
+不能保證後續附近的函式呼叫會命中相同的容器 - 例如，AWS 可以隨時選擇建立新容器。
 
-Code should assume the container to be stateless and create a connection only if it does not exist - Prisma Client JS already implements this logic.
+程式碼應該假設容器是無狀態的，並且僅在連線不存在時才建立連線 - Prisma Client JS 已經實作了這個邏輯。
 
-#### Zombie connections
+#### 殭屍連線
 
-Containers that are marked "to be removed" and are not being reused still **keep a connection open** and can stay in that state for some time (unknown and not documented from AWS). This can lead to sub-optimal utilization of the database connections.
+標記為「待移除」且未被重複使用的容器仍然**保持連線開啟**，並可能在該狀態下保持一段時間（AWS 未知且未記錄）。這可能導致資料庫連線的次優利用。
 
-A potential solution is to **clean up idle connections** ([`serverless-mysql`](https://github.com/jeremydaly/serverless-mysql) implements this idea, but cannot be used with Prisma ORM).
+一個潛在的解決方案是**清理閒置連線**（[`serverless-mysql`](https://github.com/jeremydaly/serverless-mysql) 實作了這個想法，但不能與 Prisma ORM 一起使用）。
 
-#### Concurrency limits
+#### 並行限制
 
-Depending on your serverless concurrency limit (the number of serverless functions running in parallel), you might still exhaust your database's connection limit. This can happen when too many functions are invoked concurrently, each with its own connection pool, which eventually exhausts the database connection limit. To prevent this, you can [set your serverless concurrency limit](https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html) to a number lower than the maximum connection limit of your database divided by the number of connections used by each function invocation (as you might want to be able to connect from another client for other purposes).
+根據你的 serverless 並行限制（並行執行的 serverless 函式數量），你仍然可能耗盡資料庫的連線限制。當太多函式被同時呼叫時，每個都有自己的連線池，最終會耗盡資料庫連線限制。要防止這種情況，你可以[設定 serverless 並行限制](https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html)為低於資料庫最大連線限制除以每個函式呼叫使用的連線數（因為你可能希望能夠從另一個客戶端連線以用於其他目的）。
 
-## Optimizing the connection pool
+## 優化連線池
 
-If the query engine cannot [process a query in the queue before the time limit](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool#how-the-connection-pool-works) , you will see connection pool timeout exceptions in your log. A connection pool timeout can occur if:
+如果查詢引擎無法[在時間限制內處理佇列中的查詢](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool#how-the-connection-pool-works)，你將在日誌中看到連線池逾時例外。連線池逾時可能發生在：
 
-- Many users are accessing your app simultaneously
-- You send a large number of queries in parallel (for example, using `await Promise.all()`)
+- 許多使用者同時存取你的應用程式
+- 你並行發送大量查詢（例如，使用 `await Promise.all()`）
 
-If you consistently experience connection pool timeouts after configuring the recommended pool size, you can further tune the `connection_limit` and `pool_timeout` parameters.
+如果在配置建議的連線池大小後仍然持續遇到連線池逾時，你可以進一步調整 `connection_limit` 和 `pool_timeout` 參數。
 
-### Increasing the pool size
+### 增加連線池大小
 
 :::note
 
-As of Prisma ORM v7, [driver adapters](/orm/overview/databases/database-drivers) are the default for relational databases, providing better performance and developer experience. Learn more [here](/orm/prisma-client/setup-and-configuration/no-rust-engine).
+自 Prisma ORM v7 起，[驅動程式適配器](/orm/overview/databases/database-drivers)成為關聯式資料庫的預設選項，提供更好的效能和開發者體驗。在[這裡](/orm/prisma-client/setup-and-configuration/no-rust-engine)瞭解更多。
 
-**In Prisma ORM v7, the default generator configuration uses driver adapters**:
+**在 Prisma ORM v7 中，預設生成器配置使用驅動程式適配器**：
 
 ```prisma
 generator client {
@@ -278,18 +278,18 @@ generator client {
 }
 ```
 
-With driver adapters, connection pool configuration is handled by the Node.js driver you provide (like `pg`, `mariadb`, or `mssql`). See the [connection pool guide](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool) for v7 defaults and configuration details.
+使用驅動程式適配器時，連線池配置由你提供的 Node.js 驅動程式（如 `pg`、`mariadb` 或 `mssql`）處理。請參閱[連線池指南](/orm/prisma-client/setup-and-configuration/databases-connections/connection-pool)以獲取 v7 預設值和配置詳細資訊。
 
-Prisma ORM also has its own configurable timeouts that are separate from the database driver timeouts. If you run into a timeout error and are unsure whether it comes from the specific driver or from Prisma Client, see the [Prisma Client timeouts and transaction options documentation](/orm/prisma-client/queries/transactions#transaction-options).
+Prisma ORM 還有自己可配置的逾時，與資料庫驅動程式逾時分開。如果你遇到逾時錯誤並不確定它來自特定驅動程式還是 Prisma Client，請參閱 [Prisma Client 逾時和交易選項文件](/orm/prisma-client/queries/transactions#transaction-options)。
 
-You can [read about the performance and DX improvements](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks) of this change on our blog.
+你可以在我們的部落格上[閱讀有關此變更的效能和 DX 改進](https://www.prisma.io/blog/prisma-orm-without-rust-latest-performance-benchmarks)。
 
 :::
 
 
-Increasing the pool size allows the query engine to process a larger number of queries in parallel. Be aware that your database must be able to support the increased number of concurrent connections, otherwise you will **exhaust the database connection limit**.
+增加連線池大小允許查詢引擎並行處理更多查詢。請注意，你的資料庫必須能夠支援增加的並行連線數，否則你將**耗盡資料庫連線限制**。
 
-To increase the pool size, manually set the `connection_limit` to a higher number:
+要增加連線池大小，請手動將 `connection_limit` 設定為更高的數字：
 
 ```prisma
 datasource db {
@@ -316,15 +316,15 @@ datasource db {
 }
 ```
 
-### Disabling the pool timeout
+### 停用連線池逾時
 
-Disabling the pool timeout prevents the query engine from throwing an exception after x seconds of waiting for a connection and allows the queue to build up. You might consider this approach in the following scenario:
+停用連線池逾時可防止查詢引擎在等待連線 x 秒後拋出例外，並允許佇列累積。在以下情況下，你可能會考慮這種方法：
 
-- You are submitting a large number of queries for a limited time - for example, as part of a job to import or update every customer in your database.
-- You have already increased the `connection_limit`.
-- You are confident that the queue will not grow beyond a certain size, otherwise **you will eventually run out of RAM**.
+- 你在有限時間內提交大量查詢 - 例如，作為匯入或更新資料庫中每個客戶的作業的一部分。
+- 你已經增加了 `connection_limit`。
+- 你確信佇列不會增長到超過某個大小，否則**你最終會用完 RAM**。
 
-To disable the pool timeout, set the `pool_timeout` parameter to `0`:
+要停用連線池逾時，請將 `pool_timeout` 參數設定為 `0`：
 
 ```prisma
 datasource db {
@@ -333,21 +333,21 @@ datasource db {
 }
 ```
 
-## External connection poolers
+## 外部連線池器
 
-Connection poolers like [Prisma Accelerate](/accelerate) and PgBouncer prevent your application from exhausting the database's connection limit.
+像 [Prisma Accelerate](/accelerate) 和 PgBouncer 這樣的連線池器可防止你的應用程式耗盡資料庫的連線限制。
 
-To keep Prisma Client on the pooled connection while allowing Prisma CLI commands (for example, migrations or introspection) to connect directly, define two environment variables:
+要讓 Prisma Client 保持在池化連線上，同時允許 Prisma CLI 命令（例如，遷移或內省）直接連線，請定義兩個環境變數：
 
 ```env file=.env highlight=4-6;add showLineNumbers
-# Connection URL to your database using PgBouncer.
+# 使用 PgBouncer 連線到資料庫的連線 URL。
 DATABASE_URL="postgres://root:password@127.0.0.1:54321/postgres?pgbouncer=true"
 
-# Direct connection URL to the database used for Prisma CLI commands.
+# 用於 Prisma CLI 命令的直接連線到資料庫的 URL。
 DIRECT_URL="postgres://root:password@127.0.0.1:5432/postgres"
 ```
 
-Configure `prisma.config.ts` to point to the direct connection string. Prisma CLI commands always read from this configuration.
+配置 `prisma.config.ts` 指向直接連線字串。Prisma CLI 命令始終從此配置讀取。
 
 ```ts file=prisma.config.ts showLineNumbers
 import 'dotenv/config'
@@ -361,7 +361,7 @@ export default defineConfig({
 })
 ```
 
-At runtime, instantiate Prisma Client with a driver adapter (for example, `@prisma/adapter-pg`) that uses the pooled connection string:
+在執行時，使用驅動程式適配器（例如 `@prisma/adapter-pg`）實例化 Prisma Client，該適配器使用池化連線字串：
 
 ```ts file=src/db/client.ts showLineNumbers
 import { PrismaClient } from '../prisma/generated/client'
@@ -373,14 +373,14 @@ export const prisma = new PrismaClient({ adapter })
 
 ### Prisma Accelerate
 
-[Prisma Accelerate](/accelerate) is a managed external connection pooler built by Prisma that is integrated in the [Prisma Data Platform](/platform) and handles connection pooling for you.
+[Prisma Accelerate](/accelerate) 是由 Prisma 建構的託管外部連線池器，整合在 [Prisma Data Platform](/platform) 中，並為你處理連線池。
 
 ### PgBouncer
 
-PostgreSQL only supports a certain amount of concurrent connections, and this limit can be reached quite fast when the service usage goes up – especially in [serverless environments](#serverless-environments-faas).
+PostgreSQL 僅支援一定數量的並行連線，當服務使用量增加時，特別是在 [serverless 環境](#serverless-environments-faas)中，這個限制可能會很快達到。
 
-[PgBouncer](https://www.pgbouncer.org/) holds a connection pool to the database and proxies incoming client connections by sitting between Prisma Client and the database. This reduces the number of processes a database has to handle at any given time. PgBouncer passes on a limited number of connections to the database and queues additional connections for delivery when connections becomes available. To use PgBouncer, see [Configure Prisma Client with PgBouncer](/orm/prisma-client/setup-and-configuration/databases-connections/pgbouncer).
+[PgBouncer](https://www.pgbouncer.org/) 持有資料庫的連線池，並透過位於 Prisma Client 和資料庫之間來代理傳入的客戶端連線。這減少了資料庫在任何給定時間必須處理的進程數。PgBouncer 將有限數量的連線傳遞給資料庫，並在連線可用時將額外的連線排入佇列以供傳遞。要使用 PgBouncer，請參閱[使用 PgBouncer 配置 Prisma Client](/orm/prisma-client/setup-and-configuration/databases-connections/pgbouncer)。
 
 ### AWS RDS Proxy
 
-Due to the way AWS RDS Proxy pins connections, [it does not provide any connection pooling benefits](/orm/prisma-client/deployment/caveats-when-deploying-to-aws-platforms#aws-rds-proxy) when used together with Prisma Client.
+由於 AWS RDS Proxy 固定連線的方式，當與 Prisma Client 一起使用時，[它不提供任何連線池優勢](/orm/prisma-client/deployment/caveats-when-deploying-to-aws-platforms#aws-rds-proxy)。
