@@ -1,41 +1,41 @@
 ---
-title: 'Write your own SQL'
-metaTitle: 'Write Your Own SQL in Prisma Client'
-metaDescription: 'Learn how to use raw SQL queries in Prisma Client.'
+title: '編寫自己的 SQL'
+metaTitle: '在 Prisma Client 中編寫自己的 SQL'
+metaDescription: '學習如何在 Prisma Client 中使用原始 SQL 查詢。'
 ---
 
-While the Prisma Client API aims to make all your database queries intuitive, type-safe, and convenient, there may still be situations where raw SQL is the best tool for the job.
+雖然 Prisma Client API 旨在使您的所有資料庫查詢直觀、型別安全且方便,但在某些情況下,原始 SQL 可能仍然是最佳工具。
 
-This can happen for various reasons, such as the need to optimize the performance of a specific query or because your data requirements can't be fully expressed by Prisma Client's query API.
+這可能出於各種原因,例如需要優化特定查詢的效能,或者您的資料需求無法完全透過 Prisma Client 的查詢 API 表達。
 
 In most cases, [TypedSQL](#writing-type-safe-queries-with-prisma-client-and-typedsql) allows you to express your query in SQL while still benefiting from Prisma Client's excellent user experience. However, since TypedSQL is statically typed, it may not handle certain scenarios, such as dynamically generated `WHERE` clauses. In these cases, you will need to use [`$queryRaw`](/orm/prisma-client/using-raw-sql/raw-queries#queryraw) or [`$executeRaw`](/orm/prisma-client/using-raw-sql/raw-queries#executeraw), or their unsafe counterparts.
 
-## Writing type-safe queries with Prisma Client and TypedSQL
+## 使用 Prisma Client 和 TypedSQL 編寫型別安全的查詢
 
 :::info
 
-TypedSQL is available in Prisma ORM 5.19.0 and later. For raw database access in previous versions, see [our raw queries documentation](/orm/prisma-client/using-raw-sql/raw-queries).
+TypedSQL 在 Prisma ORM 5.19.0 及更高版本中可用。對於先前版本的原始資料庫存取,請參閱[我們的原始查詢文件](/orm/prisma-client/using-raw-sql/raw-queries)。
 
 :::
 
-### What is TypedSQL?
+### 什麼是 TypedSQL?
 
-TypedSQL is a new feature of Prisma ORM that allows you to write your queries in `.sql` files while still enjoying the great developer experience of Prisma Client. You can write the code you're comfortable with and benefit from fully-typed inputs and outputs.
+TypedSQL 是 Prisma ORM 的新功能,允許您在 `.sql` 檔案中編寫查詢,同時仍享受 Prisma Client 出色的開發者體驗。您可以編寫自己熟悉的程式碼,並受益於完全型別化的輸入和輸出。
 
-With TypedSQL, you can:
+使用 TypedSQL,您可以:
 
-1. Write complex SQL queries using familiar syntax
-2. Benefit from full IDE support and syntax highlighting for SQL
-3. Import your SQL queries as fully typed functions in your TypeScript code
-4. Maintain the flexibility of raw SQL with the safety of Prisma's type system
+1. 使用熟悉的語法編寫複雜的 SQL 查詢
+2. 受益於完整的 IDE 支援和 SQL 語法高亮
+3. 將 SQL 查詢作為完全型別化的函式匯入到 TypeScript 程式碼中
+4. 保持原始 SQL 的靈活性與 Prisma 型別系統的安全性
 
-TypedSQL is particularly useful for:
+TypedSQL 特別適用於:
 
-- Complex reporting queries that are difficult to express using Prisma's query API
-- Performance-critical operations that require fine-tuned SQL
-- Leveraging database-specific features not yet supported in Prisma's API
+- 難以使用 Prisma 查詢 API 表達的複雜報表查詢
+- 需要精心調整 SQL 的效能關鍵操作
+- 利用 Prisma API 尚未支援的資料庫特定功能
 
-By using TypedSQL, you can write efficient, type-safe database queries without sacrificing the power and flexibility of raw SQL. This feature allows you to seamlessly integrate custom SQL queries into your Prisma-powered applications, ensuring type safety and improving developer productivity.
+透過使用 TypedSQL,您可以編寫高效、型別安全的資料庫查詢,而不會犧牲原始 SQL 的強大功能和靈活性。此功能允許您無縫地將自訂 SQL 查詢整合到 Prisma 驅動的應用程式中,確保型別安全並提高開發者生產力。
 
 For a detailed guide on how to get started with TypedSQL, including setup instructions and usage examples, please refer to our [TypedSQL documentation](/orm/prisma-client/using-raw-sql/typedsql).
 

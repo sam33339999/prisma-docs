@@ -1,33 +1,33 @@
 ---
-title: "Raw queries"
-metaTitle: "Raw queries"
-metaDescription: "Learn how you can send raw SQL and MongoDB queries to your database using the raw() methods from the Prisma Client API."
+title: "原始查詢"
+metaTitle: "原始查詢"
+metaDescription: "學習如何使用 Prisma Client API 的 raw() 方法向資料庫發送原始 SQL 和 MongoDB 查詢。"
 ---
 
 :::warning
 
-With Prisma ORM `5.19.0`, we have released [TypedSQL](/orm/prisma-client/using-raw-sql). TypedSQL is a new way to write SQL queries that are type-safe and even easier to add to your workflow.
+在 Prisma ORM `5.19.0` 中,我們發布了 [TypedSQL](/orm/prisma-client/using-raw-sql)。TypedSQL 是一種編寫 SQL 查詢的新方式,它具有型別安全性,並且更容易添加到您的工作流程中。
 
-We strongly recommend using TypedSQL queries over the legacy raw queries described below whenever possible.
+我們強烈建議盡可能使用 TypedSQL 查詢,而不是下面描述的傳統原始查詢。
 
 :::
 
-Prisma Client supports the option of sending raw queries to your database. You may wish to use raw queries if:
+Prisma Client 支援向資料庫發送原始查詢的選項。您可能希望使用原始查詢,如果:
 
-- you want to run a heavily optimized query
-- you require a feature that Prisma Client does not yet support (please [consider raising an issue](https://github.com/prisma/prisma/issues/new/choose))
+- 您想要執行高度優化的查詢
+- 您需要 Prisma Client 尚不支援的功能(請[考慮提出問題](https://github.com/prisma/prisma/issues/new/choose))
 
-Raw queries are available for all relational databases Prisma ORM supports. In addition, from version `3.9.0` raw queries are supported in MongoDB. For more details, see the relevant sections:
+原始查詢可用於 Prisma ORM 支援的所有關聯式資料庫。此外,從 `3.9.0` 版本開始,MongoDB 也支援原始查詢。有關詳細資訊,請參閱相關章節:
 
-- [Raw queries with relational databases](#raw-queries-with-relational-databases)
-- [Raw queries with MongoDB](#raw-queries-with-mongodb)
+- [關聯式資料庫的原始查詢](#raw-queries-with-relational-databases)
+- [MongoDB 的原始查詢](#raw-queries-with-mongodb)
 
-## Raw queries with relational databases
+## 關聯式資料庫的原始查詢
 
-For relational databases, Prisma Client exposes four methods that allow you to send raw queries. You can use:
+對於關聯式資料庫,Prisma Client 提供四種方法來發送原始查詢。您可以使用:
 
-- `$queryRaw` to return actual records (for example, using `SELECT`).
-- `$executeRaw` to return a count of affected rows (for example, after an `UPDATE` or `DELETE`).
+- `$queryRaw` 來返回實際記錄(例如,使用 `SELECT`)。
+- `$executeRaw` 來返回受影響行數(例如,在 `UPDATE` 或 `DELETE` 之後)。
 - `$queryRawUnsafe` to return actual records (for example, using `SELECT`) using a raw string.
 - `$executeRawUnsafe` to return a count of affected rows (for example, after an `UPDATE` or `DELETE`) using a raw string.
 
