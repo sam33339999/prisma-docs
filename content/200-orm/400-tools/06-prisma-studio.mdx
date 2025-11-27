@@ -15,7 +15,7 @@ Note that Prisma Studio is not open source but you can still create issues in th
 
 Prisma Studio is a standalone tool that only requires a database connection. You have two options:
 
-### Option 1: Use with any database (no Prisma project required)
+### Option 1: Use with any 資料庫 (no Prisma project required)
 
 Connect directly to any supported database using the `--url` flag:
 
@@ -58,7 +58,7 @@ npx prisma studio --config ./prisma.config.ts
 
 Both commands start a local web server (default port `5555`) and open Prisma Studio in your browser. Studio connects directly to your database and introspects the schema in real-time to provide a visual interface for your data—no Prisma schema file required.
 
-## Core features
+## Core 功能
 
 Prisma Studio provides several key capabilities for working with your database:
 
@@ -134,11 +134,11 @@ When your database tables have foreign key relationships, Studio provides tools 
 - Use relation selectors when creating or editing records to link to existing data
 - Open related tables in separate tabs to work with connected data simultaneously
 
-## Databases supported by Prisma Studio
+## 資料庫 supported by Prisma Studio
 
 Prisma Studio currently supports the following databases: PostgreSQL, MySQL, and SQLite.
 
-### SQLite requirements for Prisma Studio
+### SQLite 需求 for Prisma Studio
 
 - File paths must have a `file:` protocol right now in the database url for SQLite
 - **Node.js 22.5+**: Works out of the box with the built-in `node:sqlite` module
@@ -163,14 +163,14 @@ This command:
 
 :::
 
-### Databases not yet supported
+### 資料庫 not yet supported
 
 Support for CockroachDB and MongoDB is not currently available but may be added in future releases. If you're using these databases:
 
 - CockroachDB: Explore the options suggested by [CockroachDB](https://www.cockroachlabs.com/blog/cockroachdb-gui-options/)
 - MongoDB: Use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas), MongoDB Compass, or the MongoDB shell
 
-## Troubleshooting
+## 疑難排解
 
 ### Terminal: Failed to run script / Error in Prisma Client request
 

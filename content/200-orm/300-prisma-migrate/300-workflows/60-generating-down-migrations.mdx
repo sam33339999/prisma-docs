@@ -11,7 +11,7 @@ This guide describes how to generate a down migration SQL file that reverses a g
 
 </TopBlock>
 
-## About down migrations
+## 關於 down migrations
 
 When generating a migration SQL file, you may wish to also create a "down migration" SQL file that reverses the schema changes in the corresponding "up migration" file. Note that "down migrations" are also sometimes called "migration rollbacks".
 
@@ -41,7 +41,7 @@ When generating a down migration file, there are some considerations to be aware
   - Manually add your custom SQL to the up migration (e.g. adding a view)
   - Manually add the inverted custom SQL to the down migration (e.g. dropping the view)
 
-## How to generate and run down migrations
+## 如何 generate and run down migrations
 
 This section describes how to generate a down migration SQL file along with the corresponding up migration, and then run it to revert your database schema after a failed up migration on production.
 
@@ -134,7 +134,7 @@ You will need to create the down migration first, before creating the correspond
 
 4. Copy your `down.sql` file into the new directory along with the up migration file.
 
-### How to apply your down migration to a failed migration
+### 如何 apply your down 遷移 to a failed 遷移
 
 If your previous up migration failed, you can apply your down migration on your production database with the following steps:
 

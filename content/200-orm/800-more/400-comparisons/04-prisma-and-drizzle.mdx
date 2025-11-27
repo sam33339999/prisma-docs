@@ -29,13 +29,13 @@ Prisma is designed to help teams ship faster—especially when not everyone is a
 
 Drizzle can be great in the hands of a single developer who knows SQL or prefers learning it. But once you have a team, Prisma removes the friction and knowledge risk that slows you down.
 
-## Type safety
+## 型別安全
 
 Drizzle is not _fully_ type safe. As quoted on this [comparison study](https://github.com/thetutlage/meta/discussions/8) done by a 3rd party, "Drizzle gives the impression of type-safety. However, only the query results have type information. You can write invalid queries with Drizzle."
 
 With Prisma, you get _full_ type safety thanks to the generated types. This means, less potential for errors when writing code and collaborating with team members.
 
-## Prisma Schema as a Single Source of Truth
+## Prisma 綱要 as a Single Source of Truth
 
 With Prisma, your data model lives in a single file: schema.prisma.
 * **It’s explicit**: No need to infer types or decipher SQL-generating functions—your schema is right there.
@@ -404,7 +404,7 @@ const posts = await db
 
 </ParallelBlocks>
 
-### Observability
+### 可觀測性
 
 Both Drizzle and Prisma ORM have the ability to log queries and the underlying SQL generated.
 
@@ -452,7 +452,7 @@ Prisma isn’t just an ORM—it’s a complete type-safe data toolkit:
 * Prisma Studio → a [GUI](https://prisma.io/studio) to inspect and edit data
 * Native integrations → PlanetScale, Vercel, Cloudflare D1, Neon, and more
 
-## Database support
+## 資料庫 支援
 
 Both Drizzle and Prisma ORM support multiple and different kinds of databases. Drizzle achieves this support through driver implementations created by Drizzle, which integrate with existing third-party database drivers.
 

@@ -242,7 +242,7 @@ export class Post {
 
 Migrations work in similar fashions in TypeORM and Prisma ORM. Both tools follow the approach of generating SQL files based on the provided model definitions and provide a CLI to execute them against the database. The SQL files can be modified before the migrations are executed so that any custom database operation can be performed with either migration system.
 
-## Type safety
+## 型別安全
 
 TypeORM has been one of the first ORMs in the Node.js ecosystem to fully embrace TypeScript and has done a great job in enabling developers to get a certain level of type safety for their database queries.
 
@@ -649,7 +649,7 @@ EntityColumnNotFound: No entity column "viewCount" was found.
 
 Both filtering scenarios that are problematic with TypeORM in terms of type-safety are covered by Prisma ORM in a fully type-safe way.
 
-##### Type-safe usage of operators
+##### 型別安全 usage of operators
 
 With Prisma ORM, the TypeScript compiler enforces the correct usage of an operator per field:
 
@@ -687,7 +687,7 @@ src/index.ts:39:5 - error TS2322: Type '{ gt: string; }' is not assignable to ty
 42     views: { gt: "test" }
 ```
 
-##### Type-safe definition of filters as model properties
+##### 型別安全 definition of filters as 模型 properties
 
 With TypeORM, you are able to specify a property on the `where` option that doesn't map to a model's field. In the above example, filtering for `viewCount` therefore led to a runtime error because the field actually is called `views`.
 

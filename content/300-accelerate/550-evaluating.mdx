@@ -1,7 +1,7 @@
 ---
-title: 'Evaluating'
-metaTitle: 'Accelerate: Evaluating'
-metaDescription: '學習 關於 evaluating Prisma Accelerate.'
+title: '評估'
+metaTitle: 'Accelerate: 評估'
+metaDescription: '學習 關於 評估 Prisma Accelerate.'
 tocDepth: 3
 toc: true
 ---
@@ -14,7 +14,7 @@ Considering the information above, we recommend evaluating Accelerate with high 
 
 </TopBlock>
 
-## How Accelerate's connection pool optimizes performance under load
+## How Accelerate's 連線池 optimizes 效能 under load
 
 Prisma Accelerate employs a dynamic, serverless connection pooling infrastructure. When a request is made, a connection pool is quickly provisioned for the project in the region assigned while configuring Prisma Accelerate. This connection pool remains active, serving many additional requests while reusing established database connections. The connection pool will disconnect after a period of inactivity, so it’s important to evaluate Prisma Accelerate with a consistent stream of traffic.
 
@@ -28,7 +28,7 @@ Prisma Accelerate employs a dynamic, serverless connection pooling infrastructur
 
 By understanding and harnessing this mechanism, you can ensure that your database queries perform consistently and efficiently at scale.
 
-## Evaluating Prisma Accelerate connection pooling performance
+## 評估 Prisma Accelerate 連線池 效能
 
 Below you will find an example of how to evaluate Prisma Accelerate using a sample model:
 
@@ -128,7 +128,7 @@ main()
   })
 ```
 
-## Evaluating Prisma Accelerate caching performance
+## 評估 Prisma Accelerate 快取 效能
 
 Prisma Accelerate’s edge cache is also optimized for a high volume of queries. The cache automatically optimizes for repeated queries. As a result, the cache hit rate will increase as the query frequency does. Adding a query result to the cache is also non-blocking, so a short burst of queries might not utilize the cache or a sustained load.
 

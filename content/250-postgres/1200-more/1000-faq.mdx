@@ -1,8 +1,8 @@
 ---
-title: 'Prisma Postgres FAQ'
-sidebar_label: 'FAQ' 
-metaTitle: 'FAQ | Prisma Postgres'
-metaDescription: '學習 關於 the FAQ regarding Prisma Postgres.'
+title: 'Prisma Postgres 常見問題'
+sidebar_label: '常見問題' 
+metaTitle: '常見問題 | Prisma Postgres'
+metaDescription: '學習 關於 the 常見問題 regarding Prisma Postgres.'
 tocDepth: 3
 toc: true
 ---
@@ -70,7 +70,7 @@ An operation can be:
 - a Prisma ORM query (when using Prisma ORM)
 - a SQL query (when using a [direct TCP connection](/postgres/database/direct-connections))
 
-### Does query execution time affect pricing in Prisma Postgres?
+### Does 查詢 execution time affect pricing in Prisma Postgres?
 
 No, cost for Prisma Postgres is based solely on the _number of operations_, not the amount of compute required to execute them. 
 
@@ -84,11 +84,11 @@ The fundamental principle of operations-based pricing remains the same for Prism
 
 Note that a single Prisma ORM query may translate into multiple SQL queries which may make using Prisma ORM more economical than direct SQL.
 
-### Do read and write queries cost the same?
+### Do read and write 查詢 cost the same?
 
 Yes, read and write queries are counted equally as _operations_ and are billed the same way.
 
-### Does a `SELECT 1` query count as a billable operation?
+### Does a `SELECT 1` 查詢 count as a billable operation?
 
 Yes, a query like `SELECT 1` counts as an operation and will be billed accordingly (even if no actual data is accessed in the query).
 
@@ -234,7 +234,7 @@ A production-grade, consumer-facing application handling ~`50000` MAUs. Heavy us
 
 Every request, whether it hits the database or is served from cache, counts as an operation. Prisma Postgres use a flat per-operation price and never charge for egress traffic, so a cached response doesn't incur any extra or reduced fee. This unified rate keeps the billing model predictable and avoids per-request complexity.
 
-### How do I upgrade my plan if I am using Prisma Postgres via Vercel?
+### How do I 升級 my plan if I am using Prisma Postgres via Vercel?
 
 To upgrade your plan via Vercel, follow these steps:
 
@@ -245,7 +245,7 @@ To upgrade your plan via Vercel, follow these steps:
 - Under Current Installation Plan Level, click **Change Plan**.
 - Select the plan you want to upgrade to.
 
-## Caching 
+## 快取 
 
 Prisma Postgres includes built-in connection pooling and global caching. These features improve performance by optimizing how your queries are routed and cached.
 
@@ -258,7 +258,7 @@ Under the hood, Prisma Postgres's cache layer uses Cloudflare, which uses [Anyca
 
 You can invalidate the cache on-demand via the [`$accelerate.invalidate` API](/accelerate/api-reference#accelerateinvalidate) if you're on a [paid plan](https://www.prisma.io/pricing#accelerate), or you can invalidate your entire cache, on a project level, a maximum of five times a day. This limit is set based on [your plan](https://www.prisma.io/pricing). You can manage this via the Accelerate configuration page.
 
-### 什麼是 Prisma Postgres's caching layer's consistency model?
+### 什麼是 Prisma Postgres's 快取 layer's consistency 模型?
 
 The caching layer in Prisma Postgres does not have a consistency model. It is not a distributed system where nodes need to reach a consensus (because data is only stored in the cache node(s) closest to the user). However, the data cached in Prisma Postgres's cache nodes doesn't propagate to other nodes, so the cache layer by design doesn't need a consistency model.
 
@@ -266,7 +266,7 @@ Prisma Postgres implements a [read-through caching strategy](https://www.prisma.
 
 The freshness of the data served by the cache depends on the cache strategy defined in your query. Refer to [this section](/postgres/database/caching#selecting-a-cache-strategy) for more information on selecting the right cache strategy for your query.
 
-### How is Prisma Postgres's caching layer different from other caching tools, such as Redis?
+### How is Prisma Postgres's 快取 layer different from other 快取 tools, such as Redis?
 
 The caching layer of Prisma Postgres:
 
@@ -274,7 +274,7 @@ The caching layer of Prisma Postgres:
 - Is a managed service that reduces the time, risk, and engineering effort of building and maintaining a cache service.
 - Is globally distributed, by default, reducing the latency of your queries. Other cache tools would require additional configuration to make them available globally.
 
-### When should I not use Prisma Postgres's caching features?
+### When should I not use Prisma Postgres's 快取 功能?
 
 The caching layer of Prisma Postgres is a global data cache and connection pool that allows you to optimize data access in code at the query level. While caching with Prisma Postgres can greatly boost the performance of your app, it may not always the best choice for your use case.
 
@@ -306,7 +306,7 @@ Prisma operations are sent to Prisma Postgres over HTTP. As a result, the first 
 
 Prisma Postgres's cache layer runs on Cloudflare's network and cache hits are served from Cloudflare's 300+ locations. You can find the regions where Prisma Postgres's cache nodes are available here: [https://www.cloudflare.com/network/](https://www.cloudflare.com/network/).
 
-### How long does it take to invalidate a cache query result?
+### How long does it take to invalidate a cache 查詢 result?
 
 As the cache needs to be cleared globally, it is difficult to provide a specific time frame. However, the cached data is eventually consistent and typically propagates to all PoPs within a few seconds. In very rare cases, it may take longer.
 
@@ -335,7 +335,7 @@ Using on-demand cache invalidation in these scenarios helps keep only the necess
 
 ## 連線池ing
 
-#### Can I increase the query duration and response size limits for my Prisma Postgres instance?
+#### Can I increase the 查詢 duration and response size limits for my Prisma Postgres instance?
 
 Yes, you can increase your Prisma Postgres limits based on your subscription plan. Here are the configurable limits:
 
@@ -352,7 +352,7 @@ While you can increase these limits based on your subscription plan, it's *still
 :::
 
 
-## Query optimization
+## 查詢最佳化
 
 Prisma Postgres allows query optimization via [Prisma Optimize](/optimize) and provides performance recommendations to help improve your database queries during development. You can enable it with Prisma Postgres or [also use it with your own database](/optimize/getting-started), but setup and integration steps differ.
 
@@ -372,11 +372,11 @@ Yes, the recommendation usage resets at the beginning of each calendar month. Fo
 
 Yes, if you’re on the starter plan, exceeding `5` recommendations in a billing cycle will result in a `$5` charge at the end of that cycle. For more information, visit [our pricing page](https://www.prisma.io/pricing#optimize).
 
-### How are viewed Prisma AI recommendations tracked for billing? Are they counted based on generated or viewed recommendations?
+### How are viewed Prisma AI 建議 tracked for billing? Are they counted based on generated or viewed 建議?
 
 They are counted based on viewed recommendations. Once you click on a recommendation from the recommendations table and view the recommendation's detail page, it counts as being seen.
 
-### Can I enable query optimizations for Prisma Postgres in production?
+### Can I enable 查詢 optimizations for Prisma Postgres in production?
 
 No, query optimizations for Prisma Postgres is not meant to be enabled for production use. It is specifically designed for local development, providing valuable insights and optimizations during that phase. While it's technically possible to run it in a production environment, doing so could result in performance problems or unexpected behaviors, as this is not built to handle the complexity and scale of production workloads. For the best experience, we recommend testing query optimization solely in your development environment.
 
@@ -394,7 +394,7 @@ const prisma = new PrismaClient().$extends(
 );
 ```
 
-### Why do I see "[optimize] HTTP 409 Conflict: There is no active recording to write queries to" warning?
+### Why do I see "[optimize] HTTP 409 Conflict: There is no active recording to write 查詢 to" warning?
 
 This warning may occur when Prisma Optimize receives queries but no recording session is active. Typically, this can happen if Prisma Optimize is unintentionally enabled in your production environment. Prisma Optimize is specifically designed for use in local development environments and should not be enabled in production. To avoid this warning, ensure that Prisma Optimize is configured to run only during development.
 

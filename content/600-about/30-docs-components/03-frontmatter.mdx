@@ -1,33 +1,33 @@
 ---
-title: Front matter
-metaDescription: Supported front matter variables.
+title: Frontmatter
+metaDescription: 支援的 frontmatter 變數。
 search: false
 ---
 
 <TopBlock></TopBlock>
 
-## Meta information
+## 元資訊
 
-Front matter that informs the meta information of a page.
+用於告知頁面元資訊的 frontmatter。
 
 ### `title`
 
-The `<h1>` title of the page. This title appears at the top of the page, and in the left-hand navigation.
+頁面的 `<h1>` 標題。此標題出現在頁面頂部和左側導航中。
 
-You do not need to add this text as an `<h1>` because Gatsby generates this heading from the `title` tag.
+您不需要將此文字新增為 `<h1>`,因為 Gatsby 會從 `title` 標籤產生此標題。
 
-Note:
+注意：
 
-- You can wrap the `title` text in single quotes, but this is not mandatory.
-- If you wrap the `title` text in single quotes, then you cannot include apostrophes in the text.
+- 您可以用單引號包裹 `title` 文字,但這不是必須的。
+- 如果您用單引號包裹 `title` 文字,則不能在文字中包含撇號。
 
 ### `metaTitle`
 
-The `<title>` of the page - falls back to `title` (`h1`).
+頁面的 `<title>` - 如果未設定則回退到 `title`（`h1`）。
 
-This tag is important for Google SEO. If we wish, we can make the `metaTitle` more descriptive than the `title`.
+此標籤對 Google SEO 很重要。如果我們願意,可以讓 `metaTitle` 比 `title` 更具描述性。
 
-For good SEO, spell out abbreviations in this tag, unless they are industry standard. For example, spell out "Prisma Data Platform", but it is fine to use the abbreviation "ORM".
+為了良好的 SEO,請在此標籤中拼寫出縮寫,除非它們是業界標準。例如,拼寫出「Prisma Data Platform」,但使用縮寫「ORM」是可以的。
 
 Note:
 
@@ -57,13 +57,13 @@ Accepts a string specifying the duration to read the article.
 
 Example: `duration: '15 min'`
 
-### `preview`
+### `預覽`
 
 Accepts `true` or `false` (defaults to `false`).
 
 Adds a `Preview` label to a page in the left-hand navigation.
 
-### `deprecated`
+### `已棄用`
 
 Accepts `true` or `false` (defaults to `false`).
 

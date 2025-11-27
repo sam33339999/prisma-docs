@@ -43,7 +43,7 @@ Install the npm package:
 npm install @prisma/studio-core
 ```
 
-## Frontend setup
+## 前端 設定
 
 In your React app, you can use the `Studio` component to render the tables in your database via Prisma Studio. It receives an _executor_ which is responsible for packaging the current SQL query in an HTTP request (also allowing for custom headers/payloads) and sending it to the `/studio` endpoint in your backend.
 
@@ -170,7 +170,7 @@ function App() {
 
 With this setup, Studio inherits your custom colors, borders, and typography rules, making it feel like a natural part of your app rather than a separate tool. You can define as many or as few variables as you need depending on the level of customization you want.
 
-### Concepts
+### 概念
 
 Here's an overview of the key concepts in your frontend:
 - **Executor**: The bridge between Studio and your backend, it's created using the `createStudioBFFClient` function
@@ -178,7 +178,7 @@ Here's an overview of the key concepts in your frontend:
 - **Custom headers**: Pass authentication tokens, user info, etc.
 - **Custom payload**: Send additional context/data with each request
 
-## Backend setup
+## 後端 設定
 
 Your backend needs to expose a `/studio` endpoint where the frontend sends its requests. The implementation below uses `createPrismaPostgresHttpClient` from `@prisma/studio-core`. 
 
@@ -254,7 +254,7 @@ app.post("/studio", async (c) => {
 });
 ```
 
-### Concepts
+### 概念
 
 - Query object: Contains the SQL query and parameters from Studio
 - Custom payload: Additional data sent with each request

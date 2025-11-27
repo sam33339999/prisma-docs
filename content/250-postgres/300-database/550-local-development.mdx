@@ -1,8 +1,8 @@
 ---
-title: 'Local development with Prisma Postgres'
-sidebar_label: 'Local development'
-metaTitle: 'Local development with Prisma Postgres (Early Access)'
-metaDescription: '指南 to setting up local development 使用 Prisma Postgres (Early Access)'
+title: '本地開發 with Prisma Postgres'
+sidebar_label: '本地開發'
+metaTitle: '本地開發 with Prisma Postgres (Early Access)'
+metaDescription: '指南 to setting up 本地開發 使用 Prisma Postgres (Early Access)'
 tocDepth: 3
 toc: true
 sidebar_class_name: preview-badge
@@ -12,7 +12,7 @@ sidebar_class_name: preview-badge
 
 Local Prisma Postgres is in [Preview](/orm/more/releases#preview) and is being actively developed.
 
-## Setting up local development for Prisma Postgres
+## Setting up 本地開發 for Prisma Postgres
 
 Follow these steps to set up local Prisma Postgres for development.
 
@@ -52,7 +52,7 @@ DATABASE_URL="prisma+postgres://localhost:51213/?api_key=__API_KEY__"
 
 Keep the local Prisma Postgres server running in the background while you work on your application. 
 
-### 2. Applying migrations and seeding data
+### 2. Applying migrations and 填充 data
 
 Then in a separate terminal tab, run the `prisma migrate dev` command to create the database and run the migrations:
 
@@ -205,9 +205,9 @@ Notes:
 - Use `server.database.connectionString` to connect with Postgres clients or ORMs.
 - This pattern is great for running tests that require a local database.
 
-## Known limitations
+## Known 限制
 
-### Caching is mocked locally
+### 快取 is mocked locally
 
 [Prisma Postgres caching](/postgres/database/caching) is simulated locally. Queries always directly interact with the local Prisma Postgres instance, bypassing cache configurations:
 
@@ -219,7 +219,7 @@ const users = await prisma.user.findMany({
 
 Caching works normally when you're using Prisma Postgres in staging and production.
 
-### Single connection only
+### Single 連線 only
 
 The local Prisma Postgres database server accepts one connection at a time. Additional connection attempts queue until the active connection closes. This constraint is sufficient for most local development and testing scenarios.
 

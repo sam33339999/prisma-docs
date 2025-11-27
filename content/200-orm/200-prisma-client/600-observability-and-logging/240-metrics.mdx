@@ -1,6 +1,6 @@
 ---
-title: 'Metrics'
-metaTitle: 'Metrics (預覽)'
+title: '指標'
+metaTitle: '指標 (預覽)'
 metaDescription: 'Diagnose application 效能 with insights into Prisma 客戶端 資料庫 activity.'
 sidebar_class_name: preview-badge
 toc_max_heading_level: 4
@@ -20,7 +20,7 @@ If you need visibility into query or connection pool behavior, we recommend usin
 
 
 
-## About metrics
+## 關於 指標
 
 You can export metrics in JSON or Prometheus formats and view them in a console log, or integrate them into an external metrics system, such as [StatsD](https://github.com/statsd/statsd) or [Prometheus](https://prometheus.io/). If you integrate them into an external metrics system, then you can view the metrics data over time. For example, you can use metrics to help diagnose how your application's number of idle and active connections changes.
 
@@ -71,7 +71,7 @@ npm install prisma@">=3.15.0 <6.14.0" --save-dev
 npm install @prisma/client@">=3.15.0 <6.14.0"
 ```
 
-### 2. Enable the feature flag in the Prisma schema file
+### 2. Enable the feature flag in the Prisma 綱要 file
 
 In the `generator` block of your `schema.prisma` file, enable the `metrics` feature flag:
 
@@ -83,7 +83,7 @@ generator client {
 }
 ```
 
-## Retrieve metrics in JSON format
+## Retrieve 指標 in JSON format
 
 When you retrieve metrics in JSON format, you can use them in the format they are returned, or [send them to StatSD](#use-prisma-client-metrics-with-statsd) to visualize how they change over time.
 
@@ -121,7 +121,7 @@ Each histogram "bucket" has two values. The first one is the upper bound of the 
 ...
 ```
 
-### Use Prisma Client metrics with StatsD
+### Use Prisma Client 指標 with StatsD
 
 You can send JSON-formatted metrics to [StatsD](https://github.com/statsd/statsd) to visualize your metrics data over time.
 
@@ -150,7 +150,7 @@ const statsdSender = async () => {/* Lines 337-369 omitted */}
 setInterval(async () => await statsdSender(), 10000)
 ```
 
-## Retrieve metrics in Prometheus format
+## Retrieve 指標 in Prometheus format
 
 When you retrieve Prisma Client metrics in Prometheus format, you can use them in the format they are returned, or [send them to the Prometheus metrics system](#use-prisma-client-metrics-with-the-prometheus-metrics-system) to visualize how they change over time.
 
@@ -285,7 +285,7 @@ Metrics of type `histogram` expose three different class of values in the Promet
 
 For more information, read the Prometheus documentation on [metric types](https://prometheus.io/docs/concepts/metric_types/#histogram).
 
-### Use Prisma Client metrics with the Prometheus metrics system
+### Use Prisma Client 指標 with the Prometheus 指標 system
 
 In the majority of cases, Prometheus must scrape an endpoint to retrieve metrics. The following example shows how to send data with `Express.js`:
 

@@ -1,5 +1,5 @@
 ---
-title: 'Extensions'
+title: '擴充'
 metaTitle: 'Prisma 客戶端擴充功能'
 metaDescription: 'Extend the functionality of Prisma 客戶端'
 toc_max_heading_level: 4
@@ -26,7 +26,7 @@ For example, you might create an extension that uses the `model` and `client` co
 
 </TopBlock>
 
-## About Prisma Client extensions
+## 關於 Prisma Client 擴充
 
 When you use a Prisma Client extension, you create an _extended client_. An extended client is a lightweight variant of the standard Prisma Client that is wrapped by one or more extensions. The standard client is not mutated. You can add as many extended clients as you want to your project. [Learn more about extended clients](#extended-clients).
 
@@ -110,7 +110,7 @@ const prisma = new PrismaClient().$extends({
 })
 ```
 
-## Multiple extensions
+## Multiple 擴充
 
 You can associate an extension with an [extended client](#about-prisma-client-extensions) in one of two ways:
 
@@ -120,7 +120,7 @@ You can associate an extension with an [extended client](#about-prisma-client-ex
 
 You can combine the two approaches above. For example, you might associate one extension with its own extended client and associate two other extensions with another extended client. [Learn more about how client instances interact](#extended-clients).
 
-### Apply multiple extensions to an extended client
+### Apply multiple 擴充 to an extended client
 
 In the following example, suppose that you have two extensions, `extensionA` and `extensionB`. There are two ways to combine these.
 
@@ -158,7 +158,7 @@ const prismaAB = prismaA.$extends(extensionB)
 
 In your code, you can call any of these clients separately, for example `prismaA.myExtensionMethod()`, `prismaB.myExtensionMethod()`, or `prismaAB.myExtensionMethod()`.
 
-### Conflicts in combined extensions
+### Conflicts in combined 擴充
 
 When you combine two or more extensions into a single extended client, then the _last_ extension that you declare takes precedence in any conflict. In the example in option 1 above, suppose there is a method called `myExtensionMethod()` defined in `extensionA` and a method called `myExtensionMethod()` in `extensionB`. When you call `prismaAB.myExtensionMethod()`, then Prisma Client uses `myExtensionMethod()` as defined in `extensionB`.
 
@@ -186,7 +186,7 @@ function getExtendedClient() {
 type ExtendedPrismaClient = ReturnType<typeof getExtendedClient>
 ```
 
-## Extending model types with `Prisma.Result`
+## Extending 模型 types with `Prisma.Result`
 
 You can use the `Prisma.Result` type utility to extend model types to include properties added via client extensions. This allows you to infer the type of the extended model, including the extended properties.
 
@@ -228,7 +228,7 @@ main()
 
 The `Prisma.Result` type utility is used to infer the type of the extended `User` model, including the `__typename` property added via the client extension.
 
-## Limitations
+## 限制
 
 ### Usage of client-level methods in extended clients
 

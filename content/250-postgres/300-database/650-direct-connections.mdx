@@ -1,18 +1,18 @@
 ---
-title: "Direct connections"
-metaTitle: "Direct connections (TCP)"
+title: "直接連線"
+metaTitle: "直接連線 (TCP)"
 metaDescription: "學習 關於 connecting directly to your Prisma Postgres 資料庫 via direct TCP."
 tocDepth: 3
 toc: true
 ---
 
-## Overview
+## 概述
 
 Prisma Postgres is the perfect choice for your applications, whether you connect to it via [Prisma ORM](/orm) or any other ORM, database library / tool of your choice. If you use it with Prisma ORM, Prisma Postgres comes with built-in connection pooling, and an integrated caching layer (powered by [Prisma Accelerate](/accelerate/)). 
 
 If you connect to it via another tool, you can do so with a [direct connection string](#connection-string) following the conventional PostgreSQL format.
 
-## How to connect to Prisma Postgres via direct TCP
+## 如何 connect to Prisma Postgres via direct TCP
 
 In order to get a direct connection string, you need to:
 
@@ -49,19 +49,19 @@ SSL mode is required when connecting to Prisma Postgres via direct TCP, so you n
 
 When using direct TCP to connect to a Prisma Postgres instance, every request is counted as a [billable operation](/postgres/introduction/overview#usage-based-pricing). Learn more on our [pricing page](https://www.prisma.io/pricing).
 
-## Temporary limitations
+## Temporary 限制
 
 ### Closing idle connections
 
 Prisma Postgres closes idle connections after an extended period of time. If that happens in your application, you can re-open a new connection. (Most database clients re-connect automatically.)
 
-### Connection limit
+### 連線 limit
 
 |                                      | Free             | Starter          | Pro              | Business         |
 | ------------------------------------ | ---------------- | ---------------- | ---------------- | ---------------- |
 | **Connection limit**                 | Max 10            | Max 10           | Max 50           | Max 100           |
 
-### Query and transaction timeouts
+### 查詢 and transaction timeouts
 
 |                                      | Free             | Starter          | Pro              | Business         |
 | ------------------------------------ | ---------------- | ---------------- | ---------------- | ---------------- |
@@ -72,7 +72,7 @@ Prisma Postgres closes idle connections after an extended period of time. If tha
 
 User permissions are limited to read, write and schema changes. It is not possible to create separate databases, manage users and roles, or perform other administrative actions.
 
-## TCP tunnel (deprecated)
+## TCP tunnel (已棄用)
 
 :::warning
 
@@ -169,7 +169,7 @@ This will start the tunnel on a randomly assigned TCP port. The proxy automatica
 
 You can now connect to your Prisma Postgres editor using your favorite PostgreSQL client, e.g. `psql` or a GUI like [TablePlus](/postgres/integrations/viewing-data#2a-connect-to-prisma-postgres-using-tableplus) or [DataGrip](/postgres/integrations/viewing-data#2b-connect-to-prisma-postgres-using-datagrip). To do so, you only need to provide the **`host`** and **`port`** from the output above. The TCP tunnel will handle authentication via the API key in your Prisma Postgres connection URL, so you can omit the values for **`username`** and **`password`.**
 
-### Customizing host and port
+### 自訂 host and port
 
 By default, the tunnel listens on `127.0.0.1` and assigns a random port. Since it provides access to your Prisma Postgres database, it should only be exposed within a trusted network. You can specify a custom host and port using the `--host` and `--port` flags:
 

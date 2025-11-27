@@ -1,7 +1,7 @@
 ---
-title: 'Schema incompatibilities in MySQL'
-sidebar_label: 'Schema incompatibilities'
-metaTitle: 'Schema Incompatibilities | MySQL'
+title: '綱要不相容 in MySQL'
+sidebar_label: '綱要不相容'
+metaTitle: '綱要不相容 | MySQL'
 metaDescription: 'Problems and workarounds for Prisma 1 and 2.0 schemas with MySQL'
 dbSwitcher: ['postgresql', 'mysql']
 sidebar_class_name: hidden-sidebar
@@ -9,11 +9,11 @@ pagination_next: orm/more/upgrade-guides/upgrade-from-prisma-1/upgrading-the-pri
 slugSwitch: /orm/more/upgrade-guides/upgrade-from-prisma-1/schema-incompatibilities-
 ---
  
-## Overview
+## 概述
 
 Each section on this page describes a potential problem when upgrading from Prisma 1 to Prisma ORM 2._x_ and later and explains the available workarounds.
 
-## Default values aren't represented in database
+## Default values aren't represented in 資料庫
 
 ### Problem
 
@@ -30,7 +30,7 @@ type Post {
 }
 ```
 
-#### Prisma 1 generated SQL migration
+#### Prisma 1 generated SQL 遷移
 
 ```sql
 CREATE TABLE "Post" (
@@ -52,7 +52,7 @@ Because the `DEFAULT` constraint has not been added to the database when mapping
 
 ### Workarounds
 
-#### Manually add a `DEFAULT` constraint to the database column
+#### Manually add a `DEFAULT` constraint to the 資料庫 column
 
 You can alter the column to add the `DEFAULT` constraint as follows:
 
@@ -71,7 +71,7 @@ model Post {
 }
 ```
 
-#### Manually add a `@default` attribute to the Prisma model
+#### Manually add a `@default` attribute to the Prisma 模型
 
 You can add the `@default` attribute to the Prisma model:
 
@@ -85,7 +85,7 @@ model Post {
 
 If the `@default` attribute is set in the Prisma schema and you run `prisma generate`, the resulting Prisma Client code will generate the specified default values at runtime (similar to what the Prisma 1 server did in Prisma 1).
 
-## Generated CUIDs as ID values aren't represented in database
+## Generated CUIDs as ID values aren't represented in 資料庫
 
 ### Problem
 
@@ -101,7 +101,7 @@ type Post {
 }
 ```
 
-#### Prisma 1 generated SQL migration
+#### Prisma 1 generated SQL 遷移
 
 ```sql
 CREATE TABLE "Post" (
@@ -134,7 +134,7 @@ If the `@default` attribute is set in the Prisma schema and you run `prisma gene
 
 Note that you'll have to re-add the attribute after each introspection because introspection removes it (as the previous version of the Prisma schema is overwritten)!
 
-## `@createdAt` isn't represented in database
+## `@createdAt` isn't represented in 資料庫
 
 ### Problem
 
@@ -151,7 +151,7 @@ type Post {
 }
 ```
 
-#### Prisma 1 generated SQL migration
+#### Prisma 1 generated SQL 遷移
 
 ```sql
 CREATE TABLE "Post" (
@@ -171,7 +171,7 @@ model Post {
 
 ### Workarounds
 
-#### Manually add `DEFAULT CURRENT_TIMESTAMP` to the database column
+#### Manually add `DEFAULT CURRENT_TIMESTAMP` to the 資料庫 column
 
 You can alter the column to add the `DEFAULT` constraint as follows:
 
@@ -189,7 +189,7 @@ model Post {
 }
 ```
 
-#### Manually add the `@default(now())` attribute to the Prisma model
+#### Manually add the `@default(now())` attribute to the Prisma 模型
 
 As a workaround, you can manually add the `@default(now())` attribute to the Prisma model:
 
@@ -205,7 +205,7 @@ If the `@default` attribute is set in the Prisma schema and you run `prisma gene
 
 Note that you'll have to re-add the attribute after each introspection because introspection removes it (as the previous version of the Prisma schema is overwritten)!
 
-## `@updatedAt` isn't represented in database
+## `@updatedAt` isn't represented in 資料庫
 
 ### Problem
 
@@ -222,7 +222,7 @@ type Post {
 }
 ```
 
-#### Prisma 1 generated SQL migration
+#### Prisma 1 generated SQL 遷移
 
 ```sql
 CREATE TABLE "Post" (
@@ -242,7 +242,7 @@ model Post {
 
 ### Workarounds
 
-#### Manually add the `@updatedAt` attribute to the Prisma model
+#### Manually add the `@updatedAt` attribute to the Prisma 模型
 
 As a workaround, you can manually add the `@updatedAt` attribute to the Prisma model:
 
@@ -284,7 +284,7 @@ type Profile {
 
 Note that omitting the `@relation` directive in this case would result in the same behavior because `link: INLINE` is the _default_ for 1-1 relations.
 
-#### Prisma 1 generated SQL migration
+#### Prisma 1 generated SQL 遷移
 
 ```sql
 CREATE TABLE "User" (
@@ -369,7 +369,7 @@ type Post {
 }
 ```
 
-#### Prisma 1 generated SQL migration
+#### Prisma 1 generated SQL 遷移
 
 ```sql
 CREATE TABLE "User" (
@@ -444,7 +444,7 @@ model Post {
 }
 ```
 
-## `Json` type is represented as `TEXT` in database
+## `Json` type is represented as `TEXT` in 資料庫
 
 ### Problem
 
@@ -461,7 +461,7 @@ type User {
 }
 ```
 
-#### Prisma 1 generated SQL migration
+#### Prisma 1 generated SQL 遷移
 
 ```sql
 CREATE TABLE "User" (
@@ -497,7 +497,7 @@ model User {
 }
 ```
 
-## Enums are represented as `TEXT` in database
+## Enums are represented as `TEXT` in 資料庫
 
 ### Problem
 
@@ -519,7 +519,7 @@ enum Role {
 }
 ```
 
-#### Prisma 1 generated SQL migration
+#### Prisma 1 generated SQL 遷移
 
 ```sql
 CREATE TABLE "User" (
@@ -584,7 +584,7 @@ type User {
 }
 ```
 
-#### Prisma 1 generated SQL migration
+#### Prisma 1 generated SQL 遷移
 
 ```sql
 CREATE TABLE "User" (
@@ -633,7 +633,7 @@ type User {
 }
 ```
 
-#### Prisma 1 generated SQL migration
+#### Prisma 1 generated SQL 遷移
 
 ```sql
 CREATE TABLE "User" (

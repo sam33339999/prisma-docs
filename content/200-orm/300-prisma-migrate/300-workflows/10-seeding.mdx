@@ -1,7 +1,7 @@
 ---
-title: Seeding
-metaTitle: Seeding
-metaDescription: 學習 如何 seed your 資料庫 使用 Prisma ORM's integrated seeding functionality and Prisma 客戶端
+title: 填充
+metaTitle: 填充
+metaDescription: 學習 如何 seed your 資料庫 使用 Prisma ORM's integrated 填充 functionality and Prisma 客戶端
 tocDepth: 3
 ---
 
@@ -14,7 +14,7 @@ This guide describes how to seed your database using Prisma Client and Prisma OR
 
 </TopBlock>
 
-## How to seed your database in Prisma ORM
+## 如何 seed your 資料庫 in Prisma ORM
 
 Prisma ORM's integrated seeding functionality expects a command in the `"seed"` key in the `"prisma"` key of your `package.json` file. This can be any command, `prisma db seed` will just execute it. In this guide and as a default, we recommend writing a seed script inside your project's `prisma/` folder and starting it with the command.
 
@@ -50,7 +50,7 @@ This can be useful to reduce memory usage (RAM) and increase execution speed of 
 
 </TabbedContent>
 
-## Integrated seeding with Prisma Migrate
+## Integrated 填充 with Prisma Migrate
 
 Database seeding happens in two ways with Prisma ORM: manually with `prisma db seed` and automatically in `prisma migrate reset` and (in some scenarios) `prisma migrate dev`.
 
@@ -70,7 +70,7 @@ When you want to use `prisma migrate dev` or `prisma migrate reset` without seed
 
 Here we suggest some specific seed scripts for different situations. You are free to customize these in any way, but can also use them as presented here:
 
-### Seeding your database with TypeScript or JavaScript
+### 填充 your 資料庫 with TypeScript or JavaScript
 
 <TabbedContent>
 
@@ -301,7 +301,7 @@ Here we suggest some specific seed scripts for different situations. You are fre
 
 </TabbedContent>
 
-### Seeding your database via raw SQL queries
+### 填充 your 資料庫 via raw SQL 查詢
 
 You can also make use of raw SQL queries in order to seed the database with data.
 
@@ -337,7 +337,7 @@ main()
 ```
 
 
-### Seeding your database via any language (with a Bash script)
+### 填充 your 資料庫 via any language (with a Bash script)
 
 In addition to TypeScript and JavaScript, you can also use a Bash script (`seed.sh`) to seed your database in another language such as Go, or plain SQL.
 

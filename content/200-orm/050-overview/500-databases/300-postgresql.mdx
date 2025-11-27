@@ -81,7 +81,7 @@ const prisma = new PrismaClient({ adapter })
 
 ### 注意事項
 
-#### 指定 PostgreSQL schema
+#### 指定 PostgreSQL 綱要
 
 你可以在實例化 `PrismaPg` 時傳入 `schema` 選項來指定 [PostgreSQL schema](https://www.postgresql.org/docs/current/ddl-schemas.html):
 
@@ -197,7 +197,7 @@ postgresql://USER:PASSWORD@HOST:PORT/DATABASE?sslidentity=client-identity.p12&ss
 
 > **注意**:你可以在這個 [GitHub issue](https://github.com/prisma/prisma-client-js/issues/437#issuecomment-592436707) 中找到更多背景資訊。
 
-## PostgreSQL 和 Prisma schema 之間的型別映射
+## PostgreSQL 和 Prisma 綱要 之間的型別映射
 
 這兩個表格顯示了 PostgreSQL 和 Prisma schema 之間的型別映射。首先是 [Prisma ORM 純量型別如何轉換為 PostgreSQL 資料庫欄位型別](#mapping-between-prisma-orm-scalar-types-and-postgresql-database-column-types),然後是 [PostgreSQL 資料庫欄位型別如何關聯到 Prisma ORM 純量和原生型別](#mapping-between-postgresql-database-column-types-to-prisma-orm-scalar-and-native-types)。
 

@@ -1,7 +1,7 @@
 ---
-title: 'Caveats when deploying to AWS platforms'
-metaTitle: 'Caveats when deploying to AWS platforms'
-metaDescription: 'Known caveats when deploying to an AWS Platform'
+title: '部署到 AWS 的注意事項 platforms'
+metaTitle: '部署到 AWS 的注意事項 platforms'
+metaDescription: 'Known caveats when deploying to an AWS 平台'
 toc_max_heading_level: 2
 ---
 
@@ -87,7 +87,7 @@ You can [read about the performance and DX improvements](https://www.prisma.io/b
 The [deployment package (.zip) size limit for lambdas is 50MB](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html). When you prepare a deployment package, remove any files that the function does not require in production to keep the final .zip as small as possible. This includes some [Prisma ORM engine binaries](#deleting-prisma-orm-engines-that-are-not-required).
 
 
-### Deleting Prisma ORM engines that are not required
+### Deleting Prisma ORM 引擎 that are not required
 
 Prisma CLI downloads additional engine binaries that are **not required** in production. You can delete the following files and folders:
 

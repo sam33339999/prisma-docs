@@ -114,7 +114,7 @@ const prisma = new PrismaClient({ adapter })
 - **ISO 8601 (預設)**：最適合新專案，並且與 SQLite 的內建日期/時間函式整合良好。
 - **`unixepoch-ms`**：從 Prisma ORM 的原生 SQLite 驅動程式遷移時需要，以保持與現有時間戳資料的相容性。
 
-## SQLite 到 Prisma schema 之間的型別映射
+## SQLite 到 Prisma 綱要 之間的型別映射
 
 SQLite 連接器將[資料模型](/orm/prisma-schema/data-model/models)中的[純量型別](/orm/prisma-schema/data-model/models#scalar-fields)映射到原生欄位型別，如下所示：
 

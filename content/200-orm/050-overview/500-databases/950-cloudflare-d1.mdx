@@ -47,7 +47,7 @@ D1 基於 SQLite。
 
 使用 Prisma ORM 7,在 Cloudflare D1 中管理資料庫架構遷移的建議方法是使用 Wrangler CLI 結合 `prisma migrate diff`。
 
-### 使用 Wrangler CLI 與 `prisma migrate diff`
+### 使用 Wrangler CLI 與 `Prisma Migrate diff`
 
 Cloudflare D1 自帶的[遷移系統](https://developers.cloudflare.com/d1/reference/migrations/)透過 `wrangler d1` CLI 命令運作。
 
@@ -88,7 +88,7 @@ migrations/
 
 但是,在您可以將遷移套用到 D1 實例之前,您實際上需要將 SQL 語句放入目前為空的 `0001_create_user_table.sql` 檔案中。
 
-##### 3. 使用 `prisma migrate diff` 生成 SQL 語句
+##### 3. 使用 `Prisma Migrate diff` 生成 SQL 語句
 
 要生成初始 SQL 語句,您可以使用 `prisma migrate diff` 命令,它比較兩個_架構_(透過其 `--to-X` 和 `--from-X` 選項)並生成從一個「演化」到另一個所需的步驟。這些架構可以是 Prisma 或 SQL 架構。
 
@@ -181,7 +181,7 @@ migrations/
 
 如之前所述,您現在需要將 SQL 語句放入目前為空的 `0002_create_post_table.sql` 檔案中。
 
-##### 3. 使用 `prisma migrate diff` 生成 SQL 語句
+##### 3. 使用 `Prisma Migrate diff` 生成 SQL 語句
 
 如上所述,您現在需要使用 `--from-local-d1` 而不是 `--from-empty` 來指定來源架構:
 

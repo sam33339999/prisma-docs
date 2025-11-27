@@ -1,10 +1,10 @@
 ---
 title: 'Old to new Nexus'
-metaTitle: 'Upgrade Prisma 1 with nexus-prisma to @nexus/Schema'
-metaDescription: '學習 如何 upgrade existing Prisma 1 projects with nexus-prisma to Prisma ORM 2 and Nexus.'
+metaTitle: '升級 Prisma 1 with Nexus-prisma to @Nexus/綱要'
+metaDescription: '學習 如何 升級 existing Prisma 1 projects with Nexus-prisma to Prisma ORM 2 and Nexus.'
 ---
 
-## Overview
+## 概述
 
 :::info
 
@@ -51,7 +51,7 @@ The important parts are:
 
 If this is not what your project structure looks like, you'll need to adjust the instructions in the guide to match your own setup.
 
-## 1. Upgrade Nexus dependencies
+## 1. 升級 Nexus dependencies
 
 To get started, you can remove the old Nexus and Prisma 1 dependencies:
 
@@ -85,7 +85,7 @@ npx prisma -v
 
 > **Note**: If you see the output of the Prisma 1 CLI when running `npx prisma -v`, be sure to delete your `node_modules` folder and re-run `npm install`.
 
-## 2. Update the configuration of Nexus and Prisma ORM
+## 2. Update the 配置 of Nexus and Prisma ORM
 
 To get started, you can remove the old imports that are not needed any more with your new setup:
 
@@ -184,7 +184,7 @@ Here's a quick overview of the main differences between the two approaches of cr
 
 ### 3.1. Migrating the `Post` type
 
-#### Type definition with the previous `nexus-prisma` package
+#### Type definition with the previous `Nexus-prisma` package
 
 In the sample app, the `User` type is defined as follows:
 
@@ -207,7 +207,7 @@ const User = prismaObjectType({
 })
 ```
 
-#### Type definition with the latest version of `@nexus/schema` and the `nexus-plugin-prisma`
+#### Type definition with the latest version of `@Nexus/綱要` and the `Nexus-plugin-prisma`
 
 With the latest version of `@nexus/schema`, you can now access the `objectType` function on your main `schema` instance and expose all fields from the Prisma model like so:
 
@@ -243,7 +243,7 @@ This is because you didn't add the `Post` and `Profile` types to the GraphQL sch
 
 ### 3.2. Migrating the `Post` type
 
-#### Type definition with the previous `nexus-prisma` package
+#### Type definition with the previous `Nexus-prisma` package
 
 In the sample app, the `Post` type is defined as follows:
 
@@ -258,7 +258,7 @@ const Post = prismaObjectType({
 
 The asterisk in `prismaFields` means that _all_ Prisma fields are exposed.
 
-#### Type definition with the latest version of `@nexus/schema` and the `nexus-plugin-prisma`
+#### Type definition with the latest version of `@Nexus/綱要` and the `Nexus-plugin-prisma`
 
 With the latest version of `@nexus/schema`, you need to expose all fields explicitly, there's no option to just expose everything from a Prisma model.
 
@@ -282,7 +282,7 @@ Note that `t.model` looks at the `name` attribute and matches it against the mod
 
 ### 3.3. Migrating the `Profile` type
 
-#### Type definition with the previous `nexus-prisma` package
+#### Type definition with the previous `Nexus-prisma` package
 
 In the sample app, the `Profile` type is defined as follows:
 
@@ -297,7 +297,7 @@ const Profile = prismaObjectType({
 
 The asterisk in `prismaFields` means that _all_ Prisma fields are exposed.
 
-#### Type definition with the latest version of `@nexus/schema` and the `nexus-plugin-prisma`
+#### Type definition with the latest version of `@Nexus/綱要` and the `Nexus-plugin-prisma`
 
 With the latest version of `@nexus/schema`, you need to expose all fields explicitly, there's no option to just expose everything from a Prisma model.
 
@@ -319,7 +319,7 @@ Note that `t.model` looks at the `name` attribute and matches it against the mod
 
 ### 3.4. Migrating the `Category` type
 
-#### Type definition with the previous `nexus-prisma` package
+#### Type definition with the previous `Nexus-prisma` package
 
 In the sample app, the `Category` type is defined as follows:
 
@@ -334,7 +334,7 @@ const Category = prismaObjectType({
 
 The asterisk in `prismaFields` means that _all_ Prisma ORM fields are exposed.
 
-#### Type definition with the latest version of `@nexus/schema` and the `nexus-plugin-prisma`
+#### Type definition with the latest version of `@Nexus/綱要` and the `Nexus-plugin-prisma`
 
 With the latest version of `@nexus/schema`, you need to expose all fields explicitly, there's no option to just expose everything from a Prisma model.
 
@@ -383,11 +383,11 @@ type Mutation {
 }
 ```
 
-### 4.1. Migrate GraphQL queries
+### 4.1. Migrate GraphQL 查詢
 
 In this section, you'll migrate all GraphQL _queries_ from the previous version of `nexus` and `nexus-prisma` to the latest version of `@nexus/schema` and the `nexus-plugin-prisma`.
 
-#### 4.1.1. Migrate the `users` query
+#### 4.1.1. Migrate the `users` 查詢
 
 In our sample API, the `users` query from the sample GraphQL schema is implemented as follows.
 
@@ -416,7 +416,7 @@ schema.queryType({
 
 Recall that the `crud` property is added to `t` by the `nexus-plugin-prisma` (using the same mechanism as for `t.model`).
 
-#### 4.1.2. Migrate the `posts(searchString: String): [Post!]!` query
+#### 4.1.2. Migrate the `posts(searchString: String): [Post!]!` 查詢
 
 In the sample API, the `posts` query is implemented as follows:
 
@@ -470,7 +470,7 @@ queryType({
 
 Notice that the `db` object is automatically attached to the `context` by the `nexus-plugin-prisma`. It represents an instance of your `PrismaClient` which enables you to send queries to your database inside your resolvers.
 
-#### 4.1.3. Migrate the `user(uniqueInput: UserUniqueInput): User` query
+#### 4.1.3. Migrate the `user(uniqueInput: UserUniqueInput): User` 查詢
 
 In the sample API, the `user` query is implemented as follows:
 
@@ -564,7 +564,7 @@ const Query = queryType({
 
 Recall that the `crud` property is added to `t` by the `nexus-plugin-prisma` (using the same mechanism as for `t.model`).
 
-#### 4.2.2. Migrate the `createDraft(title: String!, content: String, authorId: String!): Post!` query
+#### 4.2.2. Migrate the `createDraft(title: String!, content: String, authorId: String!): Post!` 查詢
 
 In the sample app, the `createDraft` mutation implemented as follows.
 

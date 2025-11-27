@@ -1,7 +1,7 @@
 ---
-title: 'Null and undefined'
-metaTitle: 'Null and undefined in Prisma 客戶端 (參考)'
-metaDescription: 'How Prisma 客戶端 handles Null and undefined'
+title: 'null 和 undefined'
+metaTitle: 'null 和 undefined in Prisma 客戶端 (參考)'
+metaDescription: 'How Prisma 客戶端 handles null 和 undefined'
 preview: false
 ---
 
@@ -81,7 +81,7 @@ Invalid \`prisma.user.deleteMany()\` invocation in
 Invalid value for argument \`where\`: explicitly \`undefined\` values are not allowed."
 ```
 
-### Migration path
+### 遷移 path
 
 To migrate existing code:
 
@@ -112,7 +112,7 @@ In addition to `strictUndefinedChecks`, we also recommend enabling the TypeScrip
 
 Learn more about `exactOptionalPropertyTypes` in the [TypeScript documentation](https://www.typescriptlang.org/tsconfig/#exactOptionalPropertyTypes).
 
-### Feedback
+### 回饋
 
 As always, we welcome your feedback on this feature. Please share your thoughts and suggestions in the [GitHub discussion for this Preview feature](https://github.com/prisma/prisma/discussions/25271).
 
@@ -138,7 +138,7 @@ The data below represents a `User` table. This set of data will be used in all o
 | 3   | _empty_ | sabin@gmail.com   |
 | 4   | Tyler   | tyler@gmail.com   |
 
-### `null` and `undefined` in queries that affect _many_ records
+### `null` and `undefined` in 查詢 that affect _many_ records
 
 This section will cover how `undefined` and `null` values affect the behavior of queries that interact with or create multiple records in a database.
 
@@ -243,7 +243,7 @@ Using `undefined` as the value of any key in a Prisma Client query's parameter o
 
 Although this section's examples focused on the `findMany` function, the same concepts apply to any function that can affect multiple records, such as `updateMany` and `deleteMany`.
 
-### `null` and `undefined` in queries that affect _one_ record
+### `null` and `undefined` in 查詢 that affect _one_ record
 
 This section will cover how `undefined` and `null` values affect the behavior of queries that interact with or create a single record in a database.
 

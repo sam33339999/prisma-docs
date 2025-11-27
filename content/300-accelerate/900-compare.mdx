@@ -1,6 +1,6 @@
 ---
-title: 'Compare Accelerate'
-metaTitle: 'Comparing Prisma Accelerate to other 連線 pooling options'
+title: '比較 Accelerate'
+metaTitle: '比較 Prisma Accelerate to other 連線 pooling 選項'
 metaDescription: '學習 how Prisma Accelerate compares to other 連線 poolers like pgbouncer.'
 hide_table_of_contents: true
 ---
@@ -57,7 +57,7 @@ Prisma Accelerate offers a powerful global cache, so you can serve data to your 
 - Automatic cache updates means that the cache is automatically updated when a change in the database occurs. With Accelerate, you are in control of how the cache is invalidated, using [various caching strategies](/postgres/database/caching). 
 
 
-## Accelerate connection pool
+## Accelerate 連線池
 
 Prisma Accelerate includes a globally hosted connection pooler, which allows you to handle peak loads without any problem. Using a connection pool is important especially for serverless infrastructure, which by nature is not able to control connection volume to the database on its own. Prisma Accelerate offers a fully managed, globally colocated option, which auto scales to support any workload.
 
@@ -78,7 +78,7 @@ Prisma Accelerate includes a globally hosted connection pooler, which allows you
 - Authenticating with an API key can be a helpful security measure, allowing you to decouple database credentials from application secrets. Easily rotate API keys as often as you like, without needing any credential changes in your database
 - Redundancy is helpful in the unlikely scenario that your connection pool service goes down. With Accelerate, it is automatically and seamlessly handed over to another server and recovered without any interruption.
 
-### Performance
+### 效能
 
 |  | Accelerate | pgbouncer | pgcat | Digital Ocean (pgbouncer) | Neon (pgbouncer) | Supavisor | Hyperdrive |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -93,7 +93,7 @@ Prisma Accelerate includes a globally hosted connection pooler, which allows you
 - Cross-region TCP handshakes between the application server and PgBouncer or the database are costly and time-consuming. If connections are reused only at the PgBouncer layer, the TCP handshake and connection setup still consume unnecessary time on every single request, which undermines the efficiency of connection reuse. Prisma Accelerate improves this by leveraging HTTP, which is more efficient for connection management. It reduces the overhead associated with TCP handshakes, resulting in faster, more responsive interactions between your application and the database.
 - Never worry about 'noisy neighbors' with isolated compute resources. Other customers never impact on your own performance.
 
-### Database Support
+### 資料庫 支援
 
 |  | Accelerate | pgbouncer | pgcat | Digital Ocean (pgbouncer) | Neon (pgbouncer) | Supavisor | Hyperdrive |
 | --- | --- | --- | --- | --- | --- | --- | --- |

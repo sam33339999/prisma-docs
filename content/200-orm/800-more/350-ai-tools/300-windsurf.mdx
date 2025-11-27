@@ -21,11 +21,11 @@ While this guide is focused on Windsurf, these patterns should work with any AI 
 
 :::
 
-## Prisma MCP server
+## Prisma MCP Server
 
 Prisma provides its own [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) server that lets you manage Prisma Postgres databases, model database schemas, and even chat through migrations. 
 
-### Add Prisma MCP server via Windsurf Plugins
+### Add Prisma MCP Server via Windsurf Plugins
 
 You can add the Prisma MCP server via [Windsurf MCP Plugin Store](https://docs.windsurf.com/windsurf/cascade/mcp#adding-a-new-mcp-plugin).
 
@@ -172,7 +172,7 @@ This file ensures consistent and maintainable code generation, reducing manual i
 
 Windsurf's [context-awareness](https://docs.windsurf.com/context-awareness/overview) features let you leverage both your project files and external resources to enhance the AI's understanding of your project. By including your Prisma schema and relevant documentation in the context, you enable Windsurf to generate more accurate queries, tests, and seed data based on your database schema.
 
-### Including Additional Prisma Resources
+### Including Additional Prisma 資源
 
 Windsurf comes with built-in knowledge of common libraries, but you can further enhance its awareness by explicitly referencing external Prisma resources. This is especially useful for staying up-to-date or providing authoritative context for code generation and best practices.
 
@@ -182,7 +182,7 @@ For example, you might reference:
 - [Prisma Blog](https://www.prisma.io/blog)  
 - [Prisma Documentation](/)
 
-#### Reference the resource in your requests:
+#### 參考 the resource in your requests:
 
 When asking for code, explanations, or reviews, include the link to the relevant Prisma resource and specify that it should be used as a reference.
 
@@ -208,11 +208,11 @@ Before suggesting Prisma code, check the latest changes from prisma.io/changelog
 
 By referencing external resources directly in your requests or project guidelines, you ensure Windsurf leverages the most current and relevant Prisma information.
 
-### Using schema as context
+### Using 綱要 as context
 
 Out of the box, Windsurf automatically considers the current file, other open files, and indexed portions of your codebase as context. To ensure Cascade fully leverages your Prisma schema, keep your `schema.prisma` file open or pinned in the editor.
 
-## Generating Prisma schema
+## Generating Prisma 綱要
 
 Windsurf can generate Prisma schemas from high-level descriptions, enabling you to quickly establish a solid foundation for your database schema. By providing a clear and detailed prompt, Windsurf creates Prisma schemas tailored to your requirements. Whether you need a general foundational schema or a highly specific one for detailed use cases, Windsurf can deliver with precision. Here's an example prompt and its corresponding result:
 
@@ -300,7 +300,7 @@ enum SubscriptionStatus {
 </TabItem>
 </TabbedContent>
 
-## Generating Prisma queries
+## Generating Prisma 查詢
 
 Windsurf can help you create queries tailored to your Prisma schema, whether for basic data retrieval or complex, optimized operations. To get the best results, focus on writing clear, specific prompts that define your requirements, such as the fields to include, conditions to apply, and relationships to traverse. This ensures Windsurf generates accurate, performant, and type-safe queries. Here's an example prompt and its resulting query:
 
@@ -536,15 +536,15 @@ main()
 </TabItem>
 </TabbedContent>
 
-## Using the Prisma VS Code extension to manage your database
+## Using the Prisma VS Code extension to manage your 資料庫
 
 The [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) is a powerful tool for building applications with [Prisma Postgres](/postgres). You can also use it in Windsurf by installing the extension. It provides a dedicated UI for managing Prisma Postgres instances, both local and remote, making it easy to view, create, and delete instances, push local databases to the cloud, and visualize your schema.
 
-### Database management UI
+### 資料庫 management UI
 
 With its built-in database management interface, [the Prisma VS Code extension](/postgres/integrations/vscode) lets you easily work with local and remote Prisma Postgres instances from inside your editor.
 
-#### Workflows
+#### 工作流程
 
 The UI enables the following workflows:
 
@@ -567,7 +567,7 @@ To manage Prisma Postgres instances via the UI in the Prisma VS Code extension:
 
 Beyond managing your database instances, the Prisma VS Code extension embeds Prisma Studio directly in your editor, making it easy to perform create, update, and delete operations on your database right inside Windsurf. Follow these [easy steps](/postgres/database/prisma-studio/studio-in-vs-code) to get started.
 
-## Additional resources
+## Additional 資源
 
 Using Windsurf with Prisma can speed up development while ensuring clean and maintainable database code. To keep learning:
 

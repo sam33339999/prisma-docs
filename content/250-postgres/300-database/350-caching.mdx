@@ -1,8 +1,8 @@
 ---
-title: 'Caching queries in Prisma Postgres'
-sidebar_label: 'Caching'
-metaTitle: 'Caching queries in Prisma Postgres'
-metaDescription: '學習 關於 caching queries in Prisma Postgres'
+title: '快取 查詢 in Prisma Postgres'
+sidebar_label: '快取'
+metaTitle: '快取 查詢 in Prisma Postgres'
+metaDescription: '學習 關於 快取 查詢 in Prisma Postgres'
 tocDepth: 3
 toc: true
 ---
@@ -11,11 +11,11 @@ Prisma Postgres supports built-in query caching to reduce database load and impr
 
 This feature is powered by an internal caching layer enabled through [Prisma Accelerate](/accelerate), but you do not need to interact with Accelerate directly unless you're using your own database.
 
-## Setting up caching in Prisma Postgres
+## Setting up 快取 in Prisma Postgres
 
 To enable query caching in your Prisma Postgres project, you need to configure Accelerate caching and set up the client extension. Follow these steps:
 
-### 1. Enable caching in the Platform Console
+### 1. Enable 快取 in the 平台 控制台
 
 1. Go to the [Platform Console](https://console.prisma.io) and navigate to your project dashboard
 2. In the "Connect to your database" section, click **Connect**
@@ -38,7 +38,7 @@ Install the required client extension in your project:
 npm install @prisma/extension-accelerate
 ```
 
-### 3. Configure Prisma Client with caching
+### 3. Configure Prisma Client with 快取
 
 Update your Prisma Client setup to use the Accelerate extension:
 
@@ -72,7 +72,7 @@ const prisma = new PrismaClient({
 
 </TabbedContent>
 
-### 4. Start caching your queries
+### 4. Start 快取 your 查詢
 
 Once configured, you can add caching to any read query using the `cacheStrategy` option:
 
@@ -115,7 +115,7 @@ a cache hit throughout the TTL duration:
 
 TTL is useful for reducing database load and latency for data that does not require frequent updates.
 
-### Invalidate the TTL and keep your cached query results up-to-date
+### Invalidate the TTL and keep your cached 查詢 results up-to-date
 
 If your application requires real-time or near-real-time data, cache invalidation ensures that users see the most current data, even when using a large `ttl` (Time-To-Live). By invalidating your cache, you can bypass extended caching periods to show live data whenever it's needed.
 
@@ -170,7 +170,7 @@ When specifying a SWR of 60 seconds, the cache serves stale data until the cache
 
 ![SWR](/img/accelerate/swr.png)
 
-### Invalidate the SWR and keep your cached query results up-to-date
+### Invalidate the SWR and keep your cached 查詢 results up-to-date
 
 If your application requires real-time or near-real-time data, cache invalidation ensures that users see the most current data, even when using a large `swr` (Stale-While-Revalidate). By invalidating your cache, you can bypass extended caching periods to show live data whenever it's needed.
 

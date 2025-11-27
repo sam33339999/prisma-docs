@@ -157,7 +157,7 @@ sqlserver://localhost:1433;database=sample;integratedSecurity=true;username=pris
 sqlserver://mycomputer\sql2019;database=sample;integratedSecurity=true;trustServerCertificate=true;
 ```
 
-## Microsoft SQL Server 到 Prisma schema 之間的類型映射
+## Microsoft SQL Server 到 Prisma 綱要 之間的類型映射
 
 有關按 Prisma ORM 類型組織的類型映射,請參閱 [Prisma schema 參考](/orm/reference/prisma-schema-reference#model-field-scalar-types)文件。
 
@@ -171,7 +171,7 @@ sqlserver://mycomputer\sql2019;database=sample;integratedSecurity=true;trustServ
 
 Prisma Migrate 在 [2.13.0](https://github.com/prisma/prisma/releases/tag/2.13.0) 及更高版本中支援,但有以下注意事項:
 
-#### 資料庫 schema 名稱
+#### 資料庫 綱要 名稱
 
 SQL Server 沒有類似 PostgreSQL 的 `SET search_path` 命令。這意味著當您建立遷移時,必須在連接 URL 中定義與生產資料庫所使用的相同 schema 名稱。對於大多數使用者來說,這是 `dbo`(預設值)。但是,如果生產資料庫使用另一個 schema 名稱,則必須手動編輯所有遷移 SQL 以反映生產環境_或_在建立遷移之前更改連接 URL(例如: `schema=name`)。
 

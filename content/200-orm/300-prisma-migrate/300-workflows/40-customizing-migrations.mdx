@@ -1,6 +1,6 @@
 ---
-title: Customizing migrations
-metaTitle: Customizing migrations
+title: 自訂 migrations
+metaTitle: 自訂 migrations
 metaDescription: 如何 edit a 遷移 file before applying it to avoid 資料 loss in production.
 tocDepth: 3
 ---
@@ -20,7 +20,7 @@ This guide explains how to edit migration files and gives some examples of use c
 
 </TopBlock>
 
-## How to edit a migration file
+## 如何 edit a 遷移 file
 
 To edit a migration file before applying it, the general procedure is the following:
 
@@ -115,7 +115,7 @@ To rename the `biograpy` field to `biography`:
 
 You can use the same technique to rename a `model` - edit the generated SQL to _rename_ the table rather than drop and re-create it.
 
-### Example: Use the expand and contract pattern to evolve the schema without downtime
+### Example: Use the expand and contract pattern to evolve the 綱要 without downtime
 
 Making schema changes to existing fields, e.g., renaming a field can lead to downtime. It happens in the time frame between applying a migration that modifies an existing field, and deploying a new version of the application code which uses the modified field.
 

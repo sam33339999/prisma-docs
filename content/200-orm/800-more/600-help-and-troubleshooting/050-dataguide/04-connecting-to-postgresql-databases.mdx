@@ -1,11 +1,11 @@
 ---
-title: 'Connecting to PostgreSQL databases'
-metaTitle: "Connecting to PostgreSQL databases | Prisma's 資料 指南"
-metaDescription: "Before you can 管理 your 資料 with PostgreSQL, you need to be able to 連接 to the 資料庫 server. In this 指南, we'll use the `psql` command line 客戶端 to demonstrate 如何 connect to PostgreSQL databases."
+title: '連線到 PostgreSQL 資料庫'
+metaTitle: "連線到 PostgreSQL 資料庫 | Prisma's 資料 指南"
+metaDescription: "Before you can 管理 your 資料 with PostgreSQL, you need to be able to 連接 to the 資料庫 server. In this 指南, we'll use the `psql` command line 客戶端 to demonstrate 如何 connect to PostgreSQL 資料庫."
 metaImage: '/social/generic-postgresql.png'
 ---
 
-## Introduction
+## 介紹
 
 One of the first things you'll need to think about when working with a [PostgreSQL](/orm/more/help-and-troubleshooting/dataguide/database-glossary#postgresql) database is how to connect and interact with the database instance. This requires coordination between the database client — the component you use to interact with the database, and the database server — the actual PostgreSQL instance that stores, organizes, and provides access to your data.
 
@@ -15,7 +15,7 @@ In a companion guide, you can find out how to [configure PostgreSQL's authentica
 
 If your database client or library requests a connection URI, you may want to look at our guide on [understanding PostgreSQL connection URIs](https://www.prisma.io/dataguide/postgresql/short-guides/connection-uris) instead.
 
-## Basic information about the `psql` client
+## Basic information 關於 the `psql` client
 
 The `psql` client, the native command line client for PostgreSQL, can connect to database instances to offer an interactive session or to send commands to the server. It is especially useful when implementing your initial settings and getting the basic configuration in place, prior to interacting with the database through application libraries. In addition, `psql` is great for interactive exploration or ad-hoc queries while developing the access patterns your programs will use.
 
@@ -26,7 +26,7 @@ The way that you connect depends on the configuration of the PostgreSQL server a
 
 Let's start with connecting to a database from the same computer.
 
-## Connecting to a local database with `psql`
+## 連線到 a local 資料庫 with `psql`
 
 Without any arguments, the `psql` command attempts to connect to a [Unix socket file](https://en.wikipedia.org/wiki/Unix_file_types) to access a local database. It uses your operating system username as the PostgreSQL username and database name that you are trying to connect to.
 
@@ -57,7 +57,7 @@ sudo --login --user=postgres psql
 
 Either of these methods should allow you to log into the `postgres` PostgreSQL user account.
 
-## Connecting to a remote database
+## 連線到 a remote 資料庫
 
 For security reasons and because of the reliance on a local socket file, peer authentication cannot be used for remote connections. Instead, users will need to log in using another method.
 
@@ -73,7 +73,7 @@ The available authentication methods vary based on the PostgreSQL instance's con
 
 There are multiple ways of providing your connection information to `psql`. Here, we'll cover the two of the most common: by passing options and with a connection string.
 
-### Passing connection information to `psql` with options
+### Passing 連線 information to `psql` with 選項
 
 So the basic format for connecting to a remote database typically looks something like this:
 
@@ -99,7 +99,7 @@ psql -h myhost -p 1234 -U myapplicationuser -d applicationdb
 
 Upon pressing enter, you'd be prompted a password where you can authenticate with `mypass`.
 
-### Passing connection information to `psql` with a connection string
+### Passing 連線 information to `psql` with a 連線 string
 
 This same information can also be encoded into a [PostgreSQL _connection string_](https://www.prisma.io/dataguide/postgresql/short-guides/connection-uris). A connection string provides the same information in a single URI string that uses certain characters as delimiters between the different fields.
 
@@ -119,7 +119,7 @@ psql postgresql://myapplicationuser:mypass@myhost:1234/applicationdb
 
 The `psql` tool can use either of these formats, so use whichever you prefer. Other tools or libraries that you encounter might nudge you into relying on one more than the other.
 
-## Adjusting a PostgreSQL server's authentication configuration
+## Adjusting a PostgreSQL server's authentication 配置
 
 If you want to modify the rules that dictate how users can authenticate to your PostgreSQL instances, you can do so by modifying your server's configuration. You can find out [how to modify PostgreSQL's authentication configuration in this article](https://www.prisma.io/dataguide/postgresql/authentication-and-authorization/configuring-user-authentication).
 

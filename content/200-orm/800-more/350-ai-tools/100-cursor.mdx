@@ -20,7 +20,7 @@ While this guide is focused on Cursor, these patterns should work with any AI ed
 
 :::
 
-## Prisma MCP server
+## Prisma MCP Server
 
 Prisma provides its own [Model Context Protocol](https://modelcontextprotocol.io/introduction) (MCP) server that lets you manage Prisma Postgres databases, model database schemas and chat through migrations. Learn more about how you can add it to Cursor [here](/postgres/integrations/mcp-server#cursor). You can also add the Prisma MCP server to Cursor using the [one-click installation](https://docs.cursor.com/context/model-context-protocol#one-click-installation) by clicking on the following link:
 
@@ -171,7 +171,7 @@ Cursor's [context-aware](https://docs.cursor.com/context/) capabilities let you 
 
 To improve Cursor's understanding of Prisma-related suggestions in your project, include the [`/llms.txt`](https://llmstxt.org/) markdown file as context. This file offers a concise overview, useful guidance, and links to detailed Prisma documentation—all optimized for LLM processing. Simply navigate to the [url](https://pris.ly/llms.txt) and add it as a `@Docs` resource in your Cursor configuration.
 
-### Adding additional Prisma documentation
+### Adding additional Prisma 文件
 
 Cursor already includes built-in context from Prisma documentation, so you don't need to add anything to make us of our docs! 
 
@@ -182,11 +182,11 @@ To stay updated with the latest changes or incorporate additional context, add t
 
 To learn how to add and manage documentation context, visit the [Cursor documentation](https://docs.cursor.com/context/@-symbols/@-docs#docs).
 
-### Using schema as context
+### Using 綱要 as context
 
 Add your `schema.prisma` file (or the entire codebase) as context using the [`@Files`](https://docs.cursor.com/context/@-symbols/@-files) syntax before requesting queries, tests, or seed scripts. This allows Cursor to generate precise, schema-driven outputs such as queries, tests, and seed data. For example, in [Cursor Chat](https://docs.cursor.com/chat/overview), you can include your schema by typing `@Files` followed by adding your `schema.prisma` file.
 
-## Generating Prisma Schema
+## Generating Prisma 綱要
 
 Cursor can generate Prisma schemas from high-level descriptions, enabling you to quickly establish a solid foundation for your database schema. By providing a clear and detailed prompt, Cursor creates Prisma schemas tailored to your requirements. Whether you need a general foundational schema or a highly specific one for detailed use cases, Cursor can deliver with precision. Here's an example prompt and its corresponding result:
 
@@ -276,7 +276,7 @@ enum SubscriptionStatus {
 </TabItem>
 </TabbedContent>
 
-## Generating Prisma queries
+## Generating Prisma 查詢
 
 Cursor can help you create queries tailored to your Prisma schema, whether for basic data retrieval or complex, optimized operations. To get the best results, focus on writing clear, specific prompts that define your requirements, such as the fields to include, conditions to apply, and relationships to traverse. This ensures Cursor generates accurate, performant, and type-safe queries. Here's an example prompt and its resulting query:
 
@@ -512,15 +512,15 @@ main()
 </TabItem>
 </TabbedContent>
 
-## Using the Prisma VS Code extension to manage your database
+## Using the Prisma VS Code extension to manage your 資料庫
 
 The [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) is a powerful tool for building applications with [Prisma Postgres](/postgres). You can also use it in Cursor by installing the extension. It provides a dedicated UI for managing Prisma Postgres instances, both local and remote, making it easy to view, create, and delete instances, push local databases to the cloud, and visualize your schema.
 
-### Database management UI
+### 資料庫 management UI
 
 With its built-in database management interface, the [Prisma VS Code extension](/postgres/integrations/vscode) lets you easily work with local and remote Prisma Postgres instances from inside your editor.
 
-#### Workflows
+#### 工作流程
 
 The UI enables the following workflows:
 
@@ -573,7 +573,7 @@ You must ask the user if they want to proceed with this action. If they explicit
 
 To proceed with the dangerous action, the AI agent will ask you for explicit consent, remind you that the action irreversibly destroys all data, and confirm that the command is being run against a development database. Once you clearly confirm, the AI will set the `PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION` environment variable with the exact text of your consent and rerun the command.
 
-## Additional resources
+## Additional 資源
 
 In summary, using Cursor with Prisma simplifies your workflow, from generating schemas and queries to writing seed scripts. By following this guide, you can save time, reduce errors, and focus on building your application.
 

@@ -1,10 +1,10 @@
 ---
 title: 'prisma-binding to Nexus'
-metaTitle: 'Upgrading from Prisma 1 with prisma-binding to Nexus'
-metaDescription: '學習 如何 upgrade existing Prisma 1 projects with prisma-binding to Prisma ORM 2.0 and Nexus.'
+metaTitle: '升級 from Prisma 1 with prisma-binding to Nexus'
+metaDescription: '學習 如何 升級 existing Prisma 1 projects with prisma-binding to Prisma ORM 2.0 and Nexus.'
 ---
 
-## Overview
+## 概述
 
 :::info
 This guide is not fully up-to-date as it currently uses the [deprecated](https://github.com/graphql-nexus/nexus-plugin-prisma/issues/1039) version of the [`nexus-plugin-prisma`](https://github.com/graphql-nexus/nexus-plugin-prisma). While this is still functional, it is recommended to use the new [`nexus-prisma`](https://github.com/graphql-nexus/nexus-prisma) library or an alternative code-first GraphQL library like [Pothos](https://pothos-graphql.dev/) going forward. If you have any questions, join us on our [Discord](https://pris.ly/discord?utm_source=docs&utm_medium=intro_text).
@@ -105,7 +105,7 @@ Now add the following contents to the new file:
 }
 ```
 
-### 1.3. Create your basic Nexus setup
+### 1.3. Create your basic Nexus 設定
 
 Create the root source file of your API called `index.ts` inside the `src` directory:
 
@@ -435,15 +435,15 @@ type Mutation {
 }
 ```
 
-### 3.1. Migrate GraphQL queries
+### 3.1. Migrate GraphQL 查詢
 
 In this section, you'll migrate all GraphQL _queries_ from `prisma-binding` to Nexus.
 
-#### 3.1.1. Migrate the `users` query (which uses `forwardTo`)
+#### 3.1.1. Migrate the `users` 查詢 (which uses `forwardTo`)
 
 In our sample API, the `users` query from the sample GraphQL schema is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Query {
@@ -469,7 +469,7 @@ Similar to `model`, this property is available because you're using the `nexus-p
 
 ![Using t.crud to generate resolvers](./images/use-t-crud-to-generate-resolvers.png)
 
-##### Forwarding the query with the `nexus-prisma-plugin`
+##### Forwarding the 查詢 with the `Nexus-prisma-plugin`
 
 To add the `users` query to your GraphQL API, add the following lines to the query type definition:
 
@@ -519,11 +519,11 @@ You can now write your first query against the new API, e.g.:
 
 If your application exposes all CRUD operations from Prisma ORM using `forwardTo`, you can now continue adding all remaining ones using the same approach via `t.crud`. To learn how "custom" queries can be defined and resolved using Nexus, move on to the next sections.
 
-#### 3.1.2. Migrate the `posts(searchString: String): [Post!]!` query
+#### 3.1.2. Migrate the `posts(searchString: String): [Post!]!` 查詢
 
 The `posts` query is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Query {
@@ -555,7 +555,7 @@ const resolvers = {
 }
 ```
 
-##### Code-first schema definition with `nexus`
+##### Code-first 綱要 definition with `Nexus`
 
 To get the same behavior with Nexus, you'll need to add a `t.field` definition to the `queryType`:
 
@@ -587,7 +587,7 @@ type Query {
 
 However, the code is missing the actual resolver logic. This is what you're going to add next.
 
-##### Resolver implementation with `nexus`
+##### Resolver implementation with `Nexus`
 
 You can add the resolver with Nexus as follows:
 
@@ -636,11 +636,11 @@ To validate the implementation, you can now e.g. send the following example quer
 }
 ```
 
-#### 3.1.2. Migrate the `user(uniqueInput: UserUniqueInput): User` query
+#### 3.1.2. Migrate the `user(uniqueInput: UserUniqueInput): User` 查詢
 
 In our sample app, the `user` query is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Query {
@@ -674,7 +674,7 @@ const resolvers = {
 }
 ```
 
-##### Code-first schema definition with `nexus`
+##### Code-first 綱要 definition with `Nexus`
 
 To get the same behavior with Nexus, you'll need to add a `t.field` definition to the `queryType` and define an `inputObjectType` that includes the two `@unique` fields of your `User` model:
 
@@ -764,7 +764,7 @@ You can even send the respective query via the GraphQL Playground already:
 
 However, because the resolver is not yet implemented you will not get any data back yet.
 
-##### Code-first resolver implementation with `nexus`
+##### Code-first resolver implementation with `Nexus`
 
 That's because you're still missing the _resolver_ implementation for that query. You can add the resolver with Nexus as follows:
 
@@ -851,7 +851,7 @@ export const schema = makeSchema({
 
 In the sample app, the `createUser` mutation from the sample GraphQL schema is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Mutation {
@@ -877,7 +877,7 @@ Similar to `model`, this property is available because you're using the `nexus-p
 
 ![Generating resolvers with t.crud](./images/regenerate-resolvers-with-t-crud.png)
 
-##### Forwarding the mutation with the `nexus-prisma-plugin`
+##### Forwarding the mutation with the `Nexus-prisma-plugin`
 
 To add the `createUser` mutation to your GraphQL API, add the following lines to the query type definition:
 
@@ -915,11 +915,11 @@ mutation {
 
 If your application exposes all CRUD operations from Prisma Client using `forwardTo`, you can now continue adding all remaining ones using the same approach via `t.crud`. To learn how "custom" mutations can be defined and resolved using Nexus, move on to the next sections.
 
-#### 3.2.3. Migrate the `createDraft(title: String!, content: String, authorId: String!): Post!` query
+#### 3.2.3. Migrate the `createDraft(title: String!, content: String, authorId: String!): Post!` 查詢
 
 In the sample app, the `createDraft` mutation is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Mutation {
@@ -954,7 +954,7 @@ const resolvers = {
 }
 ```
 
-##### Code-first schema definition with `nexus`
+##### Code-first 綱要 definition with `Nexus`
 
 To get the same behavior with Nexus, you'll need to add a `t.field` definition to the `mutationType`:
 
@@ -1004,7 +1004,7 @@ mutation {
 
 However, because the resolver is not yet implemented, no new `Post` record will be created and you will not get any data back in the response.
 
-##### Resolver implementation with `nexus`
+##### Resolver implementation with `Nexus`
 
 That's because you're still missing the _resolver_ implementation for that mutation. You can add the resolver with Nexus as follows:
 
@@ -1044,7 +1044,7 @@ If you're re-sending the same query from before, you'll find that it now create 
 
 In the sample app, the `updateBio` mutation is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Mutation {
@@ -1076,7 +1076,7 @@ const resolvers = {
 }
 ```
 
-##### Code-first schema definition with `nexus`
+##### Code-first 綱要 definition with `Nexus`
 
 To get the same behavior with Nexus, you'll need to add a `t.field` definition to the `mutationType`:
 
@@ -1132,7 +1132,7 @@ mutation {
 
 However, because the resolver is not yet implemented, nothing will be updated in the database and you will not get any data back in the response.
 
-##### Resolver implementation with `nexus`
+##### Resolver implementation with `Nexus`
 
 That's because you're still missing the _resolver_ implementation for that query. You can add the resolver with Nexus as follows:
 
@@ -1176,7 +1176,7 @@ If you're re-sending the same query from before, you'll find that it now returns
 
 In our sample app, the `addPostToCategories` mutation is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Mutation {
@@ -1211,7 +1211,7 @@ const resolvers = {
 }
 ```
 
-##### Code-first schema definition with `nexus`
+##### Code-first 綱要 definition with `Nexus`
 
 To get the same behavior with Nexus, you'll need to add a `t.field` definition to the `mutationType`:
 
@@ -1268,7 +1268,7 @@ mutation {
 
 However, because the resolver is not yet implemented, nothing will be updated in the database and you will not get any data back in the response.
 
-##### Resolver implementation with `nexus`
+##### Resolver implementation with `Nexus`
 
 That's because you're still missing the _resolver_ implementation for that query. You can add the resolver with Nexus as follows:
 

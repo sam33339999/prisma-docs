@@ -8,7 +8,7 @@ community_section: true
 
 [Tabnine](https://www.tabnine.com/) is a an AI software development platform that comes as an [extension](https://www.tabnine.com/install/) for your IDE (e.g. VS Code, WebStorm, IntelliJ, ...).
 
-## Overview
+## 概述
 
  It helps developers write code faster by:
 
@@ -27,13 +27,13 @@ AI editors like Tabnine are powerful tools that can drastically improve develope
 - Guiding through major refactorings 
 - Generating seeding scripts
 
-### Leveraging the Prisma schema
+### Leveraging the Prisma 綱要
 
 Because Prisma has its own [schema](/orm/prisma-schema), Tabnine can understand the basic shape of your data and help you write code for the other parts of your stack. 
 
 We therefore recommend that you start out by defining your Prisma schema and then use Tabnine to build the application layer around it (inluding API calls, DTOs, business logic, 3rd party integrations, ...).
 
-## 資料模型ing and database schema design
+## 資料模型ing and 資料庫 綱要 design
 
 ### How Tabnine helps
 
@@ -46,7 +46,7 @@ Tabnine can accelerate this process by:
 - Auto-completing model and field definitions based on common database patterns.
 - Suggesting relationships and field types based on naming conventions.
 
-### Example: Defining a Prisma schema
+### Example: Defining a Prisma 綱要
 
 #### Prompt
 
@@ -97,7 +97,7 @@ enum Status {
 }
 ```
 
-## Constructing and optimizing database queries
+## Constructing and optimizing 資料庫 查詢
 
 ### How Tabnine helps
 
@@ -204,7 +204,7 @@ export async function DELETE(request: Request) {
 }
 ```
 
-##### React components
+##### React 元件
 
 ```ts filename=app/components/User.tsx
 import React, { useState, useEffect } from 'react';
@@ -283,7 +283,7 @@ const User: React.FC = () => {
 export default User;
 ```
 
-## Generating plain SQL queries for use with TypedSQL
+## Generating plain SQL 查詢 for use with TypedSQL
 
 ### How Tabnine helps
 
@@ -303,7 +303,7 @@ Tabnine can assist by:
 
 _Generate a SQL query that returns the percentage of subscriptions that are Active, Paused, and Expired._
 
-#### Generated SQL query
+#### Generated SQL 查詢
 
 ```sql file=prisma/sql/subscriptionsReport.sql
 SELECT 
@@ -377,7 +377,7 @@ Tabnine can assist during refactorings by:
 - Providing function rewrites to simplify and optimize logic.
 - Suggesting breaking changes that need to be handled across your codebase.
 
-### Example: Refactoring a Prisma query after a schema change  
+### Example: Refactoring a Prisma 查詢 after a 綱要 change  
 
 #### Prompt
 
@@ -397,7 +397,7 @@ const users = await prisma.user.findMany({
 });
 ```
 
-## Generating seeding scripts
+## Generating 填充 scripts
 
 ### How Tabnine helps
 
@@ -453,15 +453,15 @@ main()
   });
 ```
 
-## Using the Prisma VS Code extension to manage your database
+## Using the Prisma VS Code extension to manage your 資料庫
 
 The [Prisma VS Code extension](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma) is a powerful tool for building applications with [Prisma Postgres](/postgres). If you are using Tabnine in an editor that allows you to install the Prisma VS Code extension and you are using Prisma Postgres, you should use it. The extension provides a dedicated UI for managing Prisma Postgres instances, both local and remote, making it easy to view, create, and delete instances, push local databases to the cloud, and visualize your schema.
 
-### Database management UI
+### 資料庫 management UI
 
 With its built-in database management interface, the [Prisma VS Code extension](/postgres/integrations/vscode) lets you easily work with local and remote Prisma Postgres instances from inside your editor.
 
-#### Workflows
+#### 工作流程
 
 The UI enables the following workflows:
 

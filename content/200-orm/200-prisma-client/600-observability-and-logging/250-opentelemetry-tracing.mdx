@@ -1,6 +1,6 @@
 ---
-title: 'OpenTelemetry tracing'
-metaTitle: 'OpenTelemetry tracing'
+title: 'OpenTelemetry 追蹤'
+metaTitle: 'OpenTelemetry 追蹤'
 metaDescription: 'Diagnose application 效能 with detailed traces of each 查詢.'
 ---
 
@@ -14,7 +14,7 @@ Tracing gives you a highly detailed, operation-level insight into your Prisma OR
 :::
 
 
-## About tracing
+## 關於 追蹤
 
 When you enable tracing, Prisma Client outputs the following:
 
@@ -64,7 +64,7 @@ The trace is structured as follows:
     - `prisma:engine:serialize`
     - `prisma:engine:response_json_serialization`
 
-## Considerations and prerequisites
+## Considerations and 前置需求
 
 If your application sends a large number of spans to a [collector](https://opentelemetry.io/docs/collector/), this can have a significant performance impact. For information on how to minimize this impact, see [Reducing performance impact](#reduce-performance-impact).
 
@@ -74,7 +74,7 @@ To use tracing, you must do the following:
 1. [Install OpenTelemetry packages](#step-2-install-opentelemetry-packages).
 1. [Register tracing in your application](#step-3-register-tracing-in-your-application).
 
-## Get started with tracing in Prisma ORM
+## Get started with 追蹤 in Prisma ORM
 
 This section explains how to install and register tracing in your application.
 
@@ -112,7 +112,7 @@ Now install the appropriate OpenTelemetry packages, as follows:
 npm install @opentelemetry/semantic-conventions @opentelemetry/exporter-trace-otlp-http @opentelemetry/sdk-trace-base @opentelemetry/sdk-trace-node @opentelemetry/resources
 ```
 
-### Step 3: Register tracing in your application
+### Step 3: Register 追蹤 in your application
 
 The following code provides two examples of configuring OpenTelemetry tracing in Prisma: 
 

@@ -1,12 +1,12 @@
 ---
-title: 'MCP server'
+title: 'MCP Server'
 metaTitle: 'Prisma MCP Server'
-metaDescription: '管理 Prisma Postgres databases 使用 LLMs with the Prisma 模型-Context-Protocol (MCP) Server'
+metaDescription: '管理 Prisma Postgres 資料庫 使用 LLMs with the Prisma 模型-Context-Protocol (MCP) Server'
 tocDepth: 3
 toc: true
 ---
 
-## Overview
+## 概述
 
 The [Model-Context-Protocol](https://modelcontextprotocol.io/introduction) (MCP) gives LLMs a way to call APIs and thus access external systems in a well-defined manner. 
 
@@ -16,7 +16,7 @@ If you're a developer working on a local machine and want your AI agent to help 
 
 If you're building an "AI platform" and want to give the ability to manage database to your users, use the remote MCP server.
 
-## Remote MCP server
+## Remote MCP Server
 
 You can start the remote MCP server as follows:
 
@@ -56,7 +56,7 @@ The remote Prisma MCP server follows the standard JSON-based configuration for M
 }
 ```
 
-### Sample prompts
+### Sample 提示詞
 
 - "Show me a list of all the databases in my account."
 - "Create a new database in the US region for me."
@@ -64,7 +64,7 @@ The remote Prisma MCP server follows the standard JSON-based configuration for M
 - "Show me all available backups of my database."
 - "Show me all customers and run an analysis over their orders."
 
-## Local MCP server
+## Local MCP Server
 
 You can start the local MCP server as follows:
 
@@ -105,14 +105,14 @@ The local Prisma MCP server follows the standard JSON-based configuration for MC
 }
 ```
 
-### Sample prompts
+### Sample 提示詞
 
 Here are some sample prompts you can use when the MCP server is running:
 - "Log me into the Prisma Console."
 - "Create a database in the US region."
 - "Create a new `Product` table in my database."
 
-## Integrating in AI tools
+## Integrating in AI 工具
 
 AI tools have different ways of integrating MCP servers. In most cases, there are dedicated configuration files in which you add the JSON configuration from above. The configuration contains a command for starting the server that'll be executed by the respective tool so that the server is available to its LLM.
 
@@ -198,7 +198,7 @@ When opening the **Cursor Settings**, you can add the Prisma MCP Server as follo
     }
     ```
 
-#### Global configuration
+#### Global 配置
 
 Adding it via the  **Cursor Settings** settings will modify the global `~/.cursor/mcp.json` config file. In this case, the Prisma MCP server will be available in _all_ your Cursor projects:
 
@@ -218,7 +218,7 @@ Adding it via the  **Cursor Settings** settings will modify the global `~/.curso
 }
 ```
 
-#### Project configuration
+#### Project 配置
 
 If you want the Prisma MCP server to be available only in specific Cursor projects, add it to the Cursor config of the respective project inside the `.cursor` directory in the project's root:
 
@@ -267,7 +267,7 @@ When opening the **Windsurf Settings** (via **Windsurf - Settings** > **Advanced
     }
     ```
 
-#### Global configuration
+#### Global 配置
 
 Adding it via the  **Windsurf Settings** will modify the global `~/.codeium/windsurf/mcp_config.json` config file. Alternatively, you can also manually add it to that file:
 

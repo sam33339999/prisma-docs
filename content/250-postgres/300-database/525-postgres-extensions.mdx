@@ -1,13 +1,13 @@
 ---
-title: "Postgres extensions"
-metaTitle: "Postgres extensions"
-metaDescription: "學習 關於 使用 Postgres extensions with Prisma Postgres"
+title: "Postgres 擴充"
+metaTitle: "Postgres 擴充"
+metaDescription: "學習 關於 使用 Postgres 擴充 with Prisma Postgres"
 tocDepth: 3
 toc: true
 sidebar_class_name: early-access-badge
 ---
 
-## Overview
+## 概述
 
 Prisma Postgres supports [PostgreSQL extensions](https://www.postgresql.org/docs/current/sql-createextension.html), such as:
 
@@ -29,13 +29,13 @@ Postgres extensions support in Prisma Postgres is currently in [Early Access](/p
 
 :::
 
-## Using extensions with Prisma ORM
+## Using 擴充 with Prisma ORM
 
 Some extensions may already be supported by Prisma Postgres but not yet by Prisma ORM. Native support for some Postgres extensions in Prisma ORM is coming soon. In the meantime, you can still use these extensions with Prisma ORM by using [customized migrations](/orm/prisma-migrate/workflows/customizing-migrations) and [TypedSQL](/orm/prisma-client/using-raw-sql/typedsql) (or another mechanism to send [raw SQL](/orm/prisma-client/using-raw-sql) via in Prisma ORM). 
 
 Let's walk through an example with `pgvector`.
 
-### 1. Create an empty migration file
+### 1. Create an empty 遷移 file
 
 To customize a migration, first create an empty migration file:
 
@@ -45,7 +45,7 @@ npx prisma migrate dev --name add-pgvector --create-only
 
 Notice the `--create-only` flag which will create an empty migration file in your migrations directory.
 
-### 2. Create and use the extension in your migration file
+### 2. Create and use the extension in your 遷移 file
 
 In the empty migration file, you can write any custom SQL to be executed in the database:
 
@@ -64,7 +64,7 @@ In this case, you:
 - install the `pgvector` extension in your database using the `CREATE EXTENSION` statement
 - create a `Document` table that uses the `VECTOR` type from that extension
 
-### 3. Execute the migration against the database
+### 3. Execute the 遷移 against the 資料庫
 
 Run the following command to execute the migration and apply its changes in your database:
 
@@ -74,7 +74,7 @@ npx prisma migrate deploy
 
 This command will apply the pending `prisma/migrations/<timestamp>-add-pgvector/migration.sql` migration and create the `Document` table in your database.
 
-### 4. Pull the document table into your Prisma schema
+### 4. Pull the document table into your Prisma 綱要
 
 Introspect the database schema with the new `Document` table and update your Prisma schema with it:
 
@@ -120,7 +120,7 @@ model Document {
 
 Because the `VECTOR` type is not yet natively supported by Prisma ORM, it's represented as an [`Unsupported`](/orm/prisma-schema/data-model/models#unsupported-types) type.
 
-### 4. Query with raw SQL
+### 4. 查詢 with raw SQL
 
 Here's an example query for inserting a new row into the `Document` table:
 
@@ -133,9 +133,9 @@ await prisma.$executeRaw`
 
 You can also use [TypedSQL](/orm/prisma-client/using-raw-sql/typedsql) for type-safe SQL queries against your database.
 
-## Temporary limitations
+## Temporary 限制
 
-### Limited availability of extensions
+### Limited availability of 擴充
 
 Extensions are supported on:
 - _all_ instances on Pro and Business plans
@@ -145,7 +145,7 @@ Remaining instances will receive support for extensions soon.
 
 If you're using an instance today where PostgreSQL extensions are not supported and you need an extension, [reach out to us](mailto:support@prisma.io) for help.
 
-### No Prisma Studio support for special data types from extensions
+### No Prisma Studio 支援 for special data types from 擴充
 
 Prisma Studio currently doesn't support tables where special types from PostgreSQL extensions are used. It will show an error similar to this one for `pgvector`:
 
@@ -169,7 +169,7 @@ Prisma Studio currently doesn't support tables where special types from PostgreS
 
 </details>
 
-## All supported extensions
+## All supported 擴充
 
 Here’s the full list with corrected URLs:
 
@@ -221,7 +221,7 @@ Here’s the full list with corrected URLs:
 - [`vector`](https://github.com/pgvector/pgvector)
 - [`xml2`](https://www.postgresql.org/docs/current/xml2.html)
 
-## Other extensions are coming soon
+## Other 擴充 are coming soon
 
 Support for the following extensions is going to come soon:
 

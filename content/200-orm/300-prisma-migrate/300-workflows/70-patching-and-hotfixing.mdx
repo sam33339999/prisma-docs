@@ -1,5 +1,5 @@
 ---
-title: Patching & hotfixing
+title: 修補 & 熱修復
 metaDescription: 如何 reconcile the 遷移 history after applying a hotfix or patch to a production 環境.
 ---
 
@@ -18,7 +18,7 @@ Instead of `migrate dev`, [`db push`](/orm/prisma-migrate/workflows/prototyping-
 
 </TopBlock>
 
-## Reconciling your migration history with a patch or hotfix
+## Reconciling your 遷移 history with a patch or hotfix
 
 The following scenario assumes that you made a manual change in production and want to propagate that change to your migration history and other databases.
 
@@ -68,7 +68,7 @@ To reconcile your migration history and database schema in production:
 
 > **Note**: The migration will not be applied to databases where it has been marked as already applied by the `prisma migrate resolve` command.
 
-## Failed migration
+## Failed 遷移
 
 A migration might fail if:
 
@@ -84,7 +84,7 @@ There are two ways to deal with failed migrations in a production environment:
 - Roll back, optionally fix issues, and re-deploy
 - Manually complete the migration steps and resolve the migration
 
-### Option 1: Mark the migration as rolled back and re-deploy
+### Option 1: Mark the 遷移 as rolled back and re-deploy
 
 The following example demonstrates how to roll back a migration, optionally make changes to fix the issue, and re-deploy:
 
@@ -109,7 +109,7 @@ The following example demonstrates how to roll back a migration, optionally make
    npx prisma migrate deploy
    ```
 
-### Option 2: Manually complete migration and resolve as applied
+### Option 2: Manually complete 遷移 and resolve as applied
 
 The following example demonstrates how to manually complete the steps of a migration and mark that migration as applied.
 
@@ -132,7 +132,7 @@ These commands are available in Preview in versions `3.9.0` and later (with the 
 
 This section gives an example scenario of a failed migration, and explains how to use `migrate diff` and `db execute` to fix it.
 
-### Example of a failed migration
+### Example of a failed 遷移
 
 Imagine that you have the following `User` model in your schema, in both your local development environment and your production environment:
 
@@ -250,7 +250,7 @@ In this case, you need to fix the non-unique data and then go ahead with the res
 
 Your local migration history now yields the same result as the state your production environment is in. You can now continue using the already known `migrate dev` /`migrate deploy` workflow.
 
-## Migration history conflicts
+## 遷移 history conflicts
 
 :::info
 

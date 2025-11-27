@@ -1,7 +1,7 @@
 ---
-title: 'Upgrade to Prisma ORM 3'
-metaTitle: 'Upgrade to Prisma ORM 3'
-metaDescription: '指南s on 如何 upgrade to Prisma ORM 3'
+title: '升級 to Prisma ORM 3'
+metaTitle: '升級 to Prisma ORM 3'
+metaDescription: '指南s on 如何 升級 to Prisma ORM 3'
 tocDepth: 3
 toc: true
 ---
@@ -14,9 +14,9 @@ Below you will find a list of the breaking changes and how to handle them.
 
 </TopBlock>
 
-## Breaking changes
+## 破壞性變更
 
-### [Referential actions](/orm/prisma-schema/data-model/relations/referential-actions)
+### [Referential actions](/orm/prisma-綱要/data-模型/relations/referential-actions)
 
 The introduction of referential actions in version 3.x removes the safety net in Prisma Client that had previously prevented cascading deletes at runtime.
 
@@ -24,7 +24,7 @@ As a result, depending on which workflow you are using to work on your applicati
 
 See [Referential action upgrade path](/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-3/referential-actions) to understand how to proceed.
 
-### [Named constraints](/orm/prisma-schema/data-model/database-mapping)
+### [Named constraints](/orm/prisma-綱要/data-模型/資料庫-mapping)
 
 We changed the convention followed by Prisma ORM to name constraints and indexes. We also introduced a clear distinction between the `map` attribute (database-level name) and `name` attribute (Prisma Client API name) in the PSL to explicitly control how constraints are defined in the Prisma schema.
 
@@ -32,7 +32,7 @@ This means that you will notice an impact when running Prisma `migrate` or `db p
 
 You can check out the [Named constraints upgrade path](/orm/more/upgrade-guides/upgrading-versions/upgrading-to-prisma-3/named-constraints) for more information on how to proceed.
 
-### [$queryRaw](/orm/prisma-client/using-raw-sql/raw-queries)
+### [$queryRaw](/orm/prisma-client/using-raw-sql/raw-查詢)
 
 From version 3.x onwards, the `$queryRaw` method now only supports a template literal.
 
@@ -124,11 +124,11 @@ They also do not apply to the `array_contains` operator because there can only b
 
 :::
 
-## Specific upgrade paths
+## Specific 升級 paths
 
 <Subsections />
 
-## Upgrading the `prisma` and `@prisma/client` packages to Prisma ORM 3
+## 升級 the `prisma` and `@prisma/client` packages to Prisma ORM 3
 
 To upgrade from version 2.x to 3.x, you need to update both the `prisma` and `@prisma/client` packages. Both the `prisma` and `@prisma/client` packages install with a caret `^` in their version number to safe guard against breaking changes.
 

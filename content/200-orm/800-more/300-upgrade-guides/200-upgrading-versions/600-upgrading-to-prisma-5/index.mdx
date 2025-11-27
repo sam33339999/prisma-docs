@@ -1,7 +1,7 @@
 ---
-title: 'Upgrade to Prisma ORM 5'
-metaTitle: 'Upgrade to Prisma ORM 5'
-metaDescription: '指南s on 如何 upgrade to Prisma ORM 5'
+title: '升級 to Prisma ORM 5'
+metaTitle: '升級 to Prisma ORM 5'
+metaDescription: '指南s on 如何 升級 to Prisma ORM 5'
 tocDepth: 3
 toc: true
 ---
@@ -10,7 +10,7 @@ Prisma ORM 5.0.0 introduces a number of changes, including the usage of our new 
 
 This guide explains how upgrading might affect your application and gives instructions on how to handle breaking changes within Prisma ORM 5.
 
-## Upgrade the `prisma` and `@prisma/client` packages to version 5
+## 升級 the `prisma` and `@prisma/client` packages to version 5
 
 To upgrade to Prisma ORM 5 from an earlier version, you need to update both the `prisma` and `@prisma/client` packages.
 
@@ -134,7 +134,7 @@ In most cases, the fix will be as simple as wrapping the existing value in an ar
 
 While `OR`, `in`, and `notIn` operators are affected, `AND` and `NOT` are not affected by this change.
 
-### `cockroachdb` provider is now required when connecting to a CockroachDB database
+### `CockroachDB` provider is now required when 連線到 a CockroachDB 資料庫
 
 With Prisma ORM version 5.0.0, we require the `cockroachdb` provider to be used when connecting to CockroachDB databases. Previously, we had accepted `postgresql` as well, but we are removing that option.
 
@@ -244,7 +244,7 @@ If you import generated types in your code, you will need to update instances li
 
 The following changes may cause an application to initially throw an error message after upgrading to Prisma ORM 5. Fortunately, they are easy to solve, as the underlying functionality has been removed for a while or the change is a simple string replace.
 
-### Removal of deprecated Prisma CLI flags
+### Removal of 已棄用 Prisma CLI flags
 
 Several deprecated CLI flags have been removed. All following flags are from previous APIs and are no longer needed:
 
@@ -309,23 +309,23 @@ Instead, use the built-in `enableShutdownHooks` method in NestJS if you need to 
 + app.enableShutdownHooks()
 ```
 
-### Removal of deprecated `prisma2` executable
+### Removal of 已棄用 `prisma2` executable
 
 When we released Prisma ORM 2, the `prisma2` executable was used in order to differentiate from Prisma 1. In a later release, the `prisma2` cli took over the `prisma` executable name.
 
 Needless to say, the `prisma2` executable has been deprecated for some time and is now removed. If your scripts use Prisma CLI as `prisma2`, please replace it with simply `prisma`.
 
-### Removal of deprecated `experimentalFeatures` property
+### Removal of 已棄用 `experimentalFeatures` property
 
 The `previewFeatures` field of the [generator block](/orm/reference/prisma-schema-reference#generator) used to be called `experimentalFeatures`. We are removing that deprecated property.
 
 In Prisma ORM 5, you will need to update references of `experimentalFeatures` to `previewFeatures` manually or use the new code action in the Prisma VSCode extension.
 
-### `migration-engine` renamed to `schema-engine`
+### `遷移-engine` renamed to `綱要-engine`
 
 The engine responsible for commands like `prisma migrate` and `prisma db` has been renamed from `migration-engine` to `schema-engine` to better describe its use. For many users, no changes will be required. However, if you need to explicitly include or exclude this engine file, or refer to the engine name for any other reason, you will need to update your code references.
 
-#### Example with the Serverless Framework
+#### Example with the 無伺服器 Framework
 
 One example we have seen is projects using the Serverless Framework. In these instances, you will need to update any patterns that reference `migration-engine` to instead reference `schema-engine`.
 

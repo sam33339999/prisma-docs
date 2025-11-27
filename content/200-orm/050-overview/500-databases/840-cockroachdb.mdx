@@ -169,7 +169,7 @@ CockroachDB 連接器將 Prisma ORM [資料模型](/orm/prisma-schema/data-model
 | 不支援整數除法                                                                       | Client        | 整數除法(例如 `data: { int: { divide: 10, }, }`)目前 [CockroachDB 不支援](https://github.com/cockroachdb/cockroach/issues/41448)                                                                                                    |
 | 對 `Json` 欄位的過濾有限                                                                   | Client        | 目前 CockroachDB [僅支援](https://github.com/cockroachdb/cockroach/issues/49144)對 `Json` 欄位的 `equals` 和 `not` 過濾                                                                                                                      |
 
-## CockroachDB 與 Prisma schema 之間的類型對應
+## CockroachDB 與 Prisma 綱要 之間的類型對應
 
 CockroachDB 連接器將 Prisma ORM [資料模型](/orm/prisma-schema/data-model/models)中的[純量類型](/orm/prisma-schema/data-model/models#scalar-fields)對應到原生欄位類型如下:
 

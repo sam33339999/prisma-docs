@@ -1,10 +1,10 @@
 ---
 title: 'prisma-binding to SDL-first'
-metaTitle: 'Upgrading from Prisma 1 with prisma-binding to SDL-first'
-metaDescription: '學習 如何 upgrade existing Prisma 1 projects with prisma-binding to Prisma ORM 2 (SDL-first).'
+metaTitle: '升級 from Prisma 1 with prisma-binding to SDL-first'
+metaDescription: '學習 如何 升級 existing Prisma 1 projects with prisma-binding to Prisma ORM 2 (SDL-first).'
 ---
 
-## Overview
+## 概述
 
 This upgrade guide describes how to migrate a Node.js project that's based on [Prisma 1](https://github.com/prisma/prisma1) and uses `prisma-binding` to implement a GraphQL server.
 
@@ -42,7 +42,7 @@ The important parts are:
 
 If this is not what your project structure looks like, you'll need to adjust the instructions in the guide to match your own setup.
 
-## 1. Adjusting your GraphQL schema
+## 1. Adjusting your GraphQL 綱要
 
 With `prisma-binding`, your approach for defining your GraphQL schema (sometimes called [application schema](https://v1.prisma.io/docs/1.20/data-model-and-migrations/data-model-knul/#a-note-on-the-application-schema)) is based on _importing_ GraphQL types from the generated `prisma.graphql` file (in Prisma 1, this is typically called [Prisma GraphQL schema](https://v1.prisma.io/docs/1.20/data-model-and-migrations/data-model-knul/#the-prisma-graphql-schema)). These types mirror the types from your Prisma 1 datamodel and serve as foundation for your GraphQL API.
 
@@ -798,7 +798,7 @@ In the code block above, the _red_ lines are the lines to be removed from your c
 
 When you're now accessing `context.prisma` inside of a resolver, you now have access to Prisma Client queries.
 
-## 2. Write your GraphQL type resolvers
+## 2. Write your GraphQL type 解析器
 
 `prisma-binding` was able to _magically_ resolve relations in your GraphQL schema. When not using `prisma-binding` though, you need to explicitly resolve your relations using so-called _type resolvers_.
 
@@ -1093,15 +1093,15 @@ With all your type resolvers in place, you can start migrating the actual GraphQ
 
 ## 3. Migrate GraphQL operations
 
-### 3.1. Migrate GraphQL queries
+### 3.1. Migrate GraphQL 查詢
 
 In this section, you'll migrate all GraphQL _queries_ from `prisma-binding` to Prisma Client.
 
-#### 3.1.1. Migrate the `users` query (which uses `forwardTo`)
+#### 3.1.1. Migrate the `users` 查詢 (which uses `forwardTo`)
 
 In our sample API, the `users` query from the sample GraphQL schema is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Query {
@@ -1228,11 +1228,11 @@ const resolvers = {
 
 The calculations are needed to ensure the incoming pagination arguments map properly to the ones from the Prisma Client API.
 
-#### 3.1.2. Migrate the `posts(searchString: String): [Post!]!` query
+#### 3.1.2. Migrate the `posts(searchString: String): [Post!]!` 查詢
 
 The `posts` query is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Query {
@@ -1303,11 +1303,11 @@ You can now send the respective query in the GraphQL Playground:
 }
 ```
 
-#### 3.1.3. Migrate the `user(uniqueInput: UserUniqueInput): User` query
+#### 3.1.3. Migrate the `user(uniqueInput: UserUniqueInput): User` 查詢
 
 In our sample app, the `user` query is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Query {
@@ -1377,7 +1377,7 @@ In this section, you'll migrate the GraphQL mutations from the sample schema.
 
 In the sample app, the `createUser` mutation from the sample GraphQL schema is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Mutation {
@@ -1426,11 +1426,11 @@ mutation {
 }
 ```
 
-#### 3.1.3. Migrate the `createDraft(title: String!, content: String, authorId: String!): Post!` query
+#### 3.1.3. Migrate the `createDraft(title: String!, content: String, authorId: String!): Post!` 查詢
 
 In the sample app, the `createDraft` mutation is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Mutation {
@@ -1511,7 +1511,7 @@ mutation {
 
 In the sample app, the `updateBio` mutation is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Mutation {
@@ -1589,7 +1589,7 @@ mutation {
 
 In our sample app, the `addPostToCategories` mutation is defined and implemented as follows.
 
-##### SDL schema definition with `prisma-binding`
+##### SDL 綱要 definition with `prisma-binding`
 
 ```graphql
 type Mutation {

@@ -1,13 +1,13 @@
 ---
-title: "Accelerate FAQ"
-sidebar_label: "FAQ"
-metaTitle: "Accelerate: FAQ"
-metaDescription: "Frequently asked questions 關於 Accelerate."
+title: "Accelerate 常見問題"
+sidebar_label: "常見問題"
+metaTitle: "Accelerate: 常見問題"
+metaDescription: "常見問題 關於 Accelerate."
 tocDepth: 3
 toc: true
 ---
 
-## When should I enable static IP for Prisma Accelerate?
+## When should I enable 靜態 IP for Prisma Accelerate?
 
 Enable static IP for Accelerate when your security setup requires IP allowlisting or if you're implementing firewalls that only permit access from trusted IPs, ensuring controlled and secure database connections.
 
@@ -50,7 +50,7 @@ VS Code should now recognize the `$extends` method.
 
 Accelerate runs on Cloudflare's network and cache hits are served from Cloudflare's 300+ locations. You can find the regions where Accelerate's cache nodes are available here: [https://www.cloudflare.com/network/](https://www.cloudflare.com/network/).
 
-## What regions is Accelerate's connection pool available in?
+## What regions is Accelerate's 連線池 available in?
 
 When no cache strategy is specified or in the event of a cache miss, the Prisma Client query is routed through Accelerate's connection pool. Currently, queries can be routed through any chosen region among the 16 available locations.
 
@@ -83,7 +83,7 @@ Under the hood, Accelerate uses Cloudflare, which uses [Anycast](https://www.clo
 
 You can invalidate the cache on-demand via the [`$accelerate.invalidate` API](/accelerate/api-reference#accelerateinvalidate) if you're on a [paid plan](https://www.prisma.io/pricing#accelerate), or you can invalidate your entire cache, on a project level, a maximum of five times a day. This limit is set based on [your plan](https://www.prisma.io/pricing#accelerate). You can manage this via the Accelerate configuration page.
 
-## 什麼是 Accelerate's consistency model?
+## 什麼是 Accelerate's consistency 模型?
 
 Accelerate does not have a consistency model. It is not a distributed system where nodes need to reach a consensus (because data is only stored in the cache node(s) closest to the user). However, the data cached in Accelerate's cache nodes doesn't propagate to other nodes, so Accelerate by design doesn't need a consistency model.
 
@@ -91,13 +91,13 @@ Accelerate implements a [read-through caching strategy](https://www.prisma.io/da
 
 The freshness of the data served by the cache depends on the cache strategy defined in your query. Refer to [this section](/postgres/database/caching#selecting-a-cache-strategy) for more information on selecting the right cache strategy for your query.
 
-## How is Accelerate different from other caching tools, such as Redis?
+## How is Accelerate different from other 快取 tools, such as Redis?
 
 - Accelerate is a _specialized_ cache that allows you to optimize data access in code at the query level with a cache strategy. On the other hand, tools such as Redis and Memcached are _general-purpose_ caches designed to be adaptable and flexible.
 - Accelerate is a managed service that reduces the time, risk, and engineering effort of building and maintaining a cache service.
 - By default, Accelerate is globally distributed, reducing the latency of your queries. Other cache tools would require additional configuration to make them available globally.
 
-## When should I not use Accelerate's caching features?
+## When should I not use Accelerate's 快取 功能?
 
 Accelerate is a global data cache and connection pool that allows you to optimize data access in code at the query level. While caching with Accelerate can greatly boost the performance of your app, it may not always the best choice for your use case.
 
@@ -111,7 +111,7 @@ Accelerate's global cache feature may not be a good fit for your app if:
 
 Even without using Accelerate's global cache, you can still greatly benefit from Accelerate by using its connection pool, especially in serverless or edge functions, where it is difficult to manage and scale database connections. You can learn more about the serverless challenge [here](/orm/prisma-client/setup-and-configuration/databases-connections#the-serverless-challenge).
 
-## Can I use Accelerate with other ORMs/query builders/drivers?
+## Can I use Accelerate with other ORMs/查詢 builders/drivers?
 
 No. We currently do not have any plans for supporting other ORMs/query builders or drivers. However, if you're interested in support for other libraries, feel free to reach out and let us know in our [Discord](https://pris.ly/discord?utm_source=docs&utm_medium=inline_text) community in the `#help-and-questions` channel.
 
@@ -123,7 +123,7 @@ Based on our experimentation, we’ve seen cache items persist for around 18 hou
 
 > **Note**: Even frequently accessed items may occasionally be evicted from the cache. It's unlikely for an item to survive for up to or longer than a month, regardless of its activity level.
 
-## Why doesn’t Accelerate fall back to the direct connection string during a service disruption?
+## Why doesn’t Accelerate fall back to the direct 連線 string during a service disruption?
 
 In the rare event of a service disruption, falling back to a direct connection would bypass the connection pool. This could potentially deplete the database's available connections and cause other issues on the database level.
 
@@ -131,7 +131,7 @@ If there is a service disruption, it's recommended to verify on the [status page
 
 > **Note:** Additionally, it's worth noting that some edge function runtime environments may not support direct connections with Prisma ORM. For further details, refer to our [Edge functions documentation](/orm/prisma-client/deployment/edge/overview).
 
-## Are each of the queries within an interactive transaction counted separately for billing?
+## Are each of the 查詢 within an interactive transaction counted separately for billing?
 
 Yes, [interactive transactions](/orm/prisma-client/queries/transactions#interactive-transactions) are billed based on the individual operations within the transaction. There is no charge for the start, commit, or rollback of the transaction itself. For example, in the following query, there are two billable queries:
 
@@ -153,7 +153,7 @@ await prisma.$transaction([
 
 If you don't need [interactive transactions](/orm/prisma-client/queries/transactions#interactive-transactions), you can save costs and improve performance by using [sequential operations transactions](/orm/prisma-client/queries/transactions#sequential-prisma-client-operations). Sequential operations transactions perform better on Accelerate because they execute in one round-trip to the database, while interactive transactions require separate round-trips for start, commit, and each individual operation on the transaction.
 
-## Can I increase my Accelerate query duration and response size limits?
+## Can I increase my Accelerate 查詢 duration and response size limits?
 
 Yes, you can increase your Accelerate limits based on your subscription plan. Here are the configurable limits:
 
@@ -169,7 +169,7 @@ Check the [pricing page](https://www.prisma.io/pricing#accelerate) for more deta
 While you can increase these limits based on your subscription plan, it's _still_ recommended to optimize your database operations. [Learn more in our troubleshooting guide.](/postgres/database/api-reference/error-reference)
 :::
 
-## How long does it take to invalidate a cache query result?
+## How long does it take to invalidate a cache 查詢 result?
 
 As the cache needs to be cleared globally, it is difficult to provide a specific time frame. However, the cached data is eventually consistent and typically propagates to all PoPs within a few seconds. In very rare cases, it may take longer.
 
@@ -195,7 +195,7 @@ The [cache invalidate API](/postgres/database/caching#on-demand-cache-invalidati
 
 Using on-demand cache invalidation in these scenarios helps keep only the necessary data refreshed, preserving system performance while ensuring accurate, up-to-date information for users.
 
-## How does Accelerate count queries for billing?
+## How does Accelerate count 查詢 for billing?
 
 Accelerate counts queries at the Prisma Client invocation level. A single Prisma query may translate into multiple SQL statements under the hood, but it will only count as one query for billing purposes. This ensures straightforward, predictable billing that reflects the Prisma Client usage rather than the complexity of the underlying SQL operations.
 

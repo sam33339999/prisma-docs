@@ -1,14 +1,14 @@
 ---
-title: 'Upgrading the Prisma ORM layer (PostgreSQL)'
-sidebar_label: 'Upgrading the Prisma ORM layer'
-metaTitle: 'Upgrading the Prisma ORM layer to Prisma ORM 2 | PostgreSQL'
-metaDescription: '學習 如何 upgrade the Prisma ORM layer to Prisma ORM 2 and 建立 your Prisma Schema with PostgreSQL'
+title: '升級 the Prisma ORM layer (PostgreSQL)'
+sidebar_label: '升級 the Prisma ORM layer'
+metaTitle: '升級 the Prisma ORM layer to Prisma ORM 2 | PostgreSQL'
+metaDescription: '學習 如何 升級 the Prisma ORM layer to Prisma ORM 2 and 建立 your Prisma 綱要 with PostgreSQL'
 dbSwitcher: ['postgresql', 'mysql']
 pagination_next: orm/more/upgrade-guides/upgrade-from-prisma-1/upgrading-nexus-prisma-to-nexus
 slugSwitch: /orm/more/upgrade-guides/upgrade-from-prisma-1/upgrading-the-prisma-layer-
 ---
  
-## Overview
+## 概述
 
 This page explains the first step of your upgrade process: Taking your Prisma 1 configuration and upgrading it to Prisma ORM 2. Concretely, you will learn how to:
 
@@ -98,7 +98,7 @@ npx prisma
 
 </details>
 
-## 2. Create your Prisma ORM 2 schema
+## 2. Create your Prisma ORM 2 綱要
 
 For this guide, you'll first create a new Prisma schema using the `prisma init` command and then "fill" it with a data model using [introspection](/orm/prisma-schema/introspection).
 
@@ -168,7 +168,7 @@ With Prisma 1, you specify which language variant of Prisma Client you wanted to
 
 > **Note**: Unlike Prisma 1, the TypeScript and JavaScript variants of Prisma Client 2.0 use the _same_ generator called `prisma-client-js`. The generated types in `index.d.ts` are _always_ included, even in plain JavaScript projects. This enables feature like autocompletion in VS Code even when not using TypeScript.
 
-## 3. Determine your connection URL and connect to your database
+## 3. Determine your 連線 URL and connect to your 資料庫
 
 With Prisma 1, the database connection is configured in the Docker Compose file that's used to launch the Prisma ORM server. The Prisma ORM server then exposes a GraphQL endpoint (via HTTP) that proxies all database requests from the Prisma Client application code. That HTTP endpoint is specified in your `prisma.yml`.
 
@@ -250,7 +250,7 @@ DATABASE_URL="postgresql://janedoe:randompassword@localhost:5432/prisma?schema=d
 
 Learn more on the [Connection URLs](/orm/reference/connection-urls) page.
 
-## 4. Introspect your database
+## 4. Introspect your 資料庫
 
 For the purpose of this guide, we'll use the following Prisma 1 data model (select the **SQL** tab below to see what the data model maps to in SQL):
 
@@ -430,7 +430,7 @@ To learn more about these inconsistencies check out the [Schema incompatibilitie
 
 In the following, we'll go through these incompatibilities and fix them one by one using the Prisma schema upgrade CLI.
 
-## 5. Use the Prisma schema upgrade CLI to resolve schema incompatibilities
+## 5. Use the Prisma 綱要 升級 CLI to resolve 綱要不相容
 
 The [Prisma 1 Upgrade CLI](/orm/more/upgrade-guides/upgrade-from-prisma-1/how-to-upgrade#prisma-1-upgrade-cli) is an interactive tool that helps you upgrading your Prisma schema and ironing out most of the inconsistencies listed above.
 
@@ -575,7 +575,7 @@ As a next step, you can start sending the SQL statements to your database. Note 
 
 The next sections cover the different kinds of SQL statements to be sent to your database individually.
 
-### 5.1. Fix the database schema via plain SQL (non-breaking)
+### 5.1. Fix the 資料庫 綱要 via plain SQL (non-breaking)
 
 In this section, we'll walk through the printed SQL statements and run them against the database one by one.
 
@@ -599,7 +599,7 @@ Go ahead and run these statements against your database now.
 
 ![Altering columns to use ENUM with SQL](./images/altering-columns-to-use-enum.png)
 
-### 5.1.2. Add missing `DEFAULT` constraints to the database
+### 5.1.2. Add missing `DEFAULT` constraints to the 資料庫
 
 Next, the Upgrade CLI helps you resolve the issue that [default values aren't represented in the database](/orm/more/upgrade-guides/upgrade-from-prisma-1/schema-incompatibilities-postgresql#default-values-arent-represented-in-database) by generating SQL statements that add the respective `DEFAULT` constraints directly to the database.
 
@@ -696,7 +696,7 @@ You can now run these SQL statements against your database either using a comman
 
 ![Running an SQL command to alter a column](./images/run-sql-command-to-alter-column.png)
 
-### 5.1.7. Breaking changes detected
+### 5.1.7. 破壞性變更 detected
 
 In case the Upgrade CLI has printed a note about breaking changes, your database schema needs some adjustments that will break Prisma 1 compatibility in order to be fully optimized.
 
@@ -707,7 +707,7 @@ Depending on your [upgrade strategy](/orm/more/upgrade-guides/upgrade-from-prism
 - If you are following the gradual side-by-side upgrade strategy, do not perform these changes yet since they will break your Prisma 1 setup. In that case, you can continue to the next phase of the Upgrade CLI by typing <kbd>n</kbd> and hitting <kbd>RETURN</kbd>.
 - If you are following the all at once upgrade strategy, you can perform these changes now. In that case, continue by typing <kbd>Y</kbd> and hitting <kbd>RETURN</kbd>.
 
-### 5.2. Fix the database schema via plain SQL (breaking)
+### 5.2. Fix the 資料庫 綱要 via plain SQL (breaking)
 
 In this section, you'll resolve the schema incompatibilities that are breaking your Prisma 1 setup. Do not perform these changes if you are still running Prisma 1 in your project!
 
@@ -776,7 +776,7 @@ For this fix, you'll need to run three SQL statements:
 
 After these commands, the user ID values of the records from column `B` of the relation table are migrated to the new `authorId` column.
 
-### 5.2. Re-introspect your database to update your Prisma schema
+### 5.2. Re-introspect your 資料庫 to update your Prisma 綱要
 
 At this point, you've resolved the schema incompatibilities with the Upgrade CLI. You can now exit the Upgrade CLI for now by typing <kbd>n</kbd> and hitting <kbd>RETURN</kbd>.
 
@@ -832,7 +832,7 @@ enum Role {
 
 This schema has most issues resolved, but it still lacks the following:
 
-### 5.2. Add missing attributes to the Prisma 2 schema and other schema fixes
+### 5.2. Add missing attributes to the Prisma 2 綱要 and other 綱要 fixes
 
 The CLI now prints the following:
 
@@ -1038,7 +1038,7 @@ model Category {
 
 > **Note**: For the 1-1-relation between `User` and `Profile` it was not possible to set the old name `user` for the relation field. This is because there'd be a naming conflict with the already existing [relation scalar](/orm/prisma-schema/data-model/relations#annotated-relation-fields) field that holds the foreign key. In that case, you can choose a different name or alternatively rename the foreign key column directly in the database via SQL.
 
-### 5.5. Resolving remaining schema incompatibilities
+### 5.5. Resolving remaining 綱要不相容
 
 There are a few schema incompatibilities that were not yet resolved by the Upgrade CLI. At this point you still haven't fixed [scalar lists](/orm/more/upgrade-guides/upgrade-from-prisma-1/schema-incompatibilities-postgresql#scalar-lists-arrays-are-maintained-with-extra-table). You can find the recommended workarounds for this and others on the [Schema incompatibilities](/orm/more/upgrade-guides/upgrade-from-prisma-1/schema-incompatibilities-postgresql) page.
 
